@@ -1,0 +1,1850 @@
+version: 0.10.0
+filePath: sbc-template.tex
+options:
+  $BIBINPUTS:
+    - $ROOTDIR
+    - $ROOTDIR/$OUTDIR
+    - ''
+  $TEXINPUTS:
+    - $ROOTDIR
+    - $ROOTDIR/$OUTDIR
+    - ''
+  bibtexEngine: bibtex
+  cleanPatterns: &ref_0
+    - '**/*.aux'
+    - '**/*.aux.bak'
+    - '**/*.bbl'
+    - '**/*.bcf'
+    - '**/*.blg'
+    - '**/*.dvi'
+    - '**/*.fdb_latexmk'
+    - '**/*.fls'
+    - '**/*.idx'
+    - '**/*.idx.bak'
+    - '**/*.ilg'
+    - '**/*.ind'
+    - '**/*.lof'
+    - '**/*.log'
+    - '**/*.lol'
+    - '**/*.lot'
+    - '**/*.nav'
+    - '**/*.out'
+    - '**/*.pdf'
+    - '**/*.ps'
+    - '**/*.snm'
+    - '**/*.synctex.gz'
+    - '**/*.toc'
+    - '/**/_minted-${JOB}'
+    - '/${OUTDIR}/sage-plots-for-${JOB}.tex'
+    - /missfont.log
+    - /texput.log
+    - /texput.aux
+  dviToPdfEngine: xdvipdfmx
+  engine: pdflatex
+  epstopdfBoundingBox: default
+  epstopdfOutputPath: $DIR_0/$NAME_0.pdf
+  indexAutomaticRanges: true
+  indexEngine: makeindex
+  indexOrdering: word
+  indexSorting: default
+  knitrConcordance: true
+  knitrOutputPath: $JOB.tex
+  lhs2texStyle: poly
+  literateAgdaEngine: agda
+  literateHaskellEngine: lhs2TeX
+  loadCache: true
+  loadUserOptions: true
+  outputFormat: pdf
+  phaseCycles: 20
+  pweaveCacheDirectory: pweave-cache-for-$JOB
+  pweaveFigureDirectory: pweave-figures-for-$JOB
+  pweaveKernel: python3
+  pweaveOutputFormat: tex
+  pweaveOutputPath: $JOB.tex
+  saveCache: true
+  severity: warning
+  synctex: true
+  copyTargetsToRoot: true
+  outputDirectory: ''
+  intermediatePostScript: false
+files:
+  sbc-template.tex:
+    timeStamp: 2017-10-26T19:52:57.498Z
+    hash: mnCcDF+WeJw5zLhPG4vsrfZmGsrurBYbJEA7FJsmv5w=
+    jobNames: []
+    type: LaTeX
+    subType: article
+  /home/concatto/.dicy.yaml:
+    timeStamp: 2017-10-26T19:46:38.228Z
+    jobNames: []
+    type: YAML
+  /home/concatto/.dicy.yaml-ParsedYAML:
+    timeStamp: 2017-10-26T19:48:14.189Z
+    value:
+      engine: pdflatex
+      synctex: true
+      severity: warning
+      copyTargetsToRoot: true
+      outputDirectory: ''
+      outputFormat: pdf
+      cleanPatterns: *ref_0
+      intermediatePostScript: false
+    jobNames: []
+    type: ParsedYAML
+  sbc-template.tex-ParsedLaTeXMagic:
+    timeStamp: 2017-10-26T19:48:14.193Z
+    value: {}
+    jobNames: []
+    type: ParsedLaTeXMagic
+  dicy.yaml-ParsedYAML:
+    jobNames: []
+    type: ParsedYAML
+  sbc-template.yaml-ParsedYAML:
+    jobNames: []
+    type: ParsedYAML
+  dicy-instance.yaml-ParsedYAML:
+    jobNames: []
+    type: ParsedYAML
+  x.y-Nil:
+    jobNames: []
+    type: Nil
+  sbc-template.fls-ParsedFileListing:
+    timeStamp: 2017-10-26T19:50:56.114Z
+    value:
+      messages: []
+      inputs:
+        - /usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc
+        - /usr/share/texmf-dist/fonts/map/fontname/texfonts.map
+        - /usr/share/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr8.pk
+        - /usr/share/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvb7t.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvr7t.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmbi7t.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmbi8r.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmri7t.tfm
+        - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
+        - /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm
+        - /usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb
+        - /usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb
+        - /usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
+        - /usr/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb
+        - /usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb
+        - /usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb
+        - /usr/share/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
+        - /usr/share/texmf-dist/fonts/vf/adobe/helvetic/phvb7t.vf
+        - /usr/share/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
+        - /usr/share/texmf-dist/fonts/vf/adobe/times/ptmbi7t.vf
+        - /usr/share/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
+        - /usr/share/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
+        - /usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+        - /usr/share/texmf-dist/tex/generic/babel-portuges/portuges.ldf
+        - /usr/share/texmf-dist/tex/generic/babel/babel.def
+        - /usr/share/texmf-dist/tex/generic/babel/babel.sty
+        - /usr/share/texmf-dist/tex/generic/babel/switch.def
+        - /usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+        - /usr/share/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+        - /usr/share/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+        - /usr/share/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+        - /usr/share/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+        - /usr/share/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+        - /usr/share/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+        - /usr/share/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+        - /usr/share/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+        - /usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+        - /usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
+        - /usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
+        - /usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+        - /usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
+        - /usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+        - /usr/share/texmf-dist/tex/latex/base/article.cls
+        - /usr/share/texmf-dist/tex/latex/base/inputenc.sty
+        - /usr/share/texmf-dist/tex/latex/base/omsenc.dfu
+        - /usr/share/texmf-dist/tex/latex/base/ot1enc.dfu
+        - /usr/share/texmf-dist/tex/latex/base/size12.clo
+        - /usr/share/texmf-dist/tex/latex/base/t1enc.dfu
+        - /usr/share/texmf-dist/tex/latex/base/utf8.def
+        - /usr/share/texmf-dist/tex/latex/geometry/geometry.sty
+        - /usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+        - /usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
+        - /usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+        - /usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+        - /usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+        - /usr/share/texmf-dist/tex/latex/graphics/trig.sty
+        - /usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+        - /usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+        - /usr/share/texmf-dist/tex/latex/oberdiek/grfext.sty
+        - /usr/share/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+        - /usr/share/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+        - /usr/share/texmf-dist/tex/latex/psnfss/ot1phv.fd
+        - /usr/share/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+        - /usr/share/texmf-dist/tex/latex/psnfss/times.sty
+        - /usr/share/texmf-dist/tex/latex/relsize/relsize.sty
+        - /usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
+        - /usr/share/texmf-dist/tex/latex/url/url.sty
+        - /usr/share/texmf-dist/web2c/texmf.cnf
+        - /var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map
+        - /var/lib/texmf/web2c/pdftex/pdflatex.fmt
+        - caption2.sty
+        - fig1.jpg
+        - fig2.jpg
+        - sbc-template.aux
+        - sbc-template.bbl
+        - sbc-template.sty
+        - sbc-template.tex
+        - table.jpg
+      outputs:
+        - sbc-template.aux
+        - sbc-template.log
+        - sbc-template.pdf
+      calls: []
+    jobNames: []
+    type: ParsedFileListing
+  sbc-template.log-ParsedLaTeXLog:
+    timeStamp: 2017-10-26T19:50:56.502Z
+    value:
+      messages:
+        - name: pdfTeX
+          severity: info
+          text: sbc-template 2001/06/09
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 27
+              end: 27
+        - name: pdfTeX
+          severity: info
+          text: geometry 2010/09/12 v5.6 Page Geometry
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 29
+              end: 29
+        - name: pdfTeX
+          severity: info
+          text: keyval 2014/10/28 v1.15 key=value parser (DPC)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 31
+              end: 31
+        - name: pdfTeX
+          severity: info
+          text: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 34
+              end: 34
+        - name: pdfTeX
+          severity: info
+          text: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 36
+              end: 36
+        - severity: info
+          name: pdfTeX
+          category: Package ifvtex
+          text: VTeX not detected.
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 37
+              end: 37
+        - name: pdfTeX
+          severity: info
+          text: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 39
+              end: 39
+        - name: pdfTeX
+          severity: info
+          text: caption2 2002/08/03 v2.1 Customising captions (AS)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 54
+              end: 54
+        - severity: info
+          name: pdfTeX
+          category: Package caption2
+          text: Running in caption2 v2.0 compatibility mode
+          source:
+            file: sbc-template.tex
+            range:
+              start: 147
+              end: 147
+          log:
+            file: sbc-template.log
+            range:
+              start: 58
+              end: 59
+        - name: pdfTeX
+          severity: info
+          text: times 2005/04/12 PSNFSS-v9.2a (SPQR)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 62
+              end: 62
+        - name: pdfTeX
+          severity: info
+          text: titlesec 2016/03/21 v2.10.2 Sectioning titles
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 66
+              end: 66
+        - name: pdfTeX
+          severity: info
+          text: 'graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)'
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 77
+              end: 77
+        - name: pdfTeX
+          severity: info
+          text: 'graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)'
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 79
+              end: 79
+        - name: pdfTeX
+          severity: info
+          text: trig 2016/01/03 v1.10 sin cos tan (DPC)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 81
+              end: 81
+        - severity: info
+          name: pdfTeX
+          category: Package graphics
+          text: 'Driver file: pdftex.def'
+          source:
+            file: sbc-template.tex
+            range:
+              start: 99
+              end: 99
+          log:
+            file: sbc-template.log
+            range:
+              start: 85
+              end: 85
+        - name: pdfTeX
+          severity: info
+          text: 'url 2013/09/16 ver 3.4 Verb mode for urls, etc.'
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 93
+              end: 93
+        - name: pdfTeX
+          severity: info
+          text: babel 2017/06/29 3.12 The Babel package
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 95
+              end: 95
+        - severity: info
+          name: pdfTeX
+          category: Package babel
+          text: Making " an active character
+          source:
+            file: sbc-template.tex
+            range:
+              start: 145
+              end: 145
+          log:
+            file: sbc-template.log
+            range:
+              start: 109
+              end: 109
+        - name: pdfTeX
+          severity: info
+          text: inputenc 2015/03/17 v1.2c Input encoding file
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 111
+              end: 111
+        - name: pdfTeX
+          severity: info
+          text: relsize 2013/03/29 ver 4.1
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 424
+              end: 424
+        - name: pdfTeX
+          severity: info
+          text: amsmath 2016/11/05 v2.16a AMS math features
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 426
+              end: 426
+        - name: pdfTeX
+          severity: info
+          text: amstext 2000/06/29 v2.01 AMS text
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 430
+              end: 430
+        - name: pdfTeX
+          severity: info
+          text: amsbsy 1999/11/29 v1.2d Bold Symbols
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 436
+              end: 436
+        - name: pdfTeX
+          severity: info
+          text: amsopn 2016/03/08 v2.02 operator names
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 439
+              end: 439
+        - severity: info
+          name: pdfTeX
+          category: LaTeX
+          text: Redefining \frac
+          source:
+            file: sbc-template.tex
+            range:
+              start: 213
+              end: 213
+          log:
+            file: sbc-template.log
+            range:
+              start: 442
+              end: 442
+        - severity: info
+          name: pdfTeX
+          category: LaTeX
+          text: Redefining \overline
+          source:
+            file: sbc-template.tex
+            range:
+              start: 375
+              end: 375
+          log:
+            file: sbc-template.log
+            range:
+              start: 445
+              end: 445
+        - severity: info
+          name: pdfTeX
+          category: LaTeX
+          text: Redefining \ldots
+          source:
+            file: sbc-template.tex
+            range:
+              start: 472
+              end: 472
+          log:
+            file: sbc-template.log
+            range:
+              start: 448
+              end: 448
+        - severity: info
+          name: pdfTeX
+          category: LaTeX
+          text: Redefining \dots
+          source:
+            file: sbc-template.tex
+            range:
+              start: 475
+              end: 475
+          log:
+            file: sbc-template.log
+            range:
+              start: 449
+              end: 449
+        - severity: info
+          name: pdfTeX
+          category: LaTeX
+          text: Redefining \cdots
+          source:
+            file: sbc-template.tex
+            range:
+              start: 596
+              end: 596
+          log:
+            file: sbc-template.log
+            range:
+              start: 450
+              end: 450
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: Redeclaring font encoding OML
+          source:
+            file: sbc-template.tex
+            range:
+              start: 712
+              end: 712
+          log:
+            file: sbc-template.log
+            range:
+              start: 454
+              end: 454
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: Redeclaring font encoding OMS
+          source:
+            file: sbc-template.tex
+            range:
+              start: 713
+              end: 713
+          log:
+            file: sbc-template.log
+            range:
+              start: 455
+              end: 455
+        - severity: info
+          name: pdfTeX
+          category: LaTeX
+          text: 'Redefining \['
+          source:
+            file: sbc-template.tex
+            range:
+              start: 2817
+              end: 2817
+          log:
+            file: sbc-template.log
+            range:
+              start: 476
+              end: 476
+        - severity: info
+          name: pdfTeX
+          category: LaTeX
+          text: 'Redefining \]'
+          source:
+            file: sbc-template.tex
+            range:
+              start: 2818
+              end: 2818
+          log:
+            file: sbc-template.log
+            range:
+              start: 477
+              end: 477
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: Checking defaults for OML/cmm/m/it
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 481
+              end: 481
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: ... okay
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 482
+              end: 482
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: Checking defaults for T1/cmr/m/n
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 483
+              end: 483
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: ... okay
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 484
+              end: 484
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: Checking defaults for OT1/cmr/m/n
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 485
+              end: 485
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: ... okay
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 486
+              end: 486
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: Checking defaults for OMS/cmsy/m/n
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 487
+              end: 487
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: ... okay
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 488
+              end: 488
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: Checking defaults for OMX/cmex/m/n
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 489
+              end: 489
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: ... okay
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 490
+              end: 490
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: Checking defaults for U/cmr/m/n
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 491
+              end: 491
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: ... okay
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 492
+              end: 492
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: >-
+            Try loading font information for OT1+ptm driver: pdftex paper:
+            a4paper layout: <same size as paper>
+            layoutoffset:(h,v)=(0.0pt,0.0pt) modes: h-part:(L,W,R)=(85.35826pt,
+            426.79135pt, 85.35826pt) v-part:(T,H,B)=(99.58464pt, 674.33032pt,
+            71.13188pt) \paperwidth=597.50787pt \paperheight=845.04684pt
+            \textwidth=426.79135pt \textheight=674.33032pt
+            \oddsidemargin=13.08827pt \evensidemargin=13.08827pt
+            \topmargin=-9.68535pt \headheight=12.0pt \headsep=25.0pt
+            \topskip=12.0pt \footskip=30.0pt \marginparwidth=44.0pt
+            \marginparsep=10.0pt \columnsep=10.0pt \skip\footins=10.8pt plus
+            4.0pt minus 2.0pt \hoffset=0.0pt \voffset=0.0pt \mag=1000
+            \@twocolumnfalse \@twosidefalse \@mparswitchfalse
+            \@reversemarginfalse (1in=72.27pt=25.4mm, 1cm=28.453pt)
+          source:
+            file: sbc-template.tex
+            range:
+              start: 30
+              end: 30
+          log:
+            file: sbc-template.log
+            range:
+              start: 493
+              end: 529
+        - name: pdfTeX
+          severity: info
+          text: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 545
+              end: 545
+        - name: pdfTeX
+          severity: info
+          text: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 547
+              end: 547
+        - name: pdfTeX
+          severity: info
+          text: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 549
+              end: 549
+        - name: pdfTeX
+          severity: info
+          text: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 551
+              end: 551
+        - name: pdfTeX
+          severity: info
+          text: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 553
+              end: 553
+        - name: pdfTeX
+          severity: info
+          text: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 555
+              end: 555
+        - name: pdfTeX
+          severity: info
+          text: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 557
+              end: 557
+        - name: pdfTeX
+          severity: info
+          text: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 559
+              end: 559
+        - name: pdfTeX
+          severity: info
+          text: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 561
+              end: 561
+        - severity: info
+          name: pdfTeX
+          category: Package ifluatex
+          text: LuaTeX not detected.
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 562
+              end: 562
+        - severity: info
+          name: pdfTeX
+          category: Package etexcmds
+          text: >-
+            Could not find \expanded. That can mean that you are not using
+            pdfTeX 1.50 or that some package has redefined \expanded. In the
+            latter case, load this package earlier.
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 564
+              end: 567
+        - name: pdfTeX
+          severity: info
+          text: >-
+            pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX
+            (HO)
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 569
+              end: 570
+        - severity: info
+          name: pdfTeX
+          category: Package pdftexcmds
+          text: LuaTeX not detected.
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 571
+              end: 571
+        - severity: info
+          name: pdfTeX
+          category: Package pdftexcmds
+          text: \pdf@primitive is available.
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 572
+              end: 572
+        - severity: info
+          name: pdfTeX
+          category: Package pdftexcmds
+          text: \pdf@ifprimitive is available.
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 573
+              end: 573
+        - severity: info
+          name: pdfTeX
+          category: Package pdftexcmds
+          text: \pdfdraftmode found.
+          source:
+            file: sbc-template.tex
+          log:
+            file: sbc-template.log
+            range:
+              start: 574
+              end: 574
+        - severity: info
+          name: pdfTeX
+          category: Package epstopdf-base
+          text: Redefining graphics rule for `.eps'
+          source:
+            file: sbc-template.tex
+            range:
+              start: 438
+              end: 438
+          log:
+            file: sbc-template.log
+            range:
+              start: 576
+              end: 577
+        - severity: info
+          name: pdfTeX
+          category: Package grfext
+          text: >-
+            Graphics extension search list:
+            [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+            \AppendGraphicsExtensions.
+          source:
+            file: sbc-template.tex
+            range:
+              start: 456
+              end: 456
+          log:
+            file: sbc-template.log
+            range:
+              start: 578
+              end: 581
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: >-
+            Font shape `OT1/ptm/bx/n' in size <16> not available Font shape
+            `OT1/ptm/b/n' tried instead.
+          source:
+            file: sbc-template.tex
+            range:
+              start: 32
+              end: 32
+          log:
+            file: sbc-template.log
+            range:
+              start: 586
+              end: 587
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: >-
+            Font shape `OT1/ptm/bx/n' in size <12> not available Font shape
+            `OT1/ptm/b/n' tried instead.
+          source:
+            file: sbc-template.tex
+            range:
+              start: 32
+              end: 32
+          log:
+            file: sbc-template.log
+            range:
+              start: 588
+              end: 589
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: Try loading font information for OT1+pcr
+          source:
+            file: sbc-template.tex
+            range:
+              start: 32
+              end: 32
+          log:
+            file: sbc-template.log
+            range:
+              start: 590
+              end: 590
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: >-
+            Font shape `OT1/ptm/bx/it' in size <12> not available Font shape
+            `OT1/ptm/b/it' tried instead.
+          source:
+            file: sbc-template.tex
+            range:
+              start: 34
+              end: 34
+          log:
+            file: sbc-template.log
+            range:
+              start: 594
+              end: 595
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: >-
+            Font shape `OT1/ptm/bx/n' in size <13> not available Font shape
+            `OT1/ptm/b/n' tried instead.
+          source:
+            file: sbc-template.tex
+            range:
+              start: 43
+              end: 43
+          log:
+            file: sbc-template.log
+            range:
+              start: 596
+              end: 597
+        - severity: info
+          name: pdfTeX
+          category: Package pdftex.def
+          text: fig1.jpg used on input line 88.
+          source:
+            file: sbc-template.tex
+            range:
+              start: 88
+              end: 88
+          log:
+            file: sbc-template.log
+            range:
+              start: 604
+              end: 604
+        - severity: info
+          name: pdfTeX
+          category: Package pdftex.def
+          text: 'Requested size: 213.39568pt x 194.81471pt'
+          source:
+            file: sbc-template.tex
+            range:
+              start: 88
+              end: 88
+          log:
+            file: sbc-template.log
+            range:
+              start: 605
+              end: 606
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: Try loading font information for OT1+phv
+          source:
+            file: sbc-template.tex
+            range:
+              start: 89
+              end: 89
+          log:
+            file: sbc-template.log
+            range:
+              start: 607
+              end: 607
+        - severity: info
+          name: pdfTeX
+          category: LaTeX Font
+          text: >-
+            Font shape `OT1/phv/bx/n' in size <10> not available Font shape
+            `OT1/phv/b/n' tried instead.
+          source:
+            file: sbc-template.tex
+            range:
+              start: 89
+              end: 89
+          log:
+            file: sbc-template.log
+            range:
+              start: 611
+              end: 612
+        - severity: info
+          name: pdfTeX
+          category: Package pdftex.def
+          text: fig2.jpg used on input line 95.
+          source:
+            file: sbc-template.tex
+            range:
+              start: 95
+              end: 95
+          log:
+            file: sbc-template.log
+            range:
+              start: 616
+              end: 616
+        - severity: info
+          name: pdfTeX
+          category: Package pdftex.def
+          text: 'Requested size: 128.0387pt x 145.73541pt'
+          source:
+            file: sbc-template.tex
+            range:
+              start: 95
+              end: 95
+          log:
+            file: sbc-template.log
+            range:
+              start: 617
+              end: 618
+        - severity: info
+          name: pdfTeX
+          category: Package pdftex.def
+          text: table.jpg used on input line 113.
+          source:
+            file: sbc-template.tex
+            range:
+              start: 113
+              end: 113
+          log:
+            file: sbc-template.log
+            range:
+              start: 622
+              end: 622
+        - severity: info
+          name: pdfTeX
+          category: Package pdftex.def
+          text: 'Requested size: 298.75264pt x 177.75932pt'
+          source:
+            file: sbc-template.tex
+            range:
+              start: 113
+              end: 113
+          log:
+            file: sbc-template.log
+            range:
+              start: 623
+              end: 624
+      inputs: []
+      outputs:
+        - sbc-template.pdf
+      calls: []
+    jobNames: []
+    type: ParsedLaTeXLog
+  sbc-template.blg-ParsedBibTeXLog:
+    timeStamp: 2017-10-26T19:48:14.365Z
+    value:
+      messages: []
+      inputs:
+        - sbc-template.aux
+        - sbc.bst
+        - sbc-template.bib
+      outputs: []
+      calls: []
+    jobNames: []
+    type: ParsedBibTeXLog
+  sbc-template.aux-ParsedLaTeXAuxilary:
+    timeStamp: 2017-10-26T19:50:56.484Z
+    value:
+      commands:
+        - relax
+        - catcode
+        - citation
+        - citation
+        - citation
+        - citation
+        - select@language
+        - '@writefile'
+        - '@writefile'
+        - '@writefile'
+        - '@writefile'
+        - newlabel
+        - bibstyle
+        - bibdata
+        - bibcite
+        - bibcite
+        - bibcite
+        - '@writefile'
+        - newlabel
+        - '@writefile'
+        - newlabel
+        - '@writefile'
+        - newlabel
+        - bibcite
+        - '@writefile'
+        - newlabel
+        - '@writefile'
+        - newlabel
+        - '@writefile'
+        - newlabel
+    jobNames: []
+    type: ParsedLaTeXAuxilary
+  /usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc:
+    timeStamp: 2017-08-01T19:24:35.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/map/fontname/texfonts.map:
+    timeStamp: 2017-08-01T19:24:15.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr8.pk:
+    timeStamp: 2017-08-01T19:24:10.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm:
+    timeStamp: 2017-08-01T19:24:19.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm:
+    timeStamp: 2017-08-01T19:24:19.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvb7t.tfm:
+    timeStamp: 2017-08-01T19:24:19.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm:
+    timeStamp: 2017-08-01T19:24:19.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvr7t.tfm:
+    timeStamp: 2017-08-01T19:24:19.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm:
+    timeStamp: 2017-08-01T19:24:19.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm:
+    timeStamp: 2017-08-01T19:24:19.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmbi7t.tfm:
+    timeStamp: 2017-08-01T19:24:19.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmbi8r.tfm:
+    timeStamp: 2017-08-01T19:24:19.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm:
+    timeStamp: 2017-08-01T19:24:18.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm:
+    timeStamp: 2017-08-01T19:24:18.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmri7t.tfm:
+    timeStamp: 2017-08-01T19:24:18.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm:
+    timeStamp: 2017-08-01T19:24:18.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/cm/cmex10.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/cm/cmr12.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/cm/cmr6.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/cm/cmr8.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm:
+    timeStamp: 2017-08-01T19:24:21.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb:
+    timeStamp: 2017-08-01T19:24:11.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb:
+    timeStamp: 2017-08-01T19:24:11.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb:
+    timeStamp: 2017-08-01T19:24:11.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb:
+    timeStamp: 2017-08-01T19:24:11.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb:
+    timeStamp: 2017-08-01T19:24:11.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb:
+    timeStamp: 2017-08-01T19:24:11.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf:
+    timeStamp: 2017-08-01T19:24:17.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/vf/adobe/helvetic/phvb7t.vf:
+    timeStamp: 2017-08-01T19:24:17.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf:
+    timeStamp: 2017-08-01T19:24:17.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/vf/adobe/times/ptmbi7t.vf:
+    timeStamp: 2017-08-01T19:24:17.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf:
+    timeStamp: 2017-08-01T19:24:17.000Z
+    jobNames: []
+  /usr/share/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf:
+    timeStamp: 2017-08-01T19:24:17.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii:
+    timeStamp: 2017-08-01T19:24:37.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/generic/babel-portuges/portuges.ldf:
+    timeStamp: 2017-08-01T19:24:29.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/generic/babel/babel.def:
+    timeStamp: 2017-08-01T19:24:28.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/generic/babel/babel.sty:
+    timeStamp: 2017-08-01T19:24:28.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/generic/babel/switch.def:
+    timeStamp: 2017-08-01T19:24:28.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty:
+    timeStamp: 2017-08-01T19:24:27.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/generic/oberdiek/etexcmds.sty:
+    timeStamp: 2017-08-01T19:24:27.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/generic/oberdiek/ifluatex.sty:
+    timeStamp: 2017-08-01T19:24:27.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/generic/oberdiek/ifpdf.sty:
+    timeStamp: 2017-08-01T19:24:27.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/generic/oberdiek/ifvtex.sty:
+    timeStamp: 2017-08-01T19:24:27.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/generic/oberdiek/infwarerr.sty:
+    timeStamp: 2017-08-01T19:24:27.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty:
+    timeStamp: 2017-08-01T19:24:27.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty:
+    timeStamp: 2017-08-01T19:24:27.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/generic/oberdiek/ltxcmds.sty:
+    timeStamp: 2017-08-01T19:24:27.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty:
+    timeStamp: 2017-08-01T19:24:27.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty:
+    timeStamp: 2017-08-01T19:24:26.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty:
+    timeStamp: 2017-08-01T19:24:26.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty:
+    timeStamp: 2017-08-01T19:24:26.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty:
+    timeStamp: 2017-08-01T19:24:26.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/amsmath/amstext.sty:
+    timeStamp: 2017-08-01T19:24:26.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/base/article.cls:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+    type: LaTeXClass
+  /usr/share/texmf-dist/tex/latex/base/inputenc.sty:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/base/omsenc.dfu:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/latex/base/ot1enc.dfu:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/latex/base/size12.clo:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/latex/base/t1enc.dfu:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/latex/base/utf8.def:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/latex/geometry/geometry.sty:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/latex/graphics/graphics.sty:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/graphics/graphicx.sty:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/graphics/keyval.sty:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/graphics/trig.sty:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+  /usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/oberdiek/grfext.sty:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/oberdiek/kvoptions.sty:
+    timeStamp: 2017-08-01T19:24:25.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/psnfss/ot1pcr.fd:
+    timeStamp: 2017-08-01T19:24:24.000Z
+    jobNames: []
+    type: FontDescription
+  /usr/share/texmf-dist/tex/latex/psnfss/ot1phv.fd:
+    timeStamp: 2017-08-01T19:24:24.000Z
+    jobNames: []
+    type: FontDescription
+  /usr/share/texmf-dist/tex/latex/psnfss/ot1ptm.fd:
+    timeStamp: 2017-08-01T19:24:24.000Z
+    jobNames: []
+    type: FontDescription
+  /usr/share/texmf-dist/tex/latex/psnfss/times.sty:
+    timeStamp: 2017-08-01T19:24:24.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/relsize/relsize.sty:
+    timeStamp: 2017-08-01T19:49:32.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty:
+    timeStamp: 2017-08-01T19:49:31.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/tex/latex/url/url.sty:
+    timeStamp: 2017-08-01T19:24:24.000Z
+    jobNames: []
+    type: LaTeXStyle
+  /usr/share/texmf-dist/web2c/texmf.cnf:
+    timeStamp: 2017-08-01T19:24:41.000Z
+    jobNames: []
+  /var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map:
+    timeStamp: 2017-10-23T17:19:10.851Z
+    jobNames: []
+  /var/lib/texmf/web2c/pdftex/pdflatex.fmt:
+    timeStamp: 2017-10-23T17:18:57.000Z
+    jobNames: []
+  caption2.sty:
+    timeStamp: 2006-03-16T18:50:40.000Z
+    hash: rTaqt600LOnwHVDnRdpb74FcyrMcz/3fS+BiUfGqryg=
+    jobNames: []
+    type: LaTeXStyle
+  fig1.jpg:
+    timeStamp: 2005-03-20T17:34:52.000Z
+    hash: +WWwlYDlk8mRBmwwLR6p4GssiJ/vaAkVP1JN3Sb7Y24=
+    jobNames: []
+  fig2.jpg:
+    timeStamp: 2005-03-20T17:34:52.000Z
+    hash: zitkJMCG9FKKlArDMh2PBIQACBAgUb2GUqMXWpOFzFQ=
+    jobNames: []
+  sbc-template.sty:
+    timeStamp: 2006-03-21T17:38:54.000Z
+    hash: 5psXEfRA/rDFS990l9z1RUs35xo4Vh3ZykUTurapGxg=
+    jobNames: []
+    type: LaTeXStyle
+  table.jpg:
+    timeStamp: 2005-03-20T17:34:52.000Z
+    hash: 8D0V1KxhkY0hTl1AzCTVkl51NaSNF0ZDq76Rh7L8Jx8=
+    jobNames: []
+  sbc-template.aux:
+    timeStamp: 2017-10-26T19:52:25.864Z
+    hash: 1JISI4H3U8Ipb5dEH24dC8ek5VI5Q6nb1esXYI4Qqls=
+    jobNames: []
+    type: LaTeXAuxilary
+  sbc-template.log:
+    timeStamp: 2017-10-26T19:52:25.874Z
+    hash: 0ZsGyITNOIvINxmjzdE0DpvAT/O+ij0MJkRakew8qKI=
+    jobNames: []
+    type: LaTeXLog
+    subType: pdfTeX
+  sbc-template.pdf:
+    timeStamp: 2017-10-26T19:52:25.874Z
+    hash: RqLkQ4mgzThfWH0OJG0jd28K+v9ElkCxL07Hs2i7gtI=
+    jobNames: []
+    type: PortableDocumentFormat
+  sbc-template.fls:
+    timeStamp: 2017-10-26T19:52:25.874Z
+    hash: 3FHR0zmUsSwFpfPuI1dLrbgA/jWYujeUHqClBsauadg=
+    jobNames: []
+    type: FileListing
+  sbc-template.synctex.gz:
+    timeStamp: 2017-10-26T19:52:25.874Z
+    hash: B9E0dqguGQWMkrV6m/Y7G2p8UrJYz84399pzG5TRTyM=
+    jobNames: []
+    type: SyncTeX
+rules:
+  - name: ApplyOptions
+    command: load
+    phase: initialize
+    parameters: []
+    inputs:
+      - dicy.yaml-ParsedYAML
+      - sbc-template.yaml-ParsedYAML
+      - sbc-template.tex-ParsedLaTeXMagic
+      - dicy-instance.yaml-ParsedYAML
+      - /home/concatto/.dicy.yaml-ParsedYAML
+    outputs: []
+  - name: LoadAndValidateCache
+    command: load
+    phase: initialize
+    parameters: []
+    inputs: []
+    outputs: []
+  - name: ApplyOptions
+    command: load
+    phase: execute
+    parameters: []
+    inputs:
+      - dicy.yaml-ParsedYAML
+      - sbc-template.yaml-ParsedYAML
+      - sbc-template.tex-ParsedLaTeXMagic
+      - dicy-instance.yaml-ParsedYAML
+      - /home/concatto/.dicy.yaml-ParsedYAML
+    outputs: []
+  - name: ParseOptionsFile
+    command: load
+    phase: execute
+    parameters: []
+    inputs:
+      - /home/concatto/.dicy.yaml
+    outputs:
+      - /home/concatto/.dicy.yaml-ParsedYAML
+  - name: ParseLaTeXMagic
+    command: load
+    phase: execute
+    parameters:
+      - sbc-template.tex
+    inputs:
+      - sbc-template.tex
+    outputs:
+      - sbc-template.tex-ParsedLaTeXMagic
+  - name: AssignJobNames
+    command: load
+    phase: finalize
+    parameters: []
+    inputs: []
+    outputs: []
+  - name: FindLogFiles
+    command: build
+    phase: initialize
+    parameters: []
+    inputs: []
+    outputs: []
+  - name: LaTeX
+    command: build
+    phase: execute
+    parameters:
+      - sbc-template.tex
+    inputs:
+      - sbc-template.tex
+      - sbc-template.fls-ParsedFileListing
+      - sbc-template.log-ParsedLaTeXLog
+      - /usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc
+      - /usr/share/texmf-dist/fonts/map/fontname/texfonts.map
+      - /usr/share/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr8.pk
+      - /usr/share/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvb7t.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvr7t.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmbi7t.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmbi8r.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmri7t.tfm
+      - /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
+      - /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm
+      - /usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb
+      - /usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb
+      - /usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
+      - /usr/share/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb
+      - /usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb
+      - /usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb
+      - /usr/share/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
+      - /usr/share/texmf-dist/fonts/vf/adobe/helvetic/phvb7t.vf
+      - /usr/share/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
+      - /usr/share/texmf-dist/fonts/vf/adobe/times/ptmbi7t.vf
+      - /usr/share/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
+      - /usr/share/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
+      - /usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+      - /usr/share/texmf-dist/tex/generic/babel-portuges/portuges.ldf
+      - /usr/share/texmf-dist/tex/generic/babel/babel.def
+      - /usr/share/texmf-dist/tex/generic/babel/babel.sty
+      - /usr/share/texmf-dist/tex/generic/babel/switch.def
+      - /usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+      - /usr/share/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+      - /usr/share/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+      - /usr/share/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+      - /usr/share/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+      - /usr/share/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+      - /usr/share/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+      - /usr/share/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+      - /usr/share/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+      - /usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+      - /usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
+      - /usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
+      - /usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+      - /usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
+      - /usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+      - /usr/share/texmf-dist/tex/latex/base/article.cls
+      - /usr/share/texmf-dist/tex/latex/base/inputenc.sty
+      - /usr/share/texmf-dist/tex/latex/base/omsenc.dfu
+      - /usr/share/texmf-dist/tex/latex/base/ot1enc.dfu
+      - /usr/share/texmf-dist/tex/latex/base/size12.clo
+      - /usr/share/texmf-dist/tex/latex/base/t1enc.dfu
+      - /usr/share/texmf-dist/tex/latex/base/utf8.def
+      - /usr/share/texmf-dist/tex/latex/geometry/geometry.sty
+      - /usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+      - /usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
+      - /usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+      - /usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+      - /usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+      - /usr/share/texmf-dist/tex/latex/graphics/trig.sty
+      - /usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+      - /usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+      - /usr/share/texmf-dist/tex/latex/oberdiek/grfext.sty
+      - /usr/share/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+      - /usr/share/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+      - /usr/share/texmf-dist/tex/latex/psnfss/ot1phv.fd
+      - /usr/share/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+      - /usr/share/texmf-dist/tex/latex/psnfss/times.sty
+      - /usr/share/texmf-dist/tex/latex/relsize/relsize.sty
+      - /usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
+      - /usr/share/texmf-dist/tex/latex/url/url.sty
+      - /usr/share/texmf-dist/web2c/texmf.cnf
+      - /var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map
+      - /var/lib/texmf/web2c/pdftex/pdflatex.fmt
+      - caption2.sty
+      - fig1.jpg
+      - fig2.jpg
+      - sbc-template.sty
+      - table.jpg
+      - sbc-template.aux
+    outputs:
+      - sbc-template.aux
+      - sbc-template.log
+      - sbc-template.pdf
+      - sbc-template.fls
+      - sbc-template.synctex.gz
+  - name: ParseBibTeXLog
+    command: build
+    phase: execute
+    parameters:
+      - sbc-template.blg
+    inputs: []
+    outputs:
+      - sbc-template.blg-ParsedBibTeXLog
+  - name: ParseLaTeXLog
+    command: build
+    phase: execute
+    parameters:
+      - sbc-template.log
+    inputs: []
+    outputs: []
+  - name: CheckForMissingBuildRule
+    command: build
+    phase: finalize
+    parameters:
+      - sbc-template.tex
+    inputs:
+      - sbc-template.tex
+    outputs: []
+  - name: FindLogFiles
+    command: log
+    phase: initialize
+    parameters: []
+    inputs: []
+    outputs: []
+  - name: ParseBibTeXLog
+    command: log
+    phase: execute
+    parameters:
+      - sbc-template.blg
+    inputs: []
+    outputs:
+      - sbc-template.blg-ParsedBibTeXLog
+  - name: ParseLaTeXLog
+    command: log
+    phase: execute
+    parameters:
+      - sbc-template.log
+    inputs: []
+    outputs: []
+  - name: ReportLogMessages
+    command: log
+    phase: execute
+    parameters:
+      - sbc-template.log-ParsedLaTeXLog
+    inputs:
+      - sbc-template.log-ParsedLaTeXLog
+    outputs: []
+  - name: ReportLogMessages
+    command: log
+    phase: execute
+    parameters:
+      - sbc-template.blg-ParsedBibTeXLog
+    inputs:
+      - sbc-template.blg-ParsedBibTeXLog
+    outputs: []
+  - name: SaveCache
+    command: save
+    phase: execute
+    parameters: []
+    inputs: []
+    outputs: []
+  - name: Clean
+    command: clean
+    phase: execute
+    parameters: []
+    inputs: []
+    outputs: []
+  - name: ParseLaTeXAuxilary
+    command: build
+    phase: execute
+    parameters:
+      - sbc-template.aux
+    inputs: []
+    outputs: []
+  - name: ParseFileListing
+    command: build
+    phase: execute
+    parameters:
+      - sbc-template.fls
+    inputs: []
+    outputs: []
+  - name: BibTeX
+    command: build
+    phase: execute
+    parameters:
+      - sbc-template.aux
+      - sbc-template.aux-ParsedLaTeXAuxilary
+    inputs: []
+    outputs: []

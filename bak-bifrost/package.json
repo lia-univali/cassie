@@ -1,0 +1,14 @@
+{
+  "name": "bifrost",
+  "version": "1.0.0",
+  "description": "Back-end architectured as a bridge for the e-C.A.S.S.I.E. project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "concatto",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

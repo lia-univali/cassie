@@ -1,0 +1,4 @@
+Wang, B., Ono, A., Muramatsu, K., & Fujiwara, N. (1999). Automated detection and
+removal of clouds and their shadows from Landsat TM images. IEICE Transactions
+on Information and Systems, E82-D, 2.
+ 

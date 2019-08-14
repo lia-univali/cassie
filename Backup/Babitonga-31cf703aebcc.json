@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "babitonga-2017",
+  "private_key_id": "31cf703aebcc00f45b1560e48a981c461729e9e6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDD7ihz/nEhHiCg\nl3YMpoQJoPlNGfzTLtyIrapwvicrjnN4vIIGjNYjed8JlrS+xMGrsjiytRABoVYR\n7gYQMy6927Gehfc8vgcGx5YQtINIpl69X4r429oVt2xC+1jKh5XSd/2fqNb8hXwO\nfHJlKdbfFs+jDX4XVMk7OfT+l3ZsyPRdFxK63jIEm4IS5y3kknG7AMYa9yQayPMt\n7hfkZnJetxFfeaIAGuLg+yQ4ky51GgcV7hnsi+JqubUjegLhShICMojKWju2RPDy\noExcj1lutfYP9J377ToZw+q9calU5t3s772/fpWHhHowwzPl099i/eStuZ0+7QVq\nBm1BNlalAgMBAAECggEALBw5kke163lPaig/RQDWGB7cEY4ou9jAgKrshN5iji1P\ndN6nvVbGvQzqeEusHIjKe1+v4RffZyaN7JJ0XgBP5SGJXwGVFGFJzq5vbApfxiLi\nkGrqrDU+54W4g2n35vzYb55hBKlr4UUiFVbSIFFnlSkbDP/0I8eMWF+ndwvddwbv\n99K5BuVoqtocD/k9QhNa5VwG+w9ezS8tm1Ulpv8UeXTk3BQlGyQS0zzQzH7qiQje\nDr2/N1YK0RgBgEOZxVdMJ9c7i8sWzCRiHCIBAp5S3z2P93MaKHJoBAw4SX0+M9tn\nUOHC97o7FV4ff4aXC+fcvCvZzowt/PSj+s26DrBe/wKBgQDroJ9R8Ad5Bk8PIahe\nrJNXsKxBKFII33HoeJJg1ZY2Rvml4RBOiF+DXHlNxbxvNwmfQhFJqNUSdoMxLQ/I\n1/dsUNoCoROXqXZOLnlqIlS72LKffpYYl23aAh7sIsJF4NhGj6aInbemgTcEmz6k\nX7sDuB4pGz7/6ARyXwVvqyaQnwKBgQDU3uEkut5dTtyMKzMuNUDM54R2QBVb1gED\nJuwmldUBtQsIUWmXfp30qIZQQxPWjcq9vMWxzdRStvWoOrj/fNnTfMRBkt6dDb/o\nz3rZgbL6JFDAzANgVKwzjdd2NQ2gCkA+7FlsoM5sfEHfFQAGysxtEuybdTnchP1T\nre50LeO+OwKBgGT/HSsm4l0auip3N88U07cjkEIBgWAyPoXxoHSHOHKda4aReMbg\np2gL7CbM2d8lzScJT5WuG15llAgxE3H4OCKiaT/1QQuh5IbQXtSCUKWP1ciNntJ9\nneVzQUPgBjuji7B7BFvMlpp1ClscG/ai3etTMQJXnmJcVgOb/R2HU+lrAoGBALN/\n6bwOM3ndCQ7NUtARKb5fL4yDRz90etAMny9+Quq4nj/6Xp7XrxxiizfdCDpwwFg0\neUQQe4zwKMAeHGecARZb7CYbUcp/kKchZcdJngFeZBXfMq2lWLv0TI6p9/5PBpPI\nuzNlegty0Bzr2WTg13bWcVw5gnwYTIGmdh/TnmqHAoGAD7OfStvfudtBImiagnTm\nWqHSClpq7+w6eGbbNwTOYV/gj1f7+1qtaCzsCjtG0M/53potj7Go301LJDNnsL1F\ndUFfISZOzFX11+QzGGTt5vwLv2NSAbmcMtXN4GU2CaJ7vV9UD79TwEY3qUuUTaFj\nCw3EiEBGAAxogz/TQ3Uk6+8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "babitonga-2017@appspot.gserviceaccount.com",
+  "client_id": "107391614850643169230",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/babitonga-2017%40appspot.gserviceaccount.com"
+}
