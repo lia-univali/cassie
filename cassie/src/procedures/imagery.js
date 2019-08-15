@@ -112,6 +112,13 @@ export const gaussKernel = (size, mean, sigma) => {
   return normalizedKernel
 }
 
+/**
+ * 
+ * @param {ee.List} coordinates List containing the path
+ * @param {ee.Number} samples Size of the kernel
+ * @param {ee.Number} mean Center of the normal distribution
+ * @param {ee.Number} sd Standard Deviation, controls the size of the bell-shaped curve
+ */
 export const gaussSmooth = (coordinates, samples, mean, sd) => {
   const coordinateList = ee.List(coordinates)
   
@@ -120,7 +127,7 @@ export const gaussSmooth = (coordinates, samples, mean, sd) => {
   const kernelMean = ee.Algorithms.If(mean, ee.Number(mean), ee.Number(0))
   const kernelSd = ee.Algorithms.If(sd, ee.Number(sd), ee.Number(1))
   const kernel = gaussKernel(kernelSize, kernelMean, kernelSd)
-  
+
   const first = coordinateList.reduce(ee.Reducer.first()),
         last = coordinateList.reduce(ee.Reducer.last())
   
@@ -132,7 +139,7 @@ export const gaussSmooth = (coordinates, samples, mean, sd) => {
     // will be a pair of a 2d point and its weight
     const interval = coordinateList.slice(ee.Number(index), ee.Number(index).add(kernelSize)).zip(kernel)
     
-    // Map the elements, multiplying their axis by their weight
+    // Map the elements, multiplying their axis values by their weight
     const gaussian = interval.map(element => {
       // Each element contains a 2d point (0) and a kernel weight (1)
       const asList = ee.List(element)
@@ -158,13 +165,13 @@ export const gaussSmooth = (coordinates, samples, mean, sd) => {
 }
 
 export const smoothPolygon = (polygon) => {
-  const smoothenPolygon = ee.Geometry(polygon).coordinates().map(coordinates => gaussSmooth(ee.List(coordinates), 3, 0, 1))
-  return ee.Geometry.Polygon(smoothenPolygon)
+  return ee.Geometry.Polygon(
+    ee.Geometry(polygon).coordinates()
+      .map(coordinates => gaussSmooth(ee.List(coordinates), 3, 0, 1))
+  )
 }
 
 export const extractOcean = (image, satellite, geometry, threshold) => {
-  //image = image.clip(geometry);
-
   const morphParams = {
     kernelType: "circle",
     radius: 20,

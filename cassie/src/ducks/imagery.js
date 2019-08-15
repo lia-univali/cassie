@@ -31,6 +31,7 @@ import * as Coastline from "procedures/coastline";
 import { extractOcean, generateLayer } from "procedures/imagery";
 import { computeBearing } from "common/geodesy";
 import { acquireFromDate } from "procedures/acquisition";
+import { otsuThreshold } from '../common/algorithms';
 
 const ee = window.ee;
 
@@ -239,7 +240,6 @@ function* handleAnalyzeCoastline() {
 
   const { coordinates, spacing, extent, dates, threshold } = input;
 
-  //const dates = (yield select(Selectors.getImageryMetadata)).map(im => im.date);
   const { satellite, geometry } = yield select(
     Selectors.getAcquisitionParameters
   );
@@ -255,8 +255,6 @@ function* handleAnalyzeCoastline() {
     bufferedBaseline,
     threshold
   );
-
-  console.log("LOOK T", yield evaluate(coastlines))
 
   let transects = yield call(
     Coastline.generateOrthogonalTransects,
