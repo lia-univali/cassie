@@ -1,7 +1,7 @@
 import { computeBearing, computeDisplacement } from "common/geodesy";
 import { evaluate } from "../common/sagaUtils";
 import { combineReducers } from "common/eeUtils";
-import { extractOcean } from "./imagery";
+import { extractOcean, smoothPolygon } from "./imagery";
 import { acquireFromDate } from "./acquisition";
 import * as Metadata from "common/metadata";
 import { EPOCH } from "common/utils";
@@ -109,7 +109,9 @@ export function computeCoastlines(dates, satellite, geometry, threshold = 0) {
 
   const oceans = images.map(image => {
     image = ee.Image(image).clip(geometry);
-    return extractOcean(image, satellite, geometry, threshold);
+    const ocean = extractOcean(image, satellite, geometry, threshold);
+    const smoothen = smoothPolygon(ocean.geometry());
+    return ocean.setGeometry(smoothen);
   });
 
   return ee.FeatureCollection(oceans);

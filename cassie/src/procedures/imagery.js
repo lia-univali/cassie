@@ -86,6 +86,82 @@ export const createThumbnail = (imageOrJSON, geometry, params) => {
   return asPromise(ee.data.getThumbId, generationParams).then(result => ee.data.makeThumbUrl(result));
 }
 
+export const gaussDistribution = (x, mean, sigma) => {
+  const divider = ee.Number(sigma).multiply(ee.Number(2).multiply(Math.PI).sqrt())
+  const exponent = ee.Number(-1).multiply(ee.Number(x).subtract(mean).pow(2).divide(ee.Number(2).multiply(ee.Number(sigma).pow(2))))
+  
+  return ee.Number(1).divide(divider).multiply(exponent.exp())
+}
+
+export const gaussKernel = (size, mean, sigma) => {
+  const half = ee.Number(size).divide(2).floor()
+  
+  const begin = ee.Number(0).subtract(half),
+      end = ee.Number(0).add(half)
+  
+  // Get the normal distribution Y value for each X
+  // in the interval
+  const kernel = ee.List.sequence(begin, end).map(i => gaussDistribution(i, mean, sigma))
+  
+  const sum = kernel.reduce(ee.Reducer.sum())
+  
+  // Normalize each value, so that the sum of the list
+  // will be equal to one
+  const normalizedKernel = kernel.map(val => ee.Number(val).divide(sum))
+  
+  return normalizedKernel
+}
+
+export const gaussSmooth = (coordinates, samples, mean, sd) => {
+  const coordinateList = ee.List(coordinates)
+  
+  // Setup gauss distribution kernel parameters
+  const kernelSize = ee.Algorithms.If(samples, ee.Number(samples), ee.Number(3))
+  const kernelMean = ee.Algorithms.If(mean, ee.Number(mean), ee.Number(0))
+  const kernelSd = ee.Algorithms.If(sd, ee.Number(sd), ee.Number(1))
+  const kernel = gaussKernel(kernelSize, kernelMean, kernelSd)
+  
+  const first = coordinateList.reduce(ee.Reducer.first()),
+        last = coordinateList.reduce(ee.Reducer.last())
+  
+  const sequence = ee.List.sequence(ee.Number(0), coordinateList.length().subtract(kernelSize))
+  
+  const path = sequence.map(index => {
+    // Take interval of the kernel size to apply the smoothing
+    // and zip it to the kernel, so each element in the new list
+    // will be a pair of a 2d point and its weight
+    const interval = coordinateList.slice(ee.Number(index), ee.Number(index).add(kernelSize)).zip(kernel)
+    
+    // Map the elements, multiplying their axis by their weight
+    const gaussian = interval.map(element => {
+      // Each element contains a 2d point (0) and a kernel weight (1)
+      const asList = ee.List(element)
+      
+      const point = ee.List(asList.get(0))
+      const weight = ee.Number(asList.get(1))
+      
+      // Now we map the two values (each point dimention), multiplying to the weight
+      return point.map(value => ee.Number(value).multiply(weight))
+    })
+    
+    // Sum longitude and latitude separately
+    const smoothenLong = gaussian.map(point => ee.List(point).get(0)).reduce(ee.Reducer.sum())
+    const smoothenLat = gaussian.map(point => ee.List(point).get(1)).reduce(ee.Reducer.sum())
+    
+    // Return final smoothen point
+    return ee.List([smoothenLong, smoothenLat]);
+  })
+  
+  const smoothen = ee.List([]).add(first).cat(path).add(last)
+
+  return smoothen
+}
+
+export const smoothPolygon = (polygon) => {
+  const smoothenPolygon = ee.Geometry(polygon).coordinates().map(coordinates => gaussSmooth(ee.List(coordinates), 3, 0, 1))
+  return ee.Geometry.Polygon(smoothenPolygon)
+}
+
 export const extractOcean = (image, satellite, geometry, threshold) => {
   //image = image.clip(geometry);
 
@@ -105,14 +181,7 @@ export const extractOcean = (image, satellite, geometry, threshold) => {
     .focal_min(morphParams)
     .focal_max(morphParams); // Performs a morphological opening operation.
 
-  const gaussKernel = ee.Kernel.gaussian({
-    radius: 2, units: 'pixels', normalize: true
-  });
-
-  // Smooth the image by convolving with the gaussian kernel.
-  const smooth = water.convolve(gaussKernel);
-
-  const vectors = smooth.reduceToVectors({
+  const vectors = water.reduceToVectors({
     scale: 30,
     maxPixels: 1e9
   }).filter(ee.Filter.eq("label", 1));

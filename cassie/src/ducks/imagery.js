@@ -256,6 +256,8 @@ function* handleAnalyzeCoastline() {
     threshold
   );
 
+  console.log("LOOK T", yield evaluate(coastlines))
+
   let transects = yield call(
     Coastline.generateOrthogonalTransects,
     coordinates,
