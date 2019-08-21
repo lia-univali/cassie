@@ -164,12 +164,40 @@ export const gaussSmooth = (coordinates, samples, mean, sd) => {
   return smoothen
 }
 
-export const smoothPolygon = (polygon) => {
-  return ee.Geometry.Polygon(
-    ee.Geometry(polygon).coordinates()
+export const smoothMultiLineString = (geom) => {
+  return ee.Geometry.MultiLineString(
+    ee.Geometry(geom).coordinates()
       .map(coordinates => gaussSmooth(ee.List(coordinates), 3, 0, 1))
   )
 }
+
+export const otsuAlgorithm = (histogram) => {
+  var counts = ee.Array(ee.Dictionary(histogram).get('histogram'));
+  var means = ee.Array(ee.Dictionary(histogram).get('bucketMeans'));
+  var size = means.length().get([0]);
+  var total = counts.reduce(ee.Reducer.sum(), [0]).get([0]);
+  var sum = means.multiply(counts).reduce(ee.Reducer.sum(), [0]).get([0]);
+  var mean = sum.divide(total);
+  
+  var indices = ee.List.sequence(1, size);
+  
+  // Compute between sum of squares, where each mean partitions the data.
+  var bss = indices.map(function(i) {
+    var aCounts = counts.slice(0, 0, i);
+    var aCount = aCounts.reduce(ee.Reducer.sum(), [0]).get([0]);
+    var aMeans = means.slice(0, 0, i);
+    var aMean = aMeans.multiply(aCounts)
+        .reduce(ee.Reducer.sum(), [0]).get([0])
+        .divide(aCount);
+    var bCount = total.subtract(aCount);
+    var bMean = sum.subtract(aCount.multiply(aMean)).divide(bCount);
+    return aCount.multiply(aMean.subtract(mean).pow(2)).add(
+           bCount.multiply(bMean.subtract(mean).pow(2)));
+  });
+  
+  // Return the mean value corresponding to the maximum BSS.
+  return means.sort(bss).get([-1]);
+};
 
 export const extractOcean = (image, satellite, geometry, threshold) => {
   const morphParams = {
@@ -182,11 +210,8 @@ export const extractOcean = (image, satellite, geometry, threshold) => {
   const oceanId = 999; // Arbitrary
   const elevation = ee.Image("WWF/HydroSHEDS/03VFDEM").unmask(-oceanId, false).lte(-oceanId);
 
-  const ndwi = applyExpression(image, Indices.expression(Indices.find("NDWI")), satellite.bands);
-  const water = ndwi
-    .gt(threshold)
-    .focal_min(morphParams)
-    .focal_max(morphParams); // Performs a morphological opening operation.
+  const ndwi = ee.Image(applyExpression(image, Indices.expression(Indices.find("NDWI")), satellite.bands));
+  const water = ndwi.gt(threshold).focal_min(morphParams).focal_max(morphParams); // Performs a morphological opening operation.
 
   const vectors = water.reduceToVectors({
     scale: 30,

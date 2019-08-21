@@ -1,7 +1,7 @@
 import { computeBearing, computeDisplacement } from "common/geodesy";
 import { evaluate } from "../common/sagaUtils";
 import { combineReducers } from "common/eeUtils";
-import { extractOcean, smoothPolygon } from "./imagery";
+import { extractOcean, smoothMultiLineString } from "./imagery";
 import { acquireFromDate } from "./acquisition";
 import * as Metadata from "common/metadata";
 import { EPOCH } from "common/utils";
@@ -110,8 +110,8 @@ export function computeCoastlines(dates, satellite, geometry, threshold = 0) {
   const oceans = images.map(image => {
     image = ee.Image(image).clip(geometry);
     const ocean = extractOcean(image, satellite, geometry, threshold);
-    const smoothen = smoothPolygon(ocean.geometry());
-    return ocean.setGeometry(smoothen);
+    // const smoothen = smoothPolygon(ocean.geometry());
+    return ocean;
   });
 
   return ee.FeatureCollection(oceans);
@@ -194,7 +194,7 @@ export function addDistances(transects, coastlines) {
 /**
  * Removes noises from the coastline by keeping only
  * the polygons that intersect with all transects.
- * @param coastline : ee.Geometry.MultiPolygon
+ * @param coastline : ee.Geometry.MultiLineString
  * @param transects : ee.Geometry.MultiLineString
  * @returns coastline without noise in a ee.Geometry.MultiPolygon
  */
@@ -206,9 +206,9 @@ export function removeCoastlineNoise(coastline, transects) {
         .geometry()
         .coordinates()
         .map(coordinates => {
-          const polygon = ee.Geometry.Polygon(coordinates);
-          return ee.Feature(polygon, {
-            intersections: polygon
+          const lineString = ee.Geometry.LineString(coordinates);
+          return ee.Feature(lineString, {
+            intersections: lineString
               .intersection(transects)
               .coordinates()
               .size()
@@ -220,7 +220,7 @@ export function removeCoastlineNoise(coastline, transects) {
   return ee.Algorithms.If(
     coastlineAsCollection.size(),
     ee.Feature(
-      ee.Geometry.MultiPolygon(
+      ee.Geometry.MultiLineString(
         coastlineAsCollection
           .toList(coastlineAsCollection.size())
           .map(feature =>
@@ -293,17 +293,18 @@ export function mapToSummary(transects, coastlines, areaOfInterest) {
     );
 
     let polygonFeature = ee.Feature(coastlineTable.get(key));
-    polygonFeature = polygonFeature
-      .buffer(1)
-      .difference(polygonFeature, 1)
-      .intersection(areaOfInterest.buffer(-10));
+    let coastStrings = ee.Geometry.MultiLineString(polygonFeature.geometry().coordinates());
 
-    let polygonGeometry = ee.Feature(
-      removeCoastlineNoise(polygonFeature, transectsAsGeometry)
+    coastStrings = coastStrings.intersection(areaOfInterest.buffer(-10));
+
+    let withoutNoise = ee.Feature(
+      removeCoastlineNoise(coastStrings, transectsAsGeometry)
     );
 
+    const smoothen = smoothMultiLineString(withoutNoise.geometry())
+
     return ee.Feature(
-      polygonGeometry.geometry(),
+      smoothen,
       value.combine(ee.Dictionary(stats))
     );
   });

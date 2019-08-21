@@ -14,8 +14,7 @@ const table = {
           line: "lines"
         }
       });
-
-      console.log("called");
+      
     } // shp
   } // toDevice
 };
