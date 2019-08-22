@@ -122,6 +122,7 @@ export const gaussKernel = (size, mean, sigma) => {
 export const gaussSmooth = (coordinates, samples, mean, sd) => {
   const coordinateList = ee.List(coordinates)
   
+
   // Setup gauss distribution kernel parameters
   const kernelSize = ee.Algorithms.If(samples, ee.Number(samples), ee.Number(3))
   const kernelMean = ee.Algorithms.If(mean, ee.Number(mean), ee.Number(0))
@@ -161,14 +162,13 @@ export const gaussSmooth = (coordinates, samples, mean, sd) => {
   
   const smoothen = ee.List([]).add(first).cat(path).add(last)
 
-  return smoothen
+  // return original coordinates if the kernelSize is less than or equal to the length
+  // of the given coordinates, otherwise return smoothen coordinates.
+  return ee.Algorithms.If(coordinateList.size() <= kernelSize, coordinateList, smoothen);
 }
 
-export const smoothMultiLineString = (geom) => {
-  return ee.Geometry.MultiLineString(
-    ee.Geometry(geom).coordinates()
-      .map(coordinates => gaussSmooth(ee.List(coordinates), 3, 0, 1))
-  )
+export const smoothLineString = (geom) => {
+  return ee.Geometry.LineString(gaussSmooth(ee.Geometry(geom).coordinates(), 3, 0, 1))
 }
 
 export const otsuAlgorithm = (histogram) => {

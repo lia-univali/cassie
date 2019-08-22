@@ -256,6 +256,8 @@ function* handleAnalyzeCoastline() {
     threshold
   );
 
+
+
   let transects = yield call(
     Coastline.generateOrthogonalTransects,
     coordinates,
@@ -264,6 +266,8 @@ function* handleAnalyzeCoastline() {
     bufferedBaseline
   );
   transects = yield call(Coastline.addDistances, transects, coastlines);
+
+  
 
   const lrrs = yield evaluate(transects.map(x => ee.Feature(x).get("lrr")));
 
@@ -275,6 +279,8 @@ function* handleAnalyzeCoastline() {
     coastlines,
     bufferedBaseline
   );
+
+  console.log("COASTS", yield evaluate(enhancedCoastlines))
 
   const lrrColors = interpolateColors(lrrs, "#00FF00", "#DF0000");
 

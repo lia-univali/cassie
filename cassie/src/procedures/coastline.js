@@ -1,7 +1,7 @@
 import { computeBearing, computeDisplacement } from "common/geodesy";
 import { evaluate } from "../common/sagaUtils";
 import { combineReducers } from "common/eeUtils";
-import { extractOcean, smoothMultiLineString } from "./imagery";
+import { extractOcean, smoothLineString } from "./imagery";
 import { acquireFromDate } from "./acquisition";
 import * as Metadata from "common/metadata";
 import { EPOCH } from "common/utils";
@@ -196,43 +196,23 @@ export function addDistances(transects, coastlines) {
  * the polygons that intersect with all transects.
  * @param coastline : ee.Geometry.MultiLineString
  * @param transects : ee.Geometry.MultiLineString
- * @returns coastline without noise in a ee.Geometry.MultiPolygon
+ * @returns coastline without noise in a ee.Geometry.MultiLineString
  */
 export function removeCoastlineNoise(coastline, transects) {
   const coastlineAsCollection = ee
     .FeatureCollection(
-      ee
-        .Feature(coastline)
-        .geometry()
+      coastline
         .coordinates()
-        .map(coordinates => {
-          const lineString = ee.Geometry.LineString(coordinates);
-          return ee.Feature(lineString, {
-            intersections: lineString
-              .intersection(transects)
-              .coordinates()
-              .size()
+        .map(line => {
+          const geom = ee.Geometry.LineString(line);
+          return ee.Feature(geom, {
+            intersections: geom.intersection(transects).coordinates().size()
           });
         })
     )
-    .filter(ee.Filter.gte("intersections", transects.coordinates().size()));
+    .sort('intersections', false)
 
-  return ee.Algorithms.If(
-    coastlineAsCollection.size(),
-    ee.Feature(
-      ee.Geometry.MultiLineString(
-        coastlineAsCollection
-          .toList(coastlineAsCollection.size())
-          .map(feature =>
-            ee
-              .Feature(feature)
-              .geometry()
-              .coordinates()
-          )
-      )
-    ),
-    ee.Feature(coastline)
-  );
+  return ee.Feature(coastlineAsCollection.first())
 }
 
 export function mapToSummary(transects, coastlines, areaOfInterest) {
@@ -295,13 +275,13 @@ export function mapToSummary(transects, coastlines, areaOfInterest) {
     let polygonFeature = ee.Feature(coastlineTable.get(key));
     let coastStrings = ee.Geometry.MultiLineString(polygonFeature.geometry().coordinates());
 
-    coastStrings = coastStrings.intersection(areaOfInterest.buffer(-10));
+    coastStrings = ee.Geometry.MultiLineString(coastStrings.intersection(areaOfInterest.buffer(-10)).coordinates());
 
     let withoutNoise = ee.Feature(
       removeCoastlineNoise(coastStrings, transectsAsGeometry)
     );
 
-    const smoothen = smoothMultiLineString(withoutNoise.geometry())
+    const smoothen = smoothLineString(withoutNoise)
 
     return ee.Feature(
       smoothen,
