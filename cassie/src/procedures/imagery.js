@@ -122,7 +122,6 @@ export const gaussKernel = (size, mean, sigma) => {
 export const gaussSmooth = (coordinates, samples, mean, sd) => {
   const coordinateList = ee.List(coordinates)
   
-
   // Setup gauss distribution kernel parameters
   const kernelSize = ee.Algorithms.If(samples, ee.Number(samples), ee.Number(3))
   const kernelMean = ee.Algorithms.If(mean, ee.Number(mean), ee.Number(0))
@@ -164,7 +163,7 @@ export const gaussSmooth = (coordinates, samples, mean, sd) => {
 
   // return original coordinates if the kernelSize is less than or equal to the length
   // of the given coordinates, otherwise return smoothen coordinates.
-  return ee.Algorithms.If(coordinateList.size() <= kernelSize, coordinateList, smoothen);
+  return ee.Algorithms.If(coordinateList.size().lte(kernelSize), coordinateList, smoothen);
 }
 
 export const smoothLineString = (geom) => {
@@ -210,7 +209,8 @@ export const extractOcean = (image, satellite, geometry, threshold) => {
   const oceanId = 999; // Arbitrary
   const elevation = ee.Image("WWF/HydroSHEDS/03VFDEM").unmask(-oceanId, false).lte(-oceanId);
 
-  const ndwi = ee.Image(applyExpression(image, Indices.expression(Indices.find("NDWI")), satellite.bands));
+  const ndwi = ee.Image(applyExpression(image, Indices.expression(Indices.find("NDWI")), satellite.bands)).rename('NDWI');
+  
   const water = ndwi.gt(threshold).focal_min(morphParams).focal_max(morphParams); // Performs a morphological opening operation.
 
   const vectors = water.reduceToVectors({

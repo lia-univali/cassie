@@ -110,7 +110,6 @@ export function computeCoastlines(dates, satellite, geometry, threshold = 0) {
   const oceans = images.map(image => {
     image = ee.Image(image).clip(geometry);
     const ocean = extractOcean(image, satellite, geometry, threshold);
-    // const smoothen = smoothPolygon(ocean.geometry());
     return ocean;
   });
 
@@ -196,7 +195,7 @@ export function addDistances(transects, coastlines) {
  * the polygons that intersect with all transects.
  * @param coastline : ee.Geometry.MultiLineString
  * @param transects : ee.Geometry.MultiLineString
- * @returns coastline without noise in a ee.Geometry.MultiLineString
+ * @returns coastline without noise in a ee.Feature(ee.Geometry.LineString)
  */
 export function removeCoastlineNoise(coastline, transects) {
   const coastlineAsCollection = ee
