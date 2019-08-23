@@ -281,7 +281,7 @@ export function mapToSummary(transects, coastlines, areaOfInterest) {
       removeCoastlineNoise(coastStrings, transectsAsGeometry)
     );
 
-    const smoothen = smoothLineString(withoutNoise)
+    const smoothen = smoothLineString(withoutNoise.geometry())
 
     return ee.Feature(
       smoothen,
