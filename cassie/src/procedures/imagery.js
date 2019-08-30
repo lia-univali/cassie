@@ -211,7 +211,17 @@ export const extractOcean = (image, satellite, geometry, threshold) => {
 
   const ndwi = ee.Image(applyExpression(image, Indices.expression(Indices.find("NDWI")), satellite.bands)).rename('NDWI');
   
-  const water = ndwi.gt(threshold).focal_min(morphParams).focal_max(morphParams); // Performs a morphological opening operation.
+  // note:
+  // if we do not specify a scale, it crashes
+  // otherwise it also crashes because the histogram
+  // provided by the reducer gets null (idk)
+  const otsuThreshold = otsuAlgorithm(ndwi.reduceRegion({
+    reducer: ee.Reducer.histogram(),
+    scale: 10,
+    maxPixels: 1e9
+  }));
+
+  const water = ndwi.gt(otsuThreshold).focal_min(morphParams).focal_max(morphParams); // Performs a morphological opening operation.
 
   const vectors = water.reduceToVectors({
     scale: 30,
