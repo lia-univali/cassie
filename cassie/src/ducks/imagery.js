@@ -261,8 +261,10 @@ function* handleAnalyzeCoastline() {
     coordinates,
     spacing,
     extent,
-    bufferedBaseline
-  );
+    geometry
+  );  // We have to pass Geometry here because passing the buffered baseline is risky
+      // since transects that are not contained in roi are dropped
+
   transects = yield call(Coastline.addDistances, transects, coastlines);
 
   const lrrs = yield evaluate(transects.map(x => ee.Feature(x).get("lrr")));

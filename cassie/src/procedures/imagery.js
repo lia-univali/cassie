@@ -221,7 +221,7 @@ export const extractOcean = (image, satellite, geometry, threshold) => {
     maxPixels: 1e9
   }));
 
-  const water = ndwi.gt(otsuThreshold).focal_min(morphParams).focal_max(morphParams); // Performs a morphological opening operation.
+  const water = ndwi.gt(threshold).focal_min(morphParams).focal_max(morphParams); // Performs a morphological opening operation.
 
   const vectors = water.reduceToVectors({
     scale: 30,
