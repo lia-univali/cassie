@@ -210,18 +210,14 @@ export const extractOcean = (image, satellite, geometry, threshold) => {
   const elevation = ee.Image("WWF/HydroSHEDS/03VFDEM").unmask(-oceanId, false).lte(-oceanId);
 
   const ndwi = ee.Image(applyExpression(image, Indices.expression(Indices.find("NDWI")), satellite.bands)).rename('NDWI');
-  
-  // note:
-  // if we do not specify a scale, it crashes
-  // otherwise it also crashes because the histogram
-  // provided by the reducer gets null (idk)
-  const otsuThreshold = otsuAlgorithm(ndwi.reduceRegion({
+
+  const otsuThreshold = otsuAlgorithm(ee.Dictionary(ndwi.reduceRegion({
     reducer: ee.Reducer.histogram(),
     scale: 10,
     maxPixels: 1e9
-  }));
+  })).get('NDWI'));
 
-  const water = ndwi.gt(threshold).focal_min(morphParams).focal_max(morphParams); // Performs a morphological opening operation.
+  const water = ndwi.gt(otsuThreshold).focal_min(morphParams).focal_max(morphParams); // Performs a morphological opening operation.
 
   const vectors = water.reduceToVectors({
     scale: 30,
@@ -239,7 +235,8 @@ export const extractOcean = (image, satellite, geometry, threshold) => {
 
   // const feature = ee.Feature(ee.List(vectors.toList(1)).get(0));
   const withProperties = feature.setMulti({
-    [Metadata.TIME_START]: ee.Date(getDate(image)).format("YYYY-MM-dd")
+    [Metadata.TIME_START]: ee.Date(getDate(image)).format("YYYY-MM-dd"),
+    otsu: otsuAlgorithm
   });
 
   return ee.Feature(withProperties);

@@ -275,22 +275,10 @@ function* handleAnalyzeCoastline() {
 
   const colors = generateColors(dates.length, 66);
   yield put(
-    Map.addEEFeature(
-      enhancedCoastlines,
-      "Linhas de Costa",
-      colors,
-      1,
-      identifier
-    )
+    Map.addEEFeature(enhancedCoastlines, "Linhas de Costa", colors, 1, identifier)
   );
   yield put(
-    Map.addEEFeature(
-      transectsViz,
-      "Transectos",
-      lrrColors,
-      1,
-      Metadata.FeatureType.TRANSECT
-    )
+    Map.addEEFeature(transectsViz, "Transectos", lrrColors, 1, Metadata.FeatureType.TRANSECT)
   );
 
   const finalQuery = ee
