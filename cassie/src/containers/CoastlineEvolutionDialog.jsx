@@ -65,8 +65,6 @@ class CoastlineEvolutionDialog extends React.Component {
   render() {
     const { close, open, transectData, baselineData, exportable } = this.props;
 
-    console.log(baselineData);
-
     const tabs = [
       <TransectDataTable data={transectData} />,
       <Bar
@@ -181,13 +179,12 @@ class CoastlineEvolutionDialog extends React.Component {
                 </MenuItem>
                 <MenuItem
                   onClick={() =>
-                    this.doAndClose(() => {
-                      console.log("calling");
+                    this.doAndClose(
                       Export.table.toDevice.asShapefile(
-                        exportable,
+                        exportable.collection,
                         "shp-export"
-                      );
-                    }, "baselineAnchorEl")
+                      )
+                    , "baselineAnchorEl")
                   }
                 >
                   Exportar Shapefile

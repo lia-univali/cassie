@@ -324,20 +324,12 @@ export function generateOrthogonalTransects(
     .map(dict => ee.Feature(ee.Dictionary(dict).get("transects")))
     .flatten();
 
-  if (areaOfInterest !== undefined) {
-    const propertyName = "AOI_CONTAINS";
-    transects = ee.FeatureCollection(transects).map(transect => {
-      transect = ee.Feature(transect);
-      const contained = areaOfInterest.contains(transect.geometry());
-      return transect.set({ [propertyName]: contained });
-    });
-    transects = transects.filter(ee.Filter.eq(propertyName, true));
-    transects = ee.Algorithms.If(
+  transects = ee.FeatureCollection(transects)
+  transects = ee.Algorithms.If(
       ee.Algorithms.IsEqual(transects.size(), 0),
       ee.List([]),
       transects.toList(transects.size())
     );
-  }
 
   return ee.List(transects);
 }

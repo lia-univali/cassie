@@ -256,14 +256,7 @@ function* handleAnalyzeCoastline() {
     threshold
   );
 
-  let transects = yield call(
-    Coastline.generateOrthogonalTransects,
-    coordinates,
-    spacing,
-    extent,
-    geometry
-  );  // We have to pass Geometry here because passing the buffered baseline is risky
-      // since transects that are not contained in roi are dropped
+  let transects = yield call(Coastline.generateOrthogonalTransects, coordinates, spacing, extent);
 
   transects = yield call(Coastline.addDistances, transects, coastlines);
 
@@ -320,7 +313,7 @@ function* handleAnalyzeCoastline() {
   const exportable = {
     collection: yield evaluate(
       ee
-        .FeatureCollection(coastlines)
+        .FeatureCollection(enhancedCoastlines)
         .merge(ee.FeatureCollection(transects))
         .merge(ee.Feature(ee.Geometry.LineString(coordinates)))
     )

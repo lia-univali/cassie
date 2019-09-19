@@ -65,7 +65,6 @@ class TransectDataTable extends React.Component {
     }
   }
 
-  // TODO: a tabela, exportar p/ CSV
   render() {
     const { sortProperty, ordering } = this.state;
 
