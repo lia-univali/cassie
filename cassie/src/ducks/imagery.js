@@ -7,7 +7,6 @@ import {
   actionChannel,
   call
 } from "redux-saga/effects";
-import isString from "lodash/isString";
 import update from "immutability-helper";
 import {
   createBufferedHandler,
@@ -31,7 +30,7 @@ import * as Coastline from "procedures/coastline";
 import { extractOcean, generateLayer } from "procedures/imagery";
 import { computeBearing } from "common/geodesy";
 import { acquireFromDate } from "procedures/acquisition";
-import { otsuThreshold } from '../common/algorithms';
+import { otsuThreshold } from "../common/algorithms";
 
 const ee = window.ee;
 
@@ -256,7 +255,12 @@ function* handleAnalyzeCoastline() {
     threshold
   );
 
-  let transects = yield call(Coastline.generateOrthogonalTransects, coordinates, spacing, extent);
+  let transects = yield call(
+    Coastline.generateOrthogonalTransects,
+    coordinates,
+    spacing,
+    extent
+  );
 
   transects = yield call(Coastline.addDistances, transects, coastlines);
 
@@ -275,10 +279,22 @@ function* handleAnalyzeCoastline() {
 
   const colors = generateColors(dates.length, 66);
   yield put(
-    Map.addEEFeature(enhancedCoastlines, "Linhas de Costa", colors, 1, identifier)
+    Map.addEEFeature(
+      enhancedCoastlines,
+      "Linhas de Costa",
+      colors,
+      1,
+      identifier
+    )
   );
   yield put(
-    Map.addEEFeature(transectsViz, "Transectos", lrrColors, 1, Metadata.FeatureType.TRANSECT)
+    Map.addEEFeature(
+      transectsViz,
+      "Transectos",
+      lrrColors,
+      1,
+      Metadata.FeatureType.TRANSECT
+    )
   );
 
   const finalQuery = ee
@@ -298,12 +314,77 @@ function* handleAnalyzeCoastline() {
     color: colors[i]
   }));
 
+  const putObjectId = feature => {
+    return ee
+      .Feature(feature)
+      .set("objectid", ee.Feature(feature).get("system:index"));
+  };
+
+  const selectProperties = (...properties) => feature => {
+    const props = ee.List(properties);
+    const cast = ee.Feature(feature);
+    return ee.Feature(cast.geometry(), cast.toDictionary(props));
+  };
+
+  const shapeTransectData = feature => {
+    const cast = ee.Feature(feature);
+    const geometry = ee.Geometry(cast.geometry());
+    let properties = cast.toDictionary();
+
+    /* insert initial and final coordinates */
+    const begin = ee.List(geometry.coordinates().get(0));
+    properties = properties.set("LongStart", ee.Number(begin.get(0)));
+    properties = properties.set("LatStart", ee.Number(begin.get(1)));
+
+    const end = ee.List(geometry.coordinates().get(1));
+    properties = properties.set("LongEnd", ee.Number(end.get(0)));
+    properties = properties.set("LatEnd", ee.Number(end.get(1)));
+
+    /* set regression values */
+    const trend = ee.Dictionary(properties.get("trend"));
+    const r = ee.Number(trend.get("correlation"));
+
+    properties = properties.set("r", r);
+    properties = properties.set("rsquared", r.pow(2));
+    properties = properties.set("intercept", trend.get("offset"));
+    properties = properties.set("slope", trend.get("scale"));
+
+    return ee.Feature(geometry, properties);
+  };
+
   const exportable = {
-    collection: yield evaluate(
+    shpBaseline: yield evaluate(
+      ee
+        .FeatureCollection([ee.Geometry.LineString(coordinates)])
+        .map(putObjectId)
+    ),
+    shpCoasts: yield evaluate(
       ee
         .FeatureCollection(enhancedCoastlines)
-        .merge(ee.FeatureCollection(transects))
-        .merge(ee.Feature(ee.Geometry.LineString(coordinates)))
+        .map(selectProperties("date", "mean", "stdDev"))
+        .map(putObjectId)
+    ),
+    shpTransects: yield evaluate(
+      ee
+        .FeatureCollection(transects)
+        .map(shapeTransectData)
+        .map(
+          selectProperties(
+            "LongStart",
+            "LongEnd",
+            "LatStart",
+            "LatEnd",
+            "r",
+            "rsquared",
+            "intercept",
+            "slope",
+            "epr",
+            "lrr",
+            "nsm",
+            "sce"
+          )
+        )
+        .map(putObjectId)
     )
   };
 
@@ -348,7 +429,6 @@ export function* saga() {
     createBufferedHandler(LOAD_LAYER, handleLoadLayer),
     createConcurrentHandler(TOGGLE_VISIBILITY, handleToggleVisibility),
     createConcurrentHandler(UPDATE_OPACITY, handleUpdateOpacity),
-    //createConcurrentHandler(GENERATE_TRANSECTS, handleGenerateTransects),
     createBufferedHandler(ANALYZE_COASTLINE, handleAnalyzeCoastline),
     createBufferedHandler(REQUEST_EXPRESSION, handleRequestExpression)
   ]);

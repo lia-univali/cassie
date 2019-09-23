@@ -180,11 +180,21 @@ class CoastlineEvolutionDialog extends React.Component {
                 <MenuItem
                   onClick={() =>
                     this.doAndClose(
-                      Export.table.toDevice.asShapefile(
-                        exportable.collection,
-                        "shp-export"
-                      )
-                    , "baselineAnchorEl")
+                      Export.table.toDevice.asShapefileGroup(
+                        [
+                          exportable.shpBaseline,
+                          exportable.shpCoasts,
+                          exportable.shpTransects
+                        ],
+                        Export.defaultOptions.device.shapefileGroup(
+                          "layers",
+                          "baseline",
+                          "coastlines",
+                          "transects"
+                        )
+                      ),
+                      "baselineAnchorEl"
+                    )
                   }
                 >
                   Exportar Shapefile
