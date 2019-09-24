@@ -7,6 +7,12 @@ const dateToString = date => {
   return formatDate(date, true);
 };
 
+class Satellite {
+  constructor(name, provider, cycle, startYear, opticalResolution, ) {
+
+  }
+}
+
 const satellites = [
   {
     name: "Sentinel-2",
