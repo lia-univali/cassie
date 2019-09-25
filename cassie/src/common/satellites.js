@@ -9,7 +9,7 @@ const dateToString = date => {
 
 const Collection = (name, bands, properties) => {
   return {
-    name, bands, properties
+    name, startYear, endYear, bands, properties
   }
 }
 
