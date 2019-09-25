@@ -7,11 +7,33 @@ const dateToString = date => {
   return formatDate(date, true);
 };
 
-class Satellite {
-  constructor(name, provider, cycle, startYear, opticalResolution, ) {
-
+const Collection = (name, bands, properties) => {
+  return {
+    name, bands, properties
   }
 }
+
+const Satellite = (name, provider, cycle, startYear, endYear, opticalResolution, image, vizParams, collections, algorithms) => {
+  return {
+    name, provider, cycle, startYear, endYear, opticalResolution, image, vizParams, collections, algorithms
+  }
+}
+
+const SatelliteCollection = [
+  Satellite
+    (
+      'Sentinel-2', 'ESA', 10, 2013, null, 10, sentinel2Thumb,
+      { max: 4000, min: 128 }, 
+      [
+        Collection('COPERNICUS/S2', { blue: 'B2', green: "B3", red: "B4", nir: "B8", swir: "B11" }, { cloudCoverProperty: "CLOUDY_PIXEL_PERCENTAGE" })
+      ],
+      {}
+    ),
+  Satellite
+    (
+      'Landsat', 'USGS/NASA', 16, 
+    )
+];
 
 const satellites = [
   {

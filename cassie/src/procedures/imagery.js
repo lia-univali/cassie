@@ -4,6 +4,7 @@ import * as Indices from 'common/indices';
 import * as Metadata from 'common/metadata';
 import { getDate } from './common';
 import { asPromise } from 'common/utils';
+import { threadId } from 'worker_threads';
 
 const ee = window.ee;
 
