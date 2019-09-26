@@ -1,3 +1,4 @@
+import Algorithms from '../procedures'
 import { formatDate, asPercentage } from "./utils";
 import sentinel2Thumb from "resources/Sentinel-2.jpg";
 import sentinel3Thumb from "resources/Sentinel-3.jpg";
@@ -7,32 +8,102 @@ const dateToString = date => {
   return formatDate(date, true);
 };
 
-const Collection = (name, bands, properties) => {
+/* Single Satellite Mission */
+const Mission = (name, cycle, startYear, endYear, opticalResolution, bands, vizParams, properties, algorithms) => {
   return {
-    name, startYear, endYear, bands, properties
+    name, cycle, startYear, endYear, opticalResolution, bands, vizParams, properties, algorithms
   }
 }
 
-const Satellite = (name, provider, cycle, startYear, endYear, opticalResolution, image, vizParams, collections, algorithms) => {
+/* Satellite Mission Collection */
+const MissionCollection = (name, provider, image, missions) => {
   return {
-    name, provider, cycle, startYear, endYear, opticalResolution, image, vizParams, collections, algorithms
+    name, provider, image, missions
   }
 }
 
-const SatelliteCollection = [
-  Satellite
-    (
-      'Sentinel-2', 'ESA', 10, 2013, null, 10, sentinel2Thumb,
-      { max: 4000, min: 128 }, 
-      [
-        Collection('COPERNICUS/S2', { blue: 'B2', green: "B3", red: "B4", nir: "B8", swir: "B11" }, { cloudCoverProperty: "CLOUDY_PIXEL_PERCENTAGE" })
-      ],
-      {}
-    ),
-  Satellite
-    (
-      'Landsat', 'USGS/NASA', 16, 
-    )
+const standard = [
+  /* SENTINEL 2 */
+  MissionCollection (
+    'Sentinel-2',
+    'ESA',
+    sentinel2Thumb,
+    [
+      /* SENTINEL 2 */
+      Mission (
+        'COPERNICUS/S2',
+        10,
+        2013,
+        null,
+        10,
+        { blue: 'B2', green: "B3", red: "B4", nir: "B8", swir: "B11" },
+        { max: 4000, min: 128 },
+        { cloudCoverProperty: "CLOUDY_PIXEL_PERCENTAGE" },
+        {
+          query: Algorithms.Satellite.Sentinel.queryAvailable,
+          get: Algorithms.Satellite.Sentinel.getAvailable
+        }
+      )
+    ],
+  ),
+
+  /* LANDSATS */
+  MissionCollection (
+    'Landsat',
+    'USGS/NASA',
+    landsatThumb,
+    [
+      /* SENTINEL 5 */
+      Mission (
+        "LANDSAT/LT05/C01/T1_SR",
+        16,
+        1984,
+        2012,
+        30,
+        { red: "B3", green: "B2", blue: "B1", nir: "B4", swir: "B5", qa: "pixel_qa" },
+        { gain: "0.1,0.1,0.1" },
+        { cloudCoverProperty: 'CLOUD_COVER' },
+        {
+          query: Algorithms.Satellite.Landsat.queryAvailable,
+          get: Algorithms.Satellite.Landsat.getAvailable
+        }
+      ),
+
+      /* SENTINEL 7 */
+      Mission (
+        "LANDSAT/LE07/C01/T1_SR",
+        16,
+        1999,
+        null,
+        30,
+        { red: "B3", green: "B2", blue: "B1", nir: "B4", swir: "B5", qa: "pixel_qa" },
+        { gain: "0.1,0.1,0.1" },
+        { cloudCoverProperty: 'CLOUD_COVER' },
+        {
+          query: Algorithms.Satellite.Landsat.queryAvailable,
+          get: Algorithms.Satellite.Landsat.getAvailable
+        }
+      ),
+
+      /* SENTINEL 8 */
+      Mission (
+        "LANDSAT/LC08/C01/T1_SR",
+        16,
+        2013,
+        null,
+        30,
+        { red: "B4", green: "B3", blue: "B2", nir: "B5", swir: "B6", qa: "pixel_qa" },
+        { gain: "0.1,0.1,0.1" },
+        { cloudCoverProperty: 'CLOUD_COVER' },
+        {
+          query: Algorithms.Satellite.Landsat.queryAvailable,
+          get: Algorithms.Satellite.Landsat.getAvailable
+        }
+      )
+    ]
+  )
+
+
 ];
 
 const satellites = [

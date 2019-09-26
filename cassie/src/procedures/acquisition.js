@@ -20,12 +20,6 @@ const sliceByRevisit = (collection, startingDate, days) => {
 };
 
 export const acquireFromDate = (date, collection, geometry) => {
-  // if date is not a ComputedObject
-  // date = ee.Algorithms.If(
-  //   parseDate,
-  //   moment(date, ['YYYY-MM-DD', 'DD/MM/YYYY']).format("YYYY-MM-DD"),
-  //   date
-  // );
   const slice = sliceByRevisit(
     ee.ImageCollection(collection).filterBounds(geometry),
     date,

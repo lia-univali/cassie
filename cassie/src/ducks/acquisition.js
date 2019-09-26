@@ -146,8 +146,6 @@ function* handleLoadAvailableImages() {
 
   const dict = yield evaluate(ee.Dictionary.fromLists(datesQuery, cloudQuery));
 
-  //console.log(dict);
-
   if (dict !== undefined) {
     yield put(setAvailableDates(dict));
   }
