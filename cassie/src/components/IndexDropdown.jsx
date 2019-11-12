@@ -1,13 +1,13 @@
 import React from 'react';
 import DropdownButton from './DropdownButton';
 import Button from '@material-ui/core/Button';
-import * as Indices from 'common/indices';
+import * as Indices from '../common/indices';
 
 class IndexDropdown extends React.Component {
   render() {
     const {
       disableIf = () => false,
-      onSelect = () => {},
+      onSelect = () => { },
       children,
       ...rest
     } = this.props;

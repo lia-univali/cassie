@@ -9,8 +9,8 @@ import { withTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 // import IndexDropdown from './IndexDropdown';
-import { registerDialog } from 'containers/DialogRoot';
-import * as Indices from 'common/indices';
+import { registerDialog } from './DialogRoot';
+import * as Indices from '../common/indices';
 
 class NewLayerDialog extends React.Component {
   constructor(props) {
@@ -23,14 +23,14 @@ class NewLayerDialog extends React.Component {
   }
 
   handleChange(name, event) {
-    this.setState({[name]: event.target.value});
+    this.setState({ [name]: event.target.value });
   }
 
   handleCreate() {
     const { expression, name } = this.state;
     console.log(this.expression);
 
-    this.props.publish({expression, name});
+    this.props.publish({ expression, name });
   }
 
   handleSelect(index) {
@@ -49,7 +49,7 @@ class NewLayerDialog extends React.Component {
       "SWIR: banda infravermelho de ondas curtas"
     ];
 
-    const expressions = Indices.all().map(({label, expression}) => (
+    const expressions = Indices.all().map(({ label, expression }) => (
       `${label}: ${expression}`
     ));
 
@@ -80,7 +80,7 @@ class NewLayerDialog extends React.Component {
                 {text}
               </FormHelperText>
             ))}
-            <br/>
+            <br />
             <FormHelperText>Expressões:</FormHelperText>
             {expressions.map((text, i) => (
               <FormHelperText key={i}>

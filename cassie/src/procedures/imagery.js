@@ -1,10 +1,9 @@
-import { Layer, ConcreteLayer } from 'common/classes';
-import { generateVisualizationParams, simplify, applyExpression } from 'common/eeUtils';
-import * as Indices from 'common/indices';
-import * as Metadata from 'common/metadata';
+import { Layer, ConcreteLayer } from '../common/classes';
+import { generateVisualizationParams, simplify, applyExpression } from '../common/eeUtils';
+import * as Indices from '../common/indices';
+import * as Metadata from '../common/metadata';
 import { getDate } from './common';
-import { asPromise } from 'common/utils';
-import { threadId } from 'worker_threads';
+import { asPromise } from '../common/utils';
 
 const ee = window.ee;
 
@@ -38,25 +37,12 @@ export const scoreClouds = (image, geometry) => {
 
   const cloudyArea = res.get(band);
   const ratio = ee.Number(cloudyArea).divide(geometry.area(1));
-  //image = ee.Algorithms.Landsat.simpleCloudScore(image);
-
-  //const reducers = ee.Reducer.count().combine(ee.Reducer.sum(), "", true);
-  //const result = image.select("cloud").reduceRegion({
-  //  reducer: reducers,
-  //  geometry: geometry,
-  //  scale: 300,
-  //});
-
-  //const clouds = ee.Number(result.get("cloud_sum"));
-  //const total = ee.Number(result.get("cloud_count"));
-
-  //return image.set("CLOUDS", clouds.divide(total.multiply(100)));
   return image.set("CLOUDS", ratio);
 }
 
-export const generateLayer = (image, satellite, name, params) => {
+export const generateLayer = (image, mission, name, params) => {
   if (params === undefined) {
-    params = generateVisualizationParams(satellite);
+    params = generateVisualizationParams(mission);
   }
 
   return new Layer(image, name, params);
@@ -90,26 +76,26 @@ export const createThumbnail = (imageOrJSON, geometry, params) => {
 export const gaussDistribution = (x, mean, sigma) => {
   const divider = ee.Number(sigma).multiply(ee.Number(2).multiply(Math.PI).sqrt())
   const exponent = ee.Number(-1).multiply(ee.Number(x).subtract(mean).pow(2).divide(ee.Number(2).multiply(ee.Number(sigma).pow(2))))
-  
+
   return ee.Number(1).divide(divider).multiply(exponent.exp())
 }
 
 export const gaussKernel = (size, mean, sigma) => {
   const half = ee.Number(size).divide(2).floor()
-  
+
   const begin = ee.Number(0).subtract(half),
-      end = ee.Number(0).add(half)
-  
+    end = ee.Number(0).add(half)
+
   // Get the normal distribution Y value for each X
   // in the interval
   const kernel = ee.List.sequence(begin, end).map(i => gaussDistribution(i, mean, sigma))
-  
+
   const sum = kernel.reduce(ee.Reducer.sum())
-  
+
   // Normalize each value, so that the sum of the list
   // will be equal to one
   const normalizedKernel = kernel.map(val => ee.Number(val).divide(sum))
-  
+
   return normalizedKernel
 }
 
@@ -122,7 +108,7 @@ export const gaussKernel = (size, mean, sigma) => {
  */
 export const gaussSmooth = (coordinates, samples, mean, sd) => {
   const coordinateList = ee.List(coordinates)
-  
+
   // Setup gauss distribution kernel parameters
   const kernelSize = ee.Algorithms.If(samples, ee.Number(samples), ee.Number(3))
   const kernelMean = ee.Algorithms.If(mean, ee.Number(mean), ee.Number(0))
@@ -130,36 +116,36 @@ export const gaussSmooth = (coordinates, samples, mean, sd) => {
   const kernel = gaussKernel(kernelSize, kernelMean, kernelSd)
 
   const first = coordinateList.reduce(ee.Reducer.first()),
-        last = coordinateList.reduce(ee.Reducer.last())
-  
+    last = coordinateList.reduce(ee.Reducer.last())
+
   const sequence = ee.List.sequence(ee.Number(0), coordinateList.length().subtract(kernelSize))
-  
+
   const path = sequence.map(index => {
     // Take interval of the kernel size to apply the smoothing
     // and zip it to the kernel, so each element in the new list
     // will be a pair of a 2d point and its weight
     const interval = coordinateList.slice(ee.Number(index), ee.Number(index).add(kernelSize)).zip(kernel)
-    
+
     // Map the elements, multiplying their axis values by their weight
     const gaussian = interval.map(element => {
       // Each element contains a 2d point (0) and a kernel weight (1)
       const asList = ee.List(element)
-      
+
       const point = ee.List(asList.get(0))
       const weight = ee.Number(asList.get(1))
-      
+
       // Now we map the two values (each point dimention), multiplying to the weight
       return point.map(value => ee.Number(value).multiply(weight))
     })
-    
+
     // Sum longitude and latitude separately
     const smoothenLong = gaussian.map(point => ee.List(point).get(0)).reduce(ee.Reducer.sum())
     const smoothenLat = gaussian.map(point => ee.List(point).get(1)).reduce(ee.Reducer.sum())
-    
+
     // Return final smoothen point
     return ee.List([smoothenLong, smoothenLat]);
   })
-  
+
   const smoothen = ee.List([]).add(first).cat(path).add(last)
 
   // return original coordinates if the kernelSize is less than or equal to the length
@@ -178,28 +164,28 @@ export const otsuAlgorithm = (histogram) => {
   var total = counts.reduce(ee.Reducer.sum(), [0]).get([0]);
   var sum = means.multiply(counts).reduce(ee.Reducer.sum(), [0]).get([0]);
   var mean = sum.divide(total);
-  
+
   var indices = ee.List.sequence(1, size);
-  
+
   // Compute between sum of squares, where each mean partitions the data.
-  var bss = indices.map(function(i) {
+  var bss = indices.map(function (i) {
     var aCounts = counts.slice(0, 0, i);
     var aCount = aCounts.reduce(ee.Reducer.sum(), [0]).get([0]);
     var aMeans = means.slice(0, 0, i);
     var aMean = aMeans.multiply(aCounts)
-        .reduce(ee.Reducer.sum(), [0]).get([0])
-        .divide(aCount);
+      .reduce(ee.Reducer.sum(), [0]).get([0])
+      .divide(aCount);
     var bCount = total.subtract(aCount);
     var bMean = sum.subtract(aCount.multiply(aMean)).divide(bCount);
     return aCount.multiply(aMean.subtract(mean).pow(2)).add(
-           bCount.multiply(bMean.subtract(mean).pow(2)));
+      bCount.multiply(bMean.subtract(mean).pow(2)));
   });
-  
+
   // Return the mean value corresponding to the maximum BSS.
   return means.sort(bss).get([-1]);
 };
 
-export const extractOcean = (image, satellite, geometry, threshold) => {
+export const extractOcean = (image, bands, geometry, threshold) => {
   const morphParams = {
     kernelType: "circle",
     radius: 20,
@@ -210,7 +196,7 @@ export const extractOcean = (image, satellite, geometry, threshold) => {
   const oceanId = 999; // Arbitrary
   const elevation = ee.Image("WWF/HydroSHEDS/03VFDEM").unmask(-oceanId, false).lte(-oceanId);
 
-  const ndwi = ee.Image(applyExpression(image, Indices.expression(Indices.find("NDWI")), satellite.bands)).rename('NDWI');
+  const ndwi = ee.Image(applyExpression(image, Indices.expression(Indices.find("NDWI")), bands)).rename('NDWI');
 
   const otsuThreshold = otsuAlgorithm(ee.Dictionary(ndwi.reduceRegion({
     reducer: ee.Reducer.histogram(),

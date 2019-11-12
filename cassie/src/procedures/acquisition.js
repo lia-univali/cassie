@@ -1,4 +1,3 @@
-import moment from "moment";
 import {
   mergeProperties,
   addGridPosition,
@@ -7,7 +6,7 @@ import {
 } from "./common";
 import { getSatelliteCollection } from "../common/eeUtils";
 import { scoreClouds } from "./imagery";
-import * as Metadata from "common/metadata";
+import * as Metadata from "../common/metadata";
 
 const REVISIT_DAYS = 16; // Landsat 5 only; TODO others
 const ee = window.ee;

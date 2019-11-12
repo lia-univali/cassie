@@ -25,28 +25,27 @@ class ImageChooserForm extends React.Component {
   createItems() {
     const {
       images = [],
-      //formatter = x => String(x)
     } = this.props;
 
     return images.map((image, i) => {
       return (
         <MenuItem key={i} disabled={this.isDisabled(i)} value={i}>
-          {image}
+          {image.shortname + "/" + image.date}
         </MenuItem>
       );
     });
   }
 
   render() {
-    const { onLoadRequested = () => {} } = this.props;
+    const { onLoadRequested = () => { } } = this.props;
 
     return (
       <form>
-        <FormControl style={{marginRight: spacing.unit * 2}}>
+        <FormControl style={{ marginRight: spacing.unit * 2 }}>
           <InputLabel htmlFor="image-select">Imagem</InputLabel>
           <Select
-            input={<Input name="image" id="image-select"/>}
-            onChange={e => this.setState({index: e.target.value})}
+            input={<Input name="image" id="image-select" />}
+            onChange={e => this.setState({ index: e.target.value })}
             value={this.state.index}
           >
             {this.createItems()}

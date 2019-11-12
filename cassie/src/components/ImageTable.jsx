@@ -8,50 +8,46 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { sequence } from 'common/utils';
-import SatelliteImageThumbnail from 'components/SatelliteImageThumbnail';
+import { sequence } from '../common/utils';
+import SatelliteImageThumbnail from './SatelliteImageThumbnail';
 
 class ImageTable extends React.Component {
   constructor(props) {
     super(props);
 
-    const getMetadata = (date, key) => {
-      const m = this.props.metadata[date];
+    const getMetadata = (image, key) => {
+      const m = this.props.metadata.find(value => value.date === image.date && value.missionName === image.name)
       return m === undefined ? undefined : m[key];
     }
 
-    console.log(this.props.metadata)
-
     this.columns = [
-      {label: "ID", selector: date => date},
-      // {label: "Data", selector: date => date.properties["system:time_start"]},
-      {label: "Nuvens", selector: date => (this.props.images[date] * 100).toFixed(1) + "%", getValue: date => this.props.images[date]},
-      {label: "Miniatura", selector: date => <SatelliteImageThumbnail url={getMetadata(date, "thumbnail")} height={125}/>},
+      { label: "ID", selector: index => this.props.images[index].shortname + "/" + this.props.images[index].date },
+      { label: "Nuvens", selector: index => (this.props.images[index].content * 100).toFixed(1) + "%", getValue: index => this.props.images[index].content },
+      { label: "Miniatura", selector: index => <SatelliteImageThumbnail url={getMetadata(this.props.images[index], "thumbnail")} height={125} /> },
     ];
 
     this.state = {
       page: 0,
       rows: 10,
-      sorted: sequence(Object.keys(props.images).length, 0)
+      sorted: sequence(props.images.length, 0)
     };
   }
 
   createRows() {
     const start = this.state.page * this.state.rows;
     const {
-      images = {},
+      images = [],
       selected = [],
-      onCheckboxChange = () => {},
+      onCheckboxChange = () => { },
     } = this.props;
 
     return this.state.sorted.slice(start, start + this.state.rows).map(v => {
-      console.log(v);
-      const image = Object.keys(images)[v] || {};
+      const image = images[v] || [];
 
       return (
         <TableRow key={v}>
           {this.columns.map((col, i) => (
-            <TableCell key={i}>{col.selector(image)}</TableCell>
+            <TableCell key={i}>{col.selector(v)}</TableCell>
           ))}
           <TableCell>
             <Checkbox checked={selected[v] === true}
@@ -67,7 +63,7 @@ class ImageTable extends React.Component {
     const col = this.columns[index];
     const { images } = this.props;
 
-    const dates = Object.keys(images);
+    const dates = images;
 
     let order = "desc";
     if (index === this.state.orderIndex && this.state.order === "desc") {
@@ -75,16 +71,14 @@ class ImageTable extends React.Component {
     }
 
     const sorted = sequence(dates.length, 0);
-    console.log(col);
     const retrieveValue = col.getValue || col.selector;
-    console.log(retrieveValue);
 
     sorted.sort((a, b) => {
       const val = retrieveValue(dates[a]) < retrieveValue(dates[b]) ? 1 : -1;
       return order === "desc" ? val : -val;
     });
 
-    this.setState({sorted, order, orderIndex: index});
+    this.setState({ sorted, order, orderIndex: index });
   }
 
   createColumns() {
@@ -118,14 +112,14 @@ class ImageTable extends React.Component {
         <TableFooter>
           <TableRow>
             <TablePagination colSpan={4}
-              count={Object.keys(this.props.images).length}
+              count={this.props.images.length}
               rowsPerPage={this.state.rows}
               page={this.state.page}
-              labelDisplayedRows={({from, to, count}) => `${from} a ${to} de ${count}`}
+              labelDisplayedRows={({ from, to, count }) => `${from} a ${to} de ${count}`}
               labelRowsPerPage="Imagens por página:"
               rowsPerPageOptions={[5, 10, 15, 20, 50]}
-              onChangePage={(e, page) => this.setState({page})}
-              onChangeRowsPerPage={(e) => this.setState({rows: e.target.value})}
+              onChangePage={(e, page) => this.setState({ page })}
+              onChangeRowsPerPage={(e) => this.setState({ rows: e.target.value })}
             />
           </TableRow>
         </TableFooter>

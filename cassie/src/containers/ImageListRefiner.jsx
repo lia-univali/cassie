@@ -1,39 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ImageTable from 'components/ImageTable';
-import StepperButtons from 'components/StepperButtons';
+import ImageTable from '../components/ImageTable';
+import StepperButtons from '../components/StepperButtons';
 import update from 'immutability-helper';
-import { datesBetween } from 'common/utils'
-import { FINALIZE } from 'containers/AcquisitionPage';
-import { loadThumbnails, setAvailableDates } from 'ducks/acquisition';
+import { datesBetween } from '../common/utils'
+import { FINALIZE } from './AcquisitionPage';
+import { loadThumbnails, setAvailableDates } from '../ducks/acquisition';
 
 class ImageListRefiner extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selected: Object.keys(props.dates).map(() => true)
+      selected: props.dates.map(() => true)
     };
   }
 
   handleChange(index, checked) {
     const selected = update(this.state.selected, {
-      [index]: {$set: checked}
+      [index]: { $set: checked }
     });
 
-    this.setState({selected});
+    this.setState({ selected });
   }
 
   handleFinish() {
-    const filtered = Object.keys(this.props.dates).filter((image, i) => this.state.selected[i] === true);
+    const filtered = this.props.dates.filter((image, i) => this.state.selected[i] === true);
 
-    const dict = {};
-
-    filtered.forEach(date => {
-      dict[date] = this.props.dates[date];
-    });
-
-    this.props.setAvailableDates(dict);
+    this.props.setAvailableDates(filtered);
   }
 
   componentDidMount() {
@@ -65,6 +59,7 @@ const connector = connect(state => ({
   dates: state.acquisition.availableDates,
   start: state.acquisition.start,
   end: state.acquisition.end,
+  missions: state.acquisition.missions
 }), { loadThumbnails, setAvailableDates });
 
 export default connector(ImageListRefiner);

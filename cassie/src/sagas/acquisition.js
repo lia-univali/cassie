@@ -1,10 +1,10 @@
 import { take, all, select, put, actionChannel } from 'redux-saga/effects';
 import { buffers } from 'redux-saga';
 import { cancellable, evaluate } from './sagaUtils';
-import { processCollection, acquireFromDate } from 'procedures/acquisition';
-import { login } from 'actions/user';
-import * as Acquisition from 'actions/acquisition';
-import * as Imagery from 'actions/imagery';
+import { processCollection, acquireFromDate } from '../procedures/acquisition';
+import { login } from '../actions/user';
+import * as Acquisition from '../actions/acquisition';
+import * as Imagery from '../actions/imagery';
 
 const ee = window.ee;
 
@@ -42,7 +42,7 @@ function* computeCloudScoreWatcher() {
     const image = acquireFromDate(count, collection, geometry);
     const cloudRatio = calculateCloudRatio(image, geometry, bands);
 
-    const result = image.set({cloudRatio});
+    const result = image.set({ cloudRatio });
 
     const start = Date.now();
     console.log(yield evaluate(result));
@@ -77,10 +77,10 @@ function* loadTestStateWatcher() {
     yield take("LOAD_TEST_STATE");
 
     const coordinates = [
-      [-48.775177001953125,-26.708813412005927],
-      [-48.497772216796875,-26.708813412005927],
-      [-48.497772216796875,-26.907375462719227],
-      [-48.775177001953125,-26.907375462719227]
+      [-48.775177001953125, -26.708813412005927],
+      [-48.497772216796875, -26.708813412005927],
+      [-48.497772216796875, -26.907375462719227],
+      [-48.775177001953125, -26.907375462719227]
     ];
 
     yield put(login())

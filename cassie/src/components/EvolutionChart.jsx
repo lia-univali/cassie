@@ -1,7 +1,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { fromEpoch } from 'common/utils';
-import { FeatureType } from 'common/metadata';
+import { fromEpoch } from '../common/utils';
+import { FeatureType } from '../common/metadata';
 
 class EvolutionChart extends React.Component {
   createData() {
@@ -10,7 +10,7 @@ class EvolutionChart extends React.Component {
       x = [],
       y = [],
       label = "Valor",
-     } = this.props;
+    } = this.props;
 
     return {
       labels: x,
@@ -69,7 +69,7 @@ class EvolutionChart extends React.Component {
 
     return (
       <div>
-        <Line data={this.createData()} options={this.createOptions()} width={width} height={height}/>
+        <Line data={this.createData()} options={this.createOptions()} width={width} height={height} />
       </div>
     );
   }

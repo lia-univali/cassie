@@ -1,6 +1,6 @@
 import React from "react";
 import { Line, Bar } from "react-chartjs-2";
-import { registerDialog } from "containers/DialogRoot";
+import { registerDialog } from "./DialogRoot";
 import { exportCSV, exportJSON, exportCoordinates } from "../common/utils";
 import moment from "moment";
 import Typography from "@material-ui/core/Typography";
@@ -13,7 +13,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import TransectDataTable from "containers/TransectDataTable";
+import TransectDataTable from "./TransectDataTable";
 import { Menu, MenuItem } from "@material-ui/core";
 
 import Export from "../services/Export";
@@ -132,7 +132,7 @@ class CoastlineEvolutionDialog extends React.Component {
                 >
                   Exportar JSON
                 </MenuItem>
-                <MenuItem onClick={() => {}}>Exportar Shapefile</MenuItem>
+                <MenuItem onClick={() => { }}>Exportar Shapefile</MenuItem>
               </Menu>
             </div>
           )}

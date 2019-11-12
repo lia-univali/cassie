@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { highlight, clearHighlight } from 'ducks/map';
+import { highlight, clearHighlight } from '../ducks/map';
 
 class ShapeList extends React.Component {
   createItems() {

@@ -1,12 +1,12 @@
 import React from 'react';
 import { compose } from 'redux';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import StepperButtons from 'components/StepperButtons';
+import StepperButtons from '../components/StepperButtons';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
-import GoogleMap, { DEFAULT_ZOOM } from 'components/GoogleMap';
-import { withAcquisition, withMap } from 'actions';
-import * as Map from 'common/map';
+import GoogleMap, { DEFAULT_ZOOM } from '../components/GoogleMap';
+import { withAcquisition, withMap } from '../actions';
+import * as Map from '../common/map';
 
 class AOIChooser extends React.Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class AOIChooser extends React.Component {
       Map.hideElement(this.wrs);
     }
 
-    this.setState({visible});
+    this.setState({ visible });
   }
 
   handleZoomChange(zoomLevel) {
@@ -40,7 +40,7 @@ class AOIChooser extends React.Component {
       this.changeDelimiterVisibility(visible);
     }
 
-    this.setState({zoomLevel, switchDisabled: visible === false});
+    this.setState({ zoomLevel, switchDisabled: visible === false });
   }
 
   componentDidMount() {
@@ -51,18 +51,18 @@ class AOIChooser extends React.Component {
   }
 
   componentWillUnmount() {
-    Map.onZoomChange(() => {});
+    Map.onZoomChange(() => { });
   }
 
   handleDrawing(overlay, coordinates) {
-    this.setState({overlay, coordinates});
+    this.setState({ overlay, coordinates });
 
     Map.setDrawingControlsVisible(false);
   }
 
   handleUndo() {
     this.state.overlay.setMap(null);
-    this.setState({overlay: undefined, coordinates: undefined});
+    this.setState({ overlay: undefined, coordinates: undefined });
 
     Map.setDrawingControlsVisible(true);
   }
@@ -99,7 +99,7 @@ class AOIChooser extends React.Component {
             <Switch
               checked={visible}
               disabled={switchDisabled}
-              onChange={e => this.handleSwitchChange(e)}/>
+              onChange={e => this.handleSwitchChange(e)} />
           }
         />
         <GoogleMap

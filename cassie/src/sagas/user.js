@@ -1,7 +1,7 @@
 import { push } from 'react-router-redux';
 import { take, all, put, call, select } from 'redux-saga/effects';
-import { loadUser, CLIENT_ID } from 'actions/user';
-import { displayTask, hideNotification } from 'actions/notification';
+import { loadUser, CLIENT_ID } from '../actions/user';
+import { displayTask, hideNotification } from '../actions/notification';
 
 const ee = window.ee;
 
@@ -53,7 +53,7 @@ function* loginWatcher() {
     } else {
 
       try {
-        const result = yield authInterface.signIn({scope: "https://www.googleapis.com/auth/earthengine"});
+        const result = yield authInterface.signIn({ scope: "https://www.googleapis.com/auth/earthengine" });
         console.log(result);
 
         yield call(completeAuthentication, destination);

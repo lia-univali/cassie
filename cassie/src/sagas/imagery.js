@@ -5,19 +5,19 @@ import {
   getSatelliteCollection,
   imageToKey,
   simplify
-} from "common/eeUtils";
+} from "../common/eeUtils";
 import { createImage } from "./operations";
-import { Layer } from "common/classes";
-import { makeTriangle } from "common/utils";
+import { Layer } from "../common/classes";
+import { makeTriangle } from "../common/utils";
 import { cancellable, evaluate } from "./sagaUtils";
-import { acquireFromDate } from "procedures/acquisition";
+import { acquireFromDate } from "../procedures/acquisition";
 import {
   generateOrthogonalTransects,
   computeDistance
-} from "procedures/coastline";
-import * as Indices from "common/indices";
-import * as Imagery from "actions/imagery";
-import * as Map from "common/map";
+} from "../procedures/coastline";
+import * as Indices from "../common/indices";
+import * as Imagery from "../actions/imagery";
+import * as Map from "../common/map";
 
 const ee = window.ee;
 
@@ -37,7 +37,7 @@ function findLayer(parent, layer, images) {
 }
 
 function* onLoadImage() {
-  yield takeEvery("LOAD_IMAGE", function*({ date, extras }) {
+  yield takeEvery("LOAD_IMAGE", function* ({ date, extras }) {
     const { geometry, satellite, index } = yield select(state => ({
       geometry: state.acquisition.geometry,
       satellite: state.acquisition.satellite,
@@ -76,7 +76,7 @@ function lookup(description, state) {
 }
 
 function* onAddCustomLayer() {
-  yield takeEvery("ADD_CUSTOM_LAYER", function*({
+  yield takeEvery("ADD_CUSTOM_LAYER", function* ({
     expression,
     title,
     params,
@@ -111,7 +111,7 @@ function* onAddCustomLayer() {
 }
 
 function* onInsertLayer() {
-  yield takeEvery("INSERT_LAYER", function*({ layer, parent }) {
+  yield takeEvery("INSERT_LAYER", function* ({ layer, parent }) {
     const index = yield select(
       state => layersUpTo(parent, state.imagery.images) - 1
     );

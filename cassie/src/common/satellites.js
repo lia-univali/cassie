@@ -1,37 +1,82 @@
 import Algorithms from '../procedures'
 import { formatDate, asPercentage } from "./utils";
-import sentinel2Thumb from "resources/Sentinel-2.jpg";
-import sentinel3Thumb from "resources/Sentinel-3.jpg";
-import landsatThumb from "resources/Landsat.jpg";
+import sentinel2Thumb from "../resources/Sentinel-2.jpg";
+import sentinel3Thumb from "../resources/Sentinel-3.jpg";
+import landsatThumb from "../resources/Landsat.jpg";
 
 const dateToString = date => {
   return formatDate(date, true);
 };
 
-/* Single Satellite Mission */
-const Mission = (name, cycle, startYear, endYear, opticalResolution, bands, vizParams, properties, algorithms) => {
-  return {
-    name, cycle, startYear, endYear, opticalResolution, bands, vizParams, properties, algorithms
+/* Single Satellite Mission Constructor */
+const Mission = (name, shortname, cycle, startYear, endYear, opticalResolution, bands, vizParams, properties, algorithms) => {
+
+  /* Unite params */
+  const union = {
+    name, shortname, cycle, startYear, endYear, opticalResolution, bands, vizParams, properties
   }
+
+  /*
+    Bind each algorithm to the collection name (mission name)
+    as all of them are built on a currying manner.
+    method = mission => (...) => {}
+             ^^^^^^^^^^
+  */
+  const boundAlgorithms = {};
+  Object.keys(algorithms).forEach(key => { boundAlgorithms[key] = algorithms[key](union) });
+
+  return { ...union, algorithms: boundAlgorithms };
 }
 
 /* Satellite Mission Collection */
 const MissionCollection = (name, provider, image, missions) => {
-  return {
+
+  /* Unite params */
+  const union = {
     name, provider, image, missions
   }
+
+  /* Create a summary of this Mission Collection */
+  const summary = {
+    cycle: union.missions.reduce((last, mission) => mission.cycle, null),
+
+    startYear: union.missions.reduce((last, mission) => {
+      return last ? Math.min(last, mission.startYear) : mission.startYear
+    }, null),
+
+    endYear: union.missions.some(mission => mission.endYear === null)
+      ? null
+      : union.missions.reduce((last, mission) => {
+        return last ? Math.max(last, mission.endYear) : mission.endYear
+      }, null),
+
+    opticalResolution: union.missions.reduce((last, mission) => mission.opticalResolution, null)
+  }
+
+  /* Construct methods */
+  const methods = {
+
+    /* Retrieve mission by name */
+    get: name => {
+      const [first] = union.missions.filter(mission => mission.name === name);
+      return first;
+    },
+  }
+
+  return { ...union, summary, ...methods };
 }
 
-const standard = [
+export const standard = [
   /* SENTINEL 2 */
-  MissionCollection (
+  MissionCollection(
     'Sentinel-2',
     'ESA',
     sentinel2Thumb,
     [
       /* SENTINEL 2 */
-      Mission (
+      Mission(
         'COPERNICUS/S2',
+        'S2',
         10,
         2013,
         null,
@@ -40,22 +85,23 @@ const standard = [
         { max: 4000, min: 128 },
         { cloudCoverProperty: "CLOUDY_PIXEL_PERCENTAGE" },
         {
-          query: Algorithms.Satellite.Sentinel.queryAvailable,
-          get: Algorithms.Satellite.Sentinel.getAvailable
+          queryAvailable: Algorithms.Satellite.Sentinel.queryAvailable,
+          getAvailable: Algorithms.Satellite.Sentinel.getAvailable
         }
       )
     ],
   ),
 
   /* LANDSATS */
-  MissionCollection (
+  MissionCollection(
     'Landsat',
     'USGS/NASA',
     landsatThumb,
     [
       /* SENTINEL 5 */
-      Mission (
+      Mission(
         "LANDSAT/LT05/C01/T1_SR",
+        'LT05',
         16,
         1984,
         2012,
@@ -64,14 +110,16 @@ const standard = [
         { gain: "0.1,0.1,0.1" },
         { cloudCoverProperty: 'CLOUD_COVER' },
         {
-          query: Algorithms.Satellite.Landsat.queryAvailable,
-          get: Algorithms.Satellite.Landsat.getAvailable
+          queryAvailable: Algorithms.Satellite.Landsat.queryAvailable,
+          getAvailable: Algorithms.Satellite.Landsat.getAvailable,
+          acquire: Algorithms.Satellite.Landsat.acquire
         }
       ),
 
       /* SENTINEL 7 */
-      Mission (
+      Mission(
         "LANDSAT/LE07/C01/T1_SR",
+        'LE07',
         16,
         1999,
         null,
@@ -80,14 +128,16 @@ const standard = [
         { gain: "0.1,0.1,0.1" },
         { cloudCoverProperty: 'CLOUD_COVER' },
         {
-          query: Algorithms.Satellite.Landsat.queryAvailable,
-          get: Algorithms.Satellite.Landsat.getAvailable
+          queryAvailable: Algorithms.Satellite.Landsat.queryAvailable,
+          getAvailable: Algorithms.Satellite.Landsat.getAvailable,
+          acquire: Algorithms.Satellite.Landsat.acquire
         }
       ),
 
       /* SENTINEL 8 */
-      Mission (
+      Mission(
         "LANDSAT/LC08/C01/T1_SR",
+        'LC08',
         16,
         2013,
         null,
@@ -96,14 +146,13 @@ const standard = [
         { gain: "0.1,0.1,0.1" },
         { cloudCoverProperty: 'CLOUD_COVER' },
         {
-          query: Algorithms.Satellite.Landsat.queryAvailable,
-          get: Algorithms.Satellite.Landsat.getAvailable
+          queryAvailable: Algorithms.Satellite.Landsat.queryAvailable,
+          getAvailable: Algorithms.Satellite.Landsat.getAvailable,
+          acquire: Algorithms.Satellite.Landsat.acquire
         }
       )
     ]
   )
-
-
 ];
 
 const satellites = [
@@ -209,5 +258,5 @@ export const getAll = () => {
 };
 
 export const get = index => {
-  return satellites[index];
+  return standard[index];
 };

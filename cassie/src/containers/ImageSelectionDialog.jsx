@@ -1,6 +1,6 @@
 import React from 'react';
-import { registerDialog } from 'containers/DialogRoot';
-import ImageTable from 'components/ImageTable';
+import { registerDialog } from './DialogRoot';
+import ImageTable from '../components/ImageTable';
 import update from 'immutability-helper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -14,8 +14,6 @@ function datesChanged(previousDates, currentDates) {
     if (previousDates === undefined) {
       return true;
     } else {
-      [ previousDates, currentDates ] = [previousDates, currentDates].map(Object.keys);
-
       return previousDates.length !== currentDates.length
     }
   }
@@ -26,31 +24,38 @@ function datesChanged(previousDates, currentDates) {
 class ImageSelectionDialog extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      dates: props.dates
+    };
+  }
 
-    this.state = {};
+  updateDates(dates) {
+    this.setState({ dates })
   }
 
   handleChange(index, checked) {
     const selected = update(this.state.selected, {
-      [index]: {$set: checked}
+      [index]: { $set: checked }
     });
 
-    this.setState({selected});
+    this.setState({ selected });
   }
 
   handleFinish() {
-    const filtered = Object.keys(this.props.dates).filter((image, i) => this.state.selected[i] === true);
+    const filtered = this.props.dates.filter((image, i) => this.state.selected[i] === true);
     this.props.publish(filtered);
   }
 
   componentDidUpdate(prevProps) {
     if (datesChanged(prevProps.dates, this.props.dates)) {
-      this.setState({selected: Object.keys(this.props.dates).map(() => true)});
+      this.setState({ selected: this.props.dates.map(() => true) });
+      this.updateDates(this.props.dates)
     }
   }
 
   render() {
-    const { close, open, metadata, dates } = this.props;
+    const { close, open, metadata } = this.props;
+    const { dates } = this.state
 
     return (
       <Dialog open={open} maxWidth="md" onClose={() => close()}>
@@ -76,5 +81,6 @@ class ImageSelectionDialog extends React.Component {
 
 export default registerDialog("imageSelection", state => ({
   dates: state.acquisition.availableDates,
+  missions: state.acquisition.missions,
   metadata: state.acquisition.metadata,
 }))(ImageSelectionDialog);

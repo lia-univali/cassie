@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { isDialogOpen } from 'selectors';
-import { closeDialog, publishOutcome } from 'ducks/dialog';
+import { isDialogOpen } from '../selectors';
+import { closeDialog, publishOutcome } from '../ducks/dialog';
 
 const registeredDialogs = {};
 window.rd = registeredDialogs;
@@ -11,7 +11,7 @@ class DialogRoot extends React.Component {
     return Object.keys(registeredDialogs).map(k => {
       const Component = registeredDialogs[k];
 
-      return <Component key={k}/>;
+      return <Component key={k} />;
     });
   }
 
@@ -29,7 +29,7 @@ export default connect(state => ({
 }))(DialogRoot);
 
 export function registerDialog(name, mapStateToProps = () => ({}), actionCreators = {}) {
-  return function(Component) {
+  return function (Component) {
     const close = () => closeDialog(name);
     const publish = payload => publishOutcome(name, payload);
 

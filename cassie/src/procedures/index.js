@@ -1,7 +1,7 @@
 import Satellite from './satellite'
-import Coastline from './coastline'
-import Acquisition from './acquisition'
-import Common from './common'
+import * as Coastline from './coastline'
+import * as Acquisition from './acquisition'
+import * as Common from './common'
 
 export default {
   Satellite,

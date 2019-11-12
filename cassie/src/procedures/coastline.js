@@ -1,11 +1,8 @@
-import { computeBearing, computeDisplacement } from "common/geodesy";
-import { evaluate } from "../common/sagaUtils";
-import { combineReducers } from "common/eeUtils";
+import { computeBearing, computeDisplacement } from "../common/geodesy";
+import { combineReducers } from "../common/eeUtils";
 import { extractOcean, smoothLineString } from "./imagery";
-import { acquireFromDate } from "./acquisition";
-import * as Metadata from "common/metadata";
-import { EPOCH } from "common/utils";
-import { getSatelliteCollection } from "../common/eeUtils";
+import * as Metadata from "../common/metadata";
+import { EPOCH } from "../common/utils";
 
 const ee = window.ee;
 
@@ -101,19 +98,31 @@ function transectAccumulator(step, extent) {
  * @return {ee.FeatureCollection} a collection of polygons
  */
 export function computeCoastlines(dates, satellite, geometry, threshold = 0) {
-  const collection = getSatelliteCollection(satellite);
+  console.log("COMPUTE COASTLINES", dates)
 
-  const images = ee.List(
-    dates.map(date => acquireFromDate(date, collection, geometry))
-  );
+  const [head, ...tail] = satellite.missions.map(mission => {
+    const images = ee.List(
+      dates
+        .filter(date => date.name === mission.name)
+        .map(date => mission.algorithms.acquire(date.date, geometry))
+    );
 
-  const oceans = images.map(image => {
-    image = ee.Image(image).clip(geometry);
-    const ocean = extractOcean(image, satellite, geometry, threshold);
-    return ocean;
+    const oceans = images.map(image => {
+      image = ee.Image(image).clip(geometry);
+      const ocean = extractOcean(image, mission.bands, geometry, threshold);
+      return ocean;
+    });
+
+    return ee.FeatureCollection(oceans);
   });
 
-  return ee.FeatureCollection(oceans);
+  let collection = head;
+
+  tail.forEach(fc => {
+    collection = collection.merge(fc)
+  })
+
+  return collection;
 }
 
 /**
@@ -326,10 +335,10 @@ export function generateOrthogonalTransects(
 
   transects = ee.FeatureCollection(transects)
   transects = ee.Algorithms.If(
-      ee.Algorithms.IsEqual(transects.size(), 0),
-      ee.List([]),
-      transects.toList(transects.size())
-    );
+    ee.Algorithms.IsEqual(transects.size(), 0),
+    ee.List([]),
+    transects.toList(transects.size())
+  );
 
   return ee.List(transects);
 }

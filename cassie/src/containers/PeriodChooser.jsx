@@ -1,16 +1,17 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import TimePeriodSelector from 'components/TimePeriodSelector';
+import TimePeriodSelector from '../components/TimePeriodSelector';
 import lastItem from 'lodash/last';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import StepperButtons from 'components/StepperButtons';
-import CloudSelector from 'components/CloudSelector';
+import StepperButtons from '../components/StepperButtons';
+import CloudSelector from '../components/CloudSelector';
 import ActivityIndicator from './ActivityIndicator.jsx';
-import { formatDate, formatDateDiff, datesBetween } from 'common/utils';
-import { withAcquisition } from 'actions';
-import { space } from 'theme';
+import { formatDate, formatDateDiff, datesBetween } from '../common/utils';
+import { withAcquisition } from '../actions';
+import { space } from '../theme';
+import { uniteMissionsDates, summarizeMissionsDates } from '../common/algorithms';
 
 class PeriodChooser extends React.Component {
   constructor(props) {
@@ -21,11 +22,9 @@ class PeriodChooser extends React.Component {
     };
 
     if (props.dates !== undefined) {
-      const dates = Object.keys(props.dates);
-
       this.state = {
-        start: dates[0],
-        end: lastItem(dates),
+        start: props.dates[0].date,
+        end: lastItem(props.dates).date,
       };
     }
   }
@@ -36,51 +35,39 @@ class PeriodChooser extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dates !== undefined) {
-      const dates = Object.keys(nextProps.dates);
+      const dates = nextProps.dates;
 
-      this.setState({start: dates[0], end: lastItem(dates)});
+      this.setState({ start: dates[0].date, end: lastItem(dates).date });
     }
   }
 
   handleNext() {
-    console.log(this.state);
-    const dict = {};
+    const { start, end } = this.state;
+    const dates = this.selectDates().filter(entry => entry.date >= start && entry.date <= end);
 
-    const {start, end} = this.state;
-    this.selectDates().forEach(date => {
-      if (date >= start && date <= end)      // not the optimal solution, dict should be an array, so we'd filter it.
-        dict[date] = this.props.dates[date];
-    });
-
-    //dict.filter(date => date >= start && date <= end); // dict is actually a dict
-
-    this.props.acquisition.setAvailableDates(dict);
+    this.props.acquisition.setAvailableDates(dates);
   }
 
   selectDates() {
-    return Object.keys(this.props.dates).filter(date => {
-      const clouds = this.props.dates[date];
-      return clouds <= this.state.cloudLevel;
-    });
+    return uniteMissionsDates(this.props.missions)
+      .filter(entry => entry.content <= this.state.cloudLevel);
   }
 
   render() {
     const { start, end } = this.state;
     const { dates: dict, navigate, classes, working } = this.props;
 
-    //console.log(images);
-
     if (working === true || dict === undefined) {
-      return <ActivityIndicator textual/>
+      return <ActivityIndicator textual />
     }
 
-    const dates = this.selectDates(dict);
+    const dates = this.selectDates(dict).map(entry => entry.date);
     const length = datesBetween(dates, start, end).length;
 
     return (
       <div className="vcenter flow-column margin-above">
         <TimePeriodSelector dates={dates} start={start} end={end}
-          onChange={(start, end) => this.setState({start, end})}
+          onChange={(start, end) => this.setState({ start, end })}
         />
 
         <div className={classes.description}>
@@ -94,10 +81,10 @@ class PeriodChooser extends React.Component {
 
         <CloudSelector
           level={this.state.cloudLevel}
-          onChange={cloudLevel => this.setState({cloudLevel})}
+          onChange={cloudLevel => this.setState({ cloudLevel })}
         />
 
-        <StepperButtons navigate={navigate} onNext={() => this.handleNext()}/>
+        <StepperButtons navigate={navigate} onNext={() => this.handleNext()} />
       </div>
     );
   }
@@ -111,6 +98,7 @@ const style = {
 
 const connector = connect(state => ({
   dates: state.acquisition.availableDates,
+  missions: state.acquisition.missions,
   working: state.common.working,
 }));
 

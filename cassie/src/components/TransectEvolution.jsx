@@ -1,6 +1,6 @@
 import React from "react";
-import EvolutionChart from "components/EvolutionChart";
-import { fromEpoch } from "common/utils";
+import EvolutionChart from "./EvolutionChart";
+import { fromEpoch } from "../common/utils";
 import Typography from "@material-ui/core/Typography";
 
 const generateRegression = (slope, intercept, x) => {

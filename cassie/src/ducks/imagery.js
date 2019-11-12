@@ -13,24 +13,23 @@ import {
   createConcurrentHandler,
   cancellable,
   evaluate
-} from "common/sagaUtils";
-import { asPromise, generateColors, interpolateColors } from "common/utils";
+} from "../common/sagaUtils";
+import { asPromise, generateColors, interpolateColors } from "../common/utils";
 import {
   applyExpression,
   getSatelliteCollection,
   combineReducers
-} from "common/eeUtils";
+} from "../common/eeUtils";
 import { pushResult } from "./results";
 import { openAndWait, openDialog } from "./dialog";
 import * as Map from "./map";
-import { ConcreteLayer } from "common/classes";
-import * as Selectors from "selectors";
-import * as Metadata from "common/metadata";
-import * as Coastline from "procedures/coastline";
-import { extractOcean, generateLayer } from "procedures/imagery";
-import { computeBearing } from "common/geodesy";
-import { acquireFromDate } from "procedures/acquisition";
-import { otsuThreshold } from "../common/algorithms";
+import { ConcreteLayer } from "../common/classes";
+import * as Selectors from "../selectors";
+import * as Metadata from "../common/metadata";
+import * as Coastline from "../procedures/coastline";
+import { extractOcean, generateLayer } from "../procedures/imagery";
+import { computeBearing } from "../common/geodesy";
+import { acquireFromDate } from "../procedures/acquisition";
 
 const ee = window.ee;
 
@@ -45,8 +44,8 @@ const COMMIT_CHANGE = "cassie/imagery/COMMIT_CHANGE";
 const ANALYZE_COASTLINE = "cassie/imagery/ANALYZE_COASTLINE";
 const REQUEST_EXPRESSION = "cassie/imagery/REQUEST_EXPRESSION";
 
-export const pushImage = (name, date) => {
-  return { type: PUSH_IMAGE, name, date };
+export const pushImage = (name, date, missionName) => {
+  return { type: PUSH_IMAGE, name, date, missionName };
 };
 
 export const analyzeCoastline = () => {
@@ -115,6 +114,7 @@ export default function reducer(state = initialState, action) {
           $set: {
             name: action.name,
             date: action.date,
+            missionName: action.missionName,
             layers: {}
           }
         }
@@ -410,17 +410,14 @@ function* handleRequestExpression({ parent }) {
   const { geometry, satellite } = yield select(
     Selectors.getAcquisitionParameters
   );
-  const date = yield select(state => state.imagery.images[parent].date);
-  const image = acquireFromDate(
-    date,
-    getSatelliteCollection(satellite),
-    geometry
-  );
+  const { date, missionName } = yield select(state => state.imagery.images[parent]);
 
-  const modified = applyExpression(image, expression, satellite.bands);
+  const mission = satellite.get(missionName);
+  const image = mission.algorithms.acquire(date, geometry);
+
+  const modified = applyExpression(image, expression, mission.bands);
   const layer = generateLayer(modified, satellite, name, {});
 
-  console.log(parent);
   yield put(loadLayer(layer, parent));
 }
 

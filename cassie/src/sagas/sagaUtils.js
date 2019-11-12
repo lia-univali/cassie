@@ -1,7 +1,7 @@
-import {  race, put, take, } from 'redux-saga/effects'
-import { open, close } from 'actions/modal';
-import { evaluate as evaluateQuery } from 'common/eeUtils';
-import { asPromise } from 'common/utils';
+import { race, put, take, } from 'redux-saga/effects'
+import { open, close } from '../actions/modal';
+import { evaluate as evaluateQuery } from '../common/eeUtils';
+import { asPromise } from '../common/utils';
 
 export function* cancellable(effect) {
   const { result, cancellation } = yield race({
@@ -19,9 +19,9 @@ export function* cancellable(effect) {
 export function* evaluate(query) {
   const promise = asPromise(evaluateQuery(query));
 
-  yield put({type: "BEGIN_EVALUATION"});
+  yield put({ type: "BEGIN_EVALUATION" });
   const result = yield promise;
-  yield put({type: "END_EVALUATION"});
+  yield put({ type: "END_EVALUATION" });
   return result;
 }
 

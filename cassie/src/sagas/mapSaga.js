@@ -1,7 +1,7 @@
 import { select, put, take, race, all } from 'redux-saga/effects';
-import { clearDetectedRegions, updateVisibility, raw } from 'actions/basic';
+import { clearDetectedRegions, updateVisibility, raw } from '../actions/basic';
 import lastItem from 'lodash/last';
-import * as Map from 'common/map';
+import * as Map from '../common/map';
 
 const ee = window.ee;
 
@@ -9,7 +9,7 @@ function* addLayerWatcher() {
   while (true) {
     const { layer } = yield take("ADD_LAYER");
     const layers = yield select(state => state.data.images[layer.parentIndex].layers);
-    
+
     Map.addLayer(layer.overlay, lastItem(layers));
   }
 }
@@ -45,7 +45,7 @@ function* removeRegionWatcher() {
     geometry.setMap(null);
 
     Map.setDrawingControlsVisible(true);
-    yield put({type: "REMOVE_REGION"});
+    yield put({ type: "REMOVE_REGION" });
 
     yield put(clearDetectedRegions());
   }
@@ -57,7 +57,7 @@ function* setRegionWatcher() {
     const eeGeometry = ee.Geometry.Polygon([payload.coordinates]);
 
     Map.setDrawingControlsVisible(false);
-    yield put({type: "SET_REGION", payload: {geometry: payload.geometry, eeGeometry}});
+    yield put({ type: "SET_REGION", payload: { geometry: payload.geometry, eeGeometry } });
   }
 }
 
@@ -129,7 +129,7 @@ function* shapeAssignmentWatcher() {
       return Map.addShape(region.geometry.coordinates, region.color, 0.8, isMulti);
     });
 
-    yield put(raw("ASSIGN_SHAPES", {shapes}));
+    yield put(raw("ASSIGN_SHAPES", { shapes }));
   }
 }
 

@@ -6,7 +6,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { withStyles } from '@material-ui/core/styles';
 import Button from './Button';
 import Typography from '@material-ui/core/Typography';
-import { space } from 'theme';
+import { space } from '../theme';
 
 const SatelliteCard = (props) => {
   const { classes, name, image, resolution, startYear, endYear, provider, cycle, onChoose } = props;

@@ -6,8 +6,8 @@ import TableBody from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/Table';
-import DialogActions from 'components/DialogActions';
-import BasicDialog from 'components/BasicDialog';
+import DialogActions from './DialogActions';
+import BasicDialog from './BasicDialog';
 
 const CompactJsonView = (props) => (
   <JsonView {...props}
@@ -27,8 +27,8 @@ class MetadataDialog extends React.Component {
         <TableRow key={i} hover>
           <TableCell>{k}</TableCell>
           <TableCell>
-            {typeof(data[k]) === "object"
-              ? <CompactJsonView src={data[k]}/>
+            {typeof (data[k]) === "object"
+              ? <CompactJsonView src={data[k]} />
               : data[k]
             }
           </TableCell>
@@ -57,7 +57,7 @@ class MetadataDialog extends React.Component {
           </Table>
         </DialogContent>
 
-        <DialogActions withCancel="Fechar"/>
+        <DialogActions withCancel="Fechar" />
       </BasicDialog>
     );
   }

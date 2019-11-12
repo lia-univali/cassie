@@ -8,8 +8,8 @@ import { List, ListItem } from '@material-ui/core';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import { analyzeCoastline } from 'ducks/imagery';
-import { openDialog } from 'ducks/dialog';
+import { analyzeCoastline } from '../ducks/imagery';
+import { openDialog } from '../ducks/dialog';
 
 class ActionList extends React.Component {
   render() {
@@ -19,13 +19,13 @@ class ActionList extends React.Component {
       <List>
         <ListItem button onClick={() => this.props.analyzeCoastline()}>
           <ListItemAvatar>
-            <Avatar><Waves/></Avatar>
+            <Avatar><Waves /></Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Analisar linhas de costa" style={{paddingRight: 48}}/>
+          <ListItemText primary="Analisar linhas de costa" style={{ paddingRight: 48 }} />
           {"coastlineData" in this.props.results &&
             <ListItemSecondaryAction>
               <IconButton aria-label="results" onClick={() => this.props.openDialog("coastlineEvolution")}>
-                <Assignment/>
+                <Assignment />
               </IconButton>
             </ListItemSecondaryAction>
           }

@@ -1,6 +1,6 @@
 import { take, all, put } from 'redux-saga/effects';
 import { dialog } from './sagaUtils';
-import * as Imagery from 'actions/imagery';
+import * as Imagery from '../actions/imagery';
 
 function* onNewCustomLayer() {
   while (true) {

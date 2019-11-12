@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { registerDialog } from 'containers/DialogRoot';
+import { registerDialog } from './DialogRoot';
 
 class CoastlineConfigDialog extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class CoastlineConfigDialog extends React.Component {
 
   createHandler(name) {
     return event => {
-      this.setState({[name]: event.target.value})
+      this.setState({ [name]: event.target.value })
     };
   }
 
@@ -31,7 +31,7 @@ class CoastlineConfigDialog extends React.Component {
     return (
       <TextField type="number" label={label} value={value}
         onChange={this.createHandler(property)}
-        style={{margin: "10px 10px 0px"}}
+        style={{ margin: "10px 10px 0px" }}
       />
     )
   }
@@ -49,7 +49,7 @@ class CoastlineConfigDialog extends React.Component {
               em metros, e o coeficiente de limiarização (valores mais altos
               são mais rígidos quanto ao que é considerado um corpo de água).
             </DialogContentText>
-            <div style={{display: "flex", justifyContent: "space-evenly", marginTop: 16, "&>*": {padding: "10px"}}}>
+            <div style={{ display: "flex", justifyContent: "space-evenly", marginTop: 16, "&>*": { padding: "10px" } }}>
               {this.createInput("Espaçamento (m)", "spacing")}
               {this.createInput("Extensão (m)", "extent")}
               {this.createInput("Limiar", "threshold")}
@@ -59,7 +59,7 @@ class CoastlineConfigDialog extends React.Component {
             <Button color="primary" onClick={() => this.props.close()}>
               Cancelar
             </Button>
-            <Button color="primary" onClick={() => this.props.publish({spacing, extent, threshold})}>
+            <Button color="primary" onClick={() => this.props.publish({ spacing, extent, threshold })}>
               Confirmar
             </Button>
           </DialogActions>

@@ -6,12 +6,12 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import ExpandIcon from '@material-ui/icons/ExpandMore';
-import ImageActions from 'containers/ImageActions';
+import ImageActions from '../containers/ImageActions';
 import LayerViewer from './LayerViewer';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Add from '@material-ui/icons/AddCircleOutline';
-import { requestExpression } from 'ducks/imagery';
+import { requestExpression } from '../ducks/imagery';
 
 class ImageViewer extends React.Component {
   createTitle() {

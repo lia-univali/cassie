@@ -26,40 +26,40 @@ export const otsuThreshold = (histogramData) => {
   let thresholdMax = 0;
   var indexMax = 0;
   for (let t = 0; t < norm.length; t++) {
-      w0 += norm[t];
-      u0 += histogramData.bucketMeans[t] * norm[t];
-      let w1 = 0;
-      let u1 = 0;
-      if (w0 === 0) {
-          continue;
+    w0 += norm[t];
+    u0 += histogramData.bucketMeans[t] * norm[t];
+    let w1 = 0;
+    let u1 = 0;
+    if (w0 === 0) {
+      continue;
+    }
+    for (let z = t + 1; z < norm.length; z++) {
+      w1 += norm[z];
+      u1 += histogramData.bucketMeans[z] * norm[z];
+
+      const w2 = 1 - w0 - w1;
+
+      if (w1 * w2 === 0) {
+        continue;
       }
-      for (let z = t + 1; z < norm.length; z++) {
-          w1 += norm[z];
-          u1 += histogramData.bucketMeans[z] * norm[z];
 
-          const w2 = 1 - w0 - w1;
+      const m0 = u0 / w0;
+      const m1 = u1 / w1;
+      const m2 = (ut - u0 - u1) / w2;
 
-          if (w1 * w2 === 0) {
-              continue;
-          }
+      const between = w0 * Math.pow(m0 - ut, 2) +
+        w1 * Math.pow(m1 - ut, 2) +
+        w2 * Math.pow(m2 - ut, 2);
 
-          const m0 = u0 / w0;
-          const m1 = u1 / w1;
-          const m2 = (ut - u0 - u1) / w2;
-
-          const between = w0 * Math.pow(m0 - ut, 2) +
-                          w1 * Math.pow(m1 - ut, 2) +
-                          w2 * Math.pow(m2 - ut, 2);
-
-          if (between >= betweenMax) {
-              betweenMax = between;
-              thresholdMax = histogramData.bucketMeans[z];
-              indexMax = z;
-          }
+      if (between >= betweenMax) {
+        betweenMax = between;
+        thresholdMax = histogramData.bucketMeans[z];
+        indexMax = z;
       }
+    }
   }
 
-  return {thresholdMax, indexMax};
+  return { thresholdMax, indexMax };
 };
 
 export const improveThreshold = (initial, histogramData) => {
@@ -83,5 +83,48 @@ export const findOptimal = (arr, comparator, begin = 0, end = undefined) => {
     }
   }
 
-  return {index: opt, value: arr[opt]};
+  return { index: opt, value: arr[opt] };
+}
+
+export const summarizeMissionsDates = (missions, cloudThreshold = 1.0) => {
+  const dates = {}
+
+  missions.forEach(mission => {
+    Object.keys(mission.dates).forEach(date => {
+      if (mission.dates[date] <= cloudThreshold) {
+        dates[date] = date in dates ? dates[date] + 1 : 1;
+      }
+    })
+  })
+
+  return dates;
+}
+
+export const uniteMissionsDates = (missions) => {
+  const union = []
+
+  missions.forEach(mission => {
+    Object.keys(mission.dates).forEach(date => {
+      union.push({
+        name: mission.name,
+        shortname: mission.shortname,
+        date: date,
+        content: mission.dates[date]
+      })
+    })
+  })
+
+  return union;
+}
+
+export const sortMissionsDates = (dates) => {
+  return dates.sort((a, b) => new Date(a.date) - new Date(b.date));
+}
+
+export const uniqueMissionsDates = (dates) => {
+  return [...new Set(dates)]
+}
+
+export const aggregateMissionsDates = (missions) => {
+  return sortMissionsDates(uniteMissionsDates(missions));
 }

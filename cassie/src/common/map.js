@@ -1,7 +1,6 @@
-import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FeatureInfo from 'containers/FeatureInfo';
+import FeatureInfo from '../containers/FeatureInfo';
 
 let Map = undefined;
 const google = window.google;
@@ -9,7 +8,7 @@ const STYLE_KEY = "customStyle";
 const HIGHLIGHTED_KEY = "highlighted"
 
 let shapeId = 0;
-let infoWindow = new google.maps.InfoWindow({content: "Hello world!"});
+let infoWindow = new google.maps.InfoWindow({ content: "Hello world!" });
 
 export const initializeMap = (map) => {
   Map = map;
@@ -20,7 +19,7 @@ export const initializeMap = (map) => {
   Map.data.setStyle(feature => {
     const style = feature.getProperty(STYLE_KEY);
     if (feature.getProperty(HIGHLIGHTED_KEY) === true) {
-      return {...style, strokeWeight: style.strokeWeight + 4};
+      return { ...style, strokeWeight: style.strokeWeight + 4 };
     }
 
     return style;
@@ -63,9 +62,9 @@ export const initializeMap = (map) => {
   });
 
   Map.addListener('zoom_changed', () => {
-     if (Map.zoomChangeHandler) {
-       Map.zoomChangeHandler(Map.getZoom());
-     }
+    if (Map.zoomChangeHandler) {
+      Map.zoomChangeHandler(Map.getZoom());
+    }
   });
 
   Map.data.addListener("click", event => {
@@ -80,7 +79,7 @@ export const initializeMap = (map) => {
     console.log(event.feature);
 
     google.maps.event.addListenerOnce(infoWindow, 'domready', e => {
-      ReactDOM.render(<FeatureInfo data={properties}/>, document.getElementById("infowindow"));
+      ReactDOM.render(<FeatureInfo data={properties} />, document.getElementById("infowindow"));
     });
   });
 
@@ -113,7 +112,7 @@ export const addPolygon = (coordinates) => {
 
 export const addShape = (geoJson, color = "#FF0000", opacity = 0.5, type) => {
   geoJson.uid = shapeId++;
-  const shape = Map.data.addGeoJson(geoJson, {idPropertyName: "uid"})[0];
+  const shape = Map.data.addGeoJson(geoJson, { idPropertyName: "uid" })[0];
 
   shape.setProperty(STYLE_KEY, {
     fillOpacity: opacity,
@@ -158,7 +157,7 @@ export const removeShape = (shape) => {
 }
 
 export const centralize = (lat, lng) => {
-  Map.setCenter({lat, lng});
+  Map.setCenter({ lat, lng });
 };
 
 export const drawOutline = (coordinates) => {
@@ -186,7 +185,7 @@ export const setOpacity = (layer, value) => {
 }
 
 export const toLatLng = (coordinates) => {
-  return coordinates.map(coord => ({lat: coord[1], lng: coord[0]}));
+  return coordinates.map(coord => ({ lat: coord[1], lng: coord[0] }));
 }
 
 export const toCoordinates = (latLngArray) => {
@@ -256,8 +255,8 @@ export const extractCoordinates = (object, type) => {
   if (type === 'rectangle') {
     const ne = object.getBounds().getNorthEast().toJSON();
     const sw = object.getBounds().getSouthWest().toJSON();
-    const nw = {lat: ne.lat, lng: sw.lng};
-    const se = {lat: sw.lat, lng: ne.lng};
+    const nw = { lat: ne.lat, lng: sw.lng };
+    const se = { lat: sw.lat, lng: ne.lng };
 
     return [nw, ne, se, sw];
   } else if (type === 'polygon' || type === 'polyline') {

@@ -1,12 +1,12 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { space } from 'theme';
+import { space } from '../theme';
 import { withStyles } from '@material-ui/core/styles';
-import { NEXT, PREVIOUS } from 'containers/AcquisitionPage';
+import { NEXT, PREVIOUS } from '../containers/AcquisitionPage';
 
-const StepperButtons = ({navigate, classes, children,
-  nextText = "Continuar", nextDisabled = false, nextTarget = NEXT, onNext = () => {},
-  backText = "Voltar", backDisabled = false, backTarget = PREVIOUS, onBack = () => {},
+const StepperButtons = ({ navigate, classes, children,
+  nextText = "Continuar", nextDisabled = false, nextTarget = NEXT, onNext = () => { },
+  backText = "Voltar", backDisabled = false, backTarget = PREVIOUS, onBack = () => { },
 }) => {
   const navigateBackwards = () => {
     onBack();

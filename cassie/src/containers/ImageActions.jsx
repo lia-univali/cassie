@@ -4,17 +4,17 @@ import More from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Button from 'components/Button';
-import IndexDropdown from 'components/IndexDropdown';
-import DropdownButton from 'components/DropdownButton';
-import { bindDispatch } from 'common/utils';
-import { mediumIconButton } from 'theme';
-import * as Modal from 'actions/modal';
-import * as Imagery from 'actions/imagery';
-import * as Application from 'actions/application';
+import Button from '../components/Button';
+import IndexDropdown from '../components/IndexDropdown';
+import DropdownButton from '../components/DropdownButton';
+import { bindDispatch } from '../common/utils';
+import { mediumIconButton } from '../theme';
+import * as Modal from '../actions/modal';
+import * as Imagery from '../actions/imagery';
+import * as Application from '../actions/application';
 
-const ImageActions = ({application, imagery, modal, index, metadata}) => {
-  const handleInclude = ({expression, label, params}) => {
+const ImageActions = ({ application, imagery, modal, index, metadata }) => {
+  const handleInclude = ({ expression, label, params }) => {
     imagery.addCustomLayer(expression, index, label, params);
   };
 
@@ -29,13 +29,13 @@ const ImageActions = ({application, imagery, modal, index, metadata}) => {
             Criar...
           </MenuItem> */}
         </IndexDropdown>
-        <Button color="error" onClick={() => {}}>
+        <Button color="error" onClick={() => { }}>
           Remover
         </Button>
 
         <DropdownButton icon={More}>
           {metadata !== undefined &&
-            <MenuItem onClick={() => modal.open("VIEW_METADATA", {data: metadata})}>
+            <MenuItem onClick={() => modal.open("VIEW_METADATA", { data: metadata })}>
               Ver metadados
             </MenuItem>
           }
@@ -45,4 +45,4 @@ const ImageActions = ({application, imagery, modal, index, metadata}) => {
   );
 };
 
-export default connect(() => ({}), bindDispatch({Application, Modal, Imagery}))(ImageActions);
+export default connect(() => ({}), bindDispatch({ Application, Modal, Imagery }))(ImageActions);

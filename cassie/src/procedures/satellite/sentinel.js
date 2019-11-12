@@ -1,12 +1,8 @@
-import ee from '../../services/EarthEngine'
+import ee from "../../services/EarthEngine";
 
-const queryAvailable = (geometry) => {
+const queryAvailable = mission => geometry => {};
 
-}
-
-const getAvailable = (geometry) => {
-
-}
+const getAvailable = mission => geometry => {};
 
 export default {
   queryAvailable,

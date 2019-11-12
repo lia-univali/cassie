@@ -1,9 +1,9 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { space } from 'theme';
+import { space } from '../theme';
 
-const Footer = ({classes}) => (
+const Footer = ({ classes }) => (
   <div className={classes.wrapper}>
     <div className={classes.footer}>
       <Typography variant="body1" gutterBottom>

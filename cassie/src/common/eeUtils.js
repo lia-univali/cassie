@@ -18,10 +18,10 @@ export const combineReducers = (...reducers) => {
   return group;
 };
 
-export const generateVisualizationParams = spacecraft => {
-  const { red, green, blue } = spacecraft.bands;
+export const generateVisualizationParams = mission => {
+  const { red, green, blue } = mission.bands;
   return {
-    ...spacecraft.vizParams,
+    ...mission.vizParams,
     bands: [red, green, blue]
   };
 };
@@ -86,8 +86,6 @@ export const filterClouds = (satelliteData, spacecraft, level) => {
 export const getSatelliteCollection = satellite => {
   const { collectionSet } = satellite;
 
-  console.log("called getSatelliteCollection");
-
   if (Array.isArray(collectionSet)) {
     const [head, ...tail] = collectionSet;
 
@@ -95,7 +93,7 @@ export const getSatelliteCollection = satellite => {
 
     // tail.forEach(
     //   collection => (root = root.merge(ee.ImageCollection(collection)))
-    // ); // what is wrong ?
+    // ); // what is wrong ? everything, past me
 
     return root;
   }
@@ -145,7 +143,7 @@ export const distinct = (list, comparator) => {
 };
 
 export const simplify = amount => {
-  return function(feature) {
+  return function (feature) {
     return ee.Feature(feature).simplify(amount);
   };
 };

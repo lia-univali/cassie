@@ -1,5 +1,5 @@
-import * as Metadata from 'common/metadata';
-import { computeDisplacement, computeBearing } from 'common/geodesy';
+import * as Metadata from '../common/metadata';
+import { computeDisplacement, computeBearing } from '../common/geodesy';
 
 const ee = window.ee;
 
@@ -9,7 +9,7 @@ export const addGridPosition = satellite => {
     const rawPosition = satellite.computeGridPosition(image);
     const position = ee.Number(rawPosition.path).multiply(100).add(ee.Number(rawPosition.row))
 
-    return image.set({[Metadata.GRID_POSITION]: position});
+    return image.set({ [Metadata.GRID_POSITION]: position });
   };
 }
 

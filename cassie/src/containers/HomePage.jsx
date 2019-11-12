@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { login } from 'actions/user';
+import { login } from '../actions/user';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import LogoIcon from '@material-ui/icons/Language';
 import { withTheme } from '@material-ui/core/styles';
-import logo from 'resources/logo.png';
-import googleLogo from 'resources/googleLogo.svg';
-import googleLogoDisabled from 'resources/googleLogoDisabled.svg';
+import logo from '../resources/logo.png';
+import googleLogo from '../resources/googleLogo.svg';
+import googleLogoDisabled from '../resources/googleLogoDisabled.svg';
 
 class HomePage extends React.Component {
   render() {
@@ -60,7 +60,7 @@ class HomePage extends React.Component {
       <div>
         <div style={styles.backdrop}></div>
         <div className="presentation-heading vcenter flow-column" style={styles.heading}>
-          <LogoIcon style={styles.logo}/>
+          <LogoIcon style={styles.logo} />
           <Typography variant="display4" style={styles.title}>
             C.A.S.S.I.E.
           </Typography>
@@ -80,7 +80,7 @@ class HomePage extends React.Component {
                 estudantes, com foco na conservação dos recursos naturais do planeta Terra.
               </Typography>
               <Button onClick={() => login("/main/acquisition")} disabled={busy} variant="raised" size="large">
-                <img src={busy ? googleLogoDisabled : googleLogo} style={styles.google} alt="Google"/>
+                <img src={busy ? googleLogoDisabled : googleLogo} style={styles.google} alt="Google" />
                 Entrar com o Google
               </Button>
             </Grid>
@@ -95,4 +95,4 @@ const Themed = withTheme()(HomePage);
 
 export default connect(state => ({
   busy: state.user.authenticating
-}), {login})(Themed);
+}), { login })(Themed);

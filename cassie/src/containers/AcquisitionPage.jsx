@@ -11,14 +11,14 @@ import Typography from '@material-ui/core/Typography';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel'
-import SatelliteChooser from 'containers/SatelliteChooser';
-import AOIChooser from 'containers/AOIChooser';
-import PeriodChooser from 'containers/PeriodChooser';
-import ImageListRefiner from 'containers/ImageListRefiner';
-import Footer from 'components/Footer';
-import { withAcquisition, withUser } from 'actions';
-import { space } from 'theme';
-import { getAcquisitionParameters } from 'selectors';
+import SatelliteChooser from './SatelliteChooser';
+import AOIChooser from './AOIChooser';
+import PeriodChooser from './PeriodChooser';
+import ImageListRefiner from './ImageListRefiner';
+import Footer from '../components/Footer';
+import { withAcquisition, withUser } from '../actions';
+import { space } from '../theme';
+import { getAcquisitionParameters } from '../selectors';
 
 export const PREVIOUS = -1;
 export const FIRST = 0;
@@ -91,7 +91,7 @@ class AcquisitionPage extends React.Component {
 
   renderStep(props, Component) {
     if (this.stepAttendsRequirements()) {
-      return <Component {...props} navigate={direction => this.navigate(direction)}/>;
+      return <Component {...props} navigate={direction => this.navigate(direction)} />;
     }
 
     return null;
@@ -105,10 +105,10 @@ class AcquisitionPage extends React.Component {
       const Component = el.component;
 
       return (
-        <Route key={id} path={`${path}/${id}`} render={props => this.renderStep(props, Component)}/>
+        <Route key={id} path={`${path}/${id}`} render={props => this.renderStep(props, Component)} />
       );
     }).concat(
-      <Redirect key={0} from={path} to={path + "/1"}/>
+      <Redirect key={0} from={path} to={path + "/1"} />
     );
   }
 
@@ -142,7 +142,7 @@ class AcquisitionPage extends React.Component {
                 {this.steps[step].content}
               </Typography>
 
-              <Divider/>
+              <Divider />
 
               <Switch>
                 {this.makeRoutes(hasStep)}
@@ -152,7 +152,7 @@ class AcquisitionPage extends React.Component {
           </Grid>
         </Grid>
 
-        <Footer/>
+        <Footer />
       </div>
     )
   }
@@ -184,7 +184,7 @@ const styles = theme => {
   };
 };
 
-const connector = connect(getAcquisitionParameters, {push});
+const connector = connect(getAcquisitionParameters, { push });
 
 const enhancer = compose(
   connector,

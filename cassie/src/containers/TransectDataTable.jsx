@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { formatDate } from 'common/utils';
+import { formatDate } from '../common/utils';
 import JsonView from 'react-json-view';
 import Table from '@material-ui/core/Table';
 import TableSortLabel from '@material-ui/core/TableSortLabel';

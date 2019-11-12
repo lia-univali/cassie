@@ -1,35 +1,28 @@
 import {
-  take,
-  takeEvery,
   call,
   all,
   select,
   put,
-  actionChannel
 } from "redux-saga/effects";
 import update from "immutability-helper";
-import { get as getSatellite } from "common/satellites";
-import { generateLayer, createThumbnail } from "procedures/imagery";
+import { get as getSatellite } from "../common/satellites";
+import { generateLayer, createThumbnail } from "../procedures/imagery";
 import {
   createConcurrentHandler,
   createBufferedHandler,
-  cancellable,
   evaluate
-} from "common/sagaUtils";
+} from "../common/sagaUtils";
 import {
-  applyExpression,
   getSatelliteCollection,
   generateVisualizationParams
-} from "common/eeUtils";
-import { formatDate, datesBetween } from "common/utils";
+} from "../common/eeUtils";
 import { loadLayer, pushImage } from "./imagery";
-import { getAcquisitionParameters, getImageryIdentifiers } from "selectors";
+import { getAcquisitionParameters, getImageryIdentifiers } from "../selectors";
 import {
-  processCollection,
   acquireFromDate,
-  generateCloudMap
-} from "procedures/acquisition";
-import { login } from "actions/user";
+} from "../procedures/acquisition";
+
+import { summarizeMissionsDates, aggregateMissionsDates } from '../common/algorithms'
 
 const SET_SATELLITE = "cassie/acquisition/SET_SATELLITE";
 const SET_AOI = "cassie/acquisition/SET_AOI";
@@ -59,8 +52,8 @@ export const loadAvailableImages = () => {
 };
 
 // Sets the list of available acquisition dates for the current satellite.
-export const setAvailableDates = dates => {
-  return { type: SET_AVAILABLE_DATES, dates };
+export const setAvailableDates = (dates, missions) => {
+  return { type: SET_AVAILABLE_DATES, dates, missions };
 };
 
 // Defines the time period to be used in the image acquisition step
@@ -69,8 +62,8 @@ export const setPeriod = (start, end) => {
 };
 
 // Loads an image from the orbital cycle started at the specified date.
-export const acquireImage = (date, ...extras) => {
-  return { type: ACQUIRE_IMAGE, date, extras };
+export const acquireImage = (missionName, date, ...extras) => {
+  return { type: ACQUIRE_IMAGE, missionName, date, extras };
 };
 
 export const loadTestState = () => {
@@ -85,11 +78,47 @@ export const loadThumbnails = () => {
   return { type: LOAD_THUMBNAILS };
 };
 
-export const insertMetadata = (date, metadata) => {
-  return { type: INSERT_METADATA, date, metadata };
+export const insertMetadata = (missionName, date, metadata) => {
+  return { type: INSERT_METADATA, missionName, date, metadata };
 };
 
-const initialState = { metadata: {} };
+const initialState = { metadata: [], missions: [] };
+
+const reduceAvailableDates = (state, action) => {
+  if (action.missions !== undefined) {
+    return { ...state, availableDates: action.dates, missions: action.missions };
+  }
+  if (state.missions !== undefined) {
+    const available = action.dates;
+    let missions = [];
+
+    state.missions.forEach(mission => {
+      const dates = mission.dates;
+      let filteredDates = {};
+
+      Object.keys(dates).forEach(date => {
+        const cur = available.find(value => value.date === date);
+        if (cur) {
+          filteredDates[date] = dates[date];
+        }
+      });
+
+      missions.push({
+        name: mission.name,
+        shortname: mission.shortname,
+        dates: filteredDates
+      });
+    });
+
+    const metadata = state.metadata.filter(meta => {
+      return available.find(value => value.date === meta.date && value.name === meta.missionName)
+    })
+
+    return { ...state, metadata, availableDates: action.dates, missions };
+  }
+  return { ...state, availableDates: action.dates };
+}
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_SATELLITE:
@@ -101,173 +130,94 @@ export default function reducer(state = initialState, action) {
       return { ...state, overlay, geometry, coordinates };
 
     case SET_AVAILABLE_DATES:
-      return { ...state, availableDates: action.dates };
+      return reduceAvailableDates(state, action);
 
     case SET_PERIOD:
       return { ...state, start: action.start, end: action.end };
 
     case INSERT_METADATA: {
-      const metadata = update(state.metadata, {
+      const metadata = [...state.metadata, {
+        ...action.metadata,
+        missionName: action.missionName,
+        date: action.date
+      }]
+      /*update(state.metadata, {
         [action.date]: { $set: action.metadata }
-      });
+      });*/
 
       return { ...state, metadata };
     }
 
     case LOAD_THUMBNAILS: {
-      return { ...state, metadata: {} };
+      return { ...state, metadata: [] };
     }
-
-    // case "SET_SELECTED_IMAGES":
-    //   const filtered = state.dates.filter((el, i) => action.selectedImages[i] === true);
-    //   const dates = update(state.dates, {
-    //     $set: filtered
-    //   });
-    //
-    //   return {...state, dates, done: true};
 
     default:
       return state;
   }
 }
 
-const ee = window.ee;
-
 function* handleLoadAvailableImages() {
-  const { geometry, satellite } = yield select(getAcquisitionParameters);
+  const { satellite, geometry } = yield select(getAcquisitionParameters);
 
-  const query = processCollection(satellite, geometry);
-  const datesQuery = query.map(date => ee.Date(date).format("YYYY-MM-dd"));
-  const cloudQuery = generateCloudMap(
-    datesQuery,
-    getSatelliteCollection(satellite),
-    geometry
-  );
+  const missions = satellite.missions;
 
-  const dict = yield evaluate(ee.Dictionary.fromLists(datesQuery, cloudQuery));
+  let availableByMission = [];
 
-  if (dict !== undefined) {
-    yield put(setAvailableDates(dict));
+  for (let mission of missions) {
+    availableByMission.push({
+      name: mission.name,
+      shortname: mission.shortname,
+      dates: yield evaluate(mission.algorithms.queryAvailable(geometry))
+    });
+  }
+
+  const availableDates = aggregateMissionsDates(availableByMission);
+
+  if (availableDates !== undefined) {
+    yield put(setAvailableDates(availableDates, availableByMission));
   }
 }
 
-function* handleLoadTestState() {
-  const coordinates = [
-    // [-43.00069465717752, -2.476781843108196],
-    // [-42.99337867419922, -2.453904096237699],
-    // [-43.01764029791991, -2.4457031030432868],
-    // [-43.02713808572787, -2.4670518647787776]
-    //
-    // [-43.037772857421885, -2.4383642187357606],
-    // [-42.851005279296885, -2.4383642187357606],
-    // [-42.851005279296885, -2.545379612731001],
-    // [-43.037772857421885, -2.545379612731001],
-    // [-48.7803786035156, -26.243269789752397],
-    // [-48.7364332910156, -26.243269789752397],
-    // [-48.7364332910156, -26.296838062451535],
-    // [-48.7803786035156, -26.296838062451535],
-    // [-48.899211457692445, -26.213937564493794],
-    // [-48.701457551442445, -26.213937564493794],
-    // [-48.701457551442445, -26.378914890884978],
-    // [-48.899211457692445, -26.378914890884978],
-    // [-118.9928048465307, 34.140326636589094],
-    // [-118.4434884402807, 34.140326636589094],
-    // [-118.4434884402807, 33.9514363072154],
-    // [-118.9928048465307, 33.9514363072154],
-    [-43.258445233436476, -2.349135346090692],
-    [-42.983787030311476, -2.349135346090692],
-    [-42.983787030311476, -2.4986900926034226],
-    [-43.258445233436476, -2.4986900926034226]
-  ];
-
-  yield put(login());
-  yield take("LOAD_USER");
-  yield put(setSatellite(1));
-  yield put(setAOI(null, coordinates, ee.Geometry.Polygon([coordinates])));
-  yield put(loadAvailableImages());
-  yield take(SET_AVAILABLE_DATES);
-  yield put(setPeriod("1984-04-27", "2011-10-05"));
-
-  const dates = [
-    "1986-06-10",
-    "1989-08-21",
-    "1994-07-02",
-    "1995-06-03",
-    "1996-09-09",
-    "1999-08-01",
-    "2006-06-01",
-    "2007-06-20",
-    "2008-06-22"
-  ];
-  const dict = {};
-
-  dates.forEach(date => (dict[date] = 0));
-
-  yield put(setAvailableDates(dict));
-  // const dates = ["07/08/1984", "21/02/1987", "21/08/1989", "25/05/1992", "03/06/1995", "11/06/1998", "21/07/2001", "27/07/2003", "01/08/2005", "22/06/2008", "05/10/2011"];
-  // const dates = ["13/10/1985"];
-  // for (const date of dates) {
-  //   yield put(acquireImage(date));
-  // }
-}
-
-function* handleAcquireImage({ date }) {
+function* handleAcquireImage({ missionName, date }) {
   const { geometry, satellite } = yield select(getAcquisitionParameters);
   const { imageId } = yield select(getImageryIdentifiers);
 
-  const image = acquireFromDate(
-    date,
-    getSatelliteCollection(satellite),
-    geometry
-  );
+  const mission = satellite.get(missionName);
+  const image = mission.algorithms.acquire(date, geometry);
 
-  const cloudExpression = `b("pixel_qa")`;
-  const layer = generateLayer(image, satellite, "Principal");
-  const layer2 = generateLayer(
-    applyExpression(image, "NDWI", satellite.bands),
-    satellite,
-    "Secundaria",
-    { min: -1, max: 1 }
-  );
-  //const layer3 = generateLayer(image.expression(cloudExpression).randomVisualizer().rename("B3", "B2", "B1", "x"), satellite, "Nuvens", {gain: "1,1,1"});
+  const layer = generateLayer(image, mission, "Principal");
 
-  // const url = yield call(createThumbnail, image, geometry, generateVisualizationParams(satellite));
-  // console.log(url);
-
-  console.log("2nd: ", imageId);
-  yield put(pushImage(date, date));
+  yield put(pushImage(mission.shortname + "/" + date, date, mission.name));
   yield put(loadLayer(layer, imageId));
-  //yield put(loadLayer(layer2, imageId));
 }
 
-function* handleRequestAOI() {}
+function* handleRequestAOI() { }
 
 function* handleLoadThumbnails() {
   const { geometry, satellite, availableDates } = yield select(
     getAcquisitionParameters
   );
 
-  for (const date of Object.keys(availableDates)) {
-    const image = acquireFromDate(
-      date,
-      getSatelliteCollection(satellite),
-      geometry
-    );
+  let id = 0;
+
+  for (const entry of availableDates) {
+    const mission = satellite.get(entry.name);
+    const image = mission.algorithms.acquire(entry.date, geometry);
     const url = yield call(
       createThumbnail,
       image,
       geometry,
-      generateVisualizationParams(satellite)
+      generateVisualizationParams(mission)
     );
     const clouds = yield evaluate(image.get("CLOUDS"));
 
-    yield put(insertMetadata(date, { thumbnail: url, clouds: clouds }));
+    yield put(insertMetadata(entry.name, entry.date, { id: id++, thumbnail: url, clouds: clouds }));
   }
 }
 
 export function* saga() {
   yield all([
-    createConcurrentHandler(LOAD_TEST_STATE, handleLoadTestState),
     createConcurrentHandler(LOAD_AVAILABLE_IMAGES, handleLoadAvailableImages),
     createBufferedHandler(ACQUIRE_IMAGE, handleAcquireImage),
     createBufferedHandler(REQUEST_AOI, handleRequestAOI),

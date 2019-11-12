@@ -4,8 +4,8 @@ import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import * as Map from 'common/map';
-import * as MapActions from 'ducks/map';
+import * as Map from '../common/map';
+import * as MapActions from '../ducks/map';
 
 const google = window.google;
 
@@ -13,11 +13,11 @@ export const DEFAULT_ZOOM = 9;
 
 class GoogleMap extends React.Component {
   componentDidMount() {
-    const { completeDrawing, onRegionDrawn, onLoad = () => {} } = this.props;
+    const { completeDrawing, onRegionDrawn, onLoad = () => { } } = this.props;
 
     this.map = new google.maps.Map(this.mapComponent, {
       // center: {lat: -26.9146, lng: -48.6621},
-      center: {lat: -26.285757, lng: -48.735060},
+      center: { lat: -26.285757, lng: -48.735060 },
       zoom: DEFAULT_ZOOM,
       scaleControl: true,
     });
@@ -67,7 +67,7 @@ class GoogleMap extends React.Component {
 
   render() {
     return (
-      <div className="map" style={{...this.props.style, ...styles.wrapper}}>
+      <div className="map" style={{ ...this.props.style, ...styles.wrapper }}>
         <Grow in={this.props.map.currentlyDrawing === true}>
           <div style={styles.boxWrapper}>
             <Paper style={styles.overlayBox}>
@@ -111,7 +111,7 @@ function mapConnect(stateMapper) {
   return connect(state => ({
     map: state.map,
     ...stateMapper(state)
-  }), {...MapActions});
+  }), { ...MapActions });
 }
 
 

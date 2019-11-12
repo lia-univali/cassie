@@ -9,10 +9,12 @@
 
 import mathjs from 'mathjs';
 import { call, all } from 'redux-saga/effects';
-import { asPromise, firstValue, organizeHierarchically, hasKeys,
-  selectKey, cloneClass } from 'common/utils';
+import {
+  asPromise, firstValue, organizeHierarchically, hasKeys,
+  selectKey, cloneClass
+} from '../common/utils';
 import { evaluate } from './sagaUtils';
-import { ConcreteLayer } from 'common/classes';
+import { ConcreteLayer } from '../common/classes';
 
 const ee = window.ee;
 
@@ -34,7 +36,7 @@ export function* getOverlay(image, params = {}) {
 
   if (!hasKeys(params, "min", "max") && !hasKeys(params, "gain")) {
     // Automatically compute the minimum and maximum values
-    const mm = yield call(computeMinimax, image, {scale: 120});
+    const mm = yield call(computeMinimax, image, { scale: 120 });
 
     console.log("Min max", mm);
 
@@ -45,14 +47,14 @@ export function* getOverlay(image, params = {}) {
       params.max = mathjs.mean(selectKey(values, "max"));
     } else {
       // If no band was chosen, assume the first one
-      params = {...params, ...firstValue(mm)};
+      params = { ...params, ...firstValue(mm) };
     }
   }
 
   const info = yield asPromise(image.getMap.bind(image), params);
 
   return new ee.MapLayerOverlay("https://earthengine.googleapis.com/map",
-      info.mapid, info.token, {});
+    info.mapid, info.token, {});
 }
 
 export function createHistogram(image, params) {
@@ -74,7 +76,7 @@ export function vectorizeImage(image, threshold, params, promise = true) {
     scale: params.scale,
     maxPixels: 1E12
   }).filterMetadata("label", "equals", 1)
-    .map(feature => feature.set({area: feature.geometry().area(1)}));
+    .map(feature => feature.set({ area: feature.geometry().area(1) }));
 
   return promise ? evaluate(query) : query;
 }
@@ -83,7 +85,7 @@ export function computeAreas(images, threshold, bandName, promise = true) {
   const query = images.map(image => {
     // Transform the raster image to a collection of vectors
     const measured = image.select(bandName);
-    const vectors = vectorizeImage(measured, threshold, {scale: 10}, false);
+    const vectors = vectorizeImage(measured, threshold, { scale: 10 }, false);
 
     // Compute the sum of the areas of the features
     const totalArea = vectors.reduceColumns(ee.Reducer.sum(), ["area"]).get("sum");
@@ -100,7 +102,7 @@ export function computeAreas(images, threshold, bandName, promise = true) {
 
       // Adds the feature to the list, with an additional property: color.
       return list.add(
-        current.set({color: ee.Number(value).add(1)})
+        current.set({ color: ee.Number(value).add(1) })
       );
     }, initial);
 
@@ -112,7 +114,7 @@ export function computeAreas(images, threshold, bandName, promise = true) {
     }).select([0], ["vectors"]);
 
     return image
-      .set({area: totalArea, areaCount: features.size()})
+      .set({ area: totalArea, areaCount: features.size() })
       .addBands(newImage);
   });
 
@@ -124,7 +126,7 @@ export function* createImage(layer, region) {
 
   console.log("Getting data for ", layer);
   const [histogram, overlay] = yield all([
-    createHistogram(image, {scale: 300}),
+    createHistogram(image, { scale: 300 }),
     getOverlay(image, layer.params),
   ]);
   console.log("Finished retrieving ", layer);
