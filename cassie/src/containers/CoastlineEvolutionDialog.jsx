@@ -66,13 +66,7 @@ class CoastlineEvolutionDialog extends React.Component {
     const { close, open, transectData, baselineData, exportable } = this.props;
 
     const tabs = [
-      <TransectDataTable data={transectData} />,
-      <Bar
-        options={this.createOptions()}
-        data={this.shapeData()}
-        width={700}
-        height={400}
-      />
+      <TransectDataTable data={transectData} />
     ];
 
     return (
@@ -88,7 +82,6 @@ class CoastlineEvolutionDialog extends React.Component {
                 onChange={(e, tab) => this.setState({ tab })}
               >
                 <Tab label="Relatório de Transectos" />
-                <Tab label="Evolução da Linha de Costa" />
               </Tabs>
             </AppBar>
 
@@ -132,51 +125,6 @@ class CoastlineEvolutionDialog extends React.Component {
                 >
                   Exportar JSON
                 </MenuItem>
-                <MenuItem onClick={() => { }}>Exportar Shapefile</MenuItem>
-              </Menu>
-            </div>
-          )}
-
-          {this.state.tab === 1 && (
-            <div>
-              <Button
-                onClick={e =>
-                  this.setState({ baselineAnchorEl: e.currentTarget })
-                }
-              >
-                Exportar Dados da Baseline
-              </Button>
-              <Menu
-                anchorEl={this.state.baselineAnchorEl}
-                open={Boolean(this.state.baselineAnchorEl)}
-                onClose={() => this.setState({ baselineAnchorEl: null })}
-              >
-                <MenuItem
-                  onClick={() =>
-                    this.doAndClose(
-                      exportCoordinates(
-                        baselineData.baseline.content,
-                        "baseline.csv"
-                      ),
-                      "baselineAnchorEl"
-                    )
-                  }
-                >
-                  Exportar CSV
-                </MenuItem>
-                <MenuItem
-                  onClick={() =>
-                    this.doAndClose(
-                      exportJSON(
-                        baselineData.baseline.content,
-                        "baseline.json"
-                      ),
-                      "baselineAnchorEl"
-                    )
-                  }
-                >
-                  Exportar JSON
-                </MenuItem>
                 <MenuItem
                   onClick={() =>
                     this.doAndClose(
@@ -193,7 +141,7 @@ class CoastlineEvolutionDialog extends React.Component {
                           "transects"
                         )
                       ),
-                      "baselineAnchorEl"
+                      "transectosAnchorEl"
                     )
                   }
                 >
@@ -202,7 +150,6 @@ class CoastlineEvolutionDialog extends React.Component {
               </Menu>
             </div>
           )}
-
           <Button color="primary" onClick={() => close()}>
             Fechar
           </Button>

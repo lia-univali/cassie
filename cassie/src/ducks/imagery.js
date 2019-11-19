@@ -393,7 +393,7 @@ function* handleAnalyzeCoastline() {
       transectData,
       coastlineCollection: xx,
       evolution: withColors,
-      exportable
+      exportable: {}
     })
   );
 

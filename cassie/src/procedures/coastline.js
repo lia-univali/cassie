@@ -98,8 +98,6 @@ function transectAccumulator(step, extent) {
  * @return {ee.FeatureCollection} a collection of polygons
  */
 export function computeCoastlines(dates, satellite, geometry, threshold = 0) {
-  console.log("COMPUTE COASTLINES", dates)
-
   const [head, ...tail] = satellite.missions.map(mission => {
     const images = ee.List(
       dates

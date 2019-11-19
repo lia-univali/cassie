@@ -23,6 +23,7 @@ class SatelliteChooser extends React.Component {
           endYear={satellite.summary.endYear}
           resolution={satellite.summary.opticalResolution}
           onChoose={() => this.handleChoice(i)}
+          enabled={satellite.enabled}
         />
       </Grid>
     ));

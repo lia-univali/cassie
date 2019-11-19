@@ -17,7 +17,7 @@ const Mission = (name, shortname, cycle, startYear, endYear, opticalResolution, 
   }
 
   /*
-    Bind each algorithm to the collection name (mission name)
+    Bind each algorithm to the collection (mission)
     as all of them are built on a currying manner.
     method = mission => (...) => {}
              ^^^^^^^^^^
@@ -29,11 +29,11 @@ const Mission = (name, shortname, cycle, startYear, endYear, opticalResolution, 
 }
 
 /* Satellite Mission Collection */
-const MissionCollection = (name, provider, image, missions) => {
+const MissionCollection = (name, provider, image, missions, enabled = false) => {
 
   /* Unite params */
   const union = {
-    name, provider, image, missions
+    name, provider, image, missions, enabled
   }
 
   /* Create a summary of this Mission Collection */
@@ -115,8 +115,8 @@ export const standard = [
           acquire: Algorithms.Satellite.Landsat.acquire
         }
       ),
-
-      /* SENTINEL 7 */
+      /*
+      /* SENTINEL 7 
       Mission(
         "LANDSAT/LE07/C01/T1_SR",
         'LE07',
@@ -133,7 +133,7 @@ export const standard = [
           acquire: Algorithms.Satellite.Landsat.acquire
         }
       ),
-
+      */
       /* SENTINEL 8 */
       Mission(
         "LANDSAT/LC08/C01/T1_SR",
@@ -151,7 +151,8 @@ export const standard = [
           acquire: Algorithms.Satellite.Landsat.acquire
         }
       )
-    ]
+    ],
+    true
   )
 ];
 

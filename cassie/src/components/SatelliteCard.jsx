@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { space } from '../theme';
 
 const SatelliteCard = (props) => {
-  const { classes, name, image, resolution, startYear, endYear, provider, cycle, onChoose } = props;
+  const { classes, name, image, resolution, startYear, endYear, provider, cycle, onChoose, enabled } = props;
   const endYearOrNow = endYear || new Date().getFullYear();
 
   return (
@@ -38,7 +38,7 @@ const SatelliteCard = (props) => {
       </CardContent>
 
       <CardActions>
-        <Button color="primary" onClick={onChoose}>
+        <Button color="primary" onClick={onChoose} disabled={!enabled}>
           Escolher
         </Button>
       </CardActions>
