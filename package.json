@@ -21,7 +21,7 @@
     "color-convert": "^1.9.3",
     "css-loader": "0.28.4",
     "dotenv": "4.0.0",
-    "eslint": "4.4.1",
+    "eslint": "4.19.1",
     "eslint-config-react-app": "^2.1.0",
     "eslint-loader": "1.9.0",
     "eslint-plugin-flowtype": "2.35.0",
