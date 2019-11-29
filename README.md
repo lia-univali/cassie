@@ -1,12 +1,24 @@
 # cassie
 
-Uma ferramenta para análise e mapeamento das regiões costeiras utilizando a plataforma Google Earth Engine.
+A tool for coastal regions mapping and analysis, using Google Earth Engine.
 
+## Usage
+
+First Choose the satelite
 
 ![](docs/sats.png)
 
+Then the region to be mapped
 
 ![](docs/costa.png)
+
+## Running
+You must creacte an .env file with de following params:
+```
+API_KEY = xxxxxxxxxxxxxxx
+REACT_APP_CLIENT_ID = xxxxxxxxxxxxxxx
+REACT_APP_MAPS_KEY = xxxxxxxxxxxxxxxxxxxx
+```
 
 ## Dependencies
 
