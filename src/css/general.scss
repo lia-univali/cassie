@@ -1,0 +1,152 @@
+@import "./stylesheets/variables.scss";
+
+$footer-height: 150px !default;
+$lighter-primary: lighten($brand-primary, 5%);
+
+.main-root {
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  min-height: 90vh;
+}
+
+.flow-column {
+  flex-flow: column;
+}
+
+.word-breakable {
+  word-break: break-word;
+}
+
+.footer {
+  height: $footer-height;
+  flex-flow: column;
+  background-color: darken($body-bg, 5%);
+  width: 100%;
+  margin-top: auto;
+}
+
+// .rc-slider-track {
+//   background-color: $lighter-primary !important;
+// }
+//
+// .rc-slider-dot-active, .rc-slider-handle  {
+//   border-color: $lighter-primary !important;
+// }
+//
+// .rc-slider-handle:active, .rc-slider-handle:hover {
+//   border-color: $brand-primary !important;
+// }
+//
+// .rc-slider-handle:active {
+//   box-shadow: 0px 0px 5px $brand-primary !important;
+// }
+
+.hidden {
+  display: none;
+}
+
+.vcenter, .wrapper-row {
+  display: flex;
+  align-items: center;
+}
+
+.hcenter {
+  display: flex;
+  justify-content: center;
+}
+
+.hspaced > * {
+  margin-right: 16px !important;
+}
+
+.flex-right {
+  margin-left: auto !important;
+}
+
+.flex-left {
+  margin-right: auto !important;
+}
+
+.flex-top {
+  margin-bottom: auto !important;
+}
+
+.nohmargin {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.nohpadding {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.novpadding {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.novmargin {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.title-nomargin {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.margin-below {
+  margin-bottom: 16px !important;
+}
+
+.margin-above {
+  margin-top: 16px !important;
+}
+
+.margin-left {
+  margin-left: 16px !important;
+}
+
+.margin-right {
+  margin-right: 16px !important;
+}
+
+.transparent {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.opaque {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.flex1 {
+  flex: 1 !important;
+}
+
+.untransform {
+  text-transform: none !important;
+}
+
+.text-medium {
+  font-size: 30px !important;
+}
+
+.hexpand {
+  width: 100%;
+}
+
+.vexpand {
+  height: 100%;
+}
