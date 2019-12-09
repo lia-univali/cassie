@@ -2,12 +2,11 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { routerMiddleware } from 'react-router-redux';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory as createHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
 import rootSaga from './sagas';
 import reducer from './ducks/reducerConfig';
-
 
 export const history = createHistory();
 export default function configureStore() {
