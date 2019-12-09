@@ -7,15 +7,13 @@ import Button from '@material-ui/core/Button';
 import * as Map from '../common/map';
 import * as MapActions from '../ducks/map';
 
-const google = window.google;
-
 export const DEFAULT_ZOOM = 9;
 
 class GoogleMap extends React.Component {
   componentDidMount() {
     const { completeDrawing, onRegionDrawn, onLoad = () => { } } = this.props;
 
-    this.map = new google.maps.Map(this.mapComponent, {
+    this.map = new window.google.maps.Map(this.mapComponent, {
       // center: {lat: -26.9146, lng: -48.6621},
       center: { lat: -26.285757, lng: -48.735060 },
       zoom: DEFAULT_ZOOM,
@@ -34,35 +32,6 @@ class GoogleMap extends React.Component {
     });
 
     onLoad(this.map);
-
-    // Shows a button prompting the user to log in.
-    /*const onImmediateFailed = function() {
-      $('.g-sign-in').removeClass('hidden');
-      $('.output').text('(Log in to see the result.)');
-      $('.g-sign-in .button').click(function() {
-        ee.data.authenticateViaPopup(function() {
-          $('.g-sign-in').addClass('hidden');
-        });
-      });
-    };*/
-
-    // basic.updateStatus("Autenticando");
-    // basic.beginAuthentication(CLIENT_ID);
-    // const onSuccess = () => {
-    //   ee.initialize();
-    //
-    //   basic.updateStatus(false);
-    //   basic.setAuthenticationState(true);
-    //   basic.replaceSatellite(1); // Landsat 5
-    // };
-    //
-    // // Attempt to authenticate using existing credentials.
-    // ee.data.authenticateViaOauth(CLIENT_ID, onSuccess, console.log, null, () => {
-    //   //onImmediateFailed();
-    //   console.log("Autenticação falhou!");
-    //
-    //   modal.open("CONSENT");
-    // });
   }
 
   render() {

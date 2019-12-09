@@ -6,8 +6,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import User from './User';
 
-import { customAnalyze } from '../ducks/imagery'
-
 class NavigationBar extends React.Component {
   render() {
     const { user } = this.props;
@@ -19,7 +17,7 @@ class NavigationBar extends React.Component {
             C.A.S.S.I.E. <small>Coastal Analysis via Satellite Imagery Engine</small>
           </Typography>
           <User name={user.name} image={user.image}>
-            <MenuItem onClick={() => this.props.customAnalyze()}>Análise pré-definida</MenuItem>
+            <MenuItem onClick={() => { }}>Testar</MenuItem>
           </User>
         </Toolbar>
       </AppBar>
@@ -29,4 +27,4 @@ class NavigationBar extends React.Component {
 
 export default connect(state => {
   return { user: state.user };
-}, { customAnalyze })(NavigationBar);
+})(NavigationBar);

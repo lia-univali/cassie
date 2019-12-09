@@ -12,17 +12,17 @@ import reducer from './ducks/reducerConfig';
 export const history = createHistory();
 export default function configureStore() {
   const saga = createSagaMiddleware();
-  const middleware = applyMiddleware(saga, thunk, createLogger({collapsed: true}), routerMiddleware(history));
+  const middleware = applyMiddleware(saga, thunk, createLogger({ collapsed: true }), routerMiddleware(history));
 
   const store = createStore(reducer, composeWithDevTools(middleware));
 
   if (module.hot) {
-      // Enable Webpack hot module replacement for reducers
-      module.hot.accept(() => {
-        const nextReducer = require('./ducks/reducerConfig').default;
-        store.replaceReducer(nextReducer);
-      });
-    }
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept(() => {
+      const nextReducer = require('./ducks/reducerConfig').default;
+      store.replaceReducer(nextReducer);
+    });
+  }
 
   saga.run(rootSaga);
   return store;

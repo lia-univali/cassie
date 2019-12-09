@@ -242,11 +242,7 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
     Selectors.getAcquisitionParameters
   );
 
-  console.log("bs", yield evaluate(baseline))
-
   const bufferedBaseline = baseline.buffer(extent / 2);
-
-  console.log("bf", yield evaluate(bufferedBaseline))
 
   Map.addEEFeature(ee.Feature(bufferedBaseline), "buffered", "#03396c", 1, identifier)
 
@@ -258,17 +254,11 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
     threshold
   );
 
-  console.log("coastlines", yield evaluate(coastlines))
-
   transects = yield call(Coastline.addDistances, transects, coastlines);
-
-  console.log("transects", yield evaluate(transects))
 
   const lrrs = yield evaluate(transects.map(x => ee.Feature(x).get("lrr")));
 
   const transectsViz = yield call(Coastline.expandHorizontally, transects, 10);
-
-  console.log("transectsViz", yield evaluate(transectsViz))
 
   const enhancedCoastlines = yield call(
     Coastline.mapToSummary,
@@ -276,8 +266,6 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
     coastlines,
     bufferedBaseline
   );
-
-  console.log("enhancedCoastlines", yield evaluate(enhancedCoastlines))
 
   const lrrColors = interpolateColors(lrrs, "#00FF00", "#DF0000");
 

@@ -1,4 +1,4 @@
-export const CLIENT_ID = '1084163887653-eouc04vh3k3r2lp5h4s20oimbq8aicb8.apps.googleusercontent.com';
+export const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 
 /**
  * Begins the authentication process, attempting to log in via the OAuth client
@@ -7,7 +7,7 @@ export const CLIENT_ID = '1084163887653-eouc04vh3k3r2lp5h4s20oimbq8aicb8.apps.go
  * @param {String} [destination=null] the URL to redirect the user to
  */
 export const login = (destination = null) => {
-  return {type: "BEGIN_AUTHENTICATION", destination};
+  return { type: "BEGIN_AUTHENTICATION", destination };
 }
 
 /**
@@ -15,7 +15,7 @@ export const login = (destination = null) => {
  * to the system. Reloads the page upon completion.
  */
 export const logout = () => {
-  return {type: "LOGOUT"};
+  return { type: "LOGOUT" };
 }
 
 /**
@@ -23,7 +23,7 @@ export const logout = () => {
  * @param {Object} payload the data to be stored
  */
 export const loadUser = (payload) => {
-  return {type: "LOAD_USER", payload}
+  return { type: "LOAD_USER", payload }
 }
 
 /**
@@ -32,5 +32,5 @@ export const loadUser = (payload) => {
  * @param {Object} state the new Redux state
  */
 export const replaceEntireState = (state) => {
-  return {type: "REPLACE_ENTIRE_STATE", state};
+  return { type: "REPLACE_ENTIRE_STATE", state };
 }

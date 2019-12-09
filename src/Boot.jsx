@@ -5,12 +5,26 @@ import App from './App';
 import { hot } from 'react-hot-loader'
 import theme from './theme';
 
-let Boot = () => (
-  <MuiThemeProvider theme={theme}>
-    <AppContainer>
-      <App/>
-    </AppContainer>
-  </MuiThemeProvider>
-);
+export default class Boot extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-export default hot(module)(Boot);
+  componentWillMount() {
+    const s = document.createElement('script');
+    s.setAttribute('src', 'https://maps.google.com/maps/api/js?v=3.32&key=' + process.env.REACT_APP_MAPS_KEY + '&libraries=drawing');
+    document.body.appendChild(s);
+  }
+
+  render() {
+    return (
+      <MuiThemeProvider theme={theme}>
+        <AppContainer>
+          <App />
+        </AppContainer>
+      </MuiThemeProvider>
+    )
+  }
+}
+
+

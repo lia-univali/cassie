@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import FeatureInfo from '../containers/FeatureInfo';
 
 let Map = undefined;
-const google = window.google;
 const STYLE_KEY = "customStyle";
 const HIGHLIGHTED_KEY = "highlighted"
 
 let shapeId = 0;
-let infoWindow = new google.maps.InfoWindow({ content: "Hello world!" });
+let infoWindow;
 
 export const initializeMap = (map) => {
+  infoWindow = new window.google.maps.InfoWindow({ content: "Hello world!" });
   Map = map;
 
   console.log("Initialized!", map);
@@ -35,11 +35,11 @@ export const initializeMap = (map) => {
     strokeWeight: 0.5,
   };
 
-  Map.drawingManager = new google.maps.drawing.DrawingManager({
+  Map.drawingManager = new window.google.maps.drawing.DrawingManager({
     drawingMode: null,
     drawingControl: true,
     drawingControlOptions: {
-      position: google.maps.ControlPosition.TOP_CENTER,
+      position: window.google.maps.ControlPosition.TOP_CENTER,
       drawingModes: ['polygon', 'rectangle', 'polyline']
     },
     polygonOptions: shapeOptions,
@@ -54,7 +54,7 @@ export const initializeMap = (map) => {
 
   Map.drawingManager.setMap(Map);
 
-  google.maps.event.addListener(Map.drawingManager, 'overlaycomplete', e => {
+  window.google.maps.event.addListener(Map.drawingManager, 'overlaycomplete', e => {
     console.log(e);
     if (Map.regionDrawnHandler) {
       Map.regionDrawnHandler(e.overlay, toCoordinates(extractCoordinates(e.overlay, e.type)));
@@ -78,7 +78,7 @@ export const initializeMap = (map) => {
 
     console.log(event.feature);
 
-    google.maps.event.addListenerOnce(infoWindow, 'domready', e => {
+    window.google.maps.event.addListenerOnce(infoWindow, 'domready', e => {
       ReactDOM.render(<FeatureInfo data={properties} />, document.getElementById("infowindow"));
     });
   });
@@ -106,7 +106,7 @@ export const replaceLayer = (index, overlay) => {
 // Expects an array of coordinates of the form [lng, lat].
 export const addPolygon = (coordinates) => {
   Map.data.add({
-    geometry: new google.maps.Data.Polygon([toLatLng(coordinates)])
+    geometry: new window.google.maps.Data.Polygon([toLatLng(coordinates)])
   });
 };
 
@@ -163,7 +163,7 @@ export const centralize = (lat, lng) => {
 export const drawOutline = (coordinates) => {
   clearOutline();
 
-  Map.imageOutline = new google.maps.Polygon({
+  Map.imageOutline = new window.google.maps.Polygon({
     paths: toLatLng(coordinates),
     fillOpacity: 0,
     strokeWeight: 1,
@@ -197,11 +197,11 @@ export const loadGeoJSON = (data) => {
 }
 
 export const loadWRSLayer = () => {
-  const layer = new google.maps.FusionTablesLayer({
+  const layer = new window.google.maps.FusionTablesLayer({
     map: Map,
     query: {
       select: 'geometry',
-      from: '1mtq5c9drfxYKZdgpskfAD0JXy2144li4IZLEtTlo'
+      from: process.env.API_KEY
     },
     styles: [{
       polygonOptions: {
