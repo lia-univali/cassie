@@ -31,8 +31,6 @@ import { generateLayer } from "../procedures/imagery";
 
 import * as shp from "shpjs"
 
-import * as path from "path"
-
 const ee = window.ee;
 
 const PUSH_IMAGE = "cassie/imagery/PUSH_IMAGE";
