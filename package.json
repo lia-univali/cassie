@@ -75,6 +75,7 @@
     "redux-thunk": "^2.3.0",
     "shortid": "^2.2.14",
     "shp-write": "^0.3.2",
+    "shpjs": "^3.4.3",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
     "terraformer": "^1.0.9",
