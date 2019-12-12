@@ -73,7 +73,6 @@
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.2",
     "redux-thunk": "^2.3.0",
-    "shapefile": "^0.6.6",
     "shortid": "^2.2.14",
     "shp-write": "^0.3.2",
     "style-loader": "0.18.2",
