@@ -17,6 +17,26 @@ const normalizeByArea = function (property) {
   };
 };
 
+/*
+ * Given a {masked} image having {bandName} with pixel values {0, 1} where 1 indicates
+ * cloud presence, the function reduces the region specified in {geometry}
+ * with params {scale} and {maxPixels} adding pixel values and then divides
+ * it by the pixel count to get the cloud ratio.
+ */
+export const scoreCloudRatio = (masked, bandName, geometry, scale = 30, maxPixels = 1e12) => {
+  const cloudyArea = masked.multiply(ee.Image.pixelArea())
+
+  const cloudClassSum = cloudyArea.reduceRegion({
+    reducer: ee.Reducer.sum(),
+    scale: scale,
+    maxPixels: maxPixels,
+    geometry: geometry
+  })
+
+  return ee.Number(cloudClassSum.get(bandName))
+    .divide(geometry.area())
+}
+
 export const scoreClouds = (image, geometry) => {
   const band = "pixel_qa";
 

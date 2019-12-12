@@ -6,16 +6,6 @@ import moment from "moment";
 import registerServiceWorker from "./registerServiceWorker";
 import { CLIENT_ID } from "./actions/user";
 import Boot from "./Boot";
-import * as shp from "shapefile"
-
-shp.open("./resources/sample/baseline.shp", "./resources/sample/baseline.dbf")
-  .then(source => source.read()
-    .then(function log(result) {
-      if (result.done) return;
-      console.log(result)
-      return source.read().then(log)
-    })
-  )
 
 const store = configureStore();
 console.log("Store configured");

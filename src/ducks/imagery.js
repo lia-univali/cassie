@@ -31,6 +31,8 @@ import { extractOcean, generateLayer } from "../procedures/imagery";
 import { computeBearing } from "../common/geodesy";
 import { acquireFromDate } from "../procedures/acquisition";
 
+import * as shp from 'shpjs'
+
 const ee = window.ee;
 
 const PUSH_IMAGE = "cassie/imagery/PUSH_IMAGE";
@@ -43,6 +45,12 @@ const GENERATE_TRANSECTS = "cassie/imagery/GENERATE_TRANSECTS";
 const COMMIT_CHANGE = "cassie/imagery/COMMIT_CHANGE";
 const ANALYZE_COASTLINE = "cassie/imagery/ANALYZE_COASTLINE";
 const REQUEST_EXPRESSION = "cassie/imagery/REQUEST_EXPRESSION";
+
+const CUSTOM_ANALYZE = "cassie/imagery/CUSTOM_ANALYZE";
+
+export const customAnalyze = () => {
+  return { type: CUSTOM_ANALYZE };
+}
 
 export const pushImage = (name, date, missionName) => {
   return { type: PUSH_IMAGE, name, date, missionName };
@@ -229,23 +237,13 @@ function* requestCoastlineInput() {
   };
 }
 
-function* handleAnalyzeCoastline() {
-  const identifier = "coastlineData";
 
-  yield put(Map.removeShapeGroup(identifier));
-
-  const input = yield* requestCoastlineInput();
-  if (input === null) return;
-
-  const { coordinates, spacing, extent, dates, threshold } = input;
-
+function* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold, names = []) {
   const { satellite, geometry } = yield select(
     Selectors.getAcquisitionParameters
   );
 
-  const bufferedBaseline = ee.Geometry.LineString(coordinates).buffer(
-    extent / 2
-  );
+  const bufferedBaseline = baseline.buffer(extent / 2);
 
   const coastlines = yield call(
     Coastline.computeCoastlines,
@@ -253,13 +251,6 @@ function* handleAnalyzeCoastline() {
     satellite,
     bufferedBaseline,
     threshold
-  );
-
-  let transects = yield call(
-    Coastline.generateOrthogonalTransects,
-    coordinates,
-    spacing,
-    extent
   );
 
   transects = yield call(Coastline.addDistances, transects, coastlines);
@@ -320,7 +311,8 @@ function* handleAnalyzeCoastline() {
       .set("objectid", ee.Feature(feature).get("system:index"));
   };
 
-  const selectProperties = (...properties) => feature => {
+  const selectProperties = (properties) => feature => {
+    console.log(properties)
     const props = ee.List(properties);
     const cast = ee.Feature(feature);
     return ee.Feature(cast.geometry(), cast.toDictionary(props));
@@ -355,13 +347,13 @@ function* handleAnalyzeCoastline() {
   const exportable = {
     shpBaseline: yield evaluate(
       ee
-        .FeatureCollection([ee.Geometry.LineString(coordinates)])
+        .FeatureCollection([baseline])
         .map(putObjectId)
     ),
     shpCoasts: yield evaluate(
       ee
         .FeatureCollection(enhancedCoastlines)
-        .map(selectProperties("date", "mean", "stdDev"))
+        .map(selectProperties(["date", "mean", "stdDev"]))
         .map(putObjectId)
     ),
     shpTransects: yield evaluate(
@@ -370,18 +362,21 @@ function* handleAnalyzeCoastline() {
         .map(shapeTransectData)
         .map(
           selectProperties(
-            "LongStart",
-            "LongEnd",
-            "LatStart",
-            "LatEnd",
-            "r",
-            "rsquared",
-            "intercept",
-            "slope",
-            "epr",
-            "lrr",
-            "nsm",
-            "sce"
+            [
+              "LongStart",
+              "LongEnd",
+              "LatStart",
+              "LatEnd",
+              "r",
+              "rsquared",
+              "intercept",
+              "slope",
+              "epr",
+              "lrr",
+              "nsm",
+              "sce",
+              ...names
+            ]
           )
         )
         .map(putObjectId)
@@ -393,11 +388,75 @@ function* handleAnalyzeCoastline() {
       transectData,
       coastlineCollection: xx,
       evolution: withColors,
-      exportable: {}
+      exportable
     })
   );
 
   yield put(openDialog("coastlineEvolution"));
+}
+
+function* handleAnalyzeCoastline() {
+  const identifier = "coastlineData";
+
+  yield put(Map.removeShapeGroup(identifier));
+
+  const input = yield* requestCoastlineInput();
+  if (input === null) return;
+
+  const { coordinates, spacing, extent, dates, threshold } = input;
+
+  const baseline = ee.Geometry.LineString(coordinates);
+
+  const transects = yield call(
+    Coastline.generateOrthogonalTransects,
+    coordinates,
+    spacing,
+    extent
+  );
+
+  yield* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold);
+}
+
+function* handleTestSpecificState() {
+  console.log("/* handleTestSpecificState */")
+
+  const identifier = "coastlineData"
+
+  yield put(Map.removeShapeGroup(identifier))
+
+  const { availableDates } = yield select(Selectors.getAcquisitionParameters);
+
+  try {
+    const gjBaseline = yield call(shp, "../../sample/baseline")
+    const gjTransects = yield call(shp, "../../sample/transetos")
+
+    const [baselineElement] = gjBaseline.features
+    const baseline = ee.Geometry(baselineElement.geometry)
+
+    const transects = ee.List(gjTransects.features.map(geojson => {
+      const [start, middle, end] = geojson.geometry.coordinates
+      geojson.geometry.coordinates = [start, end]
+
+      geojson.properties.endpoint = geojson.geometry.coordinates
+
+      return ee.Feature(geojson)
+    }));
+
+    console.log("ad", availableDates)
+    console.log("bl", yield evaluate(baseline))
+    console.log("tr", yield evaluate(transects))
+
+    yield put(
+      Map.addEEFeature(ee.Feature(baseline), "Linha de Base", "#00B3A1", 1, identifier)
+    )
+
+    const colors = new Array(transects.size()).map(value => "#00B3A1")
+
+    yield* performCoastlineAnalysis(identifier, baseline, transects, 4000, availableDates, 0.0, ["transect_i"]);
+  }
+  catch (err) {
+    console.log("Error while performing analysis", err)
+  }
 }
 
 function* handleRequestExpression({ parent }) {
@@ -427,6 +486,7 @@ export function* saga() {
     createConcurrentHandler(TOGGLE_VISIBILITY, handleToggleVisibility),
     createConcurrentHandler(UPDATE_OPACITY, handleUpdateOpacity),
     createBufferedHandler(ANALYZE_COASTLINE, handleAnalyzeCoastline),
-    createBufferedHandler(REQUEST_EXPRESSION, handleRequestExpression)
+    createBufferedHandler(REQUEST_EXPRESSION, handleRequestExpression),
+    createConcurrentHandler(CUSTOM_ANALYZE, handleTestSpecificState)
   ]);
 }
