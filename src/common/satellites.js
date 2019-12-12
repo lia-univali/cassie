@@ -77,19 +77,21 @@ export const standard = [
       Mission(
         'COPERNICUS/S2',
         'S2',
-        10,
+        5,
         2013,
         null,
         10,
         { blue: 'B2', green: "B3", red: "B4", nir: "B8", swir: "B11" },
-        { max: 4000, min: 128 },
+        { max: 3000, min: 0 },
         { cloudCoverProperty: "CLOUDY_PIXEL_PERCENTAGE" },
         {
           queryAvailable: Algorithms.Satellite.Sentinel.queryAvailable,
-          getAvailable: Algorithms.Satellite.Sentinel.getAvailable
+          getAvailable: Algorithms.Satellite.Sentinel.getAvailable,
+          acquire: Algorithms.Satellite.Sentinel.acquire
         }
       )
     ],
+    true
   ),
 
   /* LANDSATS */
