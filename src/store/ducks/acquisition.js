@@ -19,58 +19,6 @@ export const Types = {
 }
 
 /**
- * Actions
- */
-export const Creators = {
-  // Defines the satellite to be used for this session.
-  setSatellite: satelliteIndex => {
-    const satellite = getSatellite(satelliteIndex);
-    return { type: SET_SATELLITE, satellite, satelliteIndex };
-  },
-
-  // Defines the Area Of Interest to be used for this session.
-  setAOI: (overlay, coordinates, geometry) => {
-    return { type: SET_AOI, overlay, coordinates, geometry };
-  },
-
-  // Retrieves a list of available images based on the current session's parameters.
-  loadAvailableImages: () => {
-    return { type: LOAD_AVAILABLE_IMAGES };
-  },
-
-  // Sets the list of available acquisition dates for the current satellite.
-  setAvailableDates: (dates, missions) => {
-    return { type: SET_AVAILABLE_DATES, dates, missions };
-  },
-
-  // Defines the time period to be used in the image acquisition step
-  setPeriod: (start, end) => {
-    return { type: SET_PERIOD, start, end };
-  },
-
-  // Loads an image from the orbital cycle started at the specified date.
-  acquireImage: (missionName, date, ...extras) => {
-    return { type: ACQUIRE_IMAGE, missionName, date, extras };
-  },
-
-  loadTestState: () => {
-    return { type: LOAD_TEST_STATE };
-  },
-
-  requestAOI: () => {
-    return { type: REQUEST_AOI };
-  },
-
-  loadThumbnails: () => {
-    return { type: LOAD_THUMBNAILS };
-  },
-
-  insertMetadata: (missionName, date, metadata) => {
-    return { type: INSERT_METADATA, missionName, date, metadata };
-  }
-}
-
-/**
  * Reducer
  */
 
@@ -114,23 +62,23 @@ const reduceAvailableDates = (state, action) => {
   return { ...state, availableDates: action.dates };
 }
 
-export default function reducer(state = initialState, action) {
+export default function acquisition(state = initialState, action) {
   switch (action.type) {
-    case SET_SATELLITE:
+    case Types.SET_SATELLITE:
       const { satellite, satelliteIndex } = action;
       return { ...state, satellite, satelliteIndex };
 
-    case SET_AOI:
+    case Types.SET_AOI:
       const { overlay, geometry, coordinates } = action;
       return { ...state, overlay, geometry, coordinates };
 
-    case SET_AVAILABLE_DATES:
+    case Types.SET_AVAILABLE_DATES:
       return reduceAvailableDates(state, action);
 
-    case SET_PERIOD:
+    case Types.SET_PERIOD:
       return { ...state, start: action.start, end: action.end };
 
-    case INSERT_METADATA: {
+    case Types.INSERT_METADATA: {
       const metadata = [...state.metadata, {
         ...action.metadata,
         missionName: action.missionName,
@@ -140,11 +88,63 @@ export default function reducer(state = initialState, action) {
       return { ...state, metadata };
     }
 
-    case LOAD_THUMBNAILS: {
+    case Types.LOAD_THUMBNAILS: {
       return { ...state, metadata: [] };
     }
 
     default:
       return state;
+  }
+}
+
+/**
+ * Actions
+ */
+export const Actions = {
+  // Defines the satellite to be used for this session.
+  setSatellite: satelliteIndex => {
+    const satellite = getSatellite(satelliteIndex);
+    return { type: Types.SET_SATELLITE, satellite, satelliteIndex };
+  },
+
+  // Defines the Area Of Interest to be used for this session.
+  setAOI: (overlay, coordinates, geometry) => {
+    return { type: Types.SET_AOI, overlay, coordinates, geometry };
+  },
+
+  // Retrieves a list of available images based on the current session's parameters.
+  loadAvailableImages: () => {
+    return { type: Types.LOAD_AVAILABLE_IMAGES };
+  },
+
+  // Sets the list of available acquisition dates for the current satellite.
+  setAvailableDates: (dates, missions) => {
+    return { type: Types.SET_AVAILABLE_DATES, dates, missions };
+  },
+
+  // Defines the time period to be used in the image acquisition step
+  setPeriod: (start, end) => {
+    return { type: Types.SET_PERIOD, start, end };
+  },
+
+  // Loads an image from the orbital cycle started at the specified date.
+  acquireImage: (missionName, date, ...extras) => {
+    return { type: Types.ACQUIRE_IMAGE, missionName, date, extras };
+  },
+
+  loadTestState: () => {
+    return { type: Types.LOAD_TEST_STATE };
+  },
+
+  requestAOI: () => {
+    return { type: Types.REQUEST_AOI };
+  },
+
+  loadThumbnails: () => {
+    return { type: Types.LOAD_THUMBNAILS };
+  },
+
+  insertMetadata: (missionName, date, metadata) => {
+    return { type: Types.INSERT_METADATA, missionName, date, metadata };
   }
 }
