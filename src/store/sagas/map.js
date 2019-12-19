@@ -2,6 +2,7 @@ import * as MapDuck from '../ducks/map'
 import { take, all, select, put, race } from 'redux-saga/effects';
 import { createConcurrentHandler, createBufferedHandler, evaluate } from '../../common/sagaUtils';
 import { findLayerIndex, retrieveShape, retrieveHighlightedShape, retrieveShapeGroup } from '../../selectors';
+import ee from '../../services/EarthEngine'
 import * as Map from '../../common/map';
 
 export function* requestAndWait(drawingType, message, name, group) {
@@ -76,7 +77,7 @@ function* handleHighlight({ index }) {
     Map.highlightShape(overlay)
   });
 
-  yield put(commitHighlight(index));
+  yield put(MapDuck.Actions.commitHighlight(index));
 }
 
 //Should probably debounce this.
