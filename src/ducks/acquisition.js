@@ -4,7 +4,6 @@ import {
   select,
   put,
 } from "redux-saga/effects";
-import update from "immutability-helper";
 import { get as getSatellite } from "../common/satellites";
 import { generateLayer, createThumbnail } from "../procedures/imagery";
 import {
@@ -13,16 +12,12 @@ import {
   evaluate
 } from "../common/sagaUtils";
 import {
-  getSatelliteCollection,
   generateVisualizationParams
 } from "../common/eeUtils";
 import { loadLayer, pushImage } from "./imagery";
 import { getAcquisitionParameters, getImageryIdentifiers } from "../selectors";
-import {
-  acquireFromDate,
-} from "../procedures/acquisition";
 
-import { summarizeMissionsDates, aggregateMissionsDates } from '../common/algorithms'
+import { aggregateMissionsDates } from '../common/algorithms'
 
 const SET_SATELLITE = "cassie/acquisition/SET_SATELLITE";
 const SET_AOI = "cassie/acquisition/SET_AOI";

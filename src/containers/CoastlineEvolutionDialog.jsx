@@ -170,6 +170,7 @@ function shapeTransectData(transectData) {
     const rSquared = Math.pow(r, 2);
     const intercept = trend.offset;
     const slope = trend.scale;
+    const classification = properties.class;
 
     const dates = Object.values(properties.distances).map(el =>
       moment(el.date)
@@ -192,7 +193,8 @@ function shapeTransectData(transectData) {
       rSquared,
       sce,
       nsm,
-      epr
+      epr,
+      class: classification
     };
   });
 }
