@@ -237,27 +237,6 @@ function* requestCoastlineInput() {
   };
 }
 
-function estevesLabelling(transects) {
-  const labels = ee.Dictionary({
-    stable: ee.Dictionary({ class: 'Estável', color: '#43a047' }),
-    accreted: ee.Dictionary({ class: 'Acrescida', color: '#1976d2' }),
-    eroded: ee.Dictionary({ class: 'Erodida', color: '#ffa000' }),
-    intenselyEroded: ee.Dictionary({ class: 'Intensamente Erodida', color: '#d32f2f' })
-  })
-
-  const classified = transects.map(f => {
-    const lrr = ee.Number(ee.Feature(f).get('lrr'))
-
-    const classification =
-      ee.Algorithms.If(lrr.lt(-1.0), labels.get('intenselyEroded'),
-        ee.Algorithms.If(lrr.lt(-0.5), labels.get('eroded'),
-          ee.Algorithms.If(lrr.lt(0.5), labels.get('stable'), labels.get('accreted'))))
-
-    return ee.Feature(f).set(classification)
-  })
-
-  return classified;
-}
 
 function* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold, names = []) {
   const { satellite, geometry } = yield select(
@@ -276,18 +255,18 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
 
   transects = yield call(Coastline.addDistances, transects, coastlines);
 
-  const classified = yield call(estevesLabelling, transects);
+  const lrrs = yield evaluate(transects.map(x => ee.Feature(x).get("lrr")));
 
-  const transectsViz = yield call(Coastline.expandHorizontally, classified, 10);
+  const transectsViz = yield call(Coastline.expandHorizontally, transects, 10);
 
   const enhancedCoastlines = yield call(
     Coastline.mapToSummary,
-    classified,
+    transects,
     coastlines,
     bufferedBaseline
   );
 
-  const lrrColors = yield evaluate(classified.map(f => ee.Feature(f).get('color')))
+  const lrrColors = interpolateColors(lrrs, "#00FF00", "#DF0000");
 
   const colors = generateColors(dates.length, 66);
   yield put(
@@ -318,7 +297,7 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
   const xx = yield evaluate(enhancedCoastlines);
 
   const [evolutionData, transectData, coastlineCollection] = yield evaluate(
-    ee.List([finalQuery, classified, coastlines])
+    ee.List([finalQuery, transects, coastlines])
   );
 
   const withColors = evolutionData.map((row, i) => ({
@@ -333,6 +312,7 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
   };
 
   const selectProperties = (properties) => feature => {
+    console.log(properties)
     const props = ee.List(properties);
     const cast = ee.Feature(feature);
     return ee.Feature(cast.geometry(), cast.toDictionary(props));
@@ -378,7 +358,7 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
     ),
     shpTransects: yield evaluate(
       ee
-        .FeatureCollection(classified)
+        .FeatureCollection(transects)
         .map(shapeTransectData)
         .map(
           selectProperties(
@@ -395,7 +375,6 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
               "lrr",
               "nsm",
               "sce",
-              "class",
               ...names
             ]
           )

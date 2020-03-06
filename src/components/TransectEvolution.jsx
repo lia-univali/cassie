@@ -24,7 +24,6 @@ const TransectEvolution = ({ data }) => {
     "SCE": formatted(data.sce, "m"),
     "NSM": formatted(data.nsm, "m"),
     "EPR": formatted(data.epr, "m/mês"),
-    "Classe": data.class
   };
 
   const sortedValues = data.x.sort();

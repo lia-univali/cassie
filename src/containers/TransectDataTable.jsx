@@ -18,7 +18,7 @@ class TransectDataTable extends React.Component {
       ordering: "asc",
     }
 
-    const col = (key, label, numeric = true, format = undefined) => ({ key, label, numeric, format });
+    const col = (key, label, numeric = true, format = undefined) => ({key, label, numeric, format});
     this.columns = [
       col("id", "ID", true, x => parseInt(x, 10)),
       col("latStart", "Latitude inicial"),
@@ -33,8 +33,7 @@ class TransectDataTable extends React.Component {
       col("lrr", "LRR"),
       col("sce", "SCE"),
       col("nsm", "NSM"),
-      col("epr", "EPR"),
-      col("class", "Classe", false)
+      col("epr", "EPR")
     ];
   }
 
@@ -60,9 +59,9 @@ class TransectDataTable extends React.Component {
     const { sortProperty, ordering } = this.state;
 
     if (newProperty === sortProperty) {
-      this.setState({ ordering: ordering === "desc" ? "asc" : "desc" });
+      this.setState({ordering: ordering === "desc" ? "asc" : "desc"});
     } else {
-      this.setState({ ordering: "desc", sortProperty: newProperty });
+      this.setState({ordering: "desc", sortProperty: newProperty});
     }
   }
 
@@ -70,11 +69,11 @@ class TransectDataTable extends React.Component {
     const { sortProperty, ordering } = this.state;
 
     return (
-      <div style={{ maxHeight: "55vh", overflow: "auto", marginTop: 8 }}>
+      <div style={{maxHeight: "55vh", overflow: "auto", marginTop: 8}}>
         <Table>
           <TableHead>
             <TableRow>
-              {this.columns.map(({ key, label, numeric }) => (
+              {this.columns.map(({key, label, numeric}) => (
                 <TableCell key={key} numeric={numeric}>
                   <TableSortLabel
                     active={key === sortProperty}
@@ -90,7 +89,7 @@ class TransectDataTable extends React.Component {
           <TableBody>
             {this.sortRows().map(row => (
               <TableRow key={row.id}>
-                {this.columns.map(({ key, numeric, format }) => (
+                {this.columns.map(({key, numeric, format}) => (
                   <TableCell numeric={numeric} key={key}>
                     {format ? format(row[key]) : (numeric ? parseFloat(row[key]).toFixed(4) : row[key])}
                   </TableCell>
