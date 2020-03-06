@@ -37,15 +37,13 @@ export const scoreCloudRatio = (masked, bandName, geometry, scale = 30, maxPixel
     .divide(geometry.area())
 }
 
-export const scoreClouds = (image, geometry) => {
-  const band = "pixel_qa";
-
+export const scoreClouds = (image, geometry, qa) => {
   const cloud = "((b(0) >> 5) & 1)";
   const shadow = "((b(0) >> 3) & 1)";
   const confidence = "((b(0) >> 6) & 3)";
   const expr = `(${confidence} > 0) && (${cloud} || ${shadow})`;
 
-  const filtered = image.select(band).expression(expr);
+  const filtered = image.select(qa).expression(expr);
   const imageArea = filtered.multiply(ee.Image.pixelArea());
 
   const res = imageArea.reduceRegion({
@@ -55,7 +53,7 @@ export const scoreClouds = (image, geometry) => {
     geometry: geometry
   });
 
-  const cloudyArea = res.get(band);
+  const cloudyArea = res.get(qa);
   const ratio = ee.Number(cloudyArea).divide(geometry.area(1));
   return image.set("CLOUDS", ratio);
 }
