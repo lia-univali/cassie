@@ -9,11 +9,11 @@ const dateToString = date => {
 };
 
 /* Single Satellite Mission Constructor */
-const Mission = (name, shortname, cycle, startYear, endYear, opticalResolution, bands, vizParams, properties, algorithms) => {
+const Mission = (name, shortname, cycle, startYear, endYear, opticalResolution, bands, vizParams, properties, algorithms, fallbackMission = null) => {
 
   /* Unite params */
   const union = {
-    name, shortname, cycle, startYear, endYear, opticalResolution, bands, vizParams, properties
+    name, shortname, cycle, startYear, endYear, opticalResolution, bands, vizParams, properties, fallbackMission
   }
 
   /*
@@ -64,6 +64,41 @@ const MissionCollection = (name, provider, image, missions, enabled = false) => 
   }
 
   return { ...union, summary, ...methods };
+}
+
+export const fallback = {
+  landsat7_t2_toa: Mission(
+    'LANDSAT/LE07/C01/T2_TOA',
+    'LE07',
+    16,
+    1999,
+    null,
+    30,
+    { red: "B3", green: "B2", blue: "B1", nir: "B4", swir: "B5", qa: "BQA" },
+    {},
+    { cloudCoverProperty: 'CLOUD_COVER' },
+    {
+      queryAvailable: Algorithms.Satellite.LandsatTOA.queryAvailable,
+      getAvailable: Algorithms.Satellite.LandsatTOA.getAvailable,
+      acquire: Algorithms.Satellite.LandsatTOA.acquire
+    }
+  ),
+  landsat8_t2_toa: Mission(
+    'LANDSAT/LC08/C01/T2_TOA',
+    'LC08',
+    16,
+    2013,
+    null,
+    30,
+    { red: "B4", green: "B3", blue: "B2", nir: "B5", swir: "B6", qa: "BQA" },
+    {},
+    { cloudCoverProperty: 'CLOUD_COVER' },
+    {
+      queryAvailable: Algorithms.Satellite.LandsatTOA.queryAvailable,
+      getAvailable: Algorithms.Satellite.LandsatTOA.getAvailable,
+      acquire: Algorithms.Satellite.LandsatTOA.acquire
+    }
+  )
 }
 
 export const standard = [
@@ -118,7 +153,7 @@ export const standard = [
         }
       ),
       /*
-      /* SENTINEL 7 
+      /* SENTINEL 7
       Mission(
         "LANDSAT/LE07/C01/T1_SR",
         'LE07',
@@ -133,7 +168,8 @@ export const standard = [
           queryAvailable: Algorithms.Satellite.Landsat.queryAvailable,
           getAvailable: Algorithms.Satellite.Landsat.getAvailable,
           acquire: Algorithms.Satellite.Landsat.acquire
-        }
+        },
+        fallback.landsat7_t2_toa
       ),
       */
       /* SENTINEL 8 */
@@ -151,7 +187,8 @@ export const standard = [
           queryAvailable: Algorithms.Satellite.Landsat.queryAvailable,
           getAvailable: Algorithms.Satellite.Landsat.getAvailable,
           acquire: Algorithms.Satellite.Landsat.acquire
-        }
+        },
+        fallback.landsat8_t2_toa
       )
     ],
     true

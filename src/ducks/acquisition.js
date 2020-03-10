@@ -25,6 +25,7 @@ import {
 import { summarizeMissionsDates, aggregateMissionsDates } from '../common/algorithms'
 
 const SET_SATELLITE = "cassie/acquisition/SET_SATELLITE";
+const SET_MISSION_FALLBACK = "cassie/acquisition/SET_MISSION_FALLBACK";
 const SET_AOI = "cassie/acquisition/SET_AOI";
 const SET_PERIOD = "cassie/acquisition/SET_PERIOD";
 const SET_AVAILABLE_DATES = "cassie/acquisition/SET_AVAILABLE_DATES";
@@ -40,6 +41,11 @@ export const setSatellite = satelliteIndex => {
   const satellite = getSatellite(satelliteIndex);
   return { type: SET_SATELLITE, satellite, satelliteIndex };
 };
+
+// Defines that the main mission cannot be used and use a secondary collection instead
+export const setMissionFallback = mission => {
+  return { type: SET_MISSION_FALLBACK, mission }
+}
 
 // Defines the Area Of Interest to be used for this session.
 export const setAOI = (overlay, coordinates, geometry) => {
@@ -119,11 +125,31 @@ const reduceAvailableDates = (state, action) => {
   return { ...state, availableDates: action.dates };
 }
 
+const reduceMissionFallback = (state, action) => {
+  if (state.satellite) {
+    const { mission } = action;
+
+    const updated = state.satellite.missions.map(m => m.name === mission.name ? mission.fallbackMission : m)
+    const satellite = { // revisar
+      ...state.satellite, missions: updated, get: (name) => {
+        const [first] = updated.filter(mission => mission.name === name)
+        return first;
+      }
+    }
+
+    return { ...state, satellite }
+  }
+  return state;
+}
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_SATELLITE:
       const { satellite, satelliteIndex } = action;
       return { ...state, satellite, satelliteIndex };
+
+    case SET_MISSION_FALLBACK:
+      return reduceMissionFallback(state, action);
 
     case SET_AOI:
       const { overlay, geometry, coordinates } = action;
@@ -165,11 +191,25 @@ function* handleLoadAvailableImages() {
   let availableByMission = [];
 
   for (let mission of missions) {
-    availableByMission.push({
+    let regionData = {
       name: mission.name,
       shortname: mission.shortname,
       dates: yield evaluate(mission.algorithms.queryAvailable(geometry))
-    });
+    }
+
+    if (Object.keys(regionData.dates).length === 0 && mission.fallbackMission) {
+      yield put(setMissionFallback(mission))
+
+      const fallback = mission.fallbackMission;
+
+      regionData = {
+        name: fallback.name,
+        shortname: fallback.shortname,
+        dates: yield evaluate(fallback.algorithms.queryAvailable(geometry))
+      }
+    }
+
+    availableByMission.push(regionData);
   }
 
   const availableDates = aggregateMissionsDates(availableByMission);

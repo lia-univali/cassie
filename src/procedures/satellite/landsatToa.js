@@ -1,15 +1,22 @@
+import ee from "../../services/EarthEngine";
 import {
   mergeProperties,
-  addGridPosition,
   retrieveExtremes,
   getDate
-} from "./common";
-import { getSatelliteCollection } from "../common/eeUtils";
-import { scoreClouds } from "./imagery";
-import * as Metadata from "../common/metadata";
+} from "../common";
+import { scoreCloudRatio } from "../imagery";
+import * as Metadata from "../../common/metadata";
 
-const REVISIT_DAYS = 16; // Landsat 5 only; TODO others
-const ee = window.ee;
+const addGridPosition = element => {
+  const image = ee.Image(element);
+  const rawPosition = {
+    path: image.get("WRS_PATH"),
+    row: image.get("WRS_ROW")
+  };
+  const position = ee.Number(rawPosition.path).multiply(100).add(ee.Number(rawPosition.row))
+
+  return image.set({ [Metadata.GRID_POSITION]: position });
+};
 
 const sliceByRevisit = (collection, startingDate, days) => {
   const start = ee.Date(startingDate).update(null, null, null, 0, 0, 0);
@@ -18,28 +25,45 @@ const sliceByRevisit = (collection, startingDate, days) => {
   return collection.filterDate(start, end);
 };
 
-export const acquireFromDate = (date, collection, geometry) => {
+export const maskTOAClouds = (image, bandName) => {
+  const band = image.select(bandName)
+
+  const cloudMask = 1 << 4,
+    cloudConf = 3 << 5,
+    shadowConf = 3 << 7,
+    cirrusConf = 3 << 11;
+
+  return band.bitwiseAnd(cloudMask)
+    .and(band.bitwiseAnd(cloudConf).gt(1)
+      .or(band.bitwiseAnd(shadowConf).gt(1))
+      .or(band.bitwiseAnd(cirrusConf).gt(1))
+    )
+}
+
+export const acquireFromDate = (date, mission, geometry) => {
   const slice = sliceByRevisit(
-    ee.ImageCollection(collection).filterBounds(geometry),
+    ee.ImageCollection(mission.name).filterBounds(geometry),
     date,
-    REVISIT_DAYS
+    mission.cycle
   );
   const mosaicked = slice.mosaic().clip(geometry);
 
   const image = mosaicked.set(mergeProperties(slice));
-  return scoreClouds(image, geometry, 'pixel_qa');
+  const ratio = scoreCloudRatio(maskTOAClouds(image, mission.bands.qa), mission.bands.qa, geometry);
+
+  return image.set('CLOUDS', ratio)
 };
 
 // Computes a list of valid dates in the region to be retrieved with acquireFromDate.
-export const processCollection = (satellite, geometry) => {
-  const query = getSatelliteCollection(satellite).filterBounds(geometry);
+export const processCollection = (mission, geometry) => {
+  const query = ee.ImageCollection(mission.name).filterBounds(geometry);
 
   // Retrieve the globally extreme dates (earliest and latest)
   const global = retrieveExtremes(query);
 
   // Compute the grid position of each image and sort in ascending order
   const enhanced = query
-    .map(addGridPosition(satellite))
+    .map(addGridPosition)
     .sort(Metadata.GRID_POSITION);
 
   // Retrieve the northeasternmost grid position within the specified bounds
@@ -60,11 +84,11 @@ export const processCollection = (satellite, geometry) => {
   const difference = northeastern.earliest
     .difference(global.earliest, "day")
     .abs();
-  const remainder = ee.Number(difference).mod(REVISIT_DAYS);
+  const remainder = ee.Number(difference).mod(mission.cycle);
 
   // The amount of days we need to go back is given by the reverse of the
   // difference, in terms of the duration of an orbit
-  const step = ee.Number(REVISIT_DAYS).subtract(remainder);
+  const step = ee.Number(mission.cycle).subtract(remainder);
 
   // Compute the date of the earliest possible image in the northeastern
   // position (whether or not it exists) by going back in time
@@ -75,18 +99,18 @@ export const processCollection = (satellite, geometry) => {
   // or not they exist)
   const completeCycles = ee
     .Number(earliestDate.difference(global.latest, "day").abs())
-    .divide(REVISIT_DAYS)
+    .divide(mission.cycle)
     .ceil();
 
   // Generate slices of 16 (0, 16, 32, 48, ...), one for each complete cycle
-  const additions = ee.List.sequence(0, null, REVISIT_DAYS, completeCycles);
+  const additions = ee.List.sequence(0, null, mission.cycle, completeCycles);
 
   // Transform each slice into an empty image. If the slice contains at least
   // one image, we add metadata related to the correspondent orbital cycle,
   // to allow for filtering later
   const carriers = additions.map(increment => {
     const startingDate = earliestDate.advance(increment, "day");
-    const collection = sliceByRevisit(query, startingDate, REVISIT_DAYS);
+    const collection = sliceByRevisit(query, startingDate, mission.cycle);
 
     const empty = ee.Algorithms.IsEqual(collection.size(), 0);
     const properties = ee.Algorithms.If(empty, {}, mergeProperties(collection));
@@ -103,11 +127,40 @@ export const processCollection = (satellite, geometry) => {
   return ee.List(valid.toList(valid.size()).map(getDate));
 };
 
-export const generateCloudMap = (dates, collection, geometry) => {
+export const generateCloudMap = (dates, mission, geometry) => {
   const cloudList = ee.List(dates).map(date => {
-    const image = ee.Image(acquireFromDate(date, collection, geometry));
+    const image = ee.Image(acquireFromDate(date, mission, geometry));
     return image.get("CLOUDS");
   });
 
   return cloudList;
+};
+
+const queryAvailable = mission => geometry => {
+  const query = processCollection(mission, geometry);
+  const datesQuery = query.map(date => ee.Date(date).format("YYYY-MM-dd"));
+  const cloudQuery = generateCloudMap(datesQuery, mission, geometry);
+
+  return ee.Dictionary.fromLists(datesQuery, cloudQuery)
+};
+
+const getAvailable = mission => geometry => { };
+
+const acquire = mission => (date, geometry) => {
+  return acquireFromDate(date, mission, geometry);
+}
+
+const format = properties => {
+  return (
+    properties["system:time_start"] +
+    " -- " +
+    properties["cloud"]
+  );
+}
+
+export default {
+  queryAvailable,
+  getAvailable,
+  acquire,
+  format
 };
