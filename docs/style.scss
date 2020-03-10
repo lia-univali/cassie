@@ -1,0 +1,267 @@
+$primary: #009688;
+$secondary: rgba(25,255,236,1);
+$background: rgb(239, 239, 239);
+$tertiary: rgb(255, 71, 14);
+$dark: rgb(14, 18, 56);
+
+$mainmargin: 40px;
+$antimargin: -30px;
+
+$roundness: .5rem;
+
+body{
+    background-image: url("./imagens/bg.jpg");
+    background-size: cover;
+    background-position: bottom;
+    background-attachment: fixed;
+}
+main{
+    background-color: #009687d8;
+    border-radius: 0;
+    @media (min-width: 768px){
+        border-top-left-radius: $roundness;
+        border-top-right-radius: $roundness;
+        margin: 0 $mainmargin;
+    }
+}
+header{
+    background-color: transparent;
+    padding: 5rem;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    h1, h3{
+        color: #fff;
+        text-align: center;
+        text-shadow: 2px 0 0 $dark, -2px 0 0 $dark, 0 2px 0 $dark, 0 -2px 0 $dark, 1px 1px $dark, -1px -1px 0 $dark, 1px -1px 0 $dark, -1px 1px 0 $dark;
+    }
+    h1{
+        letter-spacing: 0.4em;
+        margin-left: 0.4em;
+        font-size: 3rem;
+    }
+    h3{
+        font-size: 1rem;
+    }
+
+    @media (min-width: 768px){
+        h1{
+            font-size: 7rem;
+            font-weight: 300;
+            
+        }
+        h3{
+            font-size: 3rem;
+        }
+    }
+}
+.acess-button{
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+.section-title{
+    text-align: center;
+    margin-bottom: 1rem;
+}  
+.presentation{
+    background-color: $background;
+    position: relative;
+    border-radius: 0;
+    @media (min-width: 768px){
+        border-radius: $roundness;
+    }
+    width: 100%;
+    margin: 0;
+    @media (min-width: 768px){
+        margin: 0 auto -3rem;
+        width: 80%;
+    }
+    padding: 2rem;
+    .info, .icon{
+        text-align: center;
+    }
+    .material-icons {
+        font-size: 75px;
+    }
+    p{
+        text-align: justify;
+    }
+}
+.about-cassie{
+    background-color: #08453e;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%230d655c' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+    border-radius: 0;
+    @media (min-width: 768px){
+        border-radius: $roundness;
+    }
+    color: #fff;
+    margin: 0;
+    
+    
+    @media (min-width: 768px){
+        position: relative;
+        top: 8rem;
+        margin: 0 auto 13rem auto;
+        margin-left: $antimargin;
+        margin-right: $antimargin;
+    }
+    padding: 2rem;
+    h1{
+        text-align: center;
+    }
+    p{
+        text-align: justify;
+    }
+    @media (min-width: 768px){
+        p{
+            padding: 2rem;
+            text-align: center;
+            line-height: 1.5em;
+            font-size: 21px;
+        }
+    }
+}
+
+.center-section{
+    background-color: $background;
+    position: relative;
+    width: 100%;
+    padding: 3rem;
+    @media (min-width: 768px){
+        width: 80%;
+        margin: 8rem auto 0px;
+    }
+    border-radius: 0;
+    @media (min-width: 768px){
+        border-radius: $roundness;
+    }
+}
+.button-link{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.instruction-section{
+    background-color: #fff;
+    .instruction-text{
+        ol {
+            display: block;
+            justify-content: center;
+            list-style-type:decimal;
+            margin-bottom: 1em;
+            &#lista-maneira{
+                columns: 1;
+                li{
+                    padding: 4px;
+                    text-align: justify;
+                }
+                @media (min-width: 768px) {
+                    columns: 2;
+                    margin: 2rem 1rem;
+                    li{
+                        padding: 7px;
+                        text-align: initial;
+                    }
+                }
+            }
+        }
+    }
+}
+.baysqueeze-section{
+    .logo-baysqueeze{
+        img{
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+    }
+    .baysqueeze-text{
+        padding: 0;
+        p{
+            text-align: justify;
+        }
+    }
+}
+
+.paper-section{
+    background-color: #fff;
+    .artigo{
+        text-align: center;
+        margin: auto auto;
+        img{
+            margin: 1rem auto;
+            padding: .7rem;
+            max-height: 130px;
+            max-width: 200px;
+            &:hover{
+                transform: scale(1.1);
+            }
+        }
+    }
+}
+.ods-section{
+    @media (min-width: 768px){
+        bottom: 2rem;
+    }
+    
+    .ods{
+        text-align: center;
+        margin: auto auto;
+        img{
+            margin: 1rem auto;
+            padding: .7rem;
+            width: 200px;
+            &:hover{
+               transform: scale(1.1);
+            }
+        }
+    }
+}
+#realizacao{
+    background-color: #fff;
+    padding: 2rem;
+    .container{
+        margin:  auto;
+    }
+    .section-title{
+        margin: 3rem auto 0 auto;
+    }
+    
+    .img-realizacao{
+        text-align: center;
+        img{
+            margin: 1rem auto;
+            max-height: 100px;
+            &#univali{
+                margin-top: 40px;
+            }
+            &#furg{
+                margin-top: 30px;
+            }
+            &#lia{
+                transform: scale(.7);
+            }
+        }
+    }
+}
+
+.footer{
+    background-color: #111;
+    overflow: hidden;
+    padding: 3rem 1.5rem 4rem;
+    p{
+        color: $background;
+        text-align: center;
+        a:hover{
+            text-decoration: none;
+            color: #77b0ab;
+        }
+    }
+    img{
+        max-width: 100%;
+        height: 1rem;
+    }
+}

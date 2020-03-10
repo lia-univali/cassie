@@ -258,7 +258,6 @@ function estevesLabelling(transects) {
 
   return classified;
 }
-
 function* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold, names = []) {
   const { satellite, geometry } = yield select(
     Selectors.getAcquisitionParameters
@@ -396,6 +395,7 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
               "nsm",
               "sce",
               "class",
+
               ...names
             ]
           )
