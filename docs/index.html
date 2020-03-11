@@ -5,6 +5,26 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+	<meta name="application-name" content="cassie">
+	<meta name="description" content="cassie é uma ferramenta para análise e mapeamento de regiões costeiras, que utiliza a plataforma Google Earth Engine.">
+	<meta name="author" content="Laboratório de Inteligência Aplicada">
+	<meta name="keywords" content="computação, ferramenta, científico, computer, beach, shore, shoreline, costa, linha de costa, univali, lia, analise, web application">
+
+	<!-- Metadados para facebook -->
+	<meta property="og:locale" content="pt_BR" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="CASSIE" />
+	<meta property="og:description" content="cassie é uma ferramenta para análise e mapeamento de regiões costeiras, que utiliza a plataforma Google Earth Engine." />
+	<meta property="og:url" content="https://http://cassiengine.com/" />
+	<meta property="og:site_name" content="cassie" />
+	<meta property="og:image" content="https://lia-univali.github.io/thumb.jpg" />
+
+	<!-- Metadados para twitter -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:description" content="cassie é uma ferramenta para análise e mapeamento de regiões costeiras, que utiliza a plataforma Google Earth Engine." />
+	<meta name="twitter:title" content="cassie" />
+	<meta name="twitter:image" content="https://lia-univali.github.io/thumb.jpg" />
+
 	<!-- Material Design for Bootstrap fonts and icons -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
 
@@ -20,6 +40,25 @@
 
 	<body>
 		<header>
+			<nav class="navbar navbar-expand-md navbar-dark bg-transparent fixed-top ">
+				<div class="container">
+				  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+					aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				  </button>
+				  <div class="collapse navbar-collapse navbar-right" id="navbarsExampleDefault">
+					<ul class="navbar-nav mr-auto">
+					  <li class="nav-item"><a class="nav-link goto" href="#sobre" data-to="#sobre">Sobre</a></li>
+					  <li class="nav-item"><a class="nav-link goto" href="#instrucao" data-to="#instrucao">instrução</a></li>
+					  <li class="nav-item"><a class="nav-link goto" href="#baysqueeze" data-to="#baysqueeze">Baysqueeze</a></li>
+					  </li>
+					</ul>
+				  </div>
+				  <a href="https://ialab.com.br/" target="_blank">
+					<img src="imagens/lialines.svg" height="32px" />
+				  </a>
+				</div>
+			</nav>
 			<div class="page-header">
 				<div class="row header-title">
 					<div class="col-12">
@@ -34,11 +73,14 @@
 						<a href="https://cassie-stable.herokuapp.com/" target="_blank" class="btn btn-raised btn-warning btn-lg">Access cassie tool</a>
 					</div>
 				</div>
+				<div class="arrow bounce">
+					<a class="fa fa-arrow-down fa-2x" href="#sobre"></a>
+				  </div>
 			</div>
 		</header>
-		<div class="presentation">
+		<!-- <div class="presentation fixed">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-4">
 					<div class="info">
 						<div class="icon icon-rose">
 							<i class="material-icons">fingerprint</i>
@@ -47,16 +89,16 @@
 						<p>CASSIE é uma ferramenta para análise e mapeamento de regiões costeiras, que utiliza a plataforma Google Earth Engine.</p>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-4">
 					<div class="info">
 						<div class="icon icon-info">
-							<i class="material-icons">cloud</i>
+							<i class="material-icons">info</i>
 						</div>
-						<h4 class="info-title">Processamento na nuvem</h4>
+						<h4 class="info-title">Como utilizar</h4>
 						<p>O processamento de dados realizado na obtenção e processamento das imagens ocorre na plataforma Google Clouds.</p>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-4">
 					<div class="info">
 						<div class="icon icon-success">
 							<i class="material-icons">account_circle</i>
@@ -66,43 +108,29 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<main>
-			<div class="about-cassie">
+			<div class="about-cassie" id="sobre">
 				<h1>Conheça o CASSIE</h1>
 				<p>O cassie é uma ferramenta web de codigo aberto que realiza análises e mapeamento de regiões costeiras, com o foco na variação da linha de costa, para realizar esses procedimentos o cassie utiliza as ferramentas e imagens disponibilizadas pela plataforma Google Earth Engine, da coleção de imagens disponibilizadas, o cassie utiliza as pertencentes das missões landsat 5(1984-2011), landsat 7(desde 1999), landsat 8(Desde 2013) e sentinel-2(Desde 2013). Como a plataforma Google Earth Engine é baseada em nuvem, o processamento de dados do cassie é realizado pela plataforma Google Cloud, tornando o cassie mais leve e acessível para os utilizadores.</p>
 			</div>
-			<div class="instruction-section center-section">
+			<div class="instruction-section center-section" id="instrucao">
 				<div class="row">
 					<div class="col section-title">
-						<h3>Instruções basicas para utilização do CASSIE</h3>
+						<h3>Instruções para utilização do CASSIE</h3>
 					</div>
 				</div>
-				<div class="row justify-content-around">
-					<div class="col-11 instruction-text">
-						<ol type="1" id="lista-maneira">
-							<li>Acessar com uma conta google que esta cadastrada na plataforma google earth engine, link para cadastro no google earth engine <a href="https://signup.earthengine.google.com">aqui</a></li>
-							<li>Definir a missão (coleção do satélite)</li>
-							<li>Escolher a área de interesse (area of interest, AOI)</li>
-							<li>Definir a janela de tempo e o filtro de cobertura de nuvens</li>
-							<li>Definir o Período das imagens à serem analisadas</li>
-							<li>Conferir as imagens e descartar as inadequadas</li>
-							<li>(Opcional) No canto inferior esquerdo selecionar a data e clicar carregar para visualizar a imagem da respectiva data no mapa</li>
-							<li>Definir a missão (coleção do satélite)</li>
-							<li>Escolher a área de interesse (area of interest, AOI)</li>
-							<li>Definir a janela de tempo e o filtro de cobertura de nuvens</li>
-							<li>Conferir as imagens e descartar as inadequadas</li>
-							<li>Acessar com uma conta google que esta cadastrada na plataforma google earth engine, link para cadastro no google earth engine <a href="https://signup.earthengine.google.com">aqui</a></li>
-							<li>Definir a missão (coleção do satélite)</li>
-							<li>Escolher a área de interesse (area of interest, AOI)</li>
-							<li>Definir a janela de tempo e o filtro de cobertura de nuvens</li>
-							<li>Conferir as imagens e descartar as inadequadas</li>
-							<li>Acessar com uma conta google que esta cadastrada na plataforma google earth engine, link para cadastro no google earth engine <a href="https://signup.earthengine.google.com">aqui</a></li>
-							<li>Definir a missão (coleção do satélite)</li>
-							<li>Escolher a área de interesse (area of interest, AOI)</li>
-							<li>Definir a janela de tempo e o filtro de cobertura de nuvens</li>
-							<li>Conferir as imagens e descartar as inadequadas</li>
-						</ol>
+				<div class="row ">
+					<div class="col-12 col-lg-3 image-exemple">
+						<img src="imagens/sats.png" alt="Satellite">
+					</div>
+					<div class="col-12 col-lg-3 image-exemple">
+						<img src="imagens/costa.png" alt="costa">
+					</div>
+					<div class="col-12 col-lg-6 instruction-text">
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae dui et eros vehicula consequat quis sit amet sapien. Nam commodo euismod metus, ullamcorper malesuada metus placerat vitae.
+						</p>
 					</div>
 				</div>
 				<div class="row">
@@ -111,7 +139,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="baysqueeze-section center-section">
+			<div class="baysqueeze-section center-section" id="baysqueeze">
 				<div class="row">
 					<div class="col-12 section-title">
 						<h3>Projeto Bay Squeeze</h3>
@@ -119,7 +147,17 @@
 				</div>
 				<div class="row justify-content-around">
 					<div class="col-12 col-lg-4 logo-baysqueeze">
-						<img src="imagens/logos/BaySqueeze.png" alt="Bay squeeze logo">
+						<div class="row">
+							<div class="col-12">
+								<img src="imagens/logos/BaySqueeze.png" alt="Bay squeeze logo">
+							</div>
+							<div class="col-6 ods">
+								<a href="https://nacoesunidas.org/pos2015/ods13/" target="_blank"><img class="ods" src="imagens/logos/ods-13.png" /></a>
+							</div>
+							<div class="col-6 ods">
+								<a href="https://nacoesunidas.org/pos2015/ods14/" target="_blank"><img class="ods" src="imagens/logos/ods-14.png" /></a>
+							</div>
+						</div>
 					</div>
 					<div class="col-12 col-lg-7 baysqueeze-text">
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae dui et eros vehicula consequat quis sit amet sapien. Nam commodo euismod metus, ullamcorper malesuada metus placerat vitae. Nunc congue arcu a purus suscipit, et sagittis nulla semper. Suspendisse ultrices egestas pharetra. Sed at sollicitudin ligula. Proin congue varius libero a condimentum. Aenean pharetra, nulla nec consequat laoreet, odio massa convallis erat, convallis ultrices eros neque vitae purus. Donec congue mi arcu, suscipit feugiat dolor gravida a. Morbi a tincidunt velit, non tempus eros.</p>
@@ -148,22 +186,7 @@
 						<a href="http://www.praiaegestao.com.br/theme/images/ANAISSBPAEENCOGERCO_2018.pdf#%5B%7B%22num%22%3A1008%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C60%2C733%2C0%5D" target="_blank"><img class="logo-sbpa" src="imagens/logos/sbpa.png" /></a>
 					</div>
 				</div>
-			</div>
-			<div class="ods-section center-section">
-				<div class="row">
-					<div class="col-12 section-title">
-						<h3>Objetivos de Desenvolvimento Sustentável</h3>
-					</div>
-				</div>
-				<div class="row justify-content-around">
-					<div class="col-12 col-md-4 ods">
-						<a href="https://nacoesunidas.org/pos2015/ods13/" target="_blank"><img class="ods" src="imagens/logos/ods-13.png" /></a>
-					</div>
-					<div class="col-12 col-md-4 ods">
-						<a href="https://nacoesunidas.org/pos2015/ods14/" target="_blank"><img class="ods" src="imagens/logos/ods-14.png" /></a>
-					</div>
-				</div>
-			</div>		
+			</div>	
 		</main>	
 		<footer>
 			<section class="section" id="realizacao">
@@ -181,7 +204,7 @@
 					</div>
 					<div class="row">
 						<div class="col-12 section-title">
-							<h3>Apoio Finaceiro</h3>
+							<h3>Apoio Financeiro</h3>
 						</div>
 					</div>
 					<div class="row">
@@ -216,5 +239,11 @@
 				</p>
 			  </div>
 		</footer>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+		<script src="https://kit.fontawesome.com/29e566dc39.js" crossorigin="anonymous"></script>
+		<script src="js/scroll.js"></script>
+		<script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
 	</body>
 </html>

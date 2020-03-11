@@ -3,6 +3,9 @@ $secondary: rgba(25,255,236,1);
 $background: rgb(239, 239, 239);
 $tertiary: rgb(255, 71, 14);
 $dark: rgb(14, 18, 56);
+$preto: #111;
+$branco: #fff;
+$teal: #26a69a;
 
 $mainmargin: 40px;
 $antimargin: -30px;
@@ -16,17 +19,31 @@ body{
     background-attachment: fixed;
 }
 main{
-    background-color: #009687d8;
-    border-radius: 0;
     @media (min-width: 768px){
-        border-top-left-radius: $roundness;
-        border-top-right-radius: $roundness;
         margin: 0 $mainmargin;
     }
 }
 header{
+    nav {
+        transition: 0.5s ease;
+        &.bg-dark {
+          background-color: $preto !important;
+        }
+        &.bg-transparent {
+          border: none;
+          box-shadow: none;
+          padding: 2rem;
+        }
+        .nav-link {
+          color: $branco!important;
+          &:hover {
+            color: $teal !important;
+          }
+        }
+      }
     background-color: transparent;
     padding: 5rem;
+    margin: 8rem 0 0;
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -46,6 +63,30 @@ header{
         font-size: 1rem;
     }
 
+    .arrow {
+        text-align: center;
+        margin: 8% 0 0;
+        a{
+            color: white;
+            text-decoration: none;
+        }
+    }
+    .bounce {
+        -moz-animation: bounce 2s infinite;
+        -webkit-animation: bounce 2s infinite;
+        animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-30px);
+        }
+        60% {
+          transform: translateY(-15px);
+        }
+    }
     @media (min-width: 768px){
         h1{
             font-size: 7rem;
@@ -56,6 +97,7 @@ header{
             font-size: 3rem;
         }
     }
+    
 }
 .acess-button{
     display: flex;
@@ -65,57 +107,63 @@ header{
 .section-title{
     text-align: center;
     margin-bottom: 1rem;
-}  
-.presentation{
-    background-color: $background;
-    position: relative;
-    border-radius: 0;
-    @media (min-width: 768px){
-        border-radius: $roundness;
-    }
-    width: 100%;
-    margin: 0;
-    @media (min-width: 768px){
-        margin: 0 auto -3rem;
-        width: 80%;
-    }
-    padding: 2rem;
-    .info, .icon{
-        text-align: center;
-    }
-    .material-icons {
-        font-size: 75px;
-    }
-    p{
-        text-align: justify;
-    }
 }
+
+// .presentation{
+//     background-color: $background;
+//     position: relative;
+//     margin: 0 auto;
+//     padding: 2rem;
+//     .info, .icon{
+//         text-align: center;
+//     }
+//     .material-icons {
+//         font-size: 75px;
+//     }
+//     p{
+//         text-align: justify;
+//     }
+//     @media (min-width: 768px){
+//         margin: 0 auto -3rem;
+//         border-radius: $roundness;
+//         width: 80%;
+//     }
+//     &.fixed{
+//         width: 100%;
+//         padding: 0;
+//         position: fixed;
+//         z-index: 1000;
+//         top: 0;
+//         left: 0;
+//         right: 0;
+//         border-radius: 0;
+        
+//         p, h4{
+//             display: none;
+//         }
+//         .material-icons {
+//             font-size: 30px;
+//         }
+//     }
+// }
 .about-cassie{
     background-color: #08453e;
     background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%230d655c' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
     border-radius: 0;
-    @media (min-width: 768px){
-        border-radius: $roundness;
-    }
+    width: 100%;
     color: #fff;
-    margin: 0;
-    
-    
-    @media (min-width: 768px){
-        position: relative;
-        top: 8rem;
-        margin: 0 auto 13rem auto;
-        margin-left: $antimargin;
-        margin-right: $antimargin;
-    }
+    margin: 0; 
     padding: 2rem;
     h1{
         text-align: center;
     }
     p{
         text-align: justify;
-    }
+    }  
     @media (min-width: 768px){
+        position: relative;
+        margin: 0 auto ;
+        border-radius: $roundness;
         p{
             padding: 2rem;
             text-align: center;
@@ -147,28 +195,14 @@ header{
 
 .instruction-section{
     background-color: #fff;
-    .instruction-text{
-        ol {
-            display: block;
-            justify-content: center;
-            list-style-type:decimal;
-            margin-bottom: 1em;
-            &#lista-maneira{
-                columns: 1;
-                li{
-                    padding: 4px;
-                    text-align: justify;
-                }
-                @media (min-width: 768px) {
-                    columns: 2;
-                    margin: 2rem 1rem;
-                    li{
-                        padding: 7px;
-                        text-align: initial;
-                    }
-                }
-            }
+    .image-exemple{
+        img{
+            width: 100%;
         }
+        margin: auto;
+    }
+    .instruction-text{
+        margin: auto;
     }
 }
 .baysqueeze-section{
@@ -179,7 +213,7 @@ header{
         }
     }
     .baysqueeze-text{
-        padding: 0;
+        margin: auto;
         p{
             text-align: justify;
         }
@@ -188,6 +222,9 @@ header{
 
 .paper-section{
     background-color: #fff;
+    @media (min-width: 768px){
+        bottom: 2rem;
+    }
     .artigo{
         text-align: center;
         margin: auto auto;
@@ -202,26 +239,8 @@ header{
         }
     }
 }
-.ods-section{
-    @media (min-width: 768px){
-        bottom: 2rem;
-    }
-    
-    .ods{
-        text-align: center;
-        margin: auto auto;
-        img{
-            margin: 1rem auto;
-            padding: .7rem;
-            width: 200px;
-            &:hover{
-               transform: scale(1.1);
-            }
-        }
-    }
-}
 #realizacao{
-    background-color: #fff;
+    background-color: $background;
     padding: 2rem;
     .container{
         margin:  auto;
@@ -249,7 +268,7 @@ header{
 }
 
 .footer{
-    background-color: #111;
+    background-color: $preto;
     overflow: hidden;
     padding: 3rem 1.5rem 4rem;
     p{
