@@ -203,6 +203,9 @@ header{
     }
     .instruction-text{
         margin: auto;
+        a{
+            text-decoration: none;
+        }
     }
 }
 .baysqueeze-section{

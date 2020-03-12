@@ -220,6 +220,10 @@ header .bounce {
   margin: auto;
 }
 
+.instruction-section .instruction-text a {
+  text-decoration: none;
+}
+
 .baysqueeze-section .logo-baysqueeze img {
   width: 100%;
   margin-bottom: 1rem;
