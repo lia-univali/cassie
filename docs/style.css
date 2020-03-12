@@ -241,12 +241,6 @@ header .bounce {
   background-color: #fff;
 }
 
-@media (min-width: 768px) {
-  .paper-section {
-    bottom: 2rem;
-  }
-}
-
 .paper-section .artigo {
   text-align: center;
   margin: auto auto;
@@ -264,39 +258,63 @@ header .bounce {
           transform: scale(1.1);
 }
 
-#realizacao {
+@media (min-width: 768px) {
+  .paper-section {
+    bottom: 2rem;
+  }
+}
+
+.realizacao {
   background-color: #efefef;
   padding: 2rem;
 }
 
-#realizacao .container {
+.realizacao .container {
   margin: auto;
 }
 
-#realizacao .section-title {
+.realizacao .section-title {
   margin: 3rem auto 0 auto;
 }
 
-#realizacao .img-realizacao {
+.realizacao .img-realizacao {
   text-align: center;
 }
 
-#realizacao .img-realizacao img {
+.realizacao .img-realizacao img {
   margin: 1rem auto;
   max-height: 100px;
 }
 
-#realizacao .img-realizacao img#univali {
+.realizacao .img-realizacao img#univali {
   margin-top: 40px;
 }
 
-#realizacao .img-realizacao img#furg {
+.realizacao .img-realizacao img#furg {
   margin-top: 30px;
 }
 
-#realizacao .img-realizacao img#lia {
+.realizacao .img-realizacao img#lia {
   -webkit-transform: scale(0.7);
           transform: scale(0.7);
+}
+
+.contact-section {
+  background-color: #111;
+  padding: 3rem;
+}
+
+.contact-section p, .contact-section h3, .contact-section h4 {
+  color: #fff;
+}
+
+.contact-section p {
+  padding-left: 1rem;
+  margin-bottom: .5rem;
+}
+
+.contact-section h4 {
+  margin: 1rem 0;
 }
 
 .footer {
