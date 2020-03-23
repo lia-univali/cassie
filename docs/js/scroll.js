@@ -1,12 +1,10 @@
-var navOffsetTop
 $(document).ready(function() {
-    navOffsetTop = $('nav').offset().top
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
+            document.querySelector(this.getAttribute('href')).scrollIntoView({ 
                 behavior: 'smooth',
-                block: 'start'
+                block: 'center'
             });
         });
     });
