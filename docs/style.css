@@ -355,6 +355,14 @@ header .bounce {
           transform: scale(0.7);
 }
 
+.realizacao .img-realizacao #chamada-cnpq {
+  margin: 0 auto;
+  text-align: justify;
+  font-size: 18px;
+  font-weight: 500;
+  width: 50%;
+}
+
 .contact-section {
   background-color: #111;
   padding: 3rem;
