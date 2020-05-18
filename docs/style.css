@@ -160,25 +160,25 @@ header .bounce {
   text-align: justify;
 }
 
-.about-cassie a {
+.about-cassie #materia-cnpq a {
   text-decoration: none;
-  color: #19ffec;
+  color: #fff;
 }
 
-.about-cassie a p {
+.about-cassie #materia-cnpq a p {
   display: inline-block;
-  background-color: #0224208a;
+  background-color: #0224209c;
   border: 0.2px solid rgba(48, 45, 45, 0.904);
   border-radius: 4px;
-  padding: 3px 4px;
+  padding: 4px 6px;
   margin-left: 2rem;
   -webkit-transition: .5s;
   transition: .5s;
 }
 
-.about-cassie a p:hover {
-  -webkit-transform: scale(1.05);
-          transform: scale(1.05);
+.about-cassie #materia-cnpq a p:hover {
+  -webkit-transform: scale(1.09);
+          transform: scale(1.09);
 }
 
 .about-cassie .carousel.slide {

@@ -127,19 +127,21 @@ header{
     h4{
         text-align: justify;
     }
-    a{
+    #materia-cnpq{
+        a{
         text-decoration: none;
-        color: $secondary;
-        p{
-            display: inline-block;
-            background-color: #0224208a;
-            border: 0.2px solid rgba(48, 45, 45, 0.904);
-            border-radius: 4px;
-            padding: 3px 4px;
-            margin-left: 2rem;
-            transition: .5s;
-            &:hover{
-                transform: scale(1.05);
+        color: $branco;
+            p{
+                display: inline-block;
+                background-color: #0224209c;
+                border: 0.2px solid rgba(48, 45, 45, 0.904);
+                border-radius: 4px;
+                padding: 4px 6px;
+                margin-left: 2rem;
+                transition: .5s;
+                &:hover{
+                    transform: scale(1.09);
+                }
             }
         }
     }
