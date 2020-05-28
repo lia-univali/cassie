@@ -41,19 +41,19 @@
 
 	<body>
 		<header>
-			<nav class="navbar navbar-expand-md navbar-dark bg-transparent fixed-top ">
+			<nav class="navbar navbar-expand-md navbar-dark bg-transparent fixed-top">
 				<div class="container">
-				  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-					aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+				  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+					aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				  </button>
-				  <div class="collapse navbar-collapse navbar-right" id="navbarsExampleDefault">
+				  <div class="collapse navbar-collapse navbar-right" id="navbar">
 					<ul class="navbar-nav mr-auto">
-					  <li class="nav-item"><a class="nav-link goto" href="#sobre" data-to="#sobre">Sobre</a></li>
-					  <li class="nav-item"><a class="nav-link goto" href="#instrucao" data-to="#instrucao">Instruções</a></li>
+					  <li class="nav-item"><a class="nav-link goto" href="#about-cassie" data-to="#about-cassie">Sobre</a></li>
+					  <li class="nav-item"><a class="nav-link goto" href="#instruction" data-to="#instruction">Instruções</a></li>
 					  <li class="nav-item"><a class="nav-link goto" href="#baysqueeze" data-to="#baysqueeze">Baysqueeze</a></li>
-					  <li class="nav-item"><a class="nav-link goto" href="#equipe" data-to="#equipe">Equipe</a></li>
-					  <li class="nav-item"><a class="nav-link goto" href="#bibliografia" data-to="#bibliografia">Produção científica</a></li>
+					  <li class="nav-item"><a class="nav-link goto" href="#team" data-to="#team">Equipe</a></li>
+					  <li class="nav-item"><a class="nav-link goto" href="#papers" data-to="#papers">Produção científica</a></li>
 					  <li class="nav-item"><a class="nav-link goto" href="#contact" data-to="#contact">Contato</a></li>
 					</ul>
 				  </div>
@@ -69,30 +69,30 @@
 						<h1> CASSIE</h1>
 					</div>
 					<div class="col-12">
-						<h3 >Coastal Analysis via Satellite Imagery Engine</h3>
+						<h3>Coastal Analysis via Satellite Imagery Engine</h3>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col acess-button">
+					<div class="col" id="button-cassie-access">
 						<a href="https://cassie-stable.herokuapp.com/" target="_blank" class="btn btn-raised btn-warning btn-lg">Acesse a ferramenta</a>
 					</div>
 				</div>
 				<div class="arrow bounce">
-					<a class="fa fa-arrow-down fa-2x" href="#sobre"></a>
+					<a class="fa fa-arrow-down fa-2x" href="#about-cassie"></a>
 				  </div>
 			</div>
 
 		</header>
 
 		<main>
-			<div class="about-cassie" id="sobre">
+			<div class="about-cassie" id="about-cassie">
 				<h1>Conheça o CASSIE</h1>
 				<div class="row ">
 					<div class="col-12 col-lg-6">
 						<h4>O CASSIE é uma ferramenta web de código aberto que permite o mapeamento automático e análise da linha de costa em qualquer zona costeira do planeta. Para realizar esses procedimentos o CASSIE utiliza as ferramentas e imagens de satélite multi-espectrais disponibilizadas pela plataforma Google Earth Engine. O CASSIE tem acesso a coleção de imagens pertencentes às missões Landsat 5, 7, 8 e sentinel-2. Como a plataforma Google Earth Engine é baseada em nuvem, o CASSIE requer acesso a internet, e o processamento de dados do CASSIE é realizado pela plataforma Google Cloud, tornando a ferrameta acessível à computadores menos robustos.</h4>
 					</div>
-					<div class="col-12 col-md-6"  >
-						<div class="carousel slide" id="carousel-sobre" data-ride="carousel" data-interval="7000">
+					<div class="col-12 col-lg-6"  >
+						<div class="carousel slide" id="carousel-about" data-ride="carousel" data-interval="7000">
 							<div class="carousel-inner">
 							  <div class="carousel-item active">
 								<img class="d-block w-100" src="imagens/cassie/sats.png" alt="escolha de satélite">
@@ -119,32 +119,27 @@
 								<img class="d-block w-100" src="imagens/cassie/exportar.png"alt="opção para exportar">
 							  </div>
 							</div>
-							<a class="carousel-control-prev" href="#carousel-sobre" role="button" data-slide="prev">
+							<a class="carousel-control-prev" href="#carousel-about" role="button" data-slide="prev">
 							  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
 							  <span class="sr-only">Previous</span>
 							</a>
-							<a class="carousel-control-next" href="#carousel-sobre" role="button" data-slide="next">
+							<a class="carousel-control-next" href="#carousel-about" role="button" data-slide="next">
 							  <span class="carousel-control-next-icon" aria-hidden="true"></span>
 							  <span class="sr-only">Next</span>
 							</a>
 						  </div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-12" id="materia-cnpq">
-						<a href="http://www.cnpq.br/web/guest/noticiasviews/-/journal_content/56_INSTANCE_a6MO/10157/7574030" target="_blank"><p>Matéria sobre o CASSIE</p></a>
-					</div>
-				</div>
 			</div>
-
-			<div class="instruction-section center-section" id="instrucao">
+			
+			<div class="instruction-section center-section" id="instruction">
 				<div class="row">
-					<div class="col section-title">
+					<div class="col-12">
 						<h3>Instruções para utilização do CASSIE</h3>
 					</div>
 				</div>
 				<div class="row ">
-					<div class="col-12 instruction-text">
+					<div class="col-12">
 						<p>
 							Para utilizar o CASSIE é necessário possuir uma conta google cadastrada na plataforma google earth engine, para realizar o cadastro <a href="https://earthengine.google.com/signup/" target="_blank" >clique aqui</a>, Acesse o manual detalhado abaixo para ver as instruções e possibilidades de utilização do CASSIE.
 						</p>
@@ -159,26 +154,26 @@
 
 			<div class="baysqueeze-section center-section" id="baysqueeze">
 				<div class="row">
-					<div class="col-12 section-title">
+					<div class="col-12">
 						<h3>Projeto BAYSQUEEZE</h3>
 					</div>
 				</div>
-				<div class="row justify-content-around">
-					<div class="col-12 col-lg-4 logo-baysqueeze ">
+				<div class="row">
+					<div class="col-12 col-lg-4 baysqueeze-logos">
 						<div class="row h-100">
-							<div class="col-12">
-								<img src="imagens/logos/BaySqueeze.png" alt="Baysqueeze logo">
-							</div>
-							<div class="col-12 col-md-6">
-								<a href="http://redeclima.ccst.inpe.br/subredes/zonas-costeiras/" target="_blank"><img src="imagens/logos/rede-clima.png"/></a>
+							<div class="col-12 my-auto">
+								<a href="https://baysqueeze.paginas.ufsc.br/" target="_blank"><img id="logo-baysqueeze" src="imagens/logos/BaySqueeze.png" alt="Baysqueeze logo"/></a>
 							</div>
 							<div class="col-12 col-md-6 my-auto">
-								<a href="https://nacoesunidas.org/pos2015" target="_blank"><img id="ods-image" src="imagens/logos/ods.png" /></a>
+								<a href="http://redeclima.ccst.inpe.br/subredes/zonas-costeiras/" target="_blank"><img id ="logo-rede-clima" src="imagens/logos/rede-clima.png" alt="rede clima logo"/></a>
+							</div>
+							<div class="col-12 col-md-6 my-auto">
+								<a href="https://nacoesunidas.org/pos2015" target="_blank"><img id="logo-ods" src="imagens/logos/ods.png" alt="ods logo" /></a>
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-lg-7 baysqueeze-text">
-						<p>O nome "BAYSQUEEZE" foi o acrônimo escolhido para o projeto científico intitulado: "Subida do nível do mar e a Baía da Babitonga: uma abordagem eco-morfodinâmica para prever e mitigar impactos". Este projeto foi financiado pela chamada pública do CNPq MCTIC/CNPq - N° 21/2017 - Pesquisa e Desenvolvimento em Ações Integradas e Sustentáveis nas Baías do Brasil, Linha de Pesquisa 2 - Outras Baías do Brasil; Processo No. 441545/2017-3. O objetivo do projeto BAYSQUEEZE é, através de uma abordagem multi-disciplinar e inovadora, analisar os impactos que a subida do nível médio do mar vai trazer para a Baía da Babitonga e explorar medidas de mitigação do tipo “construindo com a natureza”. O CASSIE foi desenvolvido a partir do projeto BAYSQUEEZE, realizando a meta de desenvolvimento de uma ferramenta para análise e gestão de dados geospaciais em ambientes costeiros como, praias, baías ou estuários.</p>
+					<div class="col-12 col-lg-8 my-auto">
+						<p>O nome "BAYSQUEEZE" foi o acrônimo escolhido para o projeto científico intitulado: "Subida do nível do mar e a Baía da Babitonga: uma abordagem eco-morfodinâmica para prever e mitigar impactos". O objetivo do projeto é, através de uma abordagem multidisciplinar e inovadora, analisar os impactos que a subida do nível médio do mar vai trazer para a Baía da Babitonga, e explorar medidas de mitigação do tipo “construindo com a natureza”. O projeto procura contribuir com ações e resultados para o bem e preservação do nosso planeta, tomando para si, a tarefa de cumprir os objetivos de desenvolvimento sustentável, estabelecidos pela ONU, bem como atender às necessidades nacionais de conhecimento sobre mudanças climáticas, paralelamente aos objetivos da sub-rede "Zonas Costeiras", da Rede Brasileira de Pesquisas sobre Mudanças Climáticas Globais(Rede Clima). Este projeto foi financiado pela chamada pública do CNPq MCTIC/CNPq - N° 21/2017 - Pesquisa e Desenvolvimento em Ações Integradas e Sustentáveis nas Baías do Brasil, Linha de Pesquisa 2 - Outras Baías do Brasil; Processo No. 441545/2017-3.</p>
 					</div>
 				</div>
 				<div class="row">
@@ -188,215 +183,174 @@
 				</div>
 			</div>
 
-			<div class="team-section center-section" id="equipe">
+			<div class="team-section center-section" id="team">
 				<div class="row">
-					<div class="col-12 section-title">
+					<div class="col-12">
 						<h3>Equipe CASSIE</h3>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 col-md-4 equip-member">
-						<ul>
-							<li>
-								<h5>Antonio H.F. Klein</h5>
-							</li>
-							<li class="member">
-								<a href="http://lattes.cnpq.br/2354029280846247" target="_blank"><img src="imagens/equipe/klein.png" alt="antonio klein"></a>
-							</li>
-							<li>
-								<h5 class="cargo">Coordenador</h5>
-								<h5 class="cargo">UFSC - LOC</h5>
-							</li>
-						</ul>
+					<div class="col-6 col-md-4 member">
+						<h5 class="name" >Antonio H.F. Klein</h5>
+						<a href="http://lattes.cnpq.br/2354029280846247" target="_blank"><img src="imagens/equipe/klein.png" alt="antonio klein"></a>
+						<h5 class="role">Pesquisador</h5>
+						<h5 class="role">UFSC - LOC</h5>
 					</div>
-					<div class="col-12 col-md-4 equip-member">
-						<ul>
-							<li>
-								<h5>Rodrigo Lyra</h5>
-							</li>
-							<li class="member">
-								<a href="http://lattes.cnpq.br/0117343254850007" target="_blank"><img src="imagens/equipe/rodrigo1.png" alt="rodrigo"></a>
-							</li>
-							<li>
-								<h5 class="cargo">Coordenador</h5>
-								<h5 class="cargo">UNIVALI - LIA</h5>
-							</li>
-						</ul>
+					<div class="col-6 col-md-4 member">
+						<h5 class="name" >Rodrigo Lyra</h5>
+						<a href="http://lattes.cnpq.br/0117343254850007" target="_blank"><img src="imagens/equipe/rodrigo1.png" alt="rodrigo"></a>
+						<h5 class="role">Coordenador</h5>
+						<h5 class="role">UNIVALI - LIA</h5>
 					</div>
-					<div class="col-12 col-md-4 equip-member">
-						<ul>
-							<li>
-								<h5>Rudimar L.S. Dazzi</h5>
-							</li>
-							<li class="member">
-								<a href="http://lattes.cnpq.br/9340343036686762" target="_blank"><img src="imagens/equipe/rudimar.png" alt="rudimar"></a>
-							</li>
-							<li>
-								<h5 class="cargo">Coordenador</h5>
-								<h5 class="cargo">UNIVALI - LIA</h5>
-							</li>
-						</ul>
+					<div class="col-6 col-md-4 member">
+						<h5 class="name" >Rudimar L.S. Dazzi</h5>
+						<a href="http://lattes.cnpq.br/9340343036686762" target="_blank"><img src="imagens/equipe/rudimar.png" alt="rudimar"></a>
+						<h5 class="role">Coordenador</h5>
+						<h5 class="role">UNIVALI - LIA</h5>
 					</div>
-					<div class="col-12 col-md-4 equip-member">
-						<ul>
-							<li>
-								<h5>Luis Pedro Almeida</h5>
-							</li>
-							<li class="member">
-								<a href="http://lattes.cnpq.br/4892957787322492" target="_blank"><img src="imagens/equipe/pedro.png" alt="Luis pedro"></a>
-							</li>
-							<li>
-								<h5 class="cargo">Pesquisador</h5>
-								<h5 class="cargo">FURG - IO</h5>
-							</li>
-						</ul>
+					<div class="col-6 col-md-4 member">
+						<h5 class="name" >Luis Pedro Almeida</h5>
+						<a href="http://lattes.cnpq.br/4892957787322492" target="_blank"><img src="imagens/equipe/pedro.png" alt="Luis pedro"></a>
+						<h5 class="role">Pesquisador</h5>
+						<h5 class="role">FURG - IO</h5>
 					</div>
-					<div class="col-12 col-md-4 equip-member">
-						<ul>
-							<li>
-								<h5>Israel Efraim de Oliveira</h5>
-							</li>
-							<li class="member">
-								<a href="https://github.com/IsraelEfraim" target="_blank"><img src="imagens/equipe/israel.png" alt="Israel"></a>
-							</li>
-							<li>
-								<h5 class="cargo">Bolsista ATP-B</h5>
-								<h5 class="cargo">UNIVALI - LIA</h5>
-							</li>
-						</ul>
+					<div class="col-6 col-md-4 member">
+						<h5 class="name" >Israel Efraim de Oliveira</h5>
+						<a href="https://github.com/IsraelEfraim" target="_blank"><img src="imagens/equipe/israel.png" alt="Israel"></a>
+						<h5 class="role">Bolsista ATP-B</h5>
+						<h5 class="role">UNIVALI - LIA</h5>
 					</div>
-					<div class="col-12 col-md-4 equip-member">
-						<ul>
-							<li>
-								<h5>Vinícius Gabriel Martins</h5>
-							</li>
-							<li class="member">
-								<a href="https://github.com/vinigmartins" target="_blank"><img src="imagens/equipe/vinicius.png" alt="Vinícius"></a>
-							</li>
-							<li>
-								<h5 class="cargo">Bolsista FUMDES</h5>
-								<h5 class="cargo">UNIVALI - LIA</h5>
-							</li>
-						</ul>
+					<div class="col-6 col-md-4 member">
+						<h5 class="name" >Vinícius Gabriel Martins</h5>
+						<a href="https://github.com/vinigmartins" target="_blank"><img src="imagens/equipe/vinicius.png" alt="Vinícius"></a>
+						<h5 class="role">Bolsista FUMDES</h5>
+						<h5 class="role">UNIVALI - LIA</h5>
 					</div>
 				</div>
 			</div>
 
-			<div class="paper-section center-section" id="bibliografia">
+			<div class="paper-section center-section" id="papers">
 				<div class="row">
-					<div class="col-12 section-title">
+					<div class="col-12">
 						<h3>Produção científica</h3>
 					</div>
 				</div>
 				<div class="row ">
 					<div class="col-12 col-lg-6">
-						<div class="col-12 descricao-artigo">
+						<div class="col-12">
 							<h5><b>Resumos em eventos</b></h5>
 						</div>
-						<div class="col-12">
-							<a href="https://siaiap32.univali.br/seer/index.php/acotb/article/view/12871" target="_blank"><p>Concatto, F., Almeida, L. P. M., Lyra, R., Dazzi, R. L. S., Klein, A. H. F., Machado, A. A., Desenvolvimento de uma Ferramenta Integrada ao Google Earth Engine para a Análise de Ambientes Costeiros. Anais do Computer on the Beach, p. 950-951, 2018.</p></a>
-						</div>
-						<div class="col-12 descricao-artigo">
-							<h5><b>Curso ministrado</b></h5>
+						<div class="col-12 ">
+							<a href="http://www.praiaegestao.com.br/theme/images/ANAISSBPAEENCOGERCO_2018.pdf#page=252" target="_blank"><p class="reference">Concatto, F., Almeida, L. P. M., Lyra, R., Dazzi, R. L. S., Klein, A. H. F. (2018),e-C.A.S.S.I.E.: Uma Ferramenta para Análise e Mapeamento de Regiões Costeiras Utilizando a Plataforma Google Earth Engine. II SBPA & XI ENCOGERCO 2018</p></a>
+							<a href="https://siaiap32.univali.br/seer/index.php/acotb/article/view/12871" target="_blank"><p class="reference">Concatto, F., Almeida, L. P. M., Lyra, R., Dazzi, R. L. S., Klein, A. H. F., Machado, A. A., Desenvolvimento de uma Ferramenta Integrada ao Google Earth Engine para a Análise de Ambientes Costeiros. Anais do Computer on the Beach, p. 950-951, 2018.</p></a>
 						</div>
 						<div class="col-12">
-							<p>Na conferência da LAPECO de 2019, os membros: Luis Pedro Almeida, Rodrigo Lyra e israel Efraim de oliveira, da equipe CASSIE administraram um curso prático da ferramenta CASSIE.</p>
-							<a href="http://lapeco2019.blogspot.com/p/blog-page_30.html" target="_blank"><p>Almeida, L. P.; Lyra, R. ; Oliveira, I. Determinação e análise da evolução da linha de costa com ferramenta do Google Earth Engine (e-CASSIE). 2019. (Curso de curta duração ministrado/Especialização).</p></a>
+							<h5><b>Premiação</b></h5>
+						</div>
+						<div class="col-12 ">
+							<p>Fernando Concatto ganhou o prêmio "jovem Pesquisador" com o resumo apresentado no, II Simpósio Brasileiro sobre Praias Arenosas – II SBPA / XI Encontro Nacional de Gerenciamento Costeiro – XI ENCOGERCO, na seção: gestão costeira/marinha, na categoria poster.</p>
 						</div>
 					</div>
-					<div class="col-12 col-lg-6">
-						<div class="col-12 descricao-artigo">
-							<h5><b>Premiação</b></h5>
-						</div>	
+					<div class="col-12 col-lg-6"> 
 						<div class="col-12">
-							<p>Fernando Concatto ganhou o prêmio jovem Pesquisador no II Simpósio Brasileiro sobre Praias Arenosas – II SBPA / XI Encontro Nacional de Gerenciamento Costeiro – XI ENCOGERCO, na seção gestão costeira/marinha na categoria poster, com o seguinte artigo:</p>
-							<a href="http://www.praiaegestao.com.br/theme/images/ANAISSBPAEENCOGERCO_2018.pdf#page=252" target="_blank"><p>Concatto, F., Almeida, L. P. M., Lyra, R., Dazzi, R. L. S., Klein, A. H. F. (2018),e-C.A.S.S.I.E.: Uma Ferramenta para Análise e Mapeamento de Regiões
-								Costeiras Utilizando a Plataforma Google Earth Engine. II SBPA & XI
-								ENCOGERCO 2018</p></a>
+							<h5><b>Curso ministrado</b></h5>
 						</div>
-					</div>				
+						<div class="col-12 ">
+							<p>Na conferência da LAPECO de 2019, os membros: Luis Pedro Almeida, Rodrigo Lyra e israel Efraim de oliveira, da equipe CASSIE administraram um curso prático da ferramenta CASSIE.</p>
+							<a href="http://lapeco2019.blogspot.com/p/blog-page_30.html" target="_blank"><p class="reference">Almeida, L. P.; Lyra, R. ; Oliveira, I. Determinação e análise da evolução da linha de costa com ferramenta do Google Earth Engine (e-CASSIE). 2019. (Curso de curta duração ministrado/Especialização).</p></a>
+						</div>
+					</div>	
 				</div>
 			</div>	
 
-		</main>	
-
-		<footer>
-			<section class="realizacao">
-				<div class="container">
-					<div class="row">
-						<div class="col-12 section-title">
-							<h3>Realização</h3>
-						</div>
-					</div>
-					<div class="row  justify-content-center">
-						<div class="col-12 col-sm-3 img-realizacao">
-							<a href="http://ialab.com.br" target="_blank"><img id="lia" src="imagens/logos/lia.png" /></a>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-12 section-title">
-							<h3>Apoio Financeiro</h3>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-12 img-realizacao">
-							<a href="http://cnpq.br" target="_blank"><img src="imagens/logos/cnpq.png" /></a>
-							<p id="chamada-cnpq">CNPq MCTIC/CNPq – N° 21/2017 – Pesquisa e Desenvolvimento em Ações Integradas e Sustentáveis nas Baías do Brasil, Linha de Pesquisa 2 – Outras Baías do Brasil; Processo No. 441545/2017-3.</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-12 section-title">
-							<h3>Apoio Institucional</h3>
-						</div>
-					</div>
-					<div class="row justify-content-center">
-						<div class="col-12  col-sm-3 img-realizacao">
-							<a href="https://www.univali.br/Paginas/default.aspx" target="_blank"><img id="univali" src="imagens/logos/univali.png" /></a>
-						</div>
-						<div class="col-12 col-sm-3 img-realizacao">
-							<a href="https://ufsc.br/" target="_blank"><img id="ufsc" src="imagens/logos/ufsc.png" /></a>
-						</div>
-						<div class="col-12 col-sm-3 img-realizacao">
-							<a href="https://www.furg.br/" target="_blank"><img id="furg" src="imagens/logos/furg.png" /></a>
-						</div>
-						<div class="col-12 col-sm-3 img-realizacao">
-							<a href="https://www.furg.br/" target="_blank"><img id="rede-clima" src="imagens/logos/rede-clima.png" /></a>
-						</div>
+		</main>
+		<section class="completion-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<h3>Realização</h3>
 					</div>
 				</div>
-			</section>
-			<div class="contact-section" id="contact">
-				<div class="row">
-					<div class="col-12 col-md-6 section-title">
-						<h3>Contato</h3>
-						<div class="row justify-content-around">
-							<div class="col-12 contact">
-								<ul>
-                  <li>
-										<h4>Laboratório de Inteligência Aplicada - LIA</h4>
-										<p>Email: rudimar@univali.br</p>
-										<p>Email: rlyra@univali.br</p>
-									</li>
-								</ul>
-							</div>
-						</div>
+				<div class="row  justify-content-center">
+					<div class="col-12 col-sm-3 ">
+						<a href="http://ialab.com.br" target="_blank"><img id="lia" src="imagens/logos/lia.png" /></a>
 					</div>
-					<div class="col-12 col-md-6 section-title">
-						<h3>@cassiengine</h3>
-						<div class="col-12 twitter">
-							<a class="twitter-timeline" href="https://twitter.com/cassiengine?ref_src=twsrc%5Etfw">Tweets by cassiengine</a>
-						</div>
+				</div>
+				<div class="row">
+					<div class="col-12 ">
+						<h3>Apoio Financeiro</h3>
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-12 ">
+						<a href="http://cnpq.br" target="_blank"><img src="imagens/logos/cnpq.png" /></a>
+					</div>
+					<div class="col-12 col-md-6 ">
+						<p id="cnpq-reference">CNPq MCTIC/CNPq – N° 21/2017 – Pesquisa e Desenvolvimento em Ações Integradas e Sustentáveis nas Baías do Brasil, Linha de Pesquisa 2 – Outras Baías do Brasil; Processo No. 441545/2017-3.</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 ">
+						<h3>Apoio Institucional</h3>
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-12 col-sm-4 ">
+						<a href="http://redeclima.ccst.inpe.br/" target="_blank"><img class="logo-rede-clima" src="imagens/logos/rede-clima.png" /></a>
+					</div>
+					<div class="col-12 col-sm-4 ">
+						<a href="https://www.icmbio.gov.br/cepsul/" target="_blank"><img class="logo-cepsul" src="imagens/logos/cepsul.png" /></a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 ">
+						<h3>Parceiros</h3>
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-12  col-sm-3 ">
+						<a href="https://www.univali.br/Paginas/default.aspx" target="_blank"><img id="univali" src="imagens/logos/univali.png" /></a>
+					</div>
+					<div class="col-12 col-sm-3 ">
+						<a href="https://ufsc.br/" target="_blank"><img id="ufsc" src="imagens/logos/ufsc.png" /></a>
+					</div>
+					<div class="col-12 col-sm-3 ">
+						<a href="https://www.furg.br/" target="_blank"><img id="furg" src="imagens/logos/furg.png" /></a>
 					</div>
 				</div>
 			</div>
-			<div class="footer">
-				<p>
-				  <b>code</b> by
-				  <a href="https://alissonsteffens.com">Alisson</a> and
-				  <a href="https://github.com/vinigmartins/" target="_blank" >Vinícius</a> at
-				  <a href="https://github.com/lia-univali" target="_blank"><img src="imagens/svg/lialines.svg" /></a>
-				</p>
-			  </div>
+		</section>
+
+		<section class="contact-section" id="contact">
+			<div class="row">
+				<div class="col-12 col-md-6 ">
+					<div class="col-12">
+						<h3>Contato</h3>
+						<div class="row justify-content-around">
+							<div class="col-12">
+								<h4>Coordenação do projeto</h4>
+								<p>Email: rudimar@univali.br</p>
+								<p>Email: rlyra@univali.br</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md-6">
+					<h3>@cassiengine</h3>
+					<div class="col-12 twitter">
+						<a class="twitter-timeline" href="https://twitter.com/cassiengine?ref_src=twsrc%5Etfw">Tweets by cassiengine</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<footer>
+			<p>
+				<b>code</b> by
+				<a href="https://alissonsteffens.com">Alisson</a> and
+				<a href="https://github.com/vinigmartins/" target="_blank" >Vinícius</a> at
+				<a href="https://github.com/lia-univali" target="_blank"><img src="imagens/svg/lialines.svg" /></a>
+			</p>
 		</footer>
 
 		<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
