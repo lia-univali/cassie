@@ -5,10 +5,8 @@ body {
   background-attachment: fixed;
 }
 
-@media (min-width: 768px) {
-  main {
-    margin: 0 40px;
-  }
+body.modal-open {
+  padding: 0 !important;
 }
 
 header {
@@ -329,9 +327,28 @@ header .bounce {
   margin: 1rem 0;
 }
 
+.contact-section #faq-button {
+  font-size: 24px;
+}
+
+.modal .modal-header {
+  padding: 20px 0 !important;
+  -webkit-box-pack: center !important;
+      -ms-flex-pack: center !important;
+          justify-content: center !important;
+}
+
+.modal .modal-header h3 {
+  color: #111;
+}
+
+.modal button.question-button {
+  white-space: normal;
+  text-align: left !important;
+}
+
 footer {
   background-color: #111;
-  overflow: hidden;
   padding: 3rem 1.5rem 4rem;
 }
 

@@ -17,11 +17,14 @@ body{
     background-size: cover;
     background-position: bottom;
     background-attachment: fixed;
+    &.modal-open{
+        padding: 0 !important;
+    }
 }
 
 main{
     @media (min-width: 768px){
-        margin: 0 $mainmargin;
+        //margin: 0 $mainmargin;
     }
 }
 
@@ -264,11 +267,29 @@ header{
         text-align: left;
         margin: 1rem 0;
     }
+    #faq-button{
+        font-size: 24px;
+    }
+}
+
+.modal{
+    .modal-header{
+        padding: 20px 0 !important;
+        justify-content: center !important;
+        h3{
+            color: $preto;
+        }
+    }
+    button{
+        &.question-button{
+            white-space: normal;
+            text-align: left !important;
+        }
+    }
 }
 
 footer{
     background-color: $preto;
-    overflow: hidden;
     padding: 3rem 1.5rem 4rem;
     p{
         color: $background;

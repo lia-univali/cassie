@@ -24,15 +24,13 @@
 	<meta name="twitter:card" content="summary" />
 	<meta name="twitter:description" content="cassie é uma ferramenta para análise e mapeamento de regiões costeiras, que utiliza a plataforma Google Earth Engine." />
 	<meta name="twitter:title" content="cassie" />
-	<meta name="twitter:image" content="https://lia-univali.github.io/thumb.jpg" />
+	<meta name="twitter:image" content="https://lia-univali.github.io/thumb.jpg" />	
 
-	<!-- Material Design for Bootstrap fonts and icons -->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-
-	<!-- Reset css, Material Design for Bootstrap CSS and Animate CSS -->
+	<!-- Reset css, Material Design for Bootstrap CSS -->
 	<link rel="stylesheet" href="reset.css">
-	<link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+	<link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
 
 	<!-- title and icon of tab -->
 	<title>CASSIE</title>
@@ -55,6 +53,7 @@
 					  <li class="nav-item"><a class="nav-link goto" href="#team" data-to="#team">Equipe</a></li>
 					  <li class="nav-item"><a class="nav-link goto" href="#papers" data-to="#papers">Produção científica</a></li>
 					  <li class="nav-item"><a class="nav-link goto" href="#contact" data-to="#contact">Contato</a></li>
+					  <li class="nav-item"><a class="nav-link goto" href="" data-toggle="modal" data-target=".faq-modal">FAQ</a></li>
 					</ul>
 				  </div>
 				  <a href="https://ialab.com.br/" target="_blank">
@@ -98,7 +97,7 @@
 								<img class="d-block w-100" src="imagens/cassie/sats.png" alt="escolha de satélite">
 							  </div>
 							  <div class="carousel-item">
-								<img class="d-block w-100" src="imagens/cassie/area.png"alt="area de interrese">
+								<img class="d-block w-100" src="imagens/cassie/area.png"alt="area de interesse">
 							  </div>
 							  <div class="carousel-item">
 								<img class="d-block w-100" src="imagens/cassie/periodo.png" alt="escolha do periodo">
@@ -323,7 +322,7 @@
 
 		<section class="contact-section" id="contact">
 			<div class="row">
-				<div class="col-12 col-md-6 ">
+				<div class="col-12 col-md-6">
 					<div class="col-12">
 						<h3>Contato</h3>
 						<div class="row justify-content-around">
@@ -331,6 +330,17 @@
 								<h4>Coordenação do projeto</h4>
 								<p>Email: rudimar@univali.br</p>
 								<p>Email: rlyra@univali.br</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12">
+								<h4>Dúvidas técnicas</h4>
+							</div>
+							<div class="col-12">
+								<p>Email: israel.oliveira@edu.univali.br</p>
+							</div>
+							<div class="col-12">
+								<button type="button" class="btn btn-primary" id="faq-button" data-toggle="modal" data-target=".faq-modal">FAQ</button>
 							</div>
 						</div>
 					</div>
@@ -343,6 +353,90 @@
 				</div>
 			</div>
 		</section>
+
+		<!-- FAQ modal -->
+		<div class="modal fade faq-modal" tabindex="-1" role="dialog" aria-labelledby="modal-faq" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title">Perguntas Frequentes</h3>
+					</div>
+					<!-- questions -->
+					<div id="accordion-faq">
+						
+						<div class="card">
+							<div class="card-header" id="heading-1">
+								<button class="btn collapsed question-button" data-toggle="collapse" data-target="#question-1" aria-expanded="false" aria-controls="question-1">
+									Como o CASSIE funciona?
+								</button>
+							</div>
+							<div id="question-1" class="collapse" aria-labelledby="heading-1" data-parent="#accordion-faq">
+								<div class="card-body">
+									<span>O CASSIE utiliza do Google Earth Engine (GEE), uma plataforma de processamento paralelo em nuvem de dados geospaciais (<a href="https://www.sciencedirect.com/science/article/pii/S0034425717302900" target="_blank">Gorelick et al., 2017</a>). O CASSIE se comunica com o GEE por meio de uma API (Application Programming Interface - Interface de Programação de Aplicativos), que o permite utilizar dos datasets e do potencial de processamento do GEE.</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="card">
+							<div class="card-header" id="heading-2">
+								<button class="btn collapsed question-button" data-toggle="collapse" data-target="#question-2" aria-expanded="true" aria-controls="question-2">
+									Quais datasets de imagem de satélite estão disponíveis no CASSIE?
+								</button>
+							</div>
+							<div id="question-2" class="collapse" aria-labelledby="heading-2" data-parent="#accordion-faq">
+								<div class="card-body">
+									<span>
+										Atualmente, o CASSIE possibilita análises com dados do <a href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2" target="_blank">Sentinel 2 (MSI, TOA) Level-1C</a> e com a coleção dos Landsats (<a href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LT05_C01_T1_SR" target="_blank">Landsat 5 TM SR Tier 1</a>, <a href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T1_SR" target="_blank">Landsat 7 ETM+ SR Tier 1</a>, <a href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T1_SR" target="_blank">Landsat 8 OLI SR Tier 1</a>). Quando não há imagens disponíveis de Tier 1 (maior qualidade) para o Landsat 7 e 8, o CASSIE utiliza de imagens das coleções <a href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T2_TOA" target="_blank">Landsat 7 TOA Tier 2</a> e <a href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T2_TOA" target="_blank">Landsat 8 TOA Tier 2</a>.
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="card">
+							<div class="card-header" id="heading-3">
+								<button class="btn collapsed question-button" data-toggle="collapse" data-target="#question-3" aria-expanded="false" aria-controls="question-3">
+									Como acesso o CASSIE?
+								</button>
+							</div>
+							<div id="question-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-faq">
+								<div class="card-body">
+									<span>O CASSIE está disponível como uma ferramenta open source (código aberto), disponível <a href="http://cassie-stable.herokuapp.com/">neste link</a>. O usuário precisa de uma <a href="https://myaccount.google.com">conta Google</a> registrada (e aprovada) na <a href="https://signup.earthengine.google.com">plataforma Google Earth Engine</a>. O código do CASSIE está disponível no <a href="https://github.com/lia-univali/cassie">Github do LIA - Univali</a>.</span>							
+								</div>
+							</div>
+						</div>
+
+						<div class="card">
+							<div class="card-header" id="heading-4">
+								<button class="btn collapsed question-button" data-toggle="collapse" data-target="#question-4" aria-expanded="false" aria-controls="question-4">
+									Ao entrar com a Conta da Google, a página fica carregando indefinidamente. 
+								</button>
+							</div>
+							<div id="question-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-faq">
+								<div class="card-body">
+									<span>Para acessar e utilizar o CASSIE, a conta do usuário deve estar registrada na plataforma Google Earth Engine (GEE). O cadastro pode ser feito por meio deste <a href="https://earthengine.google.com/signup/" target="_blank">link</a>. Assim que o cadastro for confirmado, o utilizador pode acessar e entrar no CASSIE com a sua conta Google.</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="card">
+							<div class="card-header" id="heading-5">
+								<button class="btn collapsed question-button" data-toggle="collapse" data-target="#question-5" aria-expanded="false" aria-controls="question-5">
+									Minha conta é registrada no Google Earth Engine, mas ainda não consigo entrar na ferramenta. 
+								</button>
+							</div>
+							<div id="question-5" class="collapse" aria-labelledby="heading-5" data-parent="#accordion-faq">
+								<div class="card-body">
+									<span>O registro na plataforma Google Earth Engine é finalizado com uma confirmação recebida por e-mail. Em alguns casos, o e-mail de confirmação é recebido instantaneamente após o cadastro ser feito. Entretanto, nem sempre a confirmação é instantanea e pode levar um tempo que a equipe do CASSIE não tem controle sobre. Se o utilizador realizou o cadastro e ainda não recebeu o e-mail de confirmação e considera que o tempo de aguardo não é normal, deve entrar em contato com a equipe do Google Earth Engine.
+										Assim que o cadastro for confirmado com o recebimento do e-mail, o utilizador já pode utilizar o CASSIE. Recomenda-se que o usuário, entretanto, realize a
+										<a href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=pt-BR" target="_blank">limpeza dos cookies do navegador</a>.</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<footer>
 			<p>
