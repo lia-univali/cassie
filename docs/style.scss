@@ -21,6 +21,22 @@ body{
         padding: 0 !important;
     }
 }
+body::-webkit-scrollbar {
+    display: none;
+}
+/*body::-webkit-scrollbar:hover {
+    width: 10px;
+}
+body::-webkit-scrollbar-track {
+    background-color: rgb(25, 25, 25);    
+}
+body::-webkit-scrollbar-thumb {
+    background: rgb(41, 41, 41);
+    border-radius: 20px;
+}
+body::-webkit-scrollbar-thumb:hover {
+    background: #111;
+}*/
 
 main{
     @media (min-width: 768px){
@@ -247,7 +263,6 @@ header{
 .contact-section{
     background-color: $preto;
     padding: 3rem;
-
     p, h3, h4{
         color: $branco;
     }
@@ -266,6 +281,16 @@ header{
     }
     #faq-button{
         font-size: 24px;
+    }
+    .twitter{
+        max-height: 400px;
+        overflow: auto;
+        .twitter-timeline{
+            border-radius: 10px;
+        }
+    }
+    .twitter::-webkit-scrollbar {
+        display: none;
     }
 }
 
