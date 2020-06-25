@@ -35,9 +35,10 @@
 	<!-- title and icon of tab -->
 	<title>CASSIE</title>
 	<link rel="icon" href="imagens/icones/satellite-icon.png">
+
   </head>
 
-	<body>
+	<body id="body" class="pt">
 		<header>
 			<nav class="navbar navbar-expand-md navbar-dark bg-transparent fixed-top">
 				<div class="container">
@@ -47,15 +48,24 @@
 				  </button>
 				  <div class="collapse navbar-collapse navbar-right" id="navbar">
 					<ul class="navbar-nav mr-auto">
-					  <li class="nav-item"><a class="nav-link goto" href="#about-cassie" data-to="#about-cassie">Sobre</a></li>
-					  <li class="nav-item"><a class="nav-link goto" href="#instruction" data-to="#instruction">Instruções</a></li>
-					  <li class="nav-item"><a class="nav-link goto" href="#baysqueeze" data-to="#baysqueeze">Baysqueeze</a></li>
-					  <li class="nav-item"><a class="nav-link goto" href="#team" data-to="#team">Equipe</a></li>
-					  <li class="nav-item"><a class="nav-link goto" href="#papers" data-to="#papers">Produção científica</a></li>
-					  <li class="nav-item"><a class="nav-link goto" href="#contact" data-to="#contact">Contato</a></li>
-					  <li class="nav-item"><a class="nav-link goto" href="" data-toggle="modal" data-target=".faq-modal">FAQ</a></li>
+					  <li class="nav-item"><a class="pt nav-link goto" href="#about-cassie" data-to="#about-cassie">Sobre</a></li>
+					  <li class="nav-item"><a class="pt nav-link goto" href="#instruction" data-to="#instruction">Instruções</a></li>
+					  <li class="nav-item"><a class="pt nav-link goto" href="#baysqueeze" data-to="#baysqueeze">Baysqueeze</a></li>
+					  <li class="nav-item"><a class="pt nav-link goto" href="#team" data-to="#team">Equipe</a></li>
+					  <li class="nav-item"><a class="pt nav-link goto" href="#papers" data-to="#papers">Produção científica</a></li>
+					  <li class="nav-item"><a class="pt nav-link goto" href="#contact" data-to="#contact">Contato</a></li>
+					  <li class="nav-item"><a class="pt nav-link goto" href="" data-toggle="modal" data-target=".faq-modal">FAQ</a></li>
+					  <li class="nav-item"><a class="en nav-link goto" href="#about-cassie" data-to="#about-cassie">About</a></li>
+					  <li class="nav-item"><a class="en nav-link goto" href="#instruction" data-to="#instruction">Instructions</a></li>
+					  <li class="nav-item"><a class="en nav-link goto" href="#baysqueeze" data-to="#baysqueeze">Baysqueeze</a></li>
+					  <li class="nav-item"><a class="en nav-link goto" href="#team" data-to="#team">Team</a></li>
+					  <li class="nav-item"><a class="en nav-link goto" href="#papers" data-to="#papers">Papers</a></li>
+					  <li class="nav-item"><a class="en nav-link goto" href="#contact" data-to="#contact">Contact</a></li>
+					  <li class="nav-item"><a class="en nav-link goto" href="" data-toggle="modal" data-target=".faq-modal">FAQ</a></li>
 					</ul>
 				  </div>
+				  <a class="pt idiom-flag" onclick="toEnglish()"><img src="imagens/svg/usa.svg" height="32px" /></button>	
+				  <a class="en idiom-flag" onclick="toPortuguese()"><img src="imagens/svg/br.svg" height="32px" /></button>				  
 				  <a href="https://ialab.com.br/" target="_blank">
 					<img src="imagens/svg/lialines.svg" height="32px" />
 				  </a>
@@ -72,8 +82,11 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col" id="button-cassie-access">
+					<div class="col pt" id="button-cassie-access">
 						<a href="https://cassie-stable.herokuapp.com/" target="_blank" class="btn btn-raised btn-warning btn-lg">Acesse a ferramenta</a>
+					</div>
+					<div class="col en" id="button-cassie-access">
+						<a href="https://cassie-stable.herokuapp.com/" target="_blank" class="btn btn-raised btn-warning btn-lg">Tool Access</a>
 					</div>
 				</div>
 				<div class="arrow bounce">
@@ -85,7 +98,8 @@
 
 		<main>
 			<div class="about-cassie" id="about-cassie">
-				<h1>Conheça o CASSIE</h1>
+				<h1 class="pt">Conheça o CASSIE</h1>
+				<h1 class="en">Meet CASSIE</h1>
 				<div class="row ">
 					<div class="col-12 col-lg-6">
 						<h4>O CASSIE é uma ferramenta web de código aberto que permite o mapeamento automático e análise da linha de costa em qualquer zona costeira do planeta. Para realizar esses procedimentos o CASSIE utiliza as ferramentas e imagens de satélite multi-espectrais disponibilizadas pela plataforma Google Earth Engine. O CASSIE tem acesso a coleção de imagens pertencentes às missões Landsat 5, 7, 8 e sentinel-2. Como a plataforma Google Earth Engine é baseada em nuvem, o CASSIE requer acesso a internet, e o processamento de dados do CASSIE é realizado pela plataforma Google Cloud, tornando a ferrameta acessível à computadores menos robustos.</h4>
@@ -134,7 +148,8 @@
 			<div class="instruction-section center-section" id="instruction">
 				<div class="row">
 					<div class="col-12">
-						<h3>Instruções para utilização do CASSIE</h3>
+						<h3 class="pt">Instruções para utilização do CASSIE</h3>
+						<h3 class="en">Instructions for using CASSIE</h3>
 					</div>
 				</div>
 				<div class="row ">
@@ -145,8 +160,11 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 button-link">
+					<div class="col-12 button-link pt">
 						<a href="http://tinyurl.com/cassie-manual" target="_blank" class="btn btn-raised btn-warning">Manual Detalhado</a>	
+					</div>
+					<div class="col-12 button-link en">
+						<a href="http://tinyurl.com/cassie-manual" target="_blank" class="btn btn-raised btn-warning">Detailed Manual</a>	
 					</div>
 				</div>
 			</div>
@@ -154,7 +172,8 @@
 			<div class="baysqueeze-section center-section" id="baysqueeze">
 				<div class="row">
 					<div class="col-12">
-						<h3>Projeto BAYSQUEEZE</h3>
+						<h3 class="pt">Projeto BAYSQUEEZE</h3>
+						<h3 class="en">BAYSQUEEZE Project</h3>
 					</div>
 				</div>
 				<div class="row">
@@ -167,7 +186,7 @@
 								<a href="http://redeclima.ccst.inpe.br/subredes/zonas-costeiras/" target="_blank"><img id ="logo-rede-clima" src="imagens/logos/rede-clima.png" alt="rede clima logo"/></a>
 							</div>
 							<div class="col-12 col-md-6 my-auto">
-								<a href="https://nacoesunidas.org/pos2015" target="_blank"><img id="logo-ods" src="imagens/logos/ods.png" alt="ods logo" /></a>
+								<a href="https://nacoesunidas.org/pos2015" target="_blank"><img class="pt" id="logo-ods" src="imagens/logos/ods.png" alt="ods logo" /><img class="en" id="logo-ods" src="imagens/logos/sdg.png" alt="ods logo" /></a>
 							</div>
 						</div>
 					</div>
@@ -176,8 +195,11 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 button-link">
+					<div class="col-12 button-link pt">
 						<a href="https://baysqueeze.paginas.ufsc.br/" target="_blank" class="btn btn-raised btn-warning ">Mais sobre BAYSQUEEZE</a>	
+					</div>
+					<div class="col-12 button-link en">
+						<a href="https://baysqueeze.paginas.ufsc.br/" target="_blank" class="btn btn-raised btn-warning ">More About BAYSQUEEZE</a>	
 					</div>
 				</div>
 			</div>
@@ -185,44 +207,51 @@
 			<div class="team-section center-section" id="team">
 				<div class="row">
 					<div class="col-12">
-						<h3>Equipe CASSIE</h3>
+						<h3 class="pt">Equipe CASSIE</h3>
+						<h3 class="en">Team CASSIE</h3>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-6 col-md-4 member">
 						<h5 class="name" >Antonio H.F. Klein</h5>
 						<a href="http://lattes.cnpq.br/2354029280846247" target="_blank"><img src="imagens/equipe/klein.png" alt="antonio klein"></a>
-						<h5 class="role">Pesquisador</h5>
+						<h5 class="role pt">Pesquisador</h5>
+						<h5 class="role en">Researcher</h5>
 						<h5 class="role">UFSC - LOC</h5>
 					</div>
 					<div class="col-6 col-md-4 member">
 						<h5 class="name" >Rodrigo Lyra</h5>
 						<a href="http://lattes.cnpq.br/0117343254850007" target="_blank"><img src="imagens/equipe/rodrigo1.png" alt="rodrigo"></a>
-						<h5 class="role">Coordenador</h5>
+						<h5 class="role pt">Coordenador</h5>
+						<h5 class="role en">Coordinator</h5>
 						<h5 class="role">UNIVALI - LIA</h5>
 					</div>
 					<div class="col-6 col-md-4 member">
 						<h5 class="name" >Rudimar L.S. Dazzi</h5>
 						<a href="http://lattes.cnpq.br/9340343036686762" target="_blank"><img src="imagens/equipe/rudimar.png" alt="rudimar"></a>
-						<h5 class="role">Coordenador</h5>
+						<h5 class="role pt">Coordenador</h5>
+						<h5 class="role en">Coordinator</h5>
 						<h5 class="role">UNIVALI - LIA</h5>
 					</div>
 					<div class="col-6 col-md-4 member">
 						<h5 class="name" >Luis Pedro Almeida</h5>
 						<a href="http://lattes.cnpq.br/4892957787322492" target="_blank"><img src="imagens/equipe/pedro.png" alt="Luis pedro"></a>
-						<h5 class="role">Pesquisador</h5>
+						<h5 class="role pt">Pesquisador</h5>
+						<h5 class="role en">Researcher</h5>
 						<h5 class="role">FURG - IO</h5>
 					</div>
 					<div class="col-6 col-md-4 member">
 						<h5 class="name" >Israel Efraim de Oliveira</h5>
 						<a href="https://github.com/IsraelEfraim" target="_blank"><img src="imagens/equipe/israel.png" alt="Israel"></a>
-						<h5 class="role">Bolsista ATP-B</h5>
+						<h5 class="role pt">Bolsista ATP-B</h5>
+						<h5 class="role en">Scholarship Holder ATP-B</h5>
 						<h5 class="role">UNIVALI - LIA</h5>
 					</div>
 					<div class="col-6 col-md-4 member">
 						<h5 class="name" >Vinícius Gabriel Martins</h5>
 						<a href="https://github.com/vinigmartins" target="_blank"><img src="imagens/equipe/vinicius.png" alt="Vinícius"></a>
-						<h5 class="role">Bolsista FUMDES</h5>
+						<h5 class="role pt">Bolsista FUMDES</h5>
+						<h5 class="role en">Scholarship Holder FUMDES</h5>
 						<h5 class="role">UNIVALI - LIA</h5>
 					</div>
 				</div>
@@ -231,7 +260,8 @@
 			<div class="paper-section center-section" id="papers">
 				<div class="row">
 					<div class="col-12">
-						<h3>Produção científica</h3>
+						<h3 class="pt">Produção científica</h3>
+						<h3 class="en">Papers</h3>
 					</div>
 				</div>
 				<div class="row ">
@@ -444,6 +474,10 @@
 				<a href="https://alissonsteffens.com">Alisson</a> and
 				<a href="https://github.com/vinigmartins/" target="_blank" >Vinícius</a> at
 				<a href="https://github.com/lia-univali" target="_blank"><img src="imagens/svg/lialines.svg" /></a>
+				<br>
+				<b>flag icons</b>
+				<a href="https://www.flaticon.com/br/autores/freepik" title="Freepik">Freepik</a> by 
+				<a href="https://www.flaticon.com/br/" title="Flaticon"> www.flaticon.com</a>
 			</p>
 		</footer>
 
@@ -455,7 +489,7 @@
 		<script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
 		<script src="https://kit.fontawesome.com/29e566dc39.js" crossorigin="anonymous"></script>
 		<script src="js/scroll.js"></script>
+		<script src="js/idiom.js"></script>
 		<script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
-
 	</body>
 </html>

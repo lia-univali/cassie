@@ -20,27 +20,24 @@ body{
     &.modal-open{
         padding: 0 !important;
     }
+    &.pt{
+        .en{
+            display: none !important;
+        }
+    }
+    &.en{
+        .pt{
+            display: none !important;
+        }
+    }
 }
 body::-webkit-scrollbar {
     display: none;
 }
-/*body::-webkit-scrollbar:hover {
-    width: 10px;
-}
-body::-webkit-scrollbar-track {
-    background-color: rgb(25, 25, 25);    
-}
-body::-webkit-scrollbar-thumb {
-    background: rgb(41, 41, 41);
-    border-radius: 20px;
-}
-body::-webkit-scrollbar-thumb:hover {
-    background: #111;
-}*/
 
 main{
     @media (min-width: 768px){
-        //margin: 0 $mainmargin;
+        margin: 0 $mainmargin;
     }
 }
 
@@ -64,6 +61,14 @@ header{
           &:hover {
             color: $teal !important;
           }
+        }
+        a{
+            &.idiom-flag{
+                margin-right: 1rem;
+                &:hover{
+                    cursor: pointer
+                }
+            }
         }
       }
     h1, h3{

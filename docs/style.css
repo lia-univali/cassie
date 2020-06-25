@@ -9,23 +9,24 @@ body.modal-open {
   padding: 0 !important;
 }
 
+body.pt .en {
+  display: none !important;
+}
+
+body.en .pt {
+  display: none !important;
+}
+
 body::-webkit-scrollbar {
   display: none;
 }
 
-/*body::-webkit-scrollbar:hover {
-    width: 10px;
+@media (min-width: 768px) {
+  main {
+    margin: 0 40px;
+  }
 }
-body::-webkit-scrollbar-track {
-    background-color: rgb(25, 25, 25);    
-}
-body::-webkit-scrollbar-thumb {
-    background: rgb(41, 41, 41);
-    border-radius: 20px;
-}
-body::-webkit-scrollbar-thumb:hover {
-    background: #111;
-}*/
+
 header {
   padding: 5rem;
   margin: 8rem 0 0;
@@ -59,6 +60,14 @@ header nav .nav-link {
 
 header nav .nav-link:hover {
   color: #26a69a !important;
+}
+
+header nav a.idiom-flag {
+  margin-right: 1rem;
+}
+
+header nav a.idiom-flag:hover {
+  cursor: pointer;
 }
 
 header h1, header h3 {
