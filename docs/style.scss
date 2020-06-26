@@ -63,8 +63,13 @@ header{
           }
         }
         a{
+            &.lia-svg{
+                @media (min-width: 768px){
+                    margin-right: 2rem;
+                }
+            }
             &.idiom-flag{
-                margin-right: 1rem;
+                margin: 4px;
                 &:hover{
                     cursor: pointer
                 }

@@ -62,8 +62,14 @@ header nav .nav-link:hover {
   color: #26a69a !important;
 }
 
+@media (min-width: 768px) {
+  header nav a.lia-svg {
+    margin-right: 2rem;
+  }
+}
+
 header nav a.idiom-flag {
-  margin-right: 1rem;
+  margin: 4px;
 }
 
 header nav a.idiom-flag:hover {
