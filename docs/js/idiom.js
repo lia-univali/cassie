@@ -1,5 +1,4 @@
 function toEnglish(){
-    alert('working on translation');
     $('body').removeClass('pt');
     $('body').addClass('en');
 }   
