@@ -26,8 +26,21 @@
 	<meta name="twitter:title" content="cassie" />
 	<meta name="twitter:image" content="https://lia-univali.github.io/thumb.jpg" />	
 
-	<!-- Metadados para search console -->
-	<meta name="google-site-verification" content="E82suD_eBBi_YDsxtQg6P67UPxpWEWSIiP0F3b0dNy8" />
+	<!-- Google analytics-->
+	<script>
+	/**
+	* Função que acompanha um clique em um link externo no Google Analytics.
+	* Essa função processa uma string de URL válida como um argumento e usa essa string de URL
+	* como o rótulo do evento. Ao definir o método de transporte como 'beacon', o hit é enviado
+	* usando 'navigator.sendBeacon' em um navegador compatível.
+	*/
+	var captureOutboundLink = function(url) {
+		ga('send', 'event', 'outbound', 'click', url, {
+			'transport': 'beacon',
+			'hitCallback': function(){document.location = url;}
+		});
+	}
+	</script> 
 
 	<!-- Reset css, Material Design for Bootstrap CSS -->
 	<link rel="stylesheet" href="reset.css">
@@ -86,10 +99,10 @@
 				</div>
 				<div class="row">
 					<div class="col pt" id="button-cassie-access">
-						<a href="https://cassie-stable.herokuapp.com/" target="_blank" class="btn btn-raised btn-warning btn-lg">Acesse a ferramenta</a>
+						<a href="https://cassie-stable.herokuapp.com/" onclick="captureOutboundLink('https://cassie-stable.herokuapp.com/')" target="_blank" class="btn btn-raised btn-warning btn-lg">Acesse a ferramenta</a>
 					</div>
 					<div class="col en" id="button-cassie-access">
-						<a href="https://cassie-stable.herokuapp.com/" target="_blank" class="btn btn-raised btn-warning btn-lg">Access the tool</a>
+						<a href="https://cassie-stable.herokuapp.com/" onclick="captureOutboundLink('https://cassie-stable.herokuapp.com/')" target="_blank" class="btn btn-raised btn-warning btn-lg">Access the tool</a>
 					</div>
 				</div>
 				<div class="arrow bounce">
