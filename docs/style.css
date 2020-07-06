@@ -98,6 +98,10 @@ header #button-cassie-access {
   margin: 30px 0;
 }
 
+header #button-cassie-access a {
+  color: #fff;
+}
+
 header .arrow {
   text-align: center;
   margin: 8% 0 0;
