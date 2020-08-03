@@ -17,10 +17,6 @@ body.en .pt {
   display: none !important;
 }
 
-body::-webkit-scrollbar {
-  display: none;
-}
-
 @media (min-width: 768px) {
   main {
     margin: 0 40px;
@@ -369,12 +365,12 @@ header .bounce {
 
 .contact-section h3 {
   text-align: center;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
 .contact-section h4 {
-  text-align: left;
-  margin: 1rem 0;
+  text-align: center;
+  margin: 2em 0;
 }
 
 .contact-section #faq-button {
@@ -383,15 +379,18 @@ header .bounce {
 
 .contact-section .twitter {
   max-height: 400px;
+  margin-bottom: 3em;
   overflow: auto;
+  padding: 0;
 }
 
-.contact-section .twitter .twitter-timeline {
-  border-radius: 10px;
+.contact-section .map-cassie {
+  display: table;
+  margin: auto;
 }
 
-.contact-section .twitter::-webkit-scrollbar {
-  display: none;
+.contact-section .map-cassie iframe {
+  border-radius: 0.5rem;
 }
 
 .modal .modal-header {
