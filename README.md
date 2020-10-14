@@ -14,11 +14,11 @@ Cassie is an open source web tool that performs analysis and mapping of coastal 
 
 First Choose the satelite
 
-![](docs/sats.png)
+![](docs/imagens/cassie/sats.png)
 
 Then the region to be mapped
 
-![](docs/costa.png)
+![](docs/imagens/cassie/area.png)
 
 ## Running
 You must creacte an .env file with de following params:
