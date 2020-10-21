@@ -1,722 +1,1247 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="application-name" content="cassie" />
+    <meta
+      name="description"
+      content="cassie é uma ferramenta para análise e mapeamento de regiões costeiras, que utiliza a plataforma Google Earth Engine."
+    />
+    <meta name="author" content="Laboratório de Inteligência Aplicada" />
+    <meta
+      name="keywords"
+      content="computação, ferramenta, científico, computer, beach, shore, shoreline, costa, linha de costa, univali, lia, analise, web application, baysqueeze"
+    />
 
-  <meta name="application-name" content="cassie">
-  <meta name="description"
-    content="cassie é uma ferramenta para análise e mapeamento de regiões costeiras, que utiliza a plataforma Google Earth Engine.">
-  <meta name="author" content="Laboratório de Inteligência Aplicada">
-  <meta name="keywords"
-    content="computação, ferramenta, científico, computer, beach, shore, shoreline, costa, linha de costa, univali, lia, analise, web application, baysqueeze">
+    <!-- Metadados para facebook -->
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CASSIE" />
+    <meta
+      property="og:description"
+      content="cassie é uma ferramenta para análise e mapeamento de regiões costeiras, que utiliza a plataforma Google Earth Engine."
+    />
+    <meta property="og:url" content="https://http://cassiengine.com/" />
+    <meta property="og:site_name" content="cassie" />
+    <meta
+      property="og:image"
+      content="https://lia-univali.github.io/thumb.jpg"
+    />
 
-  <!-- Metadados para facebook -->
-  <meta property="og:locale" content="pt_BR" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="CASSIE" />
-  <meta property="og:description"
-    content="cassie é uma ferramenta para análise e mapeamento de regiões costeiras, que utiliza a plataforma Google Earth Engine." />
-  <meta property="og:url" content="https://http://cassiengine.com/" />
-  <meta property="og:site_name" content="cassie" />
-  <meta property="og:image" content="https://lia-univali.github.io/thumb.jpg" />
+    <!-- Metadados para twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:description"
+      content="cassie é uma ferramenta para análise e mapeamento de regiões costeiras, que utiliza a plataforma Google Earth Engine."
+    />
+    <meta name="twitter:title" content="cassie" />
+    <meta
+      name="twitter:image"
+      content="https://lia-univali.github.io/thumb.jpg"
+    />
 
-  <!-- Metadados para twitter -->
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:description"
-    content="cassie é uma ferramenta para análise e mapeamento de regiões costeiras, que utiliza a plataforma Google Earth Engine." />
-  <meta name="twitter:title" content="cassie" />
-  <meta name="twitter:image" content="https://lia-univali.github.io/thumb.jpg" />
+    <!-- Reset css, Material Design for Bootstrap CSS -->
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+      integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
+      crossorigin="anonymous"
+    />
 
+    <!-- title and icon of tab -->
+    <title>CASSIE</title>
+    <link rel="icon" href="imagens/icones/satellite-icon.png" />
+  </head>
 
-  <!-- Reset css, Material Design for Bootstrap CSS -->
-  <link rel="stylesheet" href="reset.css">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-  <link rel="stylesheet"
-    href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
-    integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+  <body class="pt">
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark bg-transparent fixed-top">
+        <div class="container">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbar"
+            aria-controls="navbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse navbar-right" id="navbar">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a
+                  class="pt nav-link goto"
+                  href="#about-cassie"
+                  data-to="#about-cassie"
+                  >Sobre</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="pt nav-link goto"
+                  href="#instruction"
+                  data-to="#instruction"
+                  >Instruções</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="pt nav-link goto"
+                  href="#baysqueeze"
+                  data-to="#baysqueeze"
+                  >Baysqueeze</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="pt nav-link goto" href="#team" data-to="#team"
+                  >Equipe</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="pt nav-link goto" href="#papers" data-to="#papers"
+                  >Produção científica</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="pt nav-link goto" href="#contact" data-to="#contact"
+                  >Contato</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="pt nav-link goto"
+                  href=""
+                  data-toggle="modal"
+                  data-target=".faq-modal"
+                  >FAQ</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="en nav-link goto"
+                  href="#about-cassie"
+                  data-to="#about-cassie"
+                  >About</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="en nav-link goto"
+                  href="#instruction"
+                  data-to="#instruction"
+                  >User Guide</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="en nav-link goto"
+                  href="#baysqueeze"
+                  data-to="#baysqueeze"
+                  >Baysqueeze</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="en nav-link goto" href="#team" data-to="#team"
+                  >Team</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="en nav-link goto" href="#papers" data-to="#papers"
+                  >Publications</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="en nav-link goto" href="#contact" data-to="#contact"
+                  >Contact</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="en nav-link goto"
+                  href=""
+                  data-toggle="modal"
+                  data-target=".faq-modal"
+                  >FAQ</a
+                >
+              </li>
+            </ul>
+          </div>
+          <a class="lia-svg" href="https://ialab.com.br/" target="_blank"
+            ><img src="imagens/svg/lialines.svg" height="32px"
+          /></a>
+          <div>
+            <a class="idiom-flag" onclick="toPortuguese()"
+              ><img src="imagens/flags/br.png" width="25px" title="Português"
+            /></a>
+            <a class="idiom-flag" onclick="toEnglish()"
+              ><img src="imagens/flags/uk.png" width="25px" title="English"
+            /></a>
+          </div>
+        </div>
+      </nav>
 
-  <!-- title and icon of tab -->
-  <title>CASSIE</title>
-  <link rel="icon" href="imagens/icones/satellite-icon.png">
+      <div class="page-header">
+        <div class="row header-title">
+          <div class="col-12">
+            <h1>CASSIE</h1>
+          </div>
+          <div class="col-12">
+            <h3>Coastal Analysis via Satellite Imagery Engine</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" id="button-cassie-access">
+            <a
+              class="pt btn btn-raised btn-warning btn-lg"
+              href="https://cassie-stable.herokuapp.com/"
+              onclick="gtag('event','acessoFerramenta', {'event_category':'acesso','event_label':'acesso_a_ferramenta'});"
+              role="button"
+              >Acesse a ferramenta</a
+            >
+            <a
+              class="en btn btn-raised btn-warning btn-lg"
+              href="https://cassie-stable.herokuapp.com/"
+              onclick="gtag('event','acessoFerramenta', {'event_category':'acesso','event_label':'acesso_a_ferramenta'});"
+              role="button"
+              >Access the tool</a
+            >
+          </div>
+          <div class="col-12 alert-user">
+            <ul>
+              <li>
+                <img src="imagens/svg/exclamacao.svg" height="35px" />
+              </li>
+              <li>
+                <h4 class="pt">
+                  O CASSIE ainda está em fase de desenvolvimento, alguns
+                  processos não estão livres de falhas.
+                  <!-- <a href="#"><i>Saiba mais</i></a> -->
+                </h4>
+                <h4 class="en">
+                  CASSIE is still under development, some processes may fail.
+                  <!-- <a href="#"><i>More about</i></a> -->
+                </h4>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="arrow bounce">
+          <a class="fa fa-arrow-down fa-2x" href="#about-cassie"></a>
+        </div>
+      </div>
+    </header>
 
-</head>
+    <main>
+      <div class="about-cassie" id="about-cassie">
+        <h1 class="pt">Conheça o CASSIE</h1>
+        <h1 class="en">Know more about CASSIE</h1>
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <h4 class="pt">
+              CASSIE é uma ferramenta web de código aberto que permite o
+              mapeamento automático e análise da linha de costa em qualquer zona
+              costeira do planeta. Para realizar esses procedimentos o CASSIE
+              utiliza as ferramentas e imagens de satélite multi-espectrais
+              disponibilizadas pela plataforma Google Earth Engine. O CASSIE tem
+              acesso a coleção de imagens pertencentes às missões Landsat 5, 7,
+              8 e sentinel-2. Como a plataforma Google Earth Engine é baseada em
+              nuvem, o CASSIE requer acesso a internet, e o processamento de
+              dados do CASSIE é realizado pela plataforma Google Cloud, tornando
+              a ferramenta acessível à computadores menos robustos.
+            </h4>
+            <h4 class="en">
+              CASSIE is an open source web tool that allows automatic mapping
+              and analysis of the shoreline position in any coastal zone of the
+              planet. To perform these procedures, CASSIE uses the tools and
+              multispectral satellite images provided by the Google Earth Engine
+              platform. CASSIE has access to the satellite missions Landsat 5,
+              7, 8 and sentinel-2 image collections. Since the Google Earth
+              Engine platform is cloud-based, CASSIE requires Internet access to
+              work. All CASSIE's data processing is performed by the Google
+              Cloud platform, making it possible to users apply this tool with a
+              standard computer.
+            </h4>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div
+              class="carousel slide"
+              id="carousel-about"
+              data-ride="carousel"
+              data-interval="7000"
+            >
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img
+                    class="d-block w-100"
+                    src="imagens/cassie/sats.png"
+                    alt="escolha de satélite"
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    class="d-block w-100"
+                    src="imagens/cassie/area.png"
+                    alt="area de interesse"
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    class="d-block w-100"
+                    src="imagens/cassie/periodo.png"
+                    alt="escolha do periodo"
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    class="d-block w-100"
+                    src="imagens/cassie/filtro.png"
+                    alt="filtrar nuvens"
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    class="d-block w-100"
+                    src="imagens/cassie/preparado.png"
+                    alt="pronto para usar"
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    class="d-block w-100"
+                    src="imagens/cassie/ndwi.png"
+                    alt="imagem ndwi"
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    class="d-block w-100"
+                    src="imagens/cassie/resultado.png"
+                    alt="resultado"
+                  />
+                </div>
+                <div class="carousel-item">
+                  <img
+                    class="d-block w-100"
+                    src="imagens/cassie/exportar.png"
+                    alt="opção para exportar"
+                  />
+                </div>
+              </div>
+              <a
+                class="carousel-control-prev"
+                href="#carousel-about"
+                role="button"
+                data-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a
+                class="carousel-control-next"
+                href="#carousel-about"
+                role="button"
+                data-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<body class="pt">
-  <header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-transparent fixed-top">
+      <div class="instruction-section center-section" id="instruction">
+        <div class="row">
+          <div class="col-12">
+            <h3 class="pt">Instruções para utilização do CASSIE</h3>
+            <h3 class="en">CASSIE User Guide</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <p class="pt">
+              Para utilizar o CASSIE é necessário possuir uma conta google
+              cadastrada na plataforma google earth engine, para realizar o
+              cadastro
+              <a href="https://earthengine.google.com/signup/" target="_blank"
+                >clique aqui</a
+              >, Acesse o manual detalhado abaixo para ver as instruções e
+              possibilidades de utilização do CASSIE, ou acesse o
+              <a
+                href="https://www.youtube.com/watch?v=7q-3xNVq0tY&"
+                target="_blank"
+                >video demonstrativo.</a
+              >
+            </p>
+            <p class="en">
+              To use CASSIE, you must have a google account registered on the
+              google earth engine platform. To register,
+              <a href="https://earthengine.google.com/signup/" target="_blank"
+                >click here</a
+              >, access the detailed user guide below to learn how to use CASSIE
+              and find out more about this tools, or access the
+              <a
+                href="https://www.youtube.com/watch?v=7q-3xNVq0tY&"
+                target="_blank"
+                >instruction Video.</a
+              >
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 button-link pt">
+            <a
+              href="https://tinyurl.com/cassie-manual-pt"
+              target="_blank"
+              class="btn btn-raised btn-warning"
+              >Manual Detalhado</a
+            >
+          </div>
+          <div class="col-12 button-link en">
+            <a
+              href="https://tinyurl.com/cassie-manual-en"
+              target="_blank"
+              class="btn btn-raised btn-warning"
+              >Get the User guide</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="baysqueeze-section center-section" id="baysqueeze">
+        <div class="row">
+          <div class="col-12">
+            <h3 class="pt">Projeto BAYSQUEEZE</h3>
+            <h3 class="en">BAYSQUEEZE Project</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-5">
+            <div class="row">
+              <div class="col-12 my-auto baysqueeze-logo">
+                <a href="https://baysqueeze.paginas.ufsc.br/" target="_blank"
+                  ><img
+                    class="logo-baysqueeze"
+                    src="imagens/logos/BaySqueeze.png"
+                    alt="Baysqueeze logo"
+                /></a>
+              </div>
+              <div class="col-12 col-md-8 my-auto baysqueeze-logo">
+                <a
+                  href="http://redeclima.ccst.inpe.br/subredes/zonas-costeiras/"
+                  target="_blank"
+                  ><img
+                    class="logo-rede-clima"
+                    src="imagens/logos/rede-clima-zc.png"
+                    alt="rede clima logo"
+                /></a>
+              </div>
+              <div class="col-12 col-md-4 my-auto baysqueeze-logo">
+                <a
+                  class="pt"
+                  href="https://nacoesunidas.org/pos2015"
+                  target="_blank"
+                  ><img
+                    class="pt logo-ods"
+                    src="imagens/logos/ods.png"
+                    alt="ods logo"
+                /></a>
+                <a class="en" href="https://www.un.org/en/" target="_blank"
+                  ><img
+                    class="en logo-ods"
+                    src="imagens/logos/sdg.png"
+                    alt="ods logo"
+                /></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-7 my-auto">
+            <p class="pt">
+              O nome "BAYSQUEEZE" foi o acrônimo escolhido para o projeto
+              científico intitulado: "Subida do nível do mar e a Baía da
+              Babitonga: uma abordagem eco-morfodinâmica para prever e mitigar
+              impactos". O objetivo do projeto é, através de uma abordagem
+              multidisciplinar e inovadora, analisar os impactos que a subida do
+              nível médio do mar vai trazer para a Baía da Babitonga, e explorar
+              medidas de mitigação do tipo “construindo com a natureza”. O
+              projeto procura contribuir com ações e resultados para o bem e
+              preservação do nosso planeta, tomando para si, a tarefa de cumprir
+              os objetivos de desenvolvimento sustentável, estabelecidos pela
+              ONU, bem como atender às necessidades nacionais de conhecimento
+              sobre mudanças climáticas, paralelamente aos objetivos da sub-rede
+              "Zonas Costeiras", da Rede Brasileira de Pesquisas sobre Mudanças
+              Climáticas Globais(Rede Clima). Este projeto foi financiado pela
+              chamada pública do CNPq MCTIC/CNPq - N° 21/2017 - Pesquisa e
+              Desenvolvimento em Ações Integradas e Sustentáveis nas Baías do
+              Brasil, Linha de Pesquisa 2 - Outras Baías do Brasil; Processo No.
+              441545/2017-3.
+            </p>
+            <p class="en">
+              The name "BAYSQUEEZE" is the acronym for the scientific project
+              entitled: "Sea level rise and the Babitonga Bay: an
+              eco-morphodynamic approach to predict and mitigate impacts". The
+              objective of the project is, through a multidisciplinary and
+              innovative approach, to analyze the impacts that the sea level
+              rise will bring to the Babitonga Bay, and to explore mitigation
+              measures following the approach "building with nature". The
+              project seeks to contribute with actions and results for the
+              preservation of our planet, by assuming the task of fulfilling the
+              United Nations Sustainable Development Goals, as well as attending
+              the national needs of knowledge about climate change, in parallel
+              with the goals of the sub-network "Coastal Zones", of the
+              Brazilian Research Network on Global Climate Change (Rede Clima).
+              This project was financed by the public call of CNPq MCTIC/CNPq -
+              N° 21/2017 - Research and Development in Integrated and
+              Sustainable Actions in Brazilian Bays, Research Line 2 - Other
+              Brazilian Bays; Process No. 441545/2017-3.
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 button-link pt">
+            <a
+              href="https://baysqueeze.paginas.ufsc.br/"
+              target="_blank"
+              class="btn btn-raised btn-warning"
+              >Mais sobre BAYSQUEEZE</a
+            >
+          </div>
+          <div class="col-12 button-link en">
+            <a
+              href="https://baysqueeze.paginas.ufsc.br/en/"
+              target="_blank"
+              class="btn btn-raised btn-warning"
+              >Know more about Baysqueeze</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="team-section center-section" id="team">
+        <div class="row">
+          <div class="col-12">
+            <h3 class="pt">Equipe CASSIE</h3>
+            <h3 class="en">Team CASSIE</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 col-md-4 member">
+            <h5 class="name">Antonio H.F. Klein</h5>
+            <a href="http://lattes.cnpq.br/2354029280846247" target="_blank"
+              ><img src="imagens/equipe/klein.png" alt="antonio klein"
+            /></a>
+            <h5 class="role pt">Pesquisador</h5>
+            <h5 class="role en">Researcher</h5>
+            <h5 class="role">UFSC - LOC</h5>
+          </div>
+          <div class="col-6 col-md-4 member">
+            <h5 class="name">Rodrigo Lyra</h5>
+            <a href="http://lattes.cnpq.br/0117343254850007" target="_blank"
+              ><img src="imagens/equipe/rodrigo1.png" alt="rodrigo"
+            /></a>
+            <h5 class="role pt">Coordenador</h5>
+            <h5 class="role en">Coordinator</h5>
+            <h5 class="role">UNIVALI - LIA</h5>
+          </div>
+          <div class="col-6 col-md-4 member">
+            <h5 class="name">Rudimar L.S. Dazzi</h5>
+            <a href="http://lattes.cnpq.br/9340343036686762" target="_blank"
+              ><img src="imagens/equipe/rudimar.png" alt="rudimar"
+            /></a>
+            <h5 class="role pt">Coordenador</h5>
+            <h5 class="role en">Coordinator</h5>
+            <h5 class="role">UNIVALI - LIA</h5>
+          </div>
+          <div class="col-6 col-md-4 member">
+            <h5 class="name">Luis Pedro Almeida</h5>
+            <a href="http://lattes.cnpq.br/4892957787322492" target="_blank"
+              ><img src="imagens/equipe/pedro.png" alt="Luis pedro"
+            /></a>
+            <h5 class="role pt">Pesquisador</h5>
+            <h5 class="role en">Researcher</h5>
+            <h5 class="role">FURG - IO</h5>
+          </div>
+          <div class="col-6 col-md-4 member">
+            <h5 class="name">Israel Efraim de Oliveira</h5>
+            <a href="https://github.com/IsraelEfraim" target="_blank"
+              ><img src="imagens/equipe/israel.png" alt="Israel"
+            /></a>
+            <h5 class="role pt">Bolsista ATP-B</h5>
+            <h5 class="role en">Grant holder ATP-B</h5>
+            <h5 class="role">UNIVALI - LIA</h5>
+          </div>
+          <div class="col-6 col-md-4 member">
+            <h5 class="name">Vinícius Gabriel Martins</h5>
+            <a href="https://github.com/vinigmartins" target="_blank"
+              ><img src="imagens/equipe/vinicius.png" alt="Vinícius"
+            /></a>
+            <h5 class="role pt">Bolsista FUMDES</h5>
+            <h5 class="role en">Grant holder FUMDES</h5>
+            <h5 class="role">UNIVALI - LIA</h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="paper-section center-section" id="papers">
+        <div class="row">
+          <div class="col-12">
+            <h3 class="pt">Produção científica</h3>
+            <h3 class="en">Publications</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <div class="col-12">
+              <h5 class="pt"><b>Resumos em eventos</b></h5>
+              <h5 class="en"><b>Abstracts in conference Proceedings</b></h5>
+            </div>
+            <div class="col-12">
+              <a
+                href="http://www.praiaegestao.com.br/theme/images/ANAISSBPAEENCOGERCO_2018.pdf#page=252"
+                target="_blank"
+              >
+                <p class="reference">
+                  Concatto, F., Almeida, L. P. M., Lyra, R., Dazzi, R. L. S.,
+                  Klein, A. H. F. (2018),e-C.A.S.S.I.E.: Uma Ferramenta para
+                  Análise e Mapeamento de Regiões Costeiras Utilizando a
+                  Plataforma Google Earth Engine. II SBPA & XI ENCOGERCO 2018
+                </p>
+              </a>
+              <a
+                href="https://siaiap32.univali.br/seer/index.php/acotb/article/view/12871"
+                target="_blank"
+              >
+                <p class="reference">
+                  Concatto, F., Almeida, L. P. M., Lyra, R., Dazzi, R. L. S.,
+                  Klein, A. H. F., Machado, A. A., Desenvolvimento de uma
+                  Ferramenta Integrada ao Google Earth Engine para a Análise de
+                  Ambientes Costeiros. Anais do Computer on the Beach, p.
+                  950-951, 2018.
+                </p>
+              </a>
+            </div>
+            <div class="col-12">
+              <h5 class="pt"><b>Premiação</b></h5>
+              <h5 class="en"><b>Awards</b></h5>
+            </div>
+            <div class="col-12">
+              <p class="pt">
+                Fernando Concatto ganhou o prêmio "jovem Pesquisador" com o
+                resumo apresentado no, II Simpósio Brasileiro sobre Praias
+                Arenosas – II SBPA / XI Encontro Nacional de Gerenciamento
+                Costeiro – XI ENCOGERCO, na seção: gestão costeira/marinha, na
+                categoria poster.
+              </p>
+              <p class="en">
+                Fernando Concatto won the "young researcher" award with the
+                abstract presented at the II Brazilian Symposium on Sandy
+                Beaches - II SBPA / XI National Meeting of Coastal Management -
+                XI ENCOGERCO, in the section: coastal/marine management, in the
+                poster category.
+              </p>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="col-12">
+              <h5 class="pt"><b>Curso ministrado</b></h5>
+              <h5 class="en"><b>Workshop</b></h5>
+            </div>
+            <div class="col-12">
+              <p class="pt">
+                Na conferência da LAPECO de 2019, os membros: Luis Pedro
+                Almeida, Rodrigo Lyra e israel Efraim de oliveira, da equipe
+                CASSIE administraram um curso prático da ferramenta CASSIE.
+              </p>
+              <p class="en">
+                At the 2019 LAPECO conference, the members: Luis Pedro Almeida,
+                Rodrigo Lyra and israel Efraim de oliveira, of the CASSIE team
+                administered a short-course about CASSIE.
+              </p>
+              <a
+                href="http://lapeco2019.blogspot.com/p/blog-page_30.html"
+                target="_blank"
+              >
+                <p class="reference">
+                  Almeida, L. P.; Lyra, R. ; Oliveira, I. Determinação e análise
+                  da evolução da linha de costa com ferramenta do Google Earth
+                  Engine (e-CASSIE). 2019. (Curso de curta duração
+                  ministrado/Especialização).
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <section class="completion-section">
       <div class="container">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
-          aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse navbar-right" id="navbar">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a class="pt nav-link goto" href="#about-cassie" data-to="#about-cassie">Sobre</a></li>
-            <li class="nav-item"><a class="pt nav-link goto" href="#instruction" data-to="#instruction">Instruções</a>
-            </li>
-            <li class="nav-item"><a class="pt nav-link goto" href="#baysqueeze" data-to="#baysqueeze">Baysqueeze</a>
-            </li>
-            <li class="nav-item"><a class="pt nav-link goto" href="#team" data-to="#team">Equipe</a></li>
-            <li class="nav-item"><a class="pt nav-link goto" href="#papers" data-to="#papers">Produção científica</a>
-            </li>
-            <li class="nav-item"><a class="pt nav-link goto" href="#contact" data-to="#contact">Contato</a></li>
-            <li class="nav-item"><a class="pt nav-link goto" href="" data-toggle="modal"
-                data-target=".faq-modal">FAQ</a></li>
-            <li class="nav-item"><a class="en nav-link goto" href="#about-cassie" data-to="#about-cassie">About</a></li>
-            <li class="nav-item"><a class="en nav-link goto" href="#instruction" data-to="#instruction">User Guide</a>
-            </li>
-            <li class="nav-item"><a class="en nav-link goto" href="#baysqueeze" data-to="#baysqueeze">Baysqueeze</a>
-            </li>
-            <li class="nav-item"><a class="en nav-link goto" href="#team" data-to="#team">Team</a></li>
-            <li class="nav-item"><a class="en nav-link goto" href="#papers" data-to="#papers">Publications</a></li>
-            <li class="nav-item"><a class="en nav-link goto" href="#contact" data-to="#contact">Contact</a></li>
-            <li class="nav-item"><a class="en nav-link goto" href="" data-toggle="modal"
-                data-target=".faq-modal">FAQ</a></li>
-          </ul>
-        </div>
-        <a class="lia-svg" href="https://ialab.com.br/" target="_blank"><img src="imagens/svg/lialines.svg"
-            height="32px" /></a>
-        <div>
-          <a class="idiom-flag" onclick="toPortuguese()"><img src="imagens/flags/br.png" width="25px"
-              title="Português" /></a>
-          <a class="idiom-flag" onclick="toEnglish()"><img src="imagens/flags/uk.png" width="25px"
-              title="English" /></a>
-        </div>
-      </div>
-    </nav>
-
-    <div class="page-header">
-      <div class="row header-title">
-        <div class="col-12">
-          <h1> CASSIE</h1>
-        </div>
-        <div class="col-12">
-          <h3>Coastal Analysis via Satellite Imagery Engine</h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col" id="button-cassie-access">
-          <a class="pt btn btn-raised btn-warning btn-lg" href="https://cassie-stable.herokuapp.com/"
-            onclick="gtag('event','acessoFerramenta', {'event_category':'acesso','event_label':'acesso_a_ferramenta'});"
-            role="button">Acesse a ferramenta</a>
-          <a class="en btn btn-raised btn-warning btn-lg" href="https://cassie-stable.herokuapp.com/"
-            onclick="gtag('event','acessoFerramenta', {'event_category':'acesso','event_label':'acesso_a_ferramenta'});"
-            role="button">Access the tool</a>
-        </div>
-      </div>
-      <div class="arrow bounce">
-        <a class="fa fa-arrow-down fa-2x" href="#about-cassie"></a>
-      </div>
-    </div>
-
-  </header>
-
-  <main>
-    <div class="about-cassie" id="about-cassie">
-      <h1 class="pt">Conheça o CASSIE</h1>
-      <h1 class="en">Know more about CASSIE</h1>
-      <div class="row ">
-        <div class="col-12 col-lg-6">
-          <h4 class="pt">CASSIE é uma ferramenta web de código aberto que permite o mapeamento automático e análise da
-            linha de costa em qualquer zona costeira do planeta. Para realizar esses procedimentos o CASSIE utiliza as
-            ferramentas e imagens de satélite multi-espectrais disponibilizadas pela plataforma Google Earth Engine. O
-            CASSIE tem acesso a coleção de imagens pertencentes às missões Landsat 5, 7, 8 e sentinel-2. Como a
-            plataforma Google Earth Engine é baseada em nuvem, o CASSIE requer acesso a internet, e o processamento de
-            dados do CASSIE é realizado pela plataforma Google Cloud, tornando a ferramenta acessível à computadores
-            menos robustos.</h4>
-          <h4 class="en">CASSIE is an open source web tool that allows automatic mapping and analysis of the shoreline
-            position in any coastal zone of the planet. To perform these procedures, CASSIE uses the tools and
-            multispectral satellite images provided by the Google Earth Engine platform. CASSIE has access to the
-            satellite missions Landsat 5, 7, 8 and sentinel-2 image collections. Since the Google Earth Engine platform
-            is cloud-based, CASSIE requires Internet access to work. All CASSIE's data processing is performed by the
-            Google Cloud platform, making it possible to users apply this tool with a standard computer.</h4>
-        </div>
-        <div class="col-12 col-lg-6">
-          <div class="carousel slide" id="carousel-about" data-ride="carousel" data-interval="7000">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img class="d-block w-100" src="imagens/cassie/sats.png" alt="escolha de satélite">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="imagens/cassie/area.png" alt="area de interesse">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="imagens/cassie/periodo.png" alt="escolha do periodo">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="imagens/cassie/filtro.png" alt="filtrar nuvens">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="imagens/cassie/preparado.png" alt="pronto para usar">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="imagens/cassie/ndwi.png" alt="imagem ndwi">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="imagens/cassie/resultado.png" alt="resultado">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="imagens/cassie/exportar.png" alt="opção para exportar">
-              </div>
-            </div>
-            <a class="carousel-control-prev" href="#carousel-about" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carousel-about" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="instruction-section center-section" id="instruction">
-      <div class="row">
-        <div class="col-12">
-          <h3 class="pt">Instruções para utilização do CASSIE</h3>
-          <h3 class="en">CASSIE User Guide</h3>
-        </div>
-      </div>
-      <div class="row ">
-        <div class="col-12">
-          <p class="pt">
-            Para utilizar o CASSIE é necessário possuir uma conta google cadastrada na plataforma google earth engine,
-            para realizar o cadastro <a href="https://earthengine.google.com/signup/" target="_blank">clique aqui</a>,
-            Acesse o manual detalhado abaixo para ver as instruções e possibilidades de utilização do CASSIE, ou acesse
-            o <a href="https://www.youtube.com/watch?v=7q-3xNVq0tY&" target="_blank">video demonstrativo.</a>
-          </p>
-          <p class="en">
-            To use CASSIE, you must have a google account registered on the google earth engine platform. To register,
-            <a href="https://earthengine.google.com/signup/" target="_blank">click here</a>, access the detailed user
-            guide below to learn how to use CASSIE and find out more about this tools, or access the <a
-              href="https://www.youtube.com/watch?v=7q-3xNVq0tY&" target="_blank">instruction Video.</a>
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 button-link pt">
-          <a href="https://tinyurl.com/cassie-manual-pt" target="_blank" class="btn btn-raised btn-warning">Manual
-            Detalhado</a>
-        </div>
-        <div class="col-12 button-link en">
-          <a href="https://tinyurl.com/cassie-manual-en" target="_blank" class="btn btn-raised btn-warning">Get the User
-            guide</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="baysqueeze-section center-section" id="baysqueeze">
-      <div class="row">
-        <div class="col-12">
-          <h3 class="pt">Projeto BAYSQUEEZE</h3>
-          <h3 class="en">BAYSQUEEZE Project</h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-lg-5">
-          <div class="row">
-            <div class="col-12 my-auto baysqueeze-logo">
-              <a href="https://baysqueeze.paginas.ufsc.br/" target="_blank"><img class="logo-baysqueeze"
-                  src="imagens/logos/BaySqueeze.png" alt="Baysqueeze logo" /></a>
-            </div>
-            <div class="col-12 col-md-8 my-auto baysqueeze-logo">
-              <a href="http://redeclima.ccst.inpe.br/subredes/zonas-costeiras/" target="_blank"><img
-                  class="logo-rede-clima" src="imagens/logos/rede-clima-zc.png" alt="rede clima logo" /></a>
-            </div>
-            <div class="col-12 col-md-4 my-auto baysqueeze-logo">
-              <a class="pt" href="https://nacoesunidas.org/pos2015" target="_blank"><img class="pt logo-ods"
-                  src="imagens/logos/ods.png" alt="ods logo" /></a>
-              <a class="en" href="https://www.un.org/en/" target="_blank"><img class="en logo-ods"
-                  src="imagens/logos/sdg.png" alt="ods logo" /></a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-7 my-auto">
-          <p class="pt">O nome "BAYSQUEEZE" foi o acrônimo escolhido para o projeto científico intitulado: "Subida do
-            nível do mar e a Baía da Babitonga: uma abordagem eco-morfodinâmica para prever e mitigar impactos". O
-            objetivo do projeto é, através de uma abordagem multidisciplinar e inovadora, analisar os impactos que a
-            subida do nível médio do mar vai trazer para a Baía da Babitonga, e explorar medidas de mitigação do tipo
-            “construindo com a natureza”. O projeto procura contribuir com ações e resultados para o bem e preservação
-            do nosso planeta, tomando para si, a tarefa de cumprir os objetivos de desenvolvimento sustentável,
-            estabelecidos pela ONU, bem como atender às necessidades nacionais de conhecimento sobre mudanças
-            climáticas, paralelamente aos objetivos da sub-rede "Zonas Costeiras", da Rede Brasileira de Pesquisas sobre
-            Mudanças Climáticas Globais(Rede Clima). Este projeto foi financiado pela chamada pública do CNPq MCTIC/CNPq
-            - N° 21/2017 - Pesquisa e Desenvolvimento em Ações Integradas e Sustentáveis nas Baías do Brasil, Linha de
-            Pesquisa 2 - Outras Baías do Brasil; Processo No. 441545/2017-3.</p>
-          <p class="en">The name "BAYSQUEEZE" is the acronym for the scientific project entitled: "Sea level rise and
-            the Babitonga Bay: an eco-morphodynamic approach to predict and mitigate impacts". The objective of the
-            project is, through a multidisciplinary and innovative approach, to analyze the impacts that the sea level
-            rise will bring to the Babitonga Bay, and to explore mitigation measures following the approach "building
-            with nature". The project seeks to contribute with actions and results for the preservation of our planet,
-            by assuming the task of fulfilling the United Nations Sustainable Development Goals, as well as attending
-            the national needs of knowledge about climate change, in parallel with the goals of the sub-network "Coastal
-            Zones", of the Brazilian Research Network on Global Climate Change (Rede Clima). This project was financed
-            by the public call of CNPq MCTIC/CNPq - N° 21/2017 - Research and Development in Integrated and Sustainable
-            Actions in Brazilian Bays, Research Line 2 - Other Brazilian Bays; Process No. 441545/2017-3.</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 button-link pt">
-          <a href="https://baysqueeze.paginas.ufsc.br/" target="_blank" class="btn btn-raised btn-warning ">Mais sobre
-            BAYSQUEEZE</a>
-        </div>
-        <div class="col-12 button-link en">
-          <a href="https://baysqueeze.paginas.ufsc.br/en/" target="_blank" class="btn btn-raised btn-warning ">Know more
-            about Baysqueeze</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="team-section center-section" id="team">
-      <div class="row">
-        <div class="col-12">
-          <h3 class="pt">Equipe CASSIE</h3>
-          <h3 class="en">Team CASSIE</h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-md-4 member">
-          <h5 class="name">Antonio H.F. Klein</h5>
-          <a href="http://lattes.cnpq.br/2354029280846247" target="_blank"><img src="imagens/equipe/klein.png"
-              alt="antonio klein"></a>
-          <h5 class="role pt">Pesquisador</h5>
-          <h5 class="role en">Researcher</h5>
-          <h5 class="role">UFSC - LOC</h5>
-        </div>
-        <div class="col-6 col-md-4 member">
-          <h5 class="name">Rodrigo Lyra</h5>
-          <a href="http://lattes.cnpq.br/0117343254850007" target="_blank"><img src="imagens/equipe/rodrigo1.png"
-              alt="rodrigo"></a>
-          <h5 class="role pt">Coordenador</h5>
-          <h5 class="role en">Coordinator</h5>
-          <h5 class="role">UNIVALI - LIA</h5>
-        </div>
-        <div class="col-6 col-md-4 member">
-          <h5 class="name">Rudimar L.S. Dazzi</h5>
-          <a href="http://lattes.cnpq.br/9340343036686762" target="_blank"><img src="imagens/equipe/rudimar.png"
-              alt="rudimar"></a>
-          <h5 class="role pt">Coordenador</h5>
-          <h5 class="role en">Coordinator</h5>
-          <h5 class="role">UNIVALI - LIA</h5>
-        </div>
-        <div class="col-6 col-md-4 member">
-          <h5 class="name">Luis Pedro Almeida</h5>
-          <a href="http://lattes.cnpq.br/4892957787322492" target="_blank"><img src="imagens/equipe/pedro.png"
-              alt="Luis pedro"></a>
-          <h5 class="role pt">Pesquisador</h5>
-          <h5 class="role en">Researcher</h5>
-          <h5 class="role">FURG - IO</h5>
-        </div>
-        <div class="col-6 col-md-4 member">
-          <h5 class="name">Israel Efraim de Oliveira</h5>
-          <a href="https://github.com/IsraelEfraim" target="_blank"><img src="imagens/equipe/israel.png"
-              alt="Israel"></a>
-          <h5 class="role pt">Bolsista ATP-B</h5>
-          <h5 class="role en">Grant holder ATP-B</h5>
-          <h5 class="role">UNIVALI - LIA</h5>
-        </div>
-        <div class="col-6 col-md-4 member">
-          <h5 class="name">Vinícius Gabriel Martins</h5>
-          <a href="https://github.com/vinigmartins" target="_blank"><img src="imagens/equipe/vinicius.png"
-              alt="Vinícius"></a>
-          <h5 class="role pt">Bolsista FUMDES</h5>
-          <h5 class="role en">Grant holder FUMDES</h5>
-          <h5 class="role">UNIVALI - LIA</h5>
-        </div>
-      </div>
-    </div>
-
-    <div class="paper-section center-section" id="papers">
-      <div class="row">
-        <div class="col-12">
-          <h3 class="pt">Produção científica</h3>
-          <h3 class="en">Publications</h3>
-        </div>
-      </div>
-      <div class="row ">
-        <div class="col-12 col-lg-6">
+        <div class="row">
           <div class="col-12">
-            <h5 class="pt"><b>Resumos em eventos</b></h5>
-            <h5 class="en"><b>Abstracts in conference Proceedings</b></h5>
+            <h3 class="pt">Realização</h3>
+            <h3 class="en">Developed by</h3>
           </div>
-          <div class="col-12 ">
-            <a href="http://www.praiaegestao.com.br/theme/images/ANAISSBPAEENCOGERCO_2018.pdf#page=252" target="_blank">
-              <p class="reference">Concatto, F., Almeida, L. P. M., Lyra, R., Dazzi, R. L. S., Klein, A. H. F.
-                (2018),e-C.A.S.S.I.E.: Uma Ferramenta para Análise e Mapeamento de Regiões Costeiras Utilizando a
-                Plataforma Google Earth Engine. II SBPA & XI ENCOGERCO 2018</p>
-            </a>
-            <a href="https://siaiap32.univali.br/seer/index.php/acotb/article/view/12871" target="_blank">
-              <p class="reference">Concatto, F., Almeida, L. P. M., Lyra, R., Dazzi, R. L. S., Klein, A. H. F., Machado,
-                A. A., Desenvolvimento de uma Ferramenta Integrada ao Google Earth Engine para a Análise de Ambientes
-                Costeiros. Anais do Computer on the Beach, p. 950-951, 2018.</p>
-            </a>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-3">
+            <a href="http://ialab.com.br" target="_blank"
+              ><img id="lia" src="imagens/logos/lia.png"
+            /></a>
           </div>
+        </div>
+        <div class="row">
           <div class="col-12">
-            <h5 class="pt"><b>Premiação</b></h5>
-            <h5 class="en"><b>Awards</b></h5>
-          </div>
-          <div class="col-12 ">
-            <p class="pt">Fernando Concatto ganhou o prêmio "jovem Pesquisador" com o resumo apresentado no, II Simpósio
-              Brasileiro sobre Praias Arenosas – II SBPA / XI Encontro Nacional de Gerenciamento Costeiro – XI
-              ENCOGERCO, na seção: gestão costeira/marinha, na categoria poster.</p>
-            <p class="en">Fernando Concatto won the "young researcher" award with the abstract presented at the II
-              Brazilian Symposium on Sandy Beaches - II SBPA / XI National Meeting of Coastal Management - XI ENCOGERCO,
-              in the section: coastal/marine management, in the poster category.</p>
+            <h3 class="pt">Apoio Financeiro</h3>
+            <h3 class="en">Financial support</h3>
           </div>
         </div>
-        <div class="col-12 col-lg-6">
+        <div class="row justify-content-center">
           <div class="col-12">
-            <h5 class="pt"><b>Curso ministrado</b></h5>
-            <h5 class="en"><b>Workshop</b></h5>
+            <a href="http://cnpq.br" target="_blank"
+              ><img src="imagens/logos/cnpq.png"
+            /></a>
           </div>
-          <div class="col-12 ">
-            <p class="pt">Na conferência da LAPECO de 2019, os membros: Luis Pedro Almeida, Rodrigo Lyra e israel Efraim
-              de oliveira, da equipe CASSIE administraram um curso prático da ferramenta CASSIE.</p>
-            <p class="en">At the 2019 LAPECO conference, the members: Luis Pedro Almeida, Rodrigo Lyra and israel Efraim
-              de oliveira, of the CASSIE team administered a short-course about CASSIE.</p>
-            <a href="http://lapeco2019.blogspot.com/p/blog-page_30.html" target="_blank">
-              <p class="reference">Almeida, L. P.; Lyra, R. ; Oliveira, I. Determinação e análise da evolução da linha
-                de costa com ferramenta do Google Earth Engine (e-CASSIE). 2019. (Curso de curta duração
-                ministrado/Especialização).</p>
-            </a>
+          <div class="col-12 col-md-6">
+            <p class="pt" id="cnpq-reference">
+              CNPq MCTIC/CNPq – N° 21/2017 – Pesquisa e Desenvolvimento em Ações
+              Integradas e Sustentáveis nas Baías do Brasil, Linha de Pesquisa 2
+              – Outras Baías do Brasil; Processo No. 441545/2017-3.
+            </p>
+            <p class="en" id="cnpq-reference">
+              CNPq MCTIC/CNPq - N° 21/2017 - Research and Development in
+              Integrated and Sustainable Actions in Brazilian Bays, Research
+              Line 2 - Other Brazilian Bays; Process No. 441545/2017-3.
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h3 class="pt">Apoio Institucional</h3>
+            <h3 class="en">Institutional support</h3>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-4">
+            <a href="http://redeclima.ccst.inpe.br/" target="_blank"
+              ><img
+                class="logo-rede-clima"
+                src="imagens/logos/rede-clima-zc.png"
+            /></a>
+          </div>
+          <div class="col-12 col-sm-4">
+            <a href="https://www.icmbio.gov.br/cepsul/" target="_blank"
+              ><img class="logo-cepsul" src="imagens/logos/cepsul.png"
+            /></a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h3 class="pt">Parceiros</h3>
+            <h3 class="en">Project partners</h3>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-3">
+            <a
+              href="https://www.univali.br/Paginas/default.aspx"
+              target="_blank"
+              ><img id="univali" src="imagens/logos/univali.png"
+            /></a>
+          </div>
+          <div class="col-12 col-sm-3">
+            <a href="https://ufsc.br/" target="_blank"
+              ><img id="ufsc" src="imagens/logos/ufsc.png"
+            /></a>
+          </div>
+          <div class="col-12 col-sm-3">
+            <a href="https://www.furg.br/" target="_blank"
+              ><img id="furg" src="imagens/logos/furg.png"
+            /></a>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-  </main>
-
-  <section class="completion-section">
-    <div class="container">
+    <section class="contact-section">
       <div class="row">
-        <div class="col-12">
-          <h3 class="pt">Realização</h3>
-          <h3 class="en">Developed by</h3>
+        <div class="col-12 col-md-6">
+          <h3 class="pt">CASSIE no Mundo</h3>
+          <h3 class="en">CASSIE in the world</h3>
+          <div class="map-cassie">
+            <iframe
+              class="pt"
+              width="600"
+              height="371"
+              seamless
+              frameborder="0"
+              scrolling="no"
+              src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSMJSMO7qDs9K5izp1SLafQAhXZe62Yh-gJTyK-qvfcV76YIqrRmrpdPl_q8LLfzYOJNiIGAog8umVj/pubchart?oid=1484120163&amp;format=interactive"
+            ></iframe>
+            <iframe
+              class="en"
+              width="600"
+              height="371"
+              seamless
+              frameborder="0"
+              scrolling="no"
+              src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSMJSMO7qDs9K5izp1SLafQAhXZe62Yh-gJTyK-qvfcV76YIqrRmrpdPl_q8LLfzYOJNiIGAog8umVj/pubchart?oid=1509316603&amp;format=interactive"
+            ></iframe>
+          </div>
         </div>
-      </div>
-      <div class="row  justify-content-center">
-        <div class="col-12 col-sm-3 ">
-          <a href="http://ialab.com.br" target="_blank"><img id="lia" src="imagens/logos/lia.png" /></a>
+        <div class="col-12 col-md-6">
+          <h3>@cassiengine</h3>
+          <div class="col-12 twitter">
+            <a
+              class="twitter-timeline"
+              href="https://twitter.com/cassiengine?ref_src=twsrc%5Etfw"
+              >Tweets by cassiengine</a
+            >
+          </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-12 ">
-          <h3 class="pt">Apoio Financeiro</h3>
-          <h3 class="en">Financial support</h3>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-12 ">
-          <a href="http://cnpq.br" target="_blank"><img src="imagens/logos/cnpq.png" /></a>
-        </div>
-        <div class="col-12 col-md-6 ">
-          <p class="pt" id="cnpq-reference">CNPq MCTIC/CNPq – N° 21/2017 – Pesquisa e Desenvolvimento em Ações
-            Integradas e Sustentáveis nas Baías do Brasil, Linha de Pesquisa 2 – Outras Baías do Brasil; Processo No.
-            441545/2017-3.</p>
-          <p class="en" id="cnpq-reference">CNPq MCTIC/CNPq - N° 21/2017 - Research and Development in Integrated and
-            Sustainable Actions in Brazilian Bays, Research Line 2 - Other Brazilian Bays; Process No. 441545/2017-3.
-          </p>
+        <div class="col-12 my-auto" id="contact">
+          <h3 class="pt">Contato</h3>
+          <h3 class="en">Contact</h3>
         </div>
       </div>
       <div class="row">
-        <div class="col-12 ">
-          <h3 class="pt">Apoio Institucional</h3>
-          <h3 class="en">Institutional support</h3>
+        <div class="col-12 col-md-6">
+          <h4 class="pt">Coordenação do projeto</h4>
+          <h4 class="en">Project management</h4>
+          <p>Email: rudimar@univali.br</p>
+          <p>Email: rlyra@univali.br</p>
+        </div>
+        <div class="col-12 col-md-6">
+          <h4 class="pt">Dúvidas técnicas</h4>
+          <h4 class="en">Technical questions</h4>
+          <p>Email: israel.oliveira@edu.univali.br</p>
+          <button
+            type="button"
+            class="btn btn-primary"
+            id="faq-button"
+            data-toggle="modal"
+            data-target=".faq-modal"
+          >
+            FAQ
+          </button>
         </div>
       </div>
-      <div class="row justify-content-center">
-        <div class="col-12 col-sm-4 ">
-          <a href="http://redeclima.ccst.inpe.br/" target="_blank"><img class="logo-rede-clima"
-              src="imagens/logos/rede-clima-zc.png" /></a>
-        </div>
-        <div class="col-12 col-sm-4 ">
-          <a href="https://www.icmbio.gov.br/cepsul/" target="_blank"><img class="logo-cepsul"
-              src="imagens/logos/cepsul.png" /></a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 ">
-          <h3 class="pt">Parceiros</h3>
-          <h3 class="en">Project partners</h3>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-12  col-sm-3 ">
-          <a href="https://www.univali.br/Paginas/default.aspx" target="_blank"><img id="univali"
-              src="imagens/logos/univali.png" /></a>
-        </div>
-        <div class="col-12 col-sm-3 ">
-          <a href="https://ufsc.br/" target="_blank"><img id="ufsc" src="imagens/logos/ufsc.png" /></a>
-        </div>
-        <div class="col-12 col-sm-3 ">
-          <a href="https://www.furg.br/" target="_blank"><img id="furg" src="imagens/logos/furg.png" /></a>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="contact-section">
-    <div class="row">
-      <div class="col-12 col-md-6">
-        <h3 class="pt">CASSIE no Mundo</h3>
-        <h3 class="en">CASSIE in the world</h3>
-        <div class="map-cassie">
-          <iframe class="pt" width="600" height="371" seamless frameborder="0" scrolling="no"
-            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSMJSMO7qDs9K5izp1SLafQAhXZe62Yh-gJTyK-qvfcV76YIqrRmrpdPl_q8LLfzYOJNiIGAog8umVj/pubchart?oid=1484120163&amp;format=interactive"></iframe>
-          <iframe class="en" width="600" height="371" seamless frameborder="0" scrolling="no"
-            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSMJSMO7qDs9K5izp1SLafQAhXZe62Yh-gJTyK-qvfcV76YIqrRmrpdPl_q8LLfzYOJNiIGAog8umVj/pubchart?oid=1509316603&amp;format=interactive"></iframe>
-        </div>
-      </div>
-      <div class="col-12 col-md-6">
-        <h3>@cassiengine</h3>
-        <div class="col-12 twitter">
-          <a class="twitter-timeline" href="https://twitter.com/cassiengine?ref_src=twsrc%5Etfw">Tweets by
-            cassiengine</a>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 my-auto" id="contact">
-        <h3 class="pt">Contato</h3>
-        <h3 class="en">Contact</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 col-md-6">
-        <h4 class="pt">Coordenação do projeto</h4>
-        <h4 class="en">Project management</h4>
-        <p>Email: rudimar@univali.br</p>
-        <p>Email: rlyra@univali.br</p>
-      </div>
-      <div class="col-12 col-md-6">
-        <h4 class="pt">Dúvidas técnicas</h4>
-        <h4 class="en">Technical questions</h4>
-        <p>Email: israel.oliveira@edu.univali.br</p>
-        <button type="button" class="btn btn-primary" id="faq-button" data-toggle="modal"
-          data-target=".faq-modal">FAQ</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ modal -->
-  <div class="modal fade faq-modal" tabindex="-1" role="dialog" aria-labelledby="modal-faq" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title pt">Perguntas Frequentes</h3>
-          <h3 class="modal-title en">Frequently Asked Questions</h3>
-        </div>
-        <!-- questions -->
-        <div id="accordion-faq">
-
-          <div class="card">
-            <div class="card-header" id="heading-1">
-              <button class="btn collapsed question-button" data-toggle="collapse" data-target="#question-1"
-                aria-expanded="false" aria-controls="question-1">
-                <span class="pt">
-                  Como o CASSIE funciona?
-                </span>
-                <span class="en">
-                  How does CASSIE work?
-                </span>
-              </button>
+    <!-- FAQ modal -->
+    <div
+      class="modal fade faq-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modal-faq"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title pt">Perguntas Frequentes</h3>
+            <h3 class="modal-title en">Frequently Asked Questions</h3>
+          </div>
+          <!-- questions -->
+          <div id="accordion-faq">
+            <div class="card">
+              <div class="card-header" id="heading-1">
+                <button
+                  class="btn collapsed question-button"
+                  data-toggle="collapse"
+                  data-target="#question-1"
+                  aria-expanded="false"
+                  aria-controls="question-1"
+                >
+                  <span class="pt"> Como o CASSIE funciona? </span>
+                  <span class="en"> How does CASSIE work? </span>
+                </button>
+              </div>
+              <div
+                id="question-1"
+                class="collapse"
+                aria-labelledby="heading-1"
+                data-parent="#accordion-faq"
+              >
+                <div class="card-body">
+                  <span class="pt"
+                    >O CASSIE utiliza do Google Earth Engine (GEE), uma
+                    plataforma de processamento paralelo em nuvem de dados
+                    geospaciais (<a
+                      href="https://www.sciencedirect.com/science/article/pii/S0034425717302900"
+                      target="_blank"
+                      >Gorelick et al., 2017</a
+                    >). O CASSIE se comunica com o GEE por meio de uma API
+                    (Application Programming Interface - Interface de
+                    Programação de Aplicativos), que o permite utilizar dos
+                    datasets e do potencial de processamento do GEE.</span
+                  >
+                  <span class="en"
+                    >CASSIE uses Google Earth Engine (GEE), a platform of
+                    parallel processing in geospatial data cloud (<a
+                      href="https://www.sciencedirect.com/science/article/pii/S0034425717302900"
+                      target="_blank"
+                      >Gorelick et al., 2017</a
+                    >). CASSIE communicates with the GEE through an API
+                    (Application Programming Interface), which allows it to use
+                    the datasets and processing potential of the GEE.</span
+                  >
+                </div>
+              </div>
             </div>
-            <div id="question-1" class="collapse" aria-labelledby="heading-1" data-parent="#accordion-faq">
-              <div class="card-body">
-                <span class="pt">O CASSIE utiliza do Google Earth Engine (GEE), uma plataforma de processamento paralelo
-                  em nuvem de dados geospaciais (<a
-                    href="https://www.sciencedirect.com/science/article/pii/S0034425717302900" target="_blank">Gorelick
-                    et al., 2017</a>). O CASSIE se comunica com o GEE por meio de uma API (Application Programming
-                  Interface - Interface de Programação de Aplicativos), que o permite utilizar dos datasets e do
-                  potencial de processamento do GEE.</span>
-                <span class="en">CASSIE uses Google Earth Engine (GEE), a platform of parallel processing in geospatial
-                  data cloud (<a href="https://www.sciencedirect.com/science/article/pii/S0034425717302900"
-                    target="_blank">Gorelick et al., 2017</a>). CASSIE communicates with the GEE through an API
-                  (Application Programming Interface), which allows it to use the datasets and processing potential of
-                  the GEE.</span>
+
+            <div class="card">
+              <div class="card-header" id="heading-2">
+                <button
+                  class="btn collapsed question-button"
+                  data-toggle="collapse"
+                  data-target="#question-2"
+                  aria-expanded="true"
+                  aria-controls="question-2"
+                >
+                  <span class="pt">
+                    Quais datasets de imagem de satélite estão disponíveis no
+                    CASSIE?
+                  </span>
+                  <span class="en">
+                    What satellite image datasets are available at CASSIE?
+                  </span>
+                </button>
+              </div>
+              <div
+                id="question-2"
+                class="collapse"
+                aria-labelledby="heading-2"
+                data-parent="#accordion-faq"
+              >
+                <div class="card-body">
+                  <span class="pt">
+                    Atualmente, o CASSIE possibilita análises com dados do
+                    <a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2"
+                      target="_blank"
+                      >Sentinel 2 (MSI, TOA) Level-1C</a
+                    >
+                    e com a coleção dos Landsats (<a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LT05_C01_T1_SR"
+                      target="_blank"
+                      >Landsat 5 TM SR Tier 1</a
+                    >,
+                    <a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T1_SR"
+                      target="_blank"
+                      >Landsat 7 ETM+ SR Tier 1</a
+                    >,
+                    <a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T1_SR"
+                      target="_blank"
+                      >Landsat 8 OLI SR Tier 1</a
+                    >). Quando não há imagens disponíveis de Tier 1 (maior
+                    qualidade) para o Landsat 7 e 8, o CASSIE utiliza de imagens
+                    das coleções
+                    <a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T2_TOA"
+                      target="_blank"
+                      >Landsat 7 TOA Tier 2</a
+                    >
+                    e
+                    <a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T2_TOA"
+                      target="_blank"
+                      >Landsat 8 TOA Tier 2</a
+                    >.
+                  </span>
+                  <span class="en">
+                    Currently, CASSIE enables analysis with data from
+                    <a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2"
+                      target="_blank"
+                      >Sentinel 2 (MSI, TOA) Level-1C</a
+                    >
+                    and the Landsat collections (<a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LT05_C01_T1_SR"
+                      target="_blank"
+                      >Landsat 5 TM SR Tier 1</a
+                    >,
+                    <a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T1_SR"
+                      target="_blank"
+                      >Landsat 7 ETM+ SR Tier 1</a
+                    >,
+                    <a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T1_SR"
+                      target="_blank"
+                      >Landsat 8 OLI SR Tier 1</a
+                    >). When Tier 1 images (higher quality) aren't available for
+                    Landsat 7 and 8, CASSIE uses images from the
+                    <a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T2_TOA"
+                      target="_blank"
+                      >Landsat 7 TOA Tier 2</a
+                    >
+                    and
+                    <a
+                      href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T2_TOA"
+                      target="_blank"
+                      >Landsat 8 TOA Tier 2</a
+                    >.
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" id="heading-3">
+                <button
+                  class="btn collapsed question-button"
+                  data-toggle="collapse"
+                  data-target="#question-3"
+                  aria-expanded="false"
+                  aria-controls="question-3"
+                >
+                  <span class="pt">Como acesso o CASSIE?</span>
+                  <span class="en">How do I access CASSIE? </span>
+                </button>
+              </div>
+              <div
+                id="question-3"
+                class="collapse"
+                aria-labelledby="heading-3"
+                data-parent="#accordion-faq"
+              >
+                <div class="card-body">
+                  <span class="pt"
+                    >O CASSIE está disponível como uma ferramenta open source
+                    (código aberto), disponível
+                    <a href="http://cassie-stable.herokuapp.com/">neste link</a
+                    >. O usuário precisa de uma
+                    <a href="https://myaccount.google.com">conta Google</a>
+                    registrada (e aprovada) na
+                    <a href="https://signup.earthengine.google.com"
+                      >plataforma Google Earth Engine</a
+                    >. O código do CASSIE está disponível no
+                    <a href="https://github.com/lia-univali/cassie"
+                      >Github do LIA - Univali</a
+                    >.</span
+                  >
+                  <span class="en"
+                    >CASSIE is available as an open source tool, available at
+                    <a href="http://cassie-stable.herokuapp.com/">this link</a>.
+                    The user needs a
+                    <a href="https://myaccount.google.com">Google account</a>
+                    registered (and approved) on
+                    <a href="https://signup.earthengine.google.com"
+                      >Google Earth Engine plataform</a
+                    >. CASSIE's code is available at
+                    <a href="https://github.com/lia-univali/cassie"
+                      >LIA's Github - Univali.</a
+                    >.</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" id="heading-4">
+                <button
+                  class="btn collapsed question-button"
+                  data-toggle="collapse"
+                  data-target="#question-4"
+                  aria-expanded="false"
+                  aria-controls="question-4"
+                >
+                  <span class="pt"
+                    >Ao entrar com a Conta da Google, a página fica carregando
+                    indefinidamente.</span
+                  >
+                  <span class="en"
+                    >When I sign in with my Google Account, the page loads up
+                    indefinitely.</span
+                  >
+                </button>
+              </div>
+              <div
+                id="question-4"
+                class="collapse"
+                aria-labelledby="heading-4"
+                data-parent="#accordion-faq"
+              >
+                <div class="card-body">
+                  <span class="pt"
+                    >Para acessar e utilizar o CASSIE, a conta do usuário deve
+                    estar registrada na plataforma Google Earth Engine (GEE). O
+                    cadastro pode ser feito por meio deste
+                    <a
+                      href="https://earthengine.google.com/signup/"
+                      target="_blank"
+                      >link</a
+                    >. Assim que o cadastro for confirmado, o utilizador pode
+                    acessar e entrar no CASSIE com a sua conta Google.</span
+                  >
+                  <span class="en"
+                    >To access and use CASSIE, the user account must be
+                    registered on the Google Earth Engine (GEE) platform. The
+                    registration can be done through this
+                    <a
+                      href="https://earthengine.google.com/signup/"
+                      target="_blank"
+                      >link</a
+                    >. Once the registration is confirmed, the user can access
+                    and sign in to CASSIE with your Google account.</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" id="heading-5">
+                <button
+                  class="btn collapsed question-button"
+                  data-toggle="collapse"
+                  data-target="#question-5"
+                  aria-expanded="false"
+                  aria-controls="question-5"
+                >
+                  <span class="pt"
+                    >Minha conta é registrada no Google Earth Engine, mas ainda
+                    não consigo entrar na ferramenta.</span
+                  >
+                  <span class="en"
+                    >My account is registered in Google Earth Engine, but I
+                    still can't access the tool.</span
+                  >
+                </button>
+              </div>
+              <div
+                id="question-5"
+                class="collapse"
+                aria-labelledby="heading-5"
+                data-parent="#accordion-faq"
+              >
+                <div class="card-body">
+                  <span class="pt"
+                    >O registro na plataforma Google Earth Engine é finalizado
+                    com uma confirmação recebida por e-mail. Em alguns casos, o
+                    e-mail de confirmação é recebido instantaneamente após o
+                    cadastro ser feito. Entretanto, nem sempre a confirmação é
+                    instantanea e pode levar um tempo que a equipe do CASSIE não
+                    tem controle sobre. Se o utilizador realizou o cadastro e
+                    ainda não recebeu o e-mail de confirmação e considera que o
+                    tempo de aguardo não é normal, deve entrar em contato com a
+                    <a href="https://developers.google.com/earth-engine/help"
+                      >equipe do Google Earth Engine</a
+                    >. Assim que o cadastro for confirmado com o recebimento do
+                    e-mail, o utilizador já pode utilizar o CASSIE. Caso o
+                    usuário não consiga entrar mesmo após a confirmação,
+                    recomenda-se a
+                    <a
+                      href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=pt-BR"
+                      target="_blank"
+                      >limpeza dos cookies do navegador.</a
+                    >
+                  </span>
+                  <span class="en"
+                    >Registration on the Google Earth Engine platform is
+                    terminated with a confirmation received via email. In some
+                    cases, the confirmation email is received instantly after
+                    the registration is made. However, confirmation is not
+                    always instantaneous and can take time that the CASSIE team
+                    has no control over. If the user has made the registration
+                    and has not yet received the confirmation email, and
+                    considers that the waiting time is too long, the user should
+                    contact the
+                    <a href="https://developers.google.com/earth-engine/help"
+                      >Google Earth Engine team</a
+                    >. If the user cannot enter even after confirmation, it is
+                    recommended to
+                    <a
+                      href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=en"
+                      target="_blank"
+                      >clear the browser cookies.</a
+                    >
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-
-          <div class="card">
-            <div class="card-header" id="heading-2">
-              <button class="btn collapsed question-button" data-toggle="collapse" data-target="#question-2"
-                aria-expanded="true" aria-controls="question-2">
-                <span class="pt">
-                  Quais datasets de imagem de satélite estão disponíveis no CASSIE?
-                </span>
-                <span class="en">
-                  What satellite image datasets are available at CASSIE?
-                </span>
-              </button>
-            </div>
-            <div id="question-2" class="collapse" aria-labelledby="heading-2" data-parent="#accordion-faq">
-              <div class="card-body">
-                <span class="pt">
-                  Atualmente, o CASSIE possibilita análises com dados do <a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2"
-                    target="_blank">Sentinel 2 (MSI, TOA) Level-1C</a> e com a coleção dos Landsats (<a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LT05_C01_T1_SR"
-                    target="_blank">Landsat 5 TM SR Tier 1</a>, <a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T1_SR"
-                    target="_blank">Landsat 7 ETM+ SR Tier 1</a>, <a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T1_SR"
-                    target="_blank">Landsat 8 OLI SR Tier 1</a>). Quando não há imagens disponíveis de Tier 1 (maior
-                  qualidade) para o Landsat 7 e 8, o CASSIE utiliza de imagens das coleções <a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T2_TOA"
-                    target="_blank">Landsat 7 TOA Tier 2</a> e <a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T2_TOA"
-                    target="_blank">Landsat 8 TOA Tier 2</a>.
-                </span>
-                <span class="en">
-                  Currently, CASSIE enables analysis with data from <a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2"
-                    target="_blank">Sentinel 2 (MSI, TOA) Level-1C</a> and the Landsat collections (<a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LT05_C01_T1_SR"
-                    target="_blank">Landsat 5 TM SR Tier 1</a>, <a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T1_SR"
-                    target="_blank">Landsat 7 ETM+ SR Tier 1</a>, <a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T1_SR"
-                    target="_blank">Landsat 8 OLI SR Tier 1</a>). When Tier 1 images (higher quality) aren't available
-                  for Landsat 7 and 8, CASSIE uses images from the <a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T2_TOA"
-                    target="_blank">Landsat 7 TOA Tier 2</a> and <a
-                    href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T2_TOA"
-                    target="_blank">Landsat 8 TOA Tier 2</a>.
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header" id="heading-3">
-              <button class="btn collapsed question-button" data-toggle="collapse" data-target="#question-3"
-                aria-expanded="false" aria-controls="question-3">
-                <span class="pt">Como acesso o CASSIE?</span>
-                <span class="en">How do I access CASSIE? </span>
-              </button>
-            </div>
-            <div id="question-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-faq">
-              <div class="card-body">
-                <span class="pt">O CASSIE está disponível como uma ferramenta open source (código aberto), disponível <a
-                    href="http://cassie-stable.herokuapp.com/">neste link</a>. O usuário precisa de uma <a
-                    href="https://myaccount.google.com">conta Google</a> registrada (e aprovada) na <a
-                    href="https://signup.earthengine.google.com">plataforma Google Earth Engine</a>. O código do CASSIE
-                  está disponível no <a href="https://github.com/lia-univali/cassie">Github do LIA - Univali</a>.</span>
-                <span class="en">CASSIE is available as an open source tool, available at <a
-                    href="http://cassie-stable.herokuapp.com/">this link</a>. The user needs a <a
-                    href="https://myaccount.google.com">Google account</a> registered (and approved) on <a
-                    href="https://signup.earthengine.google.com">Google Earth Engine plataform</a>. CASSIE's code is
-                  available at <a href="https://github.com/lia-univali/cassie">LIA's Github - Univali.</a>.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header" id="heading-4">
-              <button class="btn collapsed question-button" data-toggle="collapse" data-target="#question-4"
-                aria-expanded="false" aria-controls="question-4">
-                <span class="pt">Ao entrar com a Conta da Google, a página fica carregando indefinidamente.</span>
-                <span class="en">When I sign in with my Google Account, the page loads up indefinitely.</span>
-              </button>
-            </div>
-            <div id="question-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-faq">
-              <div class="card-body">
-                <span class="pt">Para acessar e utilizar o CASSIE, a conta do usuário deve estar registrada na
-                  plataforma Google Earth Engine (GEE). O cadastro pode ser feito por meio deste <a
-                    href="https://earthengine.google.com/signup/" target="_blank">link</a>. Assim que o cadastro for
-                  confirmado, o utilizador pode acessar e entrar no CASSIE com a sua conta Google.</span>
-                <span class="en">To access and use CASSIE, the user account must be registered on the Google Earth
-                  Engine (GEE) platform. The registration can be done through this <a
-                    href="https://earthengine.google.com/signup/" target="_blank">link</a>. Once the registration is
-                  confirmed, the user can access and sign in to CASSIE with your Google account.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header" id="heading-5">
-              <button class="btn collapsed question-button" data-toggle="collapse" data-target="#question-5"
-                aria-expanded="false" aria-controls="question-5">
-                <span class="pt">Minha conta é registrada no Google Earth Engine, mas ainda não consigo entrar na
-                  ferramenta.</span>
-                <span class="en">My account is registered in Google Earth Engine, but I still can't access the
-                  tool.</span>
-              </button>
-            </div>
-            <div id="question-5" class="collapse" aria-labelledby="heading-5" data-parent="#accordion-faq">
-              <div class="card-body">
-                <span class="pt">O registro na plataforma Google Earth Engine é finalizado com uma confirmação recebida
-                  por e-mail. Em alguns casos, o e-mail de confirmação é recebido instantaneamente após o cadastro ser
-                  feito. Entretanto, nem sempre a confirmação é instantanea e pode levar um tempo que a equipe do CASSIE
-                  não tem controle sobre. Se o utilizador realizou o cadastro e ainda não recebeu o e-mail de
-                  confirmação e considera que o tempo de aguardo não é normal, deve entrar em contato com a <a
-                    href="https://developers.google.com/earth-engine/help">equipe do Google Earth Engine</a>.
-                  Assim que o cadastro for confirmado com o recebimento do e-mail, o utilizador já pode utilizar o
-                  CASSIE. Caso o usuário não consiga entrar mesmo após a confirmação, recomenda-se a
-                  <a href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=pt-BR"
-                    target="_blank">limpeza dos cookies do navegador.</a>
-                </span>
-                <span class="en">Registration on the Google Earth Engine platform is terminated with a confirmation
-                  received via email. In some cases, the confirmation email is received instantly after the registration
-                  is made. However, confirmation is not always instantaneous and can take time that the CASSIE team has
-                  no control over. If the user has made the registration and has not yet received the confirmation
-                  email, and considers that the waiting time is too long, the user should contact the <a
-                    href="https://developers.google.com/earth-engine/help">Google Earth Engine team</a>. If the user
-                  cannot enter even after confirmation, it is recommended to
-                  <a href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=en"
-                    target="_blank">clear the browser cookies.</a>
-                </span>
-
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
-  </div>
 
-  <footer>
-    <p>
-      <b>code</b> by
-      <a href="https://alissonsteffens.com">Alisson</a> and
-      <a href="https://github.com/vinigmartins/" target="_blank">Vinícius</a> at
-      <a href="https://github.com/lia-univali" target="_blank"><img src="imagens/svg/lialines.svg" /></a>
-    </p>
-  </footer>
+    <footer>
+      <p>
+        <b>code</b> by <a href="https://alissonsteffens.com">Alisson</a> and
+        <a href="https://github.com/vinigmartins/" target="_blank">Vinícius</a>
+        at
+        <a href="https://github.com/lia-univali" target="_blank"
+          ><img src="imagens/svg/lialines.svg"
+        /></a>
+      </p>
+    </footer>
 
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
-    integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
-    integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
-    crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/29e566dc39.js" crossorigin="anonymous"></script>
-  <script src="js/scroll.js"></script>
-  <script src="js/idiom.js"></script>
-  <script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171235183-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
+    <script
+      async
+      src="https://platform.twitter.com/widgets.js"
+      charset="utf-8"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+      integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+      integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/29e566dc39.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/scroll.js"></script>
+    <script src="js/idiom.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("body").bootstrapMaterialDesign();
+      });
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-171235183-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-    gtag('config', 'UA-171235183-1');
-  </script>
-
-</body>
-
+      gtag("config", "UA-171235183-1");
+    </script>
+  </body>
 </html>
