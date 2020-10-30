@@ -34,41 +34,91 @@ header {
           justify-content: center;
 }
 
-header nav {
+header .nav-dev-alert {
+  background-color: #ff4c16;
+}
+
+header .nav-dev-alert.none {
+  display: none;
+}
+
+header .nav-dev-alert .alert-item_row {
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+header .nav-dev-alert .alert-item_row .alert-item_col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0;
+}
+
+header .nav-dev-alert .alert-item_row .alert-item_col h5 {
+  margin: 0;
+  letter-spacing: 0.05em;
+  color: #fff;
+  text-shadow: 1px 0 0 #0e1238, -1px 0 0 #0e1238, 0 1px 0 #0e1238, 0 -1px 0 #0e1238, 1px 1px #0e1238, -1px -1px 0 #0e1238, 1px -1px 0 #0e1238, -1px 1px 0 #0e1238;
+}
+
+header .nav-dev-alert .alert-item_row .alert-item_col h5 a {
+  color: #17FFC2;
+  font-style: italic;
+  text-decoration: none;
+}
+
+header .nav-dev-alert .alert-item_row .alert-item_col h5 a:hover {
+  color: #00B383;
+}
+
+header .nav-dev-alert .alert-item_row .alert-item_col img.alert-x:hover {
+  height: 22px;
+  cursor: pointer;
+}
+
+header .navbar-menu {
   -webkit-transition: 0.5s ease;
   transition: 0.5s ease;
 }
 
-header nav.bg-dark {
+header .navbar-menu.dev-alert-ative {
+  top: 3em;
+}
+
+header .navbar-menu.bg-dark {
   background-color: #111 !important;
 }
 
-header nav.bg-transparent {
+header .navbar-menu.bg-transparent {
   border: none;
   -webkit-box-shadow: none;
           box-shadow: none;
   padding: 2rem;
 }
 
-header nav .nav-link {
+header .navbar-menu .nav-link {
   color: #fff !important;
 }
 
-header nav .nav-link:hover {
+header .navbar-menu .nav-link:hover {
   color: #26a69a !important;
 }
 
 @media (min-width: 768px) {
-  header nav a.lia-svg {
+  header .navbar-menu a.lia-svg {
     margin-right: 2rem;
   }
 }
 
-header nav a.idiom-flag {
+header .navbar-menu a.idiom-flag {
   margin: 4px;
 }
 
-header nav a.idiom-flag:hover {
+header .navbar-menu a.idiom-flag:hover {
   cursor: pointer;
 }
 
@@ -93,43 +143,6 @@ header .page-header .header-title h1 {
   header .page-header .header-title h3 {
     font-size: 3rem;
   }
-}
-
-header .page-header .alert-user {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-header .page-header .alert-user ul {
-  border-radius: 0.5rem;
-  background-color: #ff4c1691;
-  padding: 10px;
-}
-
-header .page-header .alert-user ul li {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-header .page-header .alert-user ul li h4 {
-  margin: 0;
-  letter-spacing: 0.05em;
-  color: #fff;
-  text-shadow: 1px 0 0 #0e1238, -1px 0 0 #0e1238, 0 1px 0 #0e1238, 0 -1px 0 #0e1238, 1px 1px #0e1238, -1px -1px 0 #0e1238, 1px -1px 0 #0e1238, -1px 1px 0 #0e1238;
-}
-
-header .page-header .alert-user ul li h4 a {
-  color: #19ffec;
-  font-style: italic;
-  text-decoration: none;
-}
-
-header .page-header .alert-user ul li h4 a:hover {
-  color: #26a69a;
 }
 
 header .page-header #button-cassie-access {
@@ -442,18 +455,17 @@ header .page-header .bounce {
   border-radius: 0.5rem;
 }
 
-.modal .modal-header {
-  padding: 20px 0 !important;
+.faq-modal .modal-header {
   -webkit-box-pack: center !important;
       -ms-flex-pack: center !important;
           justify-content: center !important;
 }
 
-.modal .modal-header h3 {
+.faq-modal .modal-header h3 {
   color: #111;
 }
 
-.modal button.question-button {
+.faq-modal button.question-button {
   white-space: normal;
   text-align: left !important;
 }

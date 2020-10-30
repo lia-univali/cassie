@@ -65,7 +65,43 @@
 
   <body class="pt">
     <header>
-      <nav class="navbar navbar-expand-md navbar-dark bg-transparent fixed-top">
+      <div class="nav-dev-alert fixed-top">
+        <div class="alert-item_row row align-items-center">
+          <div class="alert-item_col col-1">
+            <img
+              class="warning-alert"
+              src="imagens/svg/warning.svg"
+              height="35px"
+            />
+          </div>
+          <div class="alert-item_col col-10">
+            <h5 class="pt">
+              O CASSIE está em desenvolvimento, alguns processos não estão
+              livres de falhas.
+              <a href="#" data-toggle="modal" data-target=".dev-alert-modal"
+                ><i>Saiba mais</i></a
+              >
+            </h5>
+            <h5 class="en">
+              CASSIE is still under development, some processes may fail.
+              <a href="#" data-toggle="modal" data-target=".dev-alert-modal"
+                ><i>More about</i></a
+              >
+            </h5>
+          </div>
+          <div class="alert-item_col col-1">
+            <img
+              class="alert-x"
+              src="imagens/svg/x.svg"
+              height="20px"
+              onclick="removeAlert()"
+            />
+          </div>
+        </div>
+      </div>
+      <nav
+        class="navbar-menu dev-alert-ative navbar navbar-expand-md navbar-dark bg-transparent fixed-top"
+      >
         <div class="container">
           <button
             class="navbar-toggler"
@@ -217,24 +253,6 @@
               role="button"
               >Access the tool</a
             >
-          </div>
-          <div class="col-12 alert-user">
-            <ul>
-              <li>
-                <img src="imagens/svg/exclamacao.svg" height="35px" />
-              </li>
-              <li>
-                <h4 class="pt">
-                  O CASSIE ainda está em fase de desenvolvimento, alguns
-                  processos não estão livres de falhas.
-                  <!-- <a href="#"><i>Saiba mais</i></a> -->
-                </h4>
-                <h4 class="en">
-                  CASSIE is still under development, some processes may fail.
-                  <!-- <a href="#"><i>More about</i></a> -->
-                </h4>
-              </li>
-            </ul>
           </div>
         </div>
         <div class="arrow bounce">
@@ -1183,6 +1201,78 @@
               </div>
             </div>
           </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              <span class="pt">Fechar</span>
+              <span class="en">Close</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Dev-alert modal -->
+    <div
+      class="modal fade dev-alert-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="dev-alert-modal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title pt">Processos instáveis</h3>
+            <h3 class="modal-title en">Unstable processes</h3>
+          </div>
+          <!-- itens -->
+          <div id="accordion-dev-alert">
+            <div class="card">
+              <div class="card-header" id="heading-1">
+                <button
+                  class="btn collapsed item-button"
+                  data-toggle="collapse"
+                  data-target="#item-1"
+                  aria-expanded="false"
+                  aria-controls="item-1"
+                >
+                  <span class="pt">Análise de muitos dados</span>
+                  <span class="en">Analysis of a lot of data</span>
+                </button>
+              </div>
+              <div
+                id="item-1"
+                class="collapse"
+                aria-labelledby="heading-1"
+                data-parent="#accordion-dev-alert"
+              >
+                <div class="card-body">
+                  <span class="pt"
+                    >O CASSIE por vezes não é capaz de realizar grandes
+                    análises, com região muito grande ou com muitas
+                    imagens</span
+                  >
+                  <span class="en"
+                    >CASSIE is sometimes unable to perform large analyses, with
+                    very large region or with many images</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              <span class="pt">Fechar</span>
+              <span class="en">Close</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1224,6 +1314,7 @@
     ></script>
     <script src="js/scroll.js"></script>
     <script src="js/idiom.js"></script>
+    <script src="js/devAlert.js"></script>
     <script>
       $(document).ready(function () {
         $("body").bootstrapMaterialDesign();

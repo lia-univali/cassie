@@ -42,8 +42,51 @@ header {
   margin: 8rem 0 0;
   display: flex;
   justify-content: center;
-  nav {
+  .nav-dev-alert {
+    background-color: #ff4c16;
+    &.none{
+      display: none;
+    }
+    .alert-item_row {
+      width: 100%;
+      margin: 0;
+      padding: 0.5rem;
+      .alert-item_col{
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        h5 {
+          margin: 0 ;
+          letter-spacing: 0.05em;
+          color: $branco;
+          text-shadow: 1px 0 0 $dark, -1px 0 0 $dark, 0 1px 0 $dark,
+            0 -1px 0 $dark, 1px 1px $dark, -1px -1px 0 $dark, 1px -1px 0 $dark,
+            -1px 1px 0 $dark;
+          a {
+            color: #17FFC2;
+            font-style: italic;
+            text-decoration: none;
+            &:hover {
+              color: #00B383;
+            }
+          }
+        }
+        img{
+          &.alert-x{
+            &:hover{
+              height: 22px;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+  .navbar-menu {
     transition: 0.5s ease;
+    &.dev-alert-ative {
+      top: 3em;
+    }
     &.bg-dark {
       background-color: $preto !important;
     }
@@ -97,36 +140,6 @@ header {
         }
       }
     }
-    .alert-user {
-      display: flex;
-      justify-content: center;
-      ul {
-        border-radius: $roundness;
-        background-color: #ff4c1691;
-        padding: 10px;
-        li {
-          display: inline-block;
-          vertical-align: middle;
-          h4 {
-            margin: 0;
-            letter-spacing: 0.05em;
-            color: $branco;
-            text-shadow: 1px 0 0 $dark, -1px 0 0 $dark, 0 1px 0 $dark,
-              0 -1px 0 $dark, 1px 1px $dark, -1px -1px 0 $dark, 1px -1px 0 $dark,
-              -1px 1px 0 $dark;
-            a{
-              color: $secondary;
-              font-style: italic;
-              text-decoration: none;
-              &:hover{
-                color: $teal;
-              }
-            }
-          }
-        }
-      }
-    }
-
     #button-cassie-access {
       display: flex;
       justify-content: center;
@@ -358,9 +371,9 @@ header {
   }
 }
 
-.modal {
+.faq-modal {
   .modal-header {
-    padding: 20px 0 !important;
+    //padding: 20px 0 !important;
     justify-content: center !important;
     h3 {
       color: $preto;
