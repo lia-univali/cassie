@@ -66,13 +66,13 @@ header .nav-dev-alert .alert-item_row .alert-item_col h5 {
 }
 
 header .nav-dev-alert .alert-item_row .alert-item_col h5 a {
-  color: #17FFC2;
+  color: #17ffc2;
   font-style: italic;
   text-decoration: none;
 }
 
 header .nav-dev-alert .alert-item_row .alert-item_col h5 a:hover {
-  color: #00B383;
+  color: #00b383;
 }
 
 header .nav-dev-alert .alert-item_row .alert-item_col img.alert-x:hover {
@@ -455,17 +455,20 @@ header .page-header .bounce {
   border-radius: 0.5rem;
 }
 
-.faq-modal .modal-header {
+.faq-modal .modal-header,
+.dev-alert-modal .modal-header {
   -webkit-box-pack: center !important;
       -ms-flex-pack: center !important;
           justify-content: center !important;
 }
 
-.faq-modal .modal-header h3 {
+.faq-modal .modal-header h3,
+.dev-alert-modal .modal-header h3 {
   color: #111;
 }
 
-.faq-modal button.question-button {
+.faq-modal button.card-button,
+.dev-alert-modal button.card-button {
   white-space: normal;
   text-align: left !important;
 }

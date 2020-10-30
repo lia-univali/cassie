@@ -44,36 +44,36 @@ header {
   justify-content: center;
   .nav-dev-alert {
     background-color: #ff4c16;
-    &.none{
+    &.none {
       display: none;
     }
     .alert-item_row {
       width: 100%;
       margin: 0;
       padding: 0.5rem;
-      .alert-item_col{
+      .alert-item_col {
         display: flex;
         justify-content: center;
         padding: 0;
         h5 {
-          margin: 0 ;
+          margin: 0;
           letter-spacing: 0.05em;
           color: $branco;
           text-shadow: 1px 0 0 $dark, -1px 0 0 $dark, 0 1px 0 $dark,
             0 -1px 0 $dark, 1px 1px $dark, -1px -1px 0 $dark, 1px -1px 0 $dark,
             -1px 1px 0 $dark;
           a {
-            color: #17FFC2;
+            color: #17ffc2;
             font-style: italic;
             text-decoration: none;
             &:hover {
-              color: #00B383;
+              color: #00b383;
             }
           }
         }
-        img{
-          &.alert-x{
-            &:hover{
+        img {
+          &.alert-x {
+            &:hover {
               height: 22px;
               cursor: pointer;
             }
@@ -371,16 +371,16 @@ header {
   }
 }
 
-.faq-modal {
+.faq-modal,
+.dev-alert-modal {
   .modal-header {
-    //padding: 20px 0 !important;
     justify-content: center !important;
     h3 {
       color: $preto;
     }
   }
   button {
-    &.question-button {
+    &.card-button {
       white-space: normal;
       text-align: left !important;
     }
