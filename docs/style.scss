@@ -56,6 +56,10 @@ header {
         justify-content: center;
         padding: 0;
         h5 {
+          @media (max-width: 768px) {
+            font-size: 1rem;
+            text-align: justify;
+          }
           margin: 0;
           letter-spacing: 0.05em;
           color: $branco;
@@ -76,6 +80,11 @@ header {
             &:hover {
               height: 22px;
               cursor: pointer;
+            }
+          }
+          &.warning-alert {
+            @media (max-width: 768px) {
+              height: 30px;
             }
           }
         }
@@ -127,8 +136,6 @@ header {
       }
       h1 {
         letter-spacing: 0.4em;
-        margin-left: 0.4em;
-        font-size: 3rem;
       }
       @media (min-width: 768px) {
         h1 {
@@ -362,11 +369,16 @@ header {
     padding: 0;
   }
 
-  .map-cassie {
+  .box-map-iframe {
     display: table;
     margin: auto;
     iframe {
       border-radius: $roundness;
+    }
+  }
+  @media (max-width: 768px) {
+    .map-section {
+      display: none !important;
     }
   }
 }

@@ -65,6 +65,13 @@ header .nav-dev-alert .alert-item_row .alert-item_col h5 {
   text-shadow: 1px 0 0 #0e1238, -1px 0 0 #0e1238, 0 1px 0 #0e1238, 0 -1px 0 #0e1238, 1px 1px #0e1238, -1px -1px 0 #0e1238, 1px -1px 0 #0e1238, -1px 1px 0 #0e1238;
 }
 
+@media (max-width: 768px) {
+  header .nav-dev-alert .alert-item_row .alert-item_col h5 {
+    font-size: 1rem;
+    text-align: justify;
+  }
+}
+
 header .nav-dev-alert .alert-item_row .alert-item_col h5 a {
   color: #17ffc2;
   font-style: italic;
@@ -78,6 +85,12 @@ header .nav-dev-alert .alert-item_row .alert-item_col h5 a:hover {
 header .nav-dev-alert .alert-item_row .alert-item_col img.alert-x:hover {
   height: 22px;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  header .nav-dev-alert .alert-item_row .alert-item_col img.warning-alert {
+    height: 30px;
+  }
 }
 
 header .navbar-menu {
@@ -131,8 +144,6 @@ header .page-header .header-title h3 {
 
 header .page-header .header-title h1 {
   letter-spacing: 0.4em;
-  margin-left: 0.4em;
-  font-size: 3rem;
 }
 
 @media (min-width: 768px) {
@@ -446,13 +457,19 @@ header .page-header .bounce {
   padding: 0;
 }
 
-.contact-section .map-cassie {
+.contact-section .box-map-iframe {
   display: table;
   margin: auto;
 }
 
-.contact-section .map-cassie iframe {
+.contact-section .box-map-iframe iframe {
   border-radius: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .contact-section .map-section {
+    display: none !important;
+  }
 }
 
 .faq-modal .modal-header,
