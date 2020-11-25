@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose } from 'redux'
 import { connect } from 'react-redux';
 import MoreIcon from '@material-ui/icons/ExpandMore';
 import LessIcon from '@material-ui/icons/ExpandLess';
@@ -15,6 +16,7 @@ import ActionList from './ActionList';
 import { acquireImage } from '../ducks/acquisition';
 import { bindDispatch, datesBetween } from '../common/utils';
 import { getAcquisitionParameters } from '../selectors';
+import { withTranslation } from 'react-i18next'
 
 class ImageChooserCard extends React.Component {
   constructor(props) {
@@ -32,7 +34,7 @@ class ImageChooserCard extends React.Component {
 
   render() {
     const { expanded } = this.state;
-    const { availableDates, start, end, acquireImage, satellite, className } = this.props;
+    const { t, availableDates, start, end, acquireImage, satellite, className } = this.props;
 
     if (availableDates === undefined) {
       return null;
@@ -41,8 +43,8 @@ class ImageChooserCard extends React.Component {
     return (
       <Card className={className} style={{ margin: 12 }}>
         <CardHeader
-          title="Imagens disponíveis"
-          subheader={`${availableDates.length} resultados`}
+          title={t('forms.imageChooser.title')}
+          subheader={`${availableDates.length} ${t('forms.imageChooser.resultQuantity')}`}
         />
 
         <Divider />
@@ -60,7 +62,7 @@ class ImageChooserCard extends React.Component {
 
         <CardActions>
           <div className="flex1">
-            <Typography variant="subheading">Ações</Typography>
+            <Typography variant="subheading">{t('forms.imageChooser.actions.title')}</Typography>
           </div>
 
           <IconButton onClick={() => this.setState({ expanded: !expanded })}>
@@ -75,6 +77,9 @@ class ImageChooserCard extends React.Component {
   }
 }
 
-export default connect(state => (
-  getAcquisitionParameters(state)
-), { acquireImage })(ImageChooserCard);
+const enhancer = compose(
+  connect(state => getAcquisitionParameters(state), { acquireImage }),
+  withTranslation()
+)
+
+export default enhancer(ImageChooserCard);

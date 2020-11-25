@@ -1,7 +1,8 @@
 import { push } from 'react-router-redux';
-import { take, all, put, call, select } from 'redux-saga/effects';
+import { take, all, put, call } from 'redux-saga/effects';
 import { loadUser, CLIENT_ID } from '../actions/user';
 import { displayTask, hideNotification } from '../actions/notification';
+import i18next from 'i18next'
 
 const ee = window.ee;
 
@@ -16,7 +17,7 @@ function* completeAuthentication(destination) {
   });
 
   try {
-    yield put(displayTask("Autenticando..."));
+    yield put(displayTask(i18next.t('auth.loading')));
 
     // Must be sequential
     yield eePromise;
@@ -58,7 +59,7 @@ function* loginWatcher() {
 
         yield call(completeAuthentication, destination);
       } catch (e) {
-        console.log(e);
+        console.log('Auth Error: ', e);
       }
     }
   }
@@ -69,6 +70,9 @@ function* logoutWatcher() {
     yield take("LOGOUT");
 
     window.gapi.auth2.getAuthInstance().disconnect();
+
+    yield put(push('/'));
+
     document.location.reload();
   }
 }

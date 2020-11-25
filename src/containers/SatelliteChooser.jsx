@@ -35,8 +35,6 @@ class SatelliteChooser extends React.Component {
   }
 
   render() {
-    const { classes, theme } = this.props;
-
     return (
       <Grid container spacing={0} justify="center">
         {this.createCards()}

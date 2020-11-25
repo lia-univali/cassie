@@ -1,6 +1,7 @@
 import moment from 'moment';
 import ColorConverter from 'color-convert';
 import { bindActionCreators } from 'redux';
+import i18next from 'i18next'
 
 export const EPOCH = "1900-01-01T00:00:00Z";
 
@@ -168,13 +169,13 @@ export const formatDateDiff = (dateA, dateB) => {
     if (months === 0) {
       const days = dateDiff(dateA, dateB, "days");
 
-      return `${days} dia${days === 1 ? '' : 's'}`;
+      return `${days} ${i18next.t('forms.acquisition.3.durationDays')}`;
     }
 
-    return `${months} ${months === 1 ? 'mês' : 'meses'}`;
+    return `${months} ${i18next.t('forms.acquisition.3.durationMonths')}`;
   }
 
-  return `${years} ano${years === 1 ? '' : 's'}`;
+  return `${years} ${i18next.t('forms.acquisition.3.durationYears')}`;
 }
 
 export const firstValue = object => {
@@ -201,7 +202,7 @@ export const bindDispatch = (creators, actions = {}) => {
       bound[key.toLowerCase()] = bindActionCreators(creators[key], dispatch);
     });
 
-    return {...bound, ...bindActionCreators(actions, dispatch)};
+    return { ...bound, ...bindActionCreators(actions, dispatch) };
   }
 }
 
@@ -212,7 +213,7 @@ export const named = (subject, name) => {
 
 export const exportCoordinates = (data, fileName) => {
   let output = data.map(coordinate => {
-    return { lat: coordinate[0], long: coordinate[1]}
+    return { lat: coordinate[0], long: coordinate[1] }
   })
 
   exportCSV(output, fileName)
@@ -236,12 +237,12 @@ export const exportJSON = (data, fileName) => {
 }
 
 export const downloadText = (text, fileName, mimeType = "text/plain") => {
-  const content = new Blob([text], {type: mimeType})
+  const content = new Blob([text], { type: mimeType })
   const link = document.createElement("a");
 
   link.setAttribute("href", URL.createObjectURL(content));
   link.setAttribute("download", fileName);
-  
+
   document.body.appendChild(link); // Required for FF
 
   link.click();

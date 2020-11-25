@@ -72,7 +72,6 @@ export const initializeMap = (map) => {
     event.feature.forEachProperty((value, name) => properties[name] = value);
     infoWindow.setPosition(event.latLng);
 
-    //infoWindow.setContent('<pre>' + JSON.stringify(properties, null, "    ") + '</pre>');
     infoWindow.setContent('<div id="infowindow">hello world!</div>');
     infoWindow.open(Map);
 

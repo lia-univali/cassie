@@ -1,25 +1,12 @@
-import {
-  take,
-  takeEvery,
-  all,
-  select,
-  put,
-  actionChannel,
-  call
-} from "redux-saga/effects";
+import { all, select, put, call } from "redux-saga/effects";
 import update from "immutability-helper";
 import {
   createBufferedHandler,
   createConcurrentHandler,
-  cancellable,
   evaluate
 } from "../common/sagaUtils";
-import { asPromise, generateColors, interpolateColors } from "../common/utils";
-import {
-  applyExpression,
-  getSatelliteCollection,
-  combineReducers
-} from "../common/eeUtils";
+import { asPromise, generateColors } from "../common/utils";
+import { applyExpression } from "../common/eeUtils";
 import { pushResult } from "./results";
 import { openAndWait, openDialog } from "./dialog";
 import * as Map from "./map";
@@ -27,11 +14,8 @@ import { ConcreteLayer } from "../common/classes";
 import * as Selectors from "../selectors";
 import * as Metadata from "../common/metadata";
 import * as Coastline from "../procedures/coastline";
-import { extractOcean, generateLayer } from "../procedures/imagery";
-import { computeBearing } from "../common/geodesy";
-import { acquireFromDate } from "../procedures/acquisition";
-
-import * as shp from 'shpjs'
+import { generateLayer } from "../procedures/imagery";
+import i18next from 'i18next'
 
 const ee = window.ee;
 
@@ -168,15 +152,11 @@ function* handleLoadLayer({ layer, parent }) {
   let { image, params } = layer;
 
   yield put({ type: "BEGIN_EVALUATION" });
-  const info = yield call(asPromise, image.getMap.bind(image), params);
+  const rawMapId = yield call(asPromise, image.getMap.bind(image), params);
   yield put({ type: "END_EVALUATION" });
 
-  const source = new ee.layers.EarthEngineTileSource(
-    "https://earthengine.googleapis.com/map",
-    info.mapid,
-    info.token
-  );
-  const overlay = new ee.layers.ImageOverlay(source, {});
+  const source = new ee.layers.EarthEngineTileSource(rawMapId)
+  const overlay = new ee.layers.ImageOverlay(source);
   const concrete = new ConcreteLayer(layer, overlay);
   const position = yield select(Selectors.computeInsertionIndex(parent));
 
@@ -207,8 +187,8 @@ function* requestCoastlineInput() {
 
   const { coordinates, overlay } = yield* Map.requestAndWait(
     "polyline",
-    "Desenhe a linha de base.",
-    "Linha de Base",
+    i18next.t('forms.imageChooser.actions.analyzeShoreline.baselineDraw'),
+    i18next.t('forms.map.baseline'),
     "coastlineData"
   );
 
@@ -223,7 +203,7 @@ function* requestCoastlineInput() {
     return null;
   }
 
-  const baseline = yield select(Selectors.retrieveShapeByName("Linha de Base"));
+  const baseline = yield select(Selectors.retrieveShapeByName(i18next.t('forms.map.baseline')));
   baseline.content = baseline.content[0].geometry.coordinates;
 
   yield put(pushResult("baselineData", { baseline }));
@@ -239,17 +219,17 @@ function* requestCoastlineInput() {
 
 function estevesLabelling(transects) {
   const labels = ee.Dictionary({
-    stable: ee.Dictionary({ class: 'Estável', color: '#43a047' }),
-    accreted: ee.Dictionary({ class: 'Acrescida', color: '#1976d2' }),
-    eroded: ee.Dictionary({ class: 'Erodida', color: '#ffa000' }),
-    intenselyEroded: ee.Dictionary({ class: 'Intensamente Erodida', color: '#d32f2f' })
+    stable: ee.Dictionary({ class: 'Stable', color: '#43a047' }),
+    accreted: ee.Dictionary({ class: 'Accreted', color: '#1976d2' }),
+    eroded: ee.Dictionary({ class: 'Eroded', color: '#ffa000' }),
+    criticallyEroded: ee.Dictionary({ class: 'Critically Eroded', color: '#d32f2f' })
   })
 
   const classified = transects.map(f => {
     const lrr = ee.Number(ee.Feature(f).get('lrr'))
 
     const classification =
-      ee.Algorithms.If(lrr.lt(-1.0), labels.get('intenselyEroded'),
+      ee.Algorithms.If(lrr.lt(-1.0), labels.get('criticallyEroded'),
         ee.Algorithms.If(lrr.lt(-0.5), labels.get('eroded'),
           ee.Algorithms.If(lrr.lt(0.5), labels.get('stable'), labels.get('accreted'))))
 
@@ -258,10 +238,13 @@ function estevesLabelling(transects) {
 
   return classified;
 }
+
 function* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold, names = []) {
   const { satellite, geometry } = yield select(
     Selectors.getAcquisitionParameters
   );
+
+  console.log("Click here to copy me!", transects)
 
   const bufferedBaseline = baseline.buffer(extent / 2);
 
@@ -292,7 +275,7 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
   yield put(
     Map.addEEFeature(
       enhancedCoastlines,
-      "Linhas de Costa",
+      i18next.t('forms.map.shorelines'),
       colors,
       1,
       identifier
@@ -301,7 +284,7 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
   yield put(
     Map.addEEFeature(
       transectsViz,
-      "Transectos",
+      i18next.t('forms.map.transects.title'),
       lrrColors,
       1,
       Metadata.FeatureType.TRANSECT
@@ -395,7 +378,6 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
               "nsm",
               "sce",
               "class",
-
               ...names
             ]
           )
@@ -435,11 +417,11 @@ function* handleAnalyzeCoastline() {
     extent
   );
 
-  yield* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold);
+  yield* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold === -1 ? 0 : threshold);
 }
 
 function* handleTestSpecificState() {
-  console.log("/* handleTestSpecificState */")
+  /*
 
   const identifier = "coastlineData"
 
@@ -463,12 +445,8 @@ function* handleTestSpecificState() {
       return ee.Feature(geojson)
     }));
 
-    console.log("ad", availableDates)
-    console.log("bl", yield evaluate(baseline))
-    console.log("tr", yield evaluate(transects))
-
     yield put(
-      Map.addEEFeature(ee.Feature(baseline), "Linha de Base", "#00B3A1", 1, identifier)
+      Map.addEEFeature(ee.Feature(baseline), i18next.t('forms.map.baseline'), "#00B3A1", 1, identifier)
     )
 
     const colors = new Array(transects.size()).map(value => "#00B3A1")
@@ -478,6 +456,7 @@ function* handleTestSpecificState() {
   catch (err) {
     console.log("Error while performing analysis", err)
   }
+  */
 }
 
 function* handleRequestExpression({ parent }) {

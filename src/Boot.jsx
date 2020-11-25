@@ -10,18 +10,18 @@ export default class Boot extends React.Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const s = document.createElement('script');
-    s.setAttribute('src','https://maps.google.com/maps/api/js?v=3.32&key='+process.env.REACT_APP_MAPS_KEY+'&libraries=drawing');
+    s.setAttribute('src', 'https://maps.google.com/maps/api/js?key=' + process.env.REACT_APP_MAPS_KEY + '&libraries=drawing,visualization');
     document.body.appendChild(s);
     // this.instance.appendChild(s);
   }
 
   render() {
-    return(
+    return (
       <MuiThemeProvider theme={theme}>
         <AppContainer>
-          <App/>
+          <App />
         </AppContainer>
       </MuiThemeProvider>
     )

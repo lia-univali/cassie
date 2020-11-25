@@ -6,6 +6,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
+import { withTranslation } from 'react-i18next'
 
 class ImageChooserForm extends React.Component {
   constructor(props) {
@@ -37,12 +38,12 @@ class ImageChooserForm extends React.Component {
   }
 
   render() {
-    const { onLoadRequested = () => { } } = this.props;
+    const { t, onLoadRequested = () => { } } = this.props;
 
     return (
       <form>
         <FormControl style={{ marginRight: spacing.unit * 2 }}>
-          <InputLabel htmlFor="image-select">Imagem</InputLabel>
+          <InputLabel htmlFor="image-select">{t('forms.imageChooser.image')}</InputLabel>
           <Select
             input={<Input name="image" id="image-select" />}
             onChange={e => this.setState({ index: e.target.value })}
@@ -55,11 +56,11 @@ class ImageChooserForm extends React.Component {
           disabled={this.isDisabled(this.state.index)}
           onClick={() => onLoadRequested(this.state.index)}
         >
-          Carregar
+          {t('forms.imageChooser.load')}
         </Button>
       </form>
     );
   }
 }
 
-export default ImageChooserForm;
+export default withTranslation()(ImageChooserForm);
