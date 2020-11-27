@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppContainer } from 'react-hot-loader';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 import App from './App';
 import { hot } from 'react-hot-loader'
 import theme from './theme';
@@ -19,11 +19,11 @@ export default class Boot extends React.Component {
 
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <AppContainer>
           <App />
         </AppContainer>
-      </MuiThemeProvider>
+      </ThemeProvider>
     )
   }
 }

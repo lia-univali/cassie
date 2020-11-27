@@ -1,5 +1,5 @@
 import React from 'react';
-import spacing from '@material-ui/core/styles/spacing';
+import createSpacing from '@material-ui/core/styles/createSpacing';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
@@ -42,7 +42,7 @@ class ImageChooserForm extends React.Component {
 
     return (
       <form>
-        <FormControl style={{ marginRight: spacing.unit * 2 }}>
+        <FormControl style={{ marginRight: createSpacing.unit * 2 }}>
           <InputLabel htmlFor="image-select">{t('forms.imageChooser.image')}</InputLabel>
           <Select
             input={<Input name="image" id="image-select" />}

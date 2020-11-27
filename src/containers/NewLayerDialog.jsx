@@ -103,7 +103,7 @@ class NewLayerDialog extends React.Component {
 }
 
 const enhancer = compose(
-  withTheme(),
+  withTheme,
   withTranslation()
 )
 
