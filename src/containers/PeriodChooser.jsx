@@ -72,10 +72,10 @@ class PeriodChooser extends React.Component {
         />
 
         <div className={classes.description}>
-          <Typography variant="subheading" align="center">
+          <Typography variant="subtitle1" align="center">
             {t('forms.acquisition.3.period')}: {formatDate(start)} {t('forms.acquisition.3.to')} {formatDate(end)}
           </Typography>
-          <Typography variant="subheading" align="center">
+          <Typography variant="subtitle1" align="center">
             {formatDateDiff(start, end)}, {length} {t('forms.acquisition.3.imageQuantity')}
           </Typography>
         </div>
@@ -93,7 +93,7 @@ class PeriodChooser extends React.Component {
 
 const style = {
   description: {
-    margin: space(7, 0, 3)
+    margin: /*"56px 0 24px"*/space(7, 0, 3)
   }
 }
 

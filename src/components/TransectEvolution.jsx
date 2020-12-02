@@ -48,7 +48,7 @@ const TransectEvolution = ({ t, data }) => {
         yLabel={t('forms.transectEvolution.labels.y')}
         regression={regression}
       />
-      <Typography style={{ marginTop: 20 }} variant="title" paragraph>
+      <Typography style={{ marginTop: 20 }} variant="h6" paragraph>
         {t('forms.transectEvolution.statistics')}
       </Typography>
 

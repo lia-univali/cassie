@@ -14,7 +14,7 @@ import NewLayerDialog from '../containers/NewLayerDialog';
 import ImageSelectionDialog from '../containers/ImageSelectionDialog';
 
 const NotFound = props => (
-  <Typography variant="display2" align="center">
+  <Typography variant="h2" align="center">
     Página não encontrada.
   </Typography>
 );

@@ -12,7 +12,7 @@ import { space } from '../theme';
 import { withTranslation } from 'react-i18next'
 
 const Textual = ({ t, classes }) => (
-  <Typography variant="subheading" align="center" className={classes.text}>
+  <Typography variant="subtitle1" align="center" className={classes.text}>
     {t('general.loading')}
   </Typography>
 )

@@ -57,6 +57,7 @@ class HomePage extends React.Component {
       },
       title: {
         color: "rgba(0, 0, 0, 0.6)",
+        fontSize: "7rem",
       },
       subtitle: {
         color: "rgba(0, 0, 0, 0.5)",
@@ -77,7 +78,7 @@ class HomePage extends React.Component {
         backgroundColor: "#74c7be",
       },
       listItem: {
-        padding: 5,
+        padding: "5",
       },
     };
 
@@ -94,10 +95,10 @@ class HomePage extends React.Component {
           style={styles.heading}
         >
           <LogoIcon style={styles.logo} />
-          <Typography variant="display4" style={styles.title}>
+          <Typography variant="h1" style={styles.title}>
             C.A.S.S.I.E.
           </Typography>
-          <Typography variant="headline" style={styles.subtitle}>
+          <Typography variant="h5" style={styles.subtitle}>
             Coastal Analysis System via Satellite Imagery Engine
           </Typography>
         </div>
@@ -143,7 +144,7 @@ class HomePage extends React.Component {
                 </ListItem>
               </List>
               <Typography
-                variant="subheading"
+                variant="body1"
                 align="center"
                 style={styles.description}
               >
@@ -152,7 +153,7 @@ class HomePage extends React.Component {
               <Button
                 onClick={() => login("/main/acquisition")}
                 disabled={busy}
-                variant="raised"
+                variant="contained"
                 size="large"
               >
                 <img

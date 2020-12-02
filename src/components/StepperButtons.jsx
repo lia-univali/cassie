@@ -25,7 +25,7 @@ const StepperButtons = ({ navigate, classes, children,
         {backText}
       </Button>
       {children}
-      <Button onClick={navigateForwards} disabled={nextDisabled} variant="raised" color="primary">
+      <Button onClick={navigateForwards} disabled={nextDisabled} variant="contained" color="primary">
         {nextText}
       </Button>
     </div>
