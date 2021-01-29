@@ -1,4 +1,4 @@
-# cassie
+# CASSIE -- Coastal Analysis via Satellite Imagery Engine
 
 > A tool for coastal regions mapping and analysis, using Google Earth Engine.
 
