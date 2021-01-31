@@ -22,6 +22,7 @@ class TransectDataTable extends React.Component {
     }
 
     const col = (key, label, numeric = true, format = undefined) => ({ key, label, numeric, format });
+
     this.columns = [
       col("id", "ID", true, x => parseInt(x, 10)),
       col("latStart", t('forms.shorelineAnalysis.transectsReport.headers.initialLatitude')),

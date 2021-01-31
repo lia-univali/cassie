@@ -14,7 +14,7 @@ class NavigationBar extends React.Component {
     return (
       <AppBar position="static" elevation={0}>
         <Toolbar>
-          <Typography variant="title" className="flex1" color="inherit">
+          <Typography variant="h6" className="flex1" color="inherit">
             C.A.S.S.I.E. <small>Coastal Analysis via Satellite Imagery Engine</small>
           </Typography>
           <User name={user.name} image={user.image} />

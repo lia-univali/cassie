@@ -9,7 +9,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import { withTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-// import IndexDropdown from './IndexDropdown';
 import { registerDialog } from './DialogRoot';
 import * as Indices from '../common/indices';
 import { withTranslation } from 'react-i18next'
@@ -103,7 +102,7 @@ class NewLayerDialog extends React.Component {
 }
 
 const enhancer = compose(
-  withTheme(),
+  withTheme,
   withTranslation()
 )
 

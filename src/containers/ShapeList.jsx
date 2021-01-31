@@ -31,28 +31,6 @@ class TransectShapeList extends React.Component {
   }
 }
 
-const labels = [
-  { class: 'Estável', color: '#43a047' },
-  { class: 'Acrescida', color: '#1976d2' },
-  { class: 'Erodida', color: '#ffa000' },
-  { class: 'Intensamente Erodida', color: '#d32f2f' }
-]
-
-class TransectShapeList extends React.Component {
-  render() {
-    return (
-      labels.map(label => (
-        <Grid container direction="row">
-          <RemoveIcon style={{ color: label.color }} />
-          <ListItemText
-            secondary={label.class}
-          />
-        </Grid>
-      ))
-    )
-  }
-}
-
 class ShapeList extends React.Component {
   createItems() {
     return this.props.shapes.map((item, i) => (

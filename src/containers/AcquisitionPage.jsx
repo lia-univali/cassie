@@ -126,7 +126,7 @@ class AcquisitionPage extends React.Component {
         <Grid container spacing={0} justify="center">
           <Grid item xs={12} className={classes.header}>
             <div>
-              <Typography variant="display2" align="center" className={classes.title}>
+              <Typography variant="h4" align="center" className={classes.title}>
                 {t('forms.acquisition.title')}
               </Typography>
             </div>
@@ -140,7 +140,7 @@ class AcquisitionPage extends React.Component {
                   </Step>
                 ))}
               </Stepper>
-              <Typography variant="subheading" align="center" className={classes.instructions}>
+              <Typography variant="subtitle1" align="center" className={classes.instructions}>
                 {this.steps[step].content}
               </Typography>
 

@@ -44,7 +44,7 @@ class GoogleMap extends React.Component {
               <Typography variant="body1" style={styles.overlayText}>
                 {this.props.map.drawingMessage}
               </Typography>
-              <Button color="secondary" variant="raised" onClick={() => this.props.cancelDrawing()}>
+              <Button color="secondary" variant="contained" onClick={() => this.props.cancelDrawing()}>
                 {i18next.t('forms.map.cancel')}
               </Button>
             </Paper>

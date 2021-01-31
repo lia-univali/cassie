@@ -62,7 +62,7 @@ class ImageChooserCard extends React.Component {
 
         <CardActions>
           <div className="flex1">
-            <Typography variant="subheading">{t('forms.imageChooser.actions.title')}</Typography>
+            <Typography variant="subtitle1">{t('forms.imageChooser.actions.title')}</Typography>
           </div>
 
           <IconButton onClick={() => this.setState({ expanded: !expanded })}>

@@ -5,14 +5,14 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Fade from '@material-ui/core/Fade';
 import Typography from '@material-ui/core/Typography';
-import spacing from '@material-ui/core/styles/spacing';
+import createSpacing from '@material-ui/core/styles/createSpacing';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { space } from '../theme';
 import { withTranslation } from 'react-i18next'
 
 const Textual = ({ t, classes }) => (
-  <Typography variant="subheading" align="center" className={classes.text}>
+  <Typography variant="subtitle1" align="center" className={classes.text}>
     {t('general.loading')}
   </Typography>
 )
@@ -42,12 +42,12 @@ class ActivityIndicator extends React.Component {
           <Paper className={classes.content}>
             <CircularProgress thickness={5} size={100} color="secondary" />
             {false &&
-              <Typography variant="body1" style={{ marginTop: spacing.unit * 2 }}>
+              <Typography variant="body1" style={{ marginTop: createSpacing.unit * 2 }}>
                 {message}...
               </Typography>
             }
             {onAbort &&
-              <Button color="error" onClick={onAbort} style={{ marginTop: spacing.unit * 2 }} dense>
+              <Button color="error" onClick={onAbort} style={{ marginTop: createSpacing.unit * 2 }} dense>
                 {t('general.cancel')}
               </Button>
             }

@@ -65,4 +65,4 @@ class OpacityControl extends React.Component {
   }
 }
 
-export default withTheme()(OpacityControl);
+export default withTheme(OpacityControl);

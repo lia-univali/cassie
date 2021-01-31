@@ -17,9 +17,6 @@ import * as Coastline from "../procedures/coastline";
 import { generateLayer } from "../procedures/imagery";
 import i18next from 'i18next'
 
-import testBaseline from '../sample/baseline.json'
-import testTransects from '../sample/transects.json'
-
 const ee = window.ee;
 
 const PUSH_IMAGE = "cassie/imagery/PUSH_IMAGE";
@@ -448,7 +445,7 @@ function* handleTestSpecificState() {
 
       return ee.Feature(geojson)
     }));
-  
+
     yield put(
       Map.addEEFeature(ee.Feature(baseline), i18next.t('forms.map.baseline'), "#00B3A1", 1, identifier)
     )

@@ -20,7 +20,7 @@ const SatelliteCard = (props) => {
         image={image} title={name}
       />
       <CardContent>
-        <Typography variant="headline" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           {name}
         </Typography>
         <div className={classes.description}>

@@ -262,7 +262,6 @@ export const getCoastline = (image, bands, scale, geometry, threshold) => {
   const waterSegment = getWaterSegment(image, bands, geometry, threshold)
 
   const redundantSegment = ee.Geometry.MultiLineString(waterSegment.coordinates())
-
   const coastline = redundantSegment.intersection(geometry.buffer(-10))
 
   return coastline;
