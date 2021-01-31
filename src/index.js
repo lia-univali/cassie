@@ -6,11 +6,10 @@ import moment from "moment";
 import registerServiceWorker from "./registerServiceWorker";
 import { CLIENT_ID } from "./actions/user";
 import Boot from "./Boot";
-import i18n from './lang'
 
 const store = configureStore();
+console.log("Store configured");
 window.store = store;
-window.i18n = i18n;
 moment.locale("pt-BR");
 
 let Cassie = () => (

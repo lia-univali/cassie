@@ -8,7 +8,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { withTranslation } from 'react-i18next'
 
 function datesChanged(previousDates, currentDates) {
   if (currentDates !== undefined) {
@@ -55,12 +54,12 @@ class ImageSelectionDialog extends React.Component {
   }
 
   render() {
-    const { t, close, open, metadata } = this.props;
+    const { close, open, metadata } = this.props;
     const { dates } = this.state
 
     return (
       <Dialog open={open} maxWidth="md" onClose={() => close()}>
-        <DialogTitle>{t('forms.imageChooser.actions.analyzeShoreline.imageSelection.title')}</DialogTitle>
+        <DialogTitle>Seleção de imagens</DialogTitle>
         <DialogContent>
           <ImageTable metadata={metadata} images={dates} selected={this.state.selected}
             onCheckboxChange={(i, checked) => this.handleChange(i, checked)}
@@ -69,10 +68,10 @@ class ImageSelectionDialog extends React.Component {
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={() => close()}>
-            {t('forms.imageChooser.actions.analyzeShoreline.imageSelection.cancel')}
+            Cancelar
           </Button>
           <Button color="primary" onClick={() => this.handleFinish()}>
-            {t('forms.imageChooser.actions.analyzeShoreline.imageSelection.confirm')}
+            Confirmar
           </Button>
         </DialogActions>
       </Dialog>
@@ -80,10 +79,8 @@ class ImageSelectionDialog extends React.Component {
   }
 }
 
-const enhanced = withTranslation()(ImageSelectionDialog)
-
 export default registerDialog("imageSelection", state => ({
   dates: state.acquisition.availableDates,
   missions: state.acquisition.missions,
   metadata: state.acquisition.metadata,
-}))(enhanced);
+}))(ImageSelectionDialog);

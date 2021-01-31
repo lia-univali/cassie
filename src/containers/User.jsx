@@ -1,5 +1,4 @@
 import React from 'react';
-import { compose } from 'redux'
 import { connect } from 'react-redux';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Avatar from '@material-ui/core/Avatar';
@@ -9,7 +8,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { logout } from '../actions/basic';
-import { withTranslation } from 'react-i18next'
 
 class User extends React.Component {
   constructor(props) {
@@ -28,7 +26,7 @@ class User extends React.Component {
 
   render() {
     const { anchor } = this.state;
-    const { t, name, image, children, logout, ...rest } = this.props;
+    const { name, image, children, logout, ...rest } = this.props;
 
     if (!name) {
       return null;
@@ -53,16 +51,11 @@ class User extends React.Component {
           getContentAnchorEl={null}
         >
           {children}
-          <MenuItem onClick={() => logout()}>{t('auth.signout')}</MenuItem>
+          <MenuItem onClick={() => logout()}>Sair</MenuItem>
         </Menu>
       </div>
     );
   }
 }
 
-const enhancer = compose(
-  connect(() => ({}), { logout }),
-  withTranslation()
-)
-
-export default enhancer(User);
+export default connect(() => ({}), { logout })(User);

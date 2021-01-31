@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import userReducer from './user';
-import langReducer from '../store/ducks/language'
 import dataReducer from './data';
 import modalReducer from './modal';
 import dialogReducer from './dialog';
@@ -16,7 +15,6 @@ import { routerReducer } from 'react-router-redux';
 const reducer = combineReducers({
   map: mapReducer,
   user: userReducer,
-  lang: langReducer,
   data: dataReducer,
   modal: modalReducer,
   dialog: dialogReducer,

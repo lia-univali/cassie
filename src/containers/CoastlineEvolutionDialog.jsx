@@ -15,7 +15,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TransectDataTable from "./TransectDataTable";
 import { Menu, MenuItem } from "@material-ui/core";
-import { withTranslation } from 'react-i18next'
 
 import Export from "../services/Export";
 
@@ -64,7 +63,7 @@ class CoastlineEvolutionDialog extends React.Component {
   };
 
   render() {
-    const { t, close, open, transectData, baselineData, exportable } = this.props;
+    const { close, open, transectData, baselineData, exportable } = this.props;
 
     const tabs = [
       <TransectDataTable data={transectData} />
@@ -72,7 +71,7 @@ class CoastlineEvolutionDialog extends React.Component {
 
     return (
       <Dialog open={open} maxWidth="md" onClose={() => close()}>
-        <DialogTitle>{t('forms.shorelineAnalysis.title')}</DialogTitle>
+        <DialogTitle>Análise da Linha de Costa</DialogTitle>
         <DialogContent>
           <Paper>
             <AppBar position="static" color="default">
@@ -82,12 +81,14 @@ class CoastlineEvolutionDialog extends React.Component {
                 textColor="primary"
                 onChange={(e, tab) => this.setState({ tab })}
               >
-                <Tab label={t('forms.shorelineAnalysis.transectsReport.title')} />
+                <Tab label="Relatório de Transectos" />
               </Tabs>
             </AppBar>
 
             {tabs[this.state.tab]}
           </Paper>
+
+          {/*<Bar options={this.createOptions()} data={this.shapeData()} width={600} height={300}/>*/}
         </DialogContent>
         <DialogActions>
           {this.state.tab === 0 && (
@@ -97,7 +98,7 @@ class CoastlineEvolutionDialog extends React.Component {
                   this.setState({ transectosAnchorEl: e.currentTarget })
                 }
               >
-                {t('forms.shorelineAnalysis.exports.title')}
+                Exportar Dados de Transectos
               </Button>
               <Menu
                 anchorEl={this.state.transectosAnchorEl}
@@ -112,7 +113,7 @@ class CoastlineEvolutionDialog extends React.Component {
                     )
                   }
                 >
-                  {t('forms.shorelineAnalysis.exports.csv')}
+                  Exportar CSV
                 </MenuItem>
                 <MenuItem
                   onClick={() =>
@@ -122,7 +123,7 @@ class CoastlineEvolutionDialog extends React.Component {
                     )
                   }
                 >
-                  {t('forms.shorelineAnalysis.exports.json')}
+                  Exportar JSON
                 </MenuItem>
                 <MenuItem
                   onClick={() =>
@@ -144,13 +145,13 @@ class CoastlineEvolutionDialog extends React.Component {
                     )
                   }
                 >
-                  {t('forms.shorelineAnalysis.exports.shp')}
+                  Exportar Shapefile
                 </MenuItem>
               </Menu>
             </div>
           )}
           <Button color="primary" onClick={() => close()}>
-            {t('forms.shorelineAnalysis.close')}
+            Fechar
           </Button>
         </DialogActions>
       </Dialog>
@@ -198,8 +199,6 @@ function shapeTransectData(transectData) {
   });
 }
 
-const enhanced = withTranslation()(CoastlineEvolutionDialog)
-
 export default registerDialog("coastlineEvolution", state => ({
   coastlineData: state.results.coastlineData
     ? state.results.coastlineData.evolution
@@ -214,4 +213,4 @@ export default registerDialog("coastlineEvolution", state => ({
   exportable: state.results.coastlineData
     ? state.results.coastlineData.exportable
     : {}
-}))(enhanced);
+}))(CoastlineEvolutionDialog);

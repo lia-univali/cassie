@@ -1,4 +1,10 @@
-import { call, all, select, put } from "redux-saga/effects";
+import {
+  call,
+  all,
+  select,
+  put,
+} from "redux-saga/effects";
+import update from "immutability-helper";
 import { get as getSatellite } from "../common/satellites";
 import { generateLayer, createThumbnail } from "../procedures/imagery";
 import {
@@ -6,11 +12,17 @@ import {
   createBufferedHandler,
   evaluate
 } from "../common/sagaUtils";
-import { generateVisualizationParams } from "../common/eeUtils";
+import {
+  getSatelliteCollection,
+  generateVisualizationParams
+} from "../common/eeUtils";
 import { loadLayer, pushImage } from "./imagery";
 import { getAcquisitionParameters, getImageryIdentifiers } from "../selectors";
-import { aggregateMissionsDates } from '../common/algorithms'
-import i18next from 'i18next'
+import {
+  acquireFromDate,
+} from "../procedures/acquisition";
+
+import { summarizeMissionsDates, aggregateMissionsDates } from '../common/algorithms'
 
 const SET_SATELLITE = "cassie/acquisition/SET_SATELLITE";
 const SET_MISSION_FALLBACK = "cassie/acquisition/SET_MISSION_FALLBACK";
@@ -214,7 +226,7 @@ function* handleAcquireImage({ missionName, date }) {
   const mission = satellite.get(missionName);
   const image = mission.algorithms.acquire(date, geometry);
 
-  const layer = generateLayer(image, mission, i18next.t('forms.imageryOverlay.base'));
+  const layer = generateLayer(image, mission, "Principal");
 
   yield put(pushImage(mission.shortname + "/" + date, date, mission.name));
   yield put(loadLayer(layer, imageId));

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { bindDispatch } from '../common/utils';
 
 class SnackbarRoot extends React.Component {
   handleClose(event, reason) {

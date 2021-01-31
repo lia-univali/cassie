@@ -18,7 +18,6 @@ import {
 import * as Indices from "../common/indices";
 import * as Imagery from "../actions/imagery";
 import * as Map from "../common/map";
-import i18next from 'i18next'
 
 const ee = window.ee;
 
@@ -53,7 +52,7 @@ function* onLoadImage() {
 
     const layer = new Layer(
       image,
-      i18next.t('forms.imageryOverlay.base'),
+      "Principal",
       generateVisualizationParams(satellite)
     );
     layer.removable = false;

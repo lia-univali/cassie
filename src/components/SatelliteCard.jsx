@@ -1,5 +1,4 @@
 import React from 'react';
-import { compose } from 'redux'
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -8,10 +7,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from './Button';
 import Typography from '@material-ui/core/Typography';
 import { space } from '../theme';
-import { withTranslation } from 'react-i18next'
 
 const SatelliteCard = (props) => {
-  const { t, classes, name, image, resolution, startYear, endYear, provider, cycle, onChoose, enabled } = props;
+  const { classes, name, image, resolution, startYear, endYear, provider, cycle, onChoose, enabled } = props;
   const endYearOrNow = endYear || new Date().getFullYear();
 
   return (
@@ -25,23 +23,23 @@ const SatelliteCard = (props) => {
         </Typography>
         <div className={classes.description}>
           <Typography variant="body1">
-            {t('forms.acquisition.1.card.opticalResolution')}: {resolution} {t('forms.acquisition.1.card.opticalResolutionUnit')}
+            Resolução ótica: {resolution} metros
           </Typography>
           <Typography variant="body1">
-            {t('forms.acquisition.1.card.activityPeriod')}: {startYear}&mdash;{endYearOrNow}
+            Período de atividade: {startYear}&mdash;{endYearOrNow}
           </Typography>
           <Typography variant="body1">
-            {t('forms.acquisition.1.card.provider')}: {provider}
+            Fornecedor: {provider}
           </Typography>
           <Typography variant="body1">
-            {t('forms.acquisition.1.card.revisitTime')}: {cycle} {t('forms.acquisition.1.card.revisitTimeUnit')}
+            Ciclo de captura: {cycle} dias
           </Typography>
         </div>
       </CardContent>
 
       <CardActions>
         <Button color="primary" onClick={onChoose} disabled={!enabled}>
-          {t('forms.acquisition.1.card.choose')}
+          Escolher
         </Button>
       </CardActions>
     </Card>
@@ -61,9 +59,4 @@ const styles = () => ({
   }
 });
 
-const enhancer = compose(
-  withStyles(styles),
-  withTranslation()
-)
-
-export default enhancer(SatelliteCard);
+export default withStyles(styles)(SatelliteCard);

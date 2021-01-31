@@ -81,15 +81,14 @@ export const concretizeLayer = (layer) => {
   // return new ConcreteLayer(layer, overlay, histogram);
 }
 
-export const createThumbnail = (image, geometry, params) => {
+export const createThumbnail = (imageOrJSON, geometry, params) => {
   const generationParams = {
-    region: geometry,
-    format: 'jpg',
-    dimensions: 512,
+    image: typeof (imageOrJSON) === 'string' ? imageOrJSON : imageOrJSON.serialize(),
+    region: geometry.toGeoJSONString(),
     ...params
   };
 
-  return image.getThumbURL(generationParams);
+  return asPromise(ee.data.getThumbId, generationParams).then(result => ee.data.makeThumbUrl(result));
 }
 
 export const gaussDistribution = (x, mean, sigma) => {
@@ -241,7 +240,7 @@ export const extractOcean = (image, bands, geometry, threshold) => {
 
   const withProperties = feature.setMulti({
     [Metadata.TIME_START]: ee.Date(getDate(image)).format("YYYY-MM-dd"),
-    otsu: threshold
+    otsu: otsuAlgorithm
   });
 
   return ee.Feature(withProperties);
