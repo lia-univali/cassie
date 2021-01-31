@@ -81,14 +81,15 @@ export const concretizeLayer = (layer) => {
   // return new ConcreteLayer(layer, overlay, histogram);
 }
 
-export const createThumbnail = (imageOrJSON, geometry, params) => {
+export const createThumbnail = (image, geometry, params) => {
   const generationParams = {
-    image: typeof (imageOrJSON) === 'string' ? imageOrJSON : imageOrJSON.serialize(),
-    region: geometry.toGeoJSONString(),
+    region: geometry,
+    format: 'jpg',
+    dimensions: 512,
     ...params
   };
 
-  return asPromise(ee.data.getThumbId, generationParams).then(result => ee.data.makeThumbUrl(result));
+  return image.getThumbURL(generationParams);
 }
 
 export const gaussDistribution = (x, mean, sigma) => {

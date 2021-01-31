@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import * as Map from '../common/map';
 import * as MapActions from '../ducks/map';
+import i18next from 'i18next'
 
 export const DEFAULT_ZOOM = 9;
 
@@ -32,35 +33,6 @@ class GoogleMap extends React.Component {
     });
 
     onLoad(this.map);
-
-    // Shows a button prompting the user to log in.
-    /*const onImmediateFailed = function() {
-      $('.g-sign-in').removeClass('hidden');
-      $('.output').text('(Log in to see the result.)');
-      $('.g-sign-in .button').click(function() {
-        ee.data.authenticateViaPopup(function() {
-          $('.g-sign-in').addClass('hidden');
-        });
-      });
-    };*/
-
-    // basic.updateStatus("Autenticando");
-    // basic.beginAuthentication(CLIENT_ID);
-    // const onSuccess = () => {
-    //   ee.initialize();
-    //
-    //   basic.updateStatus(false);
-    //   basic.setAuthenticationState(true);
-    //   basic.replaceSatellite(1); // Landsat 5
-    // };
-    //
-    // // Attempt to authenticate using existing credentials.
-    // ee.data.authenticateViaOauth(CLIENT_ID, onSuccess, console.log, null, () => {
-    //   //onImmediateFailed();
-    //   console.log("Autenticação falhou!");
-    //
-    //   modal.open("CONSENT");
-    // });
   }
 
   render() {
@@ -73,7 +45,7 @@ class GoogleMap extends React.Component {
                 {this.props.map.drawingMessage}
               </Typography>
               <Button color="secondary" variant="raised" onClick={() => this.props.cancelDrawing()}>
-                Cancelar
+                {i18next.t('forms.map.cancel')}
               </Button>
             </Paper>
           </div>

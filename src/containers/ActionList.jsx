@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose } from 'redux'
 import { connect } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,18 +11,18 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import { analyzeCoastline } from '../ducks/imagery';
 import { openDialog } from '../ducks/dialog';
+import { withTranslation } from 'react-i18next'
 
 class ActionList extends React.Component {
   render() {
-    //console.log(this.props);
-
+    const { t } = this.props
     return (
       <List>
         <ListItem button onClick={() => this.props.analyzeCoastline()}>
           <ListItemAvatar>
             <Avatar><Waves /></Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Analisar linhas de costa" style={{ paddingRight: 48 }} />
+          <ListItemText primary={t('forms.imageChooser.actions.analyzeShoreline.title')} style={{ paddingRight: 48 }} />
           {"coastlineData" in this.props.results &&
             <ListItemSecondaryAction>
               <IconButton aria-label="results" onClick={() => this.props.openDialog("coastlineEvolution")}>
@@ -35,6 +36,9 @@ class ActionList extends React.Component {
   }
 }
 
-export default connect(state => ({
-  results: state.results
-}), { analyzeCoastline, openDialog })(ActionList);
+const enhancer = compose(
+  connect(state => ({ results: state.results }), { analyzeCoastline, openDialog }),
+  withTranslation()
+)
+
+export default enhancer(ActionList);

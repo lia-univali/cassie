@@ -19,6 +19,7 @@ import Footer from '../components/Footer';
 import { withAcquisition, withUser } from '../actions';
 import { space } from '../theme';
 import { getAcquisitionParameters } from '../selectors';
+import { withTranslation } from 'react-i18next'
 
 export const PREVIOUS = -1;
 export const FIRST = 0;
@@ -29,26 +30,27 @@ class AcquisitionPage extends React.Component {
   constructor(props) {
     super(props);
 
+    const { t } = props;
+
     this.steps = [{
-      label: "Escolha o satélite",
-      content: "Selecione um dos satélites disponíveis para a aquisição de imagens.",
+      label: t('forms.acquisition.1.title'),
+      content: t('forms.acquisition.1.description'),
       component: SatelliteChooser,
     }, {
-      label: "Defina a área de interesse",
-      content: "Delimite a área de interesse utilizando o mapa abaixo.",
+      label: t('forms.acquisition.2.title'),
+      content: t('forms.acquisition.2.description'),
       requires: "satellite",
       component: AOIChooser,
     }, {
-      label: "Defina o período",
-      content: "Especifique a data de início e data de término do conjunto de imagens.",
+      label: t('forms.acquisition.3.title'),
+      content: t('forms.acquisition.3.description'),
       requires: "geometry",
       component: PeriodChooser,
     }, {
-      label: "Filtre as imagens",
-      content: "Aplique filtros para manter somente as imagens apropriadas.",
+      label: t('forms.acquisition.4.title'),
+      content: t('forms.acquisition.4.description'),
       requires: "availableDates",
       component: ImageListRefiner,
-
     }];
   }
 
@@ -113,7 +115,7 @@ class AcquisitionPage extends React.Component {
   }
 
   render() {
-    const { classes, match } = this.props;
+    const { t, classes, match } = this.props;
     console.log(this.props);
 
     const hasStep = match.params.step !== undefined;
@@ -125,7 +127,7 @@ class AcquisitionPage extends React.Component {
           <Grid item xs={12} className={classes.header}>
             <div>
               <Typography variant="display2" align="center" className={classes.title}>
-                Aquisição de Imagens
+                {t('forms.acquisition.title')}
               </Typography>
             </div>
           </Grid>
@@ -191,6 +193,7 @@ const enhancer = compose(
   withUser(),
   withAcquisition(),
   withStyles(styles),
+  withTranslation()
 );
 
 export default enhancer(AcquisitionPage);

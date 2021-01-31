@@ -12,6 +12,7 @@ import { formatDate, formatDateDiff, datesBetween } from '../common/utils';
 import { withAcquisition } from '../actions';
 import { space } from '../theme';
 import { uniteMissionsDates, summarizeMissionsDates } from '../common/algorithms';
+import { withTranslation } from 'react-i18next'
 
 class PeriodChooser extends React.Component {
   constructor(props) {
@@ -55,7 +56,7 @@ class PeriodChooser extends React.Component {
 
   render() {
     const { start, end } = this.state;
-    const { dates: dict, navigate, classes, working } = this.props;
+    const { t, dates: dict, navigate, classes, working } = this.props;
 
     if (working === true || dict === undefined) {
       return <ActivityIndicator textual />
@@ -72,10 +73,10 @@ class PeriodChooser extends React.Component {
 
         <div className={classes.description}>
           <Typography variant="subheading" align="center">
-            Período: {formatDate(start)} a {formatDate(end)}
+            {t('forms.acquisition.3.period')}: {formatDate(start)} {t('forms.acquisition.3.to')} {formatDate(end)}
           </Typography>
           <Typography variant="subheading" align="center">
-            {formatDateDiff(start, end)}, {length} image{length === 1 ? 'm' : 'ns'}
+            {formatDateDiff(start, end)}, {length} {t('forms.acquisition.3.imageQuantity')}
           </Typography>
         </div>
 
@@ -106,6 +107,7 @@ const enhancer = compose(
   connector,
   withAcquisition(),
   withStyles(style),
+  withTranslation()
 );
 
 export default enhancer(PeriodChooser);

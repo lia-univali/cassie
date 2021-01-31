@@ -2,6 +2,7 @@ import React from "react";
 import EvolutionChart from "./EvolutionChart";
 import { fromEpoch } from "../common/utils";
 import Typography from "@material-ui/core/Typography";
+import { withTranslation } from 'react-i18next'
 
 const generateRegression = (slope, intercept, x) => {
   return x.map(values => {
@@ -17,14 +18,14 @@ const formatted = (value, units = "", places = 4) => {
   return value.toFixed(places) + units;
 };
 
-const TransectEvolution = ({ data }) => {
+const TransectEvolution = ({ t, data }) => {
   const metadata = {
-    "Taxa de alteração (LRR)": formatted(data.lrr, "m/ano"),
-    "Coeficiente de correlação (r)": formatted(data.trend.correlation),
-    "SCE": formatted(data.sce, "m"),
-    "NSM": formatted(data.nsm, "m"),
-    "EPR": formatted(data.epr, "m/ano"),
-    "Classe": data.class
+    [t('forms.transectEvolution.lrr')]: formatted(data.lrr, t('forms.transectEvolution.units.mByYr')),
+    [t('forms.transectEvolution.r')]: formatted(data.trend.correlation),
+    [t('forms.transectEvolution.sce')]: formatted(data.sce, t('forms.transectEvolution.units.meters')),
+    [t('forms.transectEvolution.nsm')]: formatted(data.nsm, t('forms.transectEvolution.units.meters')),
+    [t('forms.transectEvolution.epr')]: formatted(data.epr, t('forms.transectEvolution.units.mByMonth')),
+    [t('forms.transectEvolution.classification')]: data.class
   };
 
   const sortedValues = data.x.sort();
@@ -43,12 +44,12 @@ const TransectEvolution = ({ data }) => {
             .format()
         )}
         y={sortedValues.map(el => el[1])}
-        label="Distância"
-        yLabel="metros"
+        label={t('forms.transectEvolution.labels.x')}
+        yLabel={t('forms.transectEvolution.labels.y')}
         regression={regression}
       />
       <Typography style={{ marginTop: 20 }} variant="title" paragraph>
-        Estatísticas
+        {t('forms.transectEvolution.statistics')}
       </Typography>
 
       {Object.keys(metadata).map((key, i) => (
@@ -60,4 +61,4 @@ const TransectEvolution = ({ data }) => {
   );
 };
 
-export default TransectEvolution;
+export default withTranslation()(TransectEvolution);

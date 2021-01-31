@@ -17,9 +17,7 @@ class NavigationBar extends React.Component {
           <Typography variant="title" className="flex1" color="inherit">
             C.A.S.S.I.E. <small>Coastal Analysis via Satellite Imagery Engine</small>
           </Typography>
-          <User name={user.name} image={user.image}>
-            <MenuItem onClick={() => this.props.customAnalyze()}>Testar</MenuItem>
-          </User>
+          <User name={user.name} image={user.image} />
         </Toolbar>
       </AppBar>
     );
@@ -28,4 +26,4 @@ class NavigationBar extends React.Component {
 
 export default connect(state => {
   return { user: state.user };
-}, { customAnalyze })(NavigationBar);
+})(NavigationBar);
