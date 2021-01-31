@@ -215,16 +215,6 @@ export function mapToSummary(transects, coastlines, areaOfInterest) {
   const coastlineIds = coastlineList.map(feature => ee.Feature(feature).id());
   const coastlineTable = ee.Dictionary.fromLists(coastlineIds, coastlineList);
 
-  // Create a MultiLineString Geometry from transects list of Features
-  const transectsAsGeometry = ee.Geometry.MultiLineString(
-    transects.map(transect =>
-      ee
-        .Feature(transect)
-        .geometry()
-        .coordinates()
-    )
-  );
-
   const distances = ee
     .List(transects)
     .map(transect => {
@@ -431,7 +421,7 @@ export function calculateGeneralDSAS(distances) {
   const lrr = ee.Number(ee.Algorithms.If(scale, scale, 0)).multiply(365)
 
   return ee.Dictionary({
-    sce: sce, nsm: nsm, epr: epr, lrr: lrr, trend: trend, x: distribution
+    sce, nsm, epr, lrr, trend, x: distribution
   })
 }
 

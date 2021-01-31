@@ -1,12 +1,6 @@
 import Algorithms from '../procedures'
-import { formatDate, asPercentage } from "./utils";
 import sentinel2Thumb from "../resources/Sentinel-2.jpg";
-import sentinel3Thumb from "../resources/Sentinel-3.jpg";
 import landsatThumb from "../resources/Landsat.jpg";
-
-const dateToString = date => {
-  return formatDate(date, true);
-};
 
 /* Single Satellite Mission Constructor */
 const Mission = (name, shortname, cycle, startYear, endYear, opticalResolution, bands, vizParams, properties, algorithms, fallbackMission = null) => {

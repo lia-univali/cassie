@@ -1,13 +1,4 @@
-import { take, takeEvery, all, select, put, actionChannel } from 'redux-saga/effects';
-// import update from 'immutability-helper';
-import { get as getSatellite } from '../common/satellites';
-import { generateLayer } from '../procedures/imagery';
-import { createConcurrentHandler, createBufferedHandler, cancellable, evaluate } from '../common/sagaUtils';
-import { applyExpression } from '../common/eeUtils';
-import { formatDate } from '../common/utils';
-import { loadLayer, pushImage } from './imagery';
-import { getAcquisitionParameters, getImageryIdentifiers } from '../selectors';
-import { login } from '../actions/user';
+import { all } from 'redux-saga/effects';
 
 const PUSH_RESULT = 'cassie/results/PUSH_RESULT';
 
@@ -26,15 +17,6 @@ export default function reducer(state = {}, action) {
   }
 };
 
-
-const ee = window.ee;
-
-function* handleAcquireImage({ date }) {
-
-}
-
 export function* saga() {
-  yield all([
-    //createBufferedHandler(ACQUIRE_IMAGE, handleAcquireImage),
-  ]);
+  yield all([]);
 }

@@ -39,14 +39,11 @@ class ImageTable extends React.Component {
   createRows() {
     const start = this.state.page * this.state.rows;
     const {
-      images = [],
       selected = [],
       onCheckboxChange = () => { },
     } = this.props;
 
     return this.state.sorted.slice(start, start + this.state.rows).map(v => {
-      const image = images[v] || [];
-
       return (
         <TableRow key={v}>
           {this.columns.map((col, i) => (

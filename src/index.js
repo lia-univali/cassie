@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import configureStore from "./store";
 import moment from "moment";
-import registerServiceWorker from "./registerServiceWorker";
 import { CLIENT_ID } from "./actions/user";
 import Boot from "./Boot";
 import i18n from './lang'
@@ -21,11 +20,8 @@ let Cassie = () => (
 
 window.gapi.load("auth2", () => {
   window.gapi.auth2
-    .init({
-      client_id: CLIENT_ID
-    })
+    .init({ client_id: CLIENT_ID })
     .then(() => {
       ReactDOM.render(<Cassie />, document.getElementById("root"));
-      registerServiceWorker();
     });
 });

@@ -240,11 +240,9 @@ function estevesLabelling(transects) {
 }
 
 function* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold, names = []) {
-  const { satellite, geometry } = yield select(
+  const { satellite } = yield select(
     Selectors.getAcquisitionParameters
   );
-
-  console.log("Click here to copy me!", transects)
 
   const bufferedBaseline = baseline.buffer(extent / 2);
 
@@ -298,10 +296,10 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
       return ee.Feature(poly).toDictionary(["date", "mean", "stdDev"]);
     });
 
-  const xx = yield evaluate(enhancedCoastlines);
+  const coastlineCollection = yield evaluate(enhancedCoastlines);
 
-  const [evolutionData, transectData, coastlineCollection] = yield evaluate(
-    ee.List([finalQuery, classified, coastlines])
+  const [evolutionData, transectData] = yield evaluate(
+    ee.List([finalQuery, classified])
   );
 
   const withColors = evolutionData.map((row, i) => ({
@@ -390,7 +388,7 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
   yield put(
     pushResult(identifier, {
       transectData,
-      coastlineCollection: xx,
+      coastlineCollection,
       evolution: withColors,
       exportable
     })
@@ -422,18 +420,11 @@ function* handleAnalyzeCoastline() {
 }
 
 function* handleTestSpecificState() {
-  /*
-
-  const identifier = "coastlineData"
-
-  // yield put(Map.removeShapeGroup(identifier))
-
+  /*const identifier = "coastlineData"
   const { availableDates } = yield select(Selectors.getAcquisitionParameters);
 
   try {
 
-    /*const rawBaseline = yield call(shp, "../../sample/baseline")
-    const rawTransects = yield call(shp, "../../sample/transetos")*/
     const rawBaseline = testBaseline
     const rawTransects = testTransects
 
@@ -450,8 +441,6 @@ function* handleTestSpecificState() {
       Map.addEEFeature(ee.Feature(baseline), i18next.t('forms.map.baseline'), "#00B3A1", 1, identifier)
     )
 
-    //const colors = new Array(transects.size()).map(value => "#00B3A1")
-
     const props = [
       "transect_id",
       "changerate",
@@ -463,8 +452,8 @@ function* handleTestSpecificState() {
   }
   catch (err) {
     console.log("Error while performing analysis", err)
-  }
-  */
+  }*/
+
 }
 
 function* handleRequestExpression({ parent }) {

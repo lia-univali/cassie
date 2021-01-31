@@ -1,5 +1,4 @@
 import React from 'react';
-import { hot } from 'react-hot-loader';
 import { withRouter } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import { Switch, Route } from 'react-router-dom';
@@ -24,8 +23,6 @@ let Scroller = class extends React.Component {
 }
 
 Scroller = withRouter(Scroller);
-
-// === // === //
 
 const App = () => (
   <ConnectedRouter history={history}>

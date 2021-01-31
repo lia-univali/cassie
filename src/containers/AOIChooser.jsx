@@ -90,7 +90,7 @@ class AOIChooser extends React.Component {
     };
 
     const { t, navigate } = this.props;
-    const { overlay, coordinates, visible, switchDisabled } = this.state;
+    const { coordinates, visible, switchDisabled } = this.state;
     const drawn = coordinates !== undefined;
 
     return (

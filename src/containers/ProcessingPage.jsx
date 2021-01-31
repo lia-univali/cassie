@@ -3,7 +3,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import Grow from '@material-ui/core/Grow';
-import Zoom from '@material-ui/core/Zoom';
 import GoogleMap from '../components/GoogleMap';
 import ImageChooserCard from './ImageChooserCard';
 import ShapeList from './ShapeList';
@@ -11,11 +10,7 @@ import LoadedImagesAccordion from './LoadedImagesAccordion';
 import { loadTestState } from '../ducks/acquisition';
 import { setBaseline } from '../ducks/imagery';
 import { addEEFeature, centralizeMap } from '../ducks/map';
-import { push } from 'react-router-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { space } from '../theme';
-import FeatureInfo from './FeatureInfo';
-import Paper from '@material-ui/core/Paper';
 import { withTranslation } from 'react-i18next'
 
 class ProcessingPage extends React.Component {

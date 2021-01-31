@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { MuiThemeProvider } from '@material-ui/core/styles';
 import { logout } from '../actions/basic';
 import { withTranslation } from 'react-i18next'
 
@@ -28,7 +27,7 @@ class User extends React.Component {
 
   render() {
     const { anchor } = this.state;
-    const { t, name, image, children, logout, ...rest } = this.props;
+    const { t, name, image, children, logout } = this.props;
 
     if (!name) {
       return null;

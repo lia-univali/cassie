@@ -1,5 +1,4 @@
 import * as Metadata from '../common/metadata';
-import { computeDisplacement, computeBearing } from '../common/geodesy';
 
 const ee = window.ee;
 
@@ -37,7 +36,7 @@ export const mergeProperties = collection => {
   // Date of the earliest image in the collection
   const first = ee.List(collection.sort(Metadata.TIME_START).toList(1)).get(0);
   const date = getDate(first);
-  const sensor = ee.Image(first).get(sensorKey);
+  // const sensor = ee.Image(first).get(sensorKey);
 
   return {
     [Metadata.NAME]: date.format("'IMG_'YYYY-MM-dd"),

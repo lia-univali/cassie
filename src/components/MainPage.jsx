@@ -7,7 +7,8 @@ import AcquisitionPage from '../containers/AcquisitionPage';
 import ProcessingPage from '../containers/ProcessingPage';
 import ActivityIndicator from '../containers/ActivityIndicator';
 import { withStyles } from '@material-ui/core/styles';
-// ======= Dialogs
+
+// Register Dialogs
 import CoastlineEvolutionDialog from '../containers/CoastlineEvolutionDialog';
 import CoastlineConfigDialog from '../containers/CoastlineConfigDialog';
 import NewLayerDialog from '../containers/NewLayerDialog';

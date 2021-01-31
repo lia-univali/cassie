@@ -1,7 +1,5 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { fromEpoch } from '../common/utils';
-import { FeatureType } from '../common/metadata';
 
 class EvolutionChart extends React.Component {
   createData() {
@@ -9,7 +7,7 @@ class EvolutionChart extends React.Component {
       regression,
       x = [],
       y = [],
-      label = "Valor",
+      label = "Valor", // @TODO: i18next
     } = this.props;
 
     return {

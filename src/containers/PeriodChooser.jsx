@@ -11,7 +11,7 @@ import ActivityIndicator from './ActivityIndicator.jsx';
 import { formatDate, formatDateDiff, datesBetween } from '../common/utils';
 import { withAcquisition } from '../actions';
 import { space } from '../theme';
-import { uniteMissionsDates, summarizeMissionsDates } from '../common/algorithms';
+import { uniteMissionsDates } from '../common/algorithms';
 import { withTranslation } from 'react-i18next'
 
 class PeriodChooser extends React.Component {

@@ -14,7 +14,6 @@ import CardActions from '@material-ui/core/CardActions';
 import ImageChooserForm from '../components/ImageChooserForm';
 import ActionList from './ActionList';
 import { acquireImage } from '../ducks/acquisition';
-import { bindDispatch, datesBetween } from '../common/utils';
 import { getAcquisitionParameters } from '../selectors';
 import { withTranslation } from 'react-i18next'
 
@@ -34,7 +33,7 @@ class ImageChooserCard extends React.Component {
 
   render() {
     const { expanded } = this.state;
-    const { t, availableDates, start, end, acquireImage, satellite, className } = this.props;
+    const { t, availableDates, acquireImage, satellite, className } = this.props;
 
     if (availableDates === undefined) {
       return null;
