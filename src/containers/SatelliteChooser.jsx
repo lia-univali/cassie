@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { withAcquisition } from '../actions';
-import { standard, getAll } from '../common/satellites';
+import { standard } from '../common/satellites';
 import SatelliteCard from '../components/SatelliteCard';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';

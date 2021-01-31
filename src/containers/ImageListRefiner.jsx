@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import ImageTable from '../components/ImageTable';
 import StepperButtons from '../components/StepperButtons';
 import update from 'immutability-helper';
-import { datesBetween } from '../common/utils'
 import { FINALIZE } from './AcquisitionPage';
 import { loadThumbnails, setAvailableDates } from '../ducks/acquisition';
 import { withTranslation } from 'react-i18next'
@@ -37,7 +36,7 @@ class ImageListRefiner extends React.Component {
   }
 
   render() {
-    const { t, dates, metadata, start, end, navigate } = this.props;
+    const { t, dates, metadata, navigate } = this.props;
 
     return (
       <div>

@@ -1,5 +1,4 @@
-import { take, takeEvery, all, select, put, actionChannel, race } from 'redux-saga/effects';
-import { delay } from 'redux-saga';
+import { take, all, select, put, race } from 'redux-saga/effects';
 import { createConcurrentHandler, createBufferedHandler, evaluate } from '../common/sagaUtils';
 import { findLayerIndex, retrieveShape, retrieveHighlightedShape, retrieveShapeGroup } from '../selectors';
 import update from 'immutability-helper';
@@ -162,7 +161,6 @@ function* handleAddEEFeature({ feature, name, color, opacity, group }) {
   const list = ee.List(collection.toList(collection.size()));
 
   const content = yield evaluate(list);
-  console.log("Content of feature: ", content);
 
   const colors = Array.isArray(color) ? color : [color];
   let colorIndex = 0;
@@ -197,6 +195,7 @@ function* handleDrawingTermination() {
 
 function* handleHighlight({ index }) {
   const shape = yield select(retrieveShape(index))
+
   shape.overlays.forEach(overlay => {
     Map.highlightShape(overlay)
   });
@@ -207,6 +206,7 @@ function* handleHighlight({ index }) {
 //Should probably debounce this.
 function* handleClearHighlight() {
   const shape = yield select(retrieveHighlightedShape);
+
   shape.overlays.forEach(overlay => {
     Map.clearHighlight(overlay);
   });

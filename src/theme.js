@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { teal, blue, red, deepPurple, pink } from '@material-ui/core/colors';
+import { teal, pink } from '@material-ui/core/colors';
 
 export const space = (...spaces) => {
   return spaces.map(s => `${s * 8}px`).join(" ");

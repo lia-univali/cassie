@@ -1,21 +1,10 @@
-import { Layer, ConcreteLayer } from '../common/classes';
+import { Layer } from '../common/classes';
 import { generateVisualizationParams, simplify, applyExpression } from '../common/eeUtils';
 import * as Indices from '../common/indices';
 import * as Metadata from '../common/metadata';
 import { getDate } from './common';
-import { asPromise } from '../common/utils';
 
 const ee = window.ee;
-
-const normalizeByArea = function (property) {
-  return function (feature) {
-    feature = ee.Feature(feature);
-    const value = ee.Number(feature.get(property));
-    const normalized = value.divide(feature.area(1));
-
-    return feature.set({ [property]: normalized, original: value, area: feature.area(1) });
-  };
-};
 
 /*
  * Given a {masked} image having {bandName} with pixel values {0, 1} where 1 indicates
