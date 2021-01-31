@@ -3,11 +3,10 @@ import Button from '@material-ui/core/Button';
 import { space } from '../theme';
 import { withStyles } from '@material-ui/core/styles';
 import { NEXT, PREVIOUS } from '../containers/AcquisitionPage';
-import i18next from 'i18next'
 
 const StepperButtons = ({ navigate, classes, children,
-  nextText = i18next.t('forms.acquisition.next'), nextDisabled = false, nextTarget = NEXT, onNext = () => { },
-  backText = i18next.t('forms.acquisition.prev'), backDisabled = false, backTarget = PREVIOUS, onBack = () => { },
+  nextText = "Continuar", nextDisabled = false, nextTarget = NEXT, onNext = () => { },
+  backText = "Voltar", backDisabled = false, backTarget = PREVIOUS, onBack = () => { },
 }) => {
   const navigateBackwards = () => {
     onBack();

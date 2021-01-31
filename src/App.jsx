@@ -31,14 +31,22 @@ const App = () => (
   <ConnectedRouter history={history}>
     <Scroller>
       <div>
-        <CssBaseline />
+        <CssBaseline/>
 
-        <SnackbarRoot />
-
+        <SnackbarRoot/>
         <Switch>
-          <Route path="/main" component={MainPage} />
-          <Route path="/" component={HomePage} />
+          <Route path="/main" component={MainPage}/>
+          <Route path="/" component={HomePage}/>
         </Switch>
+
+        {/* <div className="main-root">
+          <Grid container justify="center">
+            <Grid item xs={10}>
+              <MainContent/>
+            </Grid>
+          </Grid>
+          <Footer/>
+        </div> */}
       </div>
     </Scroller>
   </ConnectedRouter>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { compose } from 'redux'
 import { connect } from 'react-redux';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Dialog from '@material-ui/core/Dialog';
@@ -12,7 +11,6 @@ import Button from '@material-ui/core/Button';
 // import IndexDropdown from './IndexDropdown';
 import { registerDialog } from './DialogRoot';
 import * as Indices from '../common/indices';
-import { withTranslation } from 'react-i18next'
 
 class NewLayerDialog extends React.Component {
   constructor(props) {
@@ -41,14 +39,14 @@ class NewLayerDialog extends React.Component {
 
   render() {
     console.log(this.props);
-    const { t, open, close, theme } = this.props;
+    const { open, close, theme } = this.props;
 
     const variables = [
-      t('forms.imageryOverlay.add.bands.red'),
-      t('forms.imageryOverlay.add.bands.green'),
-      t('forms.imageryOverlay.add.bands.blue'),
-      t('forms.imageryOverlay.add.bands.nir'),
-      t('forms.imageryOverlay.add.bands.swir')
+      "RED: banda vermelha",
+      "GREEN: banda verde",
+      "BLUE: banda azul",
+      "NIR: banda infravermelho próximo",
+      "SWIR: banda infravermelho de ondas curtas"
     ];
 
     const expressions = Indices.all().map(({ label, expression }) => (
@@ -61,29 +59,29 @@ class NewLayerDialog extends React.Component {
 
     return (
       <Dialog open={open} maxWidth="md" onClose={() => close()}>
-        <DialogTitle>{t('forms.imageryOverlay.add.title')}</DialogTitle>
+        <DialogTitle>Nova camada</DialogTitle>
         <DialogContent>
           <form>
             <TextField id="name" fullWidth style={inputStyle}
-              label={t('forms.imageryOverlay.add.name')}
+              label="Nome da camada"
               value={this.state.name}
               onChange={e => this.handleChange("name", e)}
             />
             <TextField id="expression" fullWidth style={inputStyle}
               multiline rowsMax={3}
-              label={t('forms.imageryOverlay.add.expression')}
+              label="Expressão"
               value={this.state.expression}
               onChange={e => this.handleChange("expression", e)}
             />
 
-            <FormHelperText>{t('forms.imageryOverlay.add.bands.title')}:</FormHelperText>
+            <FormHelperText>Variáveis disponíveis:</FormHelperText>
             {variables.map((text, i) => (
               <FormHelperText key={i}>
                 {text}
               </FormHelperText>
             ))}
             <br />
-            <FormHelperText>{t('forms.imageryOverlay.add.suggested')}:</FormHelperText>
+            <FormHelperText>Expressões:</FormHelperText>
             {expressions.map((text, i) => (
               <FormHelperText key={i}>
                 {text}
@@ -93,8 +91,11 @@ class NewLayerDialog extends React.Component {
         </DialogContent>
 
         <DialogActions>
+          {/* <IndexDropdown text="Índices" className="flex-left"
+            onSelect={(i, v) => this.setState({expression: v.expression})}
+          /> */}
           <Button color="primary" onClick={() => this.handleCreate()}>
-            {t('forms.imageryOverlay.add.create')}
+            Criar
           </Button>
         </DialogActions>
       </Dialog>
@@ -102,9 +103,6 @@ class NewLayerDialog extends React.Component {
   }
 }
 
-const enhancer = compose(
-  withTheme(),
-  withTranslation()
-)
+const Themed = withTheme()(NewLayerDialog);
 
-export default registerDialog("newLayer")(enhancer(NewLayerDialog));
+export default registerDialog("newLayer")(Themed);

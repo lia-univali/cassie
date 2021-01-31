@@ -9,11 +9,10 @@ import spacing from '@material-ui/core/styles/spacing';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { space } from '../theme';
-import { withTranslation } from 'react-i18next'
 
-const Textual = ({ t, classes }) => (
+const Textual = ({ classes }) => (
   <Typography variant="subheading" align="center" className={classes.text}>
-    {t('general.loading')}
+    Carregando...
   </Typography>
 )
 
@@ -24,13 +23,13 @@ const textualStyle = (theme) => ({
   }
 });
 
-const StyledTextual = withStyles(textualStyle)(withTranslation()(Textual));
+const StyledTextual = withStyles(textualStyle)(Textual);
 
 // ========================================================== //
 
 class ActivityIndicator extends React.Component {
   render() {
-    const { t, classes, onAbort, shown = true, message = "Trabalhando", textual = false } = this.props;
+    const { classes, onAbort, shown = true, message = "Trabalhando", textual = false } = this.props;
 
     if (textual !== false) {
       return <StyledTextual />
@@ -48,7 +47,7 @@ class ActivityIndicator extends React.Component {
             }
             {onAbort &&
               <Button color="error" onClick={onAbort} style={{ marginTop: spacing.unit * 2 }} dense>
-                {t('general.cancel')}
+                Cancelar
               </Button>
             }
           </Paper>
@@ -76,8 +75,7 @@ const connector = connect(state => ({
 
 const enhancer = compose(
   connector,
-  withStyles(style),
-  withTranslation()
+  withStyles(style)
 );
 
 export default enhancer(ActivityIndicator);

@@ -1,5 +1,4 @@
 import React from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import ImageTable from '../components/ImageTable';
 import StepperButtons from '../components/StepperButtons';
@@ -7,7 +6,6 @@ import update from 'immutability-helper';
 import { datesBetween } from '../common/utils'
 import { FINALIZE } from './AcquisitionPage';
 import { loadThumbnails, setAvailableDates } from '../ducks/acquisition';
-import { withTranslation } from 'react-i18next'
 
 class ImageListRefiner extends React.Component {
   constructor(props) {
@@ -37,7 +35,7 @@ class ImageListRefiner extends React.Component {
   }
 
   render() {
-    const { t, dates, metadata, start, end, navigate } = this.props;
+    const { dates, metadata, start, end, navigate } = this.props;
 
     return (
       <div>
@@ -47,7 +45,7 @@ class ImageListRefiner extends React.Component {
 
         <StepperButtons
           navigate={navigate}
-          nextText={t('forms.acquisition.4.next')}
+          nextText="Concluir"
           onNext={() => this.handleFinish()}
           nextTarget={FINALIZE}
         />
@@ -64,9 +62,4 @@ const connector = connect(state => ({
   missions: state.acquisition.missions
 }), { loadThumbnails, setAvailableDates });
 
-const enhancer = compose(
-  connector,
-  withTranslation()
-)
-
-export default enhancer(ImageListRefiner);
+export default connector(ImageListRefiner);

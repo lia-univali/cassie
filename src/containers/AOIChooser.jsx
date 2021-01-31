@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import GoogleMap, { DEFAULT_ZOOM } from '../components/GoogleMap';
 import { withAcquisition, withMap } from '../actions';
 import * as Map from '../common/map';
-import { withTranslation } from 'react-i18next'
 
 class AOIChooser extends React.Component {
   constructor(props) {
@@ -89,13 +88,13 @@ class AOIChooser extends React.Component {
       }
     };
 
-    const { t, navigate } = this.props;
+    const { navigate } = this.props;
     const { overlay, coordinates, visible, switchDisabled } = this.state;
     const drawn = coordinates !== undefined;
 
     return (
       <div className="vcenter flow-column">
-        <FormControlLabel label={t('forms.acquisition.2.showDelimiters')}
+        <FormControlLabel label="Mostrar delimitadores"
           control={
             <Switch
               checked={visible}
@@ -109,7 +108,7 @@ class AOIChooser extends React.Component {
         />
         <StepperButtons navigate={navigate} nextDisabled={drawn === false} onNext={() => this.handleChoose()}>
           <Button onClick={() => this.handleUndo()} disabled={drawn === false} color="secondary" variant="outlined">
-            {t('forms.acquisition.2.undo')}
+            Desfazer
           </Button>
         </StepperButtons>
       </div>
@@ -120,5 +119,4 @@ class AOIChooser extends React.Component {
 export default compose(
   withAcquisition(),
   withMap(),
-  withTranslation(),
 )(AOIChooser);

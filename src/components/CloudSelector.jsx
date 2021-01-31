@@ -4,7 +4,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import { withTranslation } from 'react-i18next'
 
 class CloudSelector extends React.Component {
   createItems() {
@@ -17,17 +16,16 @@ class CloudSelector extends React.Component {
 
   render() {
     const {
-      t,
       level = 1,
-      onChange = () => { },
+      onChange = () => {},
     } = this.props;
 
     return (
       <div>
-        <FormControl style={{ minWidth: 140, marginBottom: 16 }}>
-          <InputLabel htmlFor="cloud-select">{t('forms.acquisition.3.cloudPercentage')}</InputLabel>
+        <FormControl style={{minWidth: 140, marginBottom: 16}}>
+          <InputLabel htmlFor="cloud-select">Nível de nuvens</InputLabel>
           <Select
-            input={<Input name="cloud" id="cloud-select" />}
+            input={<Input name="cloud" id="cloud-select"/>}
             onChange={e => onChange(e.target.value)}
             value={level}
           >
@@ -39,4 +37,4 @@ class CloudSelector extends React.Component {
   }
 }
 
-export default withTranslation()(CloudSelector);
+export default CloudSelector;

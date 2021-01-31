@@ -8,13 +8,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import { withTranslation } from 'react-i18next'
 
 class TransectDataTable extends React.Component {
   constructor(props) {
     super(props);
-
-    const { t } = this.props;
 
     this.state = {
       sortProperty: "id",
@@ -22,23 +19,22 @@ class TransectDataTable extends React.Component {
     }
 
     const col = (key, label, numeric = true, format = undefined) => ({ key, label, numeric, format });
-
     this.columns = [
       col("id", "ID", true, x => parseInt(x, 10)),
-      col("latStart", t('forms.shorelineAnalysis.transectsReport.headers.initialLatitude')),
-      col("lngStart", t('forms.shorelineAnalysis.transectsReport.headers.initialLongitude')),
-      col("latEnd", t('forms.shorelineAnalysis.transectsReport.headers.finalLatitude')),
-      col("lngEnd", t('forms.shorelineAnalysis.transectsReport.headers.finalLongitude')),
-      col("firstDate", t('forms.shorelineAnalysis.transectsReport.headers.initialDate'), false, formatDate),
-      col("lastDate", t('forms.shorelineAnalysis.transectsReport.headers.finalDate'), false, formatDate),
-      col("intercept", t('forms.shorelineAnalysis.transectsReport.headers.intercept')),
-      col("slope", t('forms.shorelineAnalysis.transectsReport.headers.slope')),
-      col("rSquared", t('forms.shorelineAnalysis.transectsReport.headers.rSquared')),
-      col("lrr", t('forms.shorelineAnalysis.transectsReport.headers.lrr')),
-      col("sce", t('forms.shorelineAnalysis.transectsReport.headers.sce')),
-      col("nsm", t('forms.shorelineAnalysis.transectsReport.headers.nsm')),
-      col("epr", t('forms.shorelineAnalysis.transectsReport.headers.epr')),
-      col("class", t('forms.shorelineAnalysis.transectsReport.headers.classification'), false)
+      col("latStart", "Latitude inicial"),
+      col("lngStart", "Longitude inicial"),
+      col("latEnd", "Latitude final"),
+      col("lngEnd", "Longitude final"),
+      col("firstDate", "Data inicial", false, formatDate),
+      col("lastDate", "Data final", false, formatDate),
+      col("intercept", "Intercepto"),
+      col("slope", "Inclinação"),
+      col("rSquared", "r²"),
+      col("lrr", "LRR"),
+      col("sce", "SCE"),
+      col("nsm", "NSM"),
+      col("epr", "EPR"),
+      col("class", "Classe", false)
     ];
   }
 
@@ -103,9 +99,10 @@ class TransectDataTable extends React.Component {
             ))}
           </TableBody>
         </Table>
+        {/*<JsonView src={this.shapeData()}/>*/}
       </div>
     );
   }
 }
 
-export default withTranslation()(TransectDataTable);
+export default TransectDataTable;
