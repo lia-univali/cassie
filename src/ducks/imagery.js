@@ -249,14 +249,15 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
   const bufferedBaseline = baseline.buffer(extent / 2);
 
   const coastlines = yield call(
-    Coastline.computeCoastlines,
+    Coastline.extractCoastlines,
     dates,
     satellite,
     bufferedBaseline,
-    threshold
+    threshold,
+    transects
   );
 
-  transects = yield call(Coastline.addDistances, transects, coastlines);
+  transects = yield call(Coastline.generateTransectsStatistics, transects, baseline, coastlines, names);
 
   const classified = yield call(estevesLabelling, transects);
 
@@ -425,21 +426,21 @@ function* handleTestSpecificState() {
 
   const identifier = "coastlineData"
 
-  yield put(Map.removeShapeGroup(identifier))
+  // yield put(Map.removeShapeGroup(identifier))
 
   const { availableDates } = yield select(Selectors.getAcquisitionParameters);
 
   try {
-    const gjBaseline = yield call(shp, "../../sample/baseline")
-    const gjTransects = yield call(shp, "../../sample/transetos")
 
-    const [baselineElement] = gjBaseline.features
+    /*const rawBaseline = yield call(shp, "../../sample/baseline")
+    const rawTransects = yield call(shp, "../../sample/transetos")*/
+    const rawBaseline = testBaseline
+    const rawTransects = testTransects
+
+    const [baselineElement] = rawBaseline.features
     const baseline = ee.Geometry(baselineElement.geometry)
 
-    const transects = ee.List(gjTransects.features.map(geojson => {
-      const [start, middle, end] = geojson.geometry.coordinates
-      geojson.geometry.coordinates = [start, end]
-
+    const transects = ee.List(rawTransects.features.map(geojson => {
       geojson.properties.endpoint = geojson.geometry.coordinates
 
       return ee.Feature(geojson)
@@ -449,9 +450,16 @@ function* handleTestSpecificState() {
       Map.addEEFeature(ee.Feature(baseline), i18next.t('forms.map.baseline'), "#00B3A1", 1, identifier)
     )
 
-    const colors = new Array(transects.size()).map(value => "#00B3A1")
+    //const colors = new Array(transects.size()).map(value => "#00B3A1")
 
-    yield* performCoastlineAnalysis(identifier, baseline, transects, 4000, availableDates, 0.0, ["transect_i"]);
+    const props = [
+      "transect_id",
+      "changerate",
+      "dt",
+      "dist"
+    ]
+
+    yield* performCoastlineAnalysis(identifier, baseline, transects, 3620, availableDates, 0.0, props);
   }
   catch (err) {
     console.log("Error while performing analysis", err)

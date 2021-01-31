@@ -172,7 +172,7 @@ export const gaussSmooth = (coordinates, samples, mean, sd) => {
   return ee.Algorithms.If(coordinateList.size().lte(kernelSize), coordinateList, smoothen);
 }
 
-export const smoothLineString = (geom) => {
+export const smoothCoastline = (geom) => {
   return ee.Geometry.LineString(gaussSmooth(ee.Geometry(geom).coordinates(), 3, 0, 1))
 }
 
@@ -204,7 +204,7 @@ export const otsuAlgorithm = (histogram) => {
   return means.sort(bss).get([-1]);
 };
 
-export const extractOcean = (image, bands, geometry, threshold) => {
+export const getWaterSegment = (image, bands, geometry, threshold) => {
   const morphParams = {
     kernelType: "circle",
     radius: 20,
@@ -217,13 +217,13 @@ export const extractOcean = (image, bands, geometry, threshold) => {
 
   const ndwi = ee.Image(applyExpression(image, Indices.expression(Indices.find("NDWI")), bands)).rename('NDWI');
 
-  /*const otsuThreshold = otsuAlgorithm(ee.Dictionary(ndwi.reduceRegion({
+  const otsuThreshold = otsuAlgorithm(ee.Dictionary(ndwi.reduceRegion({
     reducer: ee.Reducer.histogram(),
     scale: 10,
     maxPixels: 1e9
-  })).get('NDWI'));*/
+  })).get('NDWI'));
 
-  const water = ndwi.gt(threshold).focal_min(morphParams).focal_max(morphParams); // Performs a morphological opening operation.
+  const water = ndwi.clip(geometry).gt(otsuThreshold).focal_min(morphParams).focal_max(morphParams); // Performs a morphological opening operation.
 
   const vectors = water.reduceToVectors({
     scale: 30,
@@ -237,12 +237,46 @@ export const extractOcean = (image, bands, geometry, threshold) => {
     scale: 10,
   }).map(simplify(60)).sort(property, false);
 
-  let feature = ee.Feature(ee.List(oceanProbabilities.toList(1)).get(0));
+  const mainSegment = ee.Feature(ee.List(oceanProbabilities.toList(1)).get(0)).geometry();
 
-  const withProperties = feature.setMulti({
-    [Metadata.TIME_START]: ee.Date(getDate(image)).format("YYYY-MM-dd"),
-    otsu: threshold
-  });
+  return mainSegment;
+}
 
-  return ee.Feature(withProperties);
+export const removeCoastlineNoise = (coastline, transects) => {
+  const coordinates = ee.Geometry(coastline).coordinates()
+
+  const guard = ee.List(ee.Algorithms.If(ee.Geometry(coastline).type().compareTo('MultiLineString').eq(0),
+    coordinates, [coordinates]))
+
+  const weightedLinestrings = guard.map(segment => {
+    const line = ee.Geometry.LineString(segment)
+    return ee.Feature(line, {
+      weight: line.intersection(transects).coordinates().size()
+    })
+  })
+
+  return ee.Feature(ee.FeatureCollection(weightedLinestrings).limit(1, 'weight', false).first()).geometry()
+}
+
+export const getCoastline = (image, bands, scale, geometry, threshold) => {
+  const waterSegment = getWaterSegment(image, bands, geometry, threshold)
+
+  const redundantSegment = ee.Geometry.MultiLineString(waterSegment.coordinates())
+  const coastline = redundantSegment.intersection(geometry.buffer(-10))
+
+  return coastline;
+}
+
+export const extractCoastline = (image, bands, geometry, threshold, transects, props) => {
+  const transectsGeometry = ee.FeatureCollection(transects).geometry()
+
+  const coastline = getCoastline(image, bands, 10, geometry, threshold)
+  const enhanced = removeCoastlineNoise(coastline, transectsGeometry)
+  const smoothen = smoothCoastline(enhanced)
+
+  const withProperties = ee.Feature(smoothen, {
+    [Metadata.TIME_START]: ee.Date(getDate(image)).format("YYYY-MM-dd")
+  })
+
+  return withProperties
 }

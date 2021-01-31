@@ -83,9 +83,9 @@ class HomePage extends React.Component {
     };
 
     const handleLanguageChange = (index, local) => {
-      changeLanguage(local);
-      this.setState({ selectedIndex: index });
-    };
+      changeLanguage(local)
+      this.setState({ selectedIndex: index })
+    }
 
     return (
       <div>

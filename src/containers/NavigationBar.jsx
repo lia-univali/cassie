@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import User from './User';
+import { customAnalyze } from '../ducks/imagery';
 
 class NavigationBar extends React.Component {
   render() {
@@ -16,8 +17,7 @@ class NavigationBar extends React.Component {
           <Typography variant="h6" className="flex1" color="inherit">
             C.A.S.S.I.E. <small>Coastal Analysis via Satellite Imagery Engine</small>
           </Typography>
-          <User name={user.name} image={user.image}>
-          </User>
+          <User name={user.name} image={user.image} />
         </Toolbar>
       </AppBar>
     );
