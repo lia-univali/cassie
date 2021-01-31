@@ -10,10 +10,13 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { sequence } from '../common/utils';
 import SatelliteImageThumbnail from './SatelliteImageThumbnail';
+import { withTranslation } from 'react-i18next'
 
 class ImageTable extends React.Component {
   constructor(props) {
     super(props);
+
+    const { t } = props;
 
     const getMetadata = (image, key) => {
       const m = this.props.metadata.find(value => value.date === image.date && value.missionName === image.name)
@@ -21,9 +24,9 @@ class ImageTable extends React.Component {
     }
 
     this.columns = [
-      { label: "ID", selector: index => this.props.images[index].shortname + "/" + this.props.images[index].date },
-      { label: "Nuvens", selector: index => (this.props.images[index].content * 100).toFixed(1) + "%", getValue: index => this.props.images[index].content },
-      { label: "Miniatura", selector: index => <SatelliteImageThumbnail url={getMetadata(this.props.images[index], "thumbnail")} height={125} /> },
+      { label: t('forms.acquisition.4.table.id'), selector: index => this.props.images[index].shortname + "/" + this.props.images[index].date },
+      { label: t('forms.acquisition.4.table.cloud'), selector: index => (this.props.images[index].content * 100).toFixed(1) + "%", getValue: index => this.props.images[index].content },
+      { label: t('forms.acquisition.4.table.thumbnail'), selector: index => <SatelliteImageThumbnail url={getMetadata(this.props.images[index], "thumbnail")} height={125} /> },
     ];
 
     this.state = {
@@ -83,6 +86,7 @@ class ImageTable extends React.Component {
 
   createColumns() {
     const { orderIndex, order } = this.state;
+    const { t } = this.props
 
     return (
       <TableRow>
@@ -94,13 +98,15 @@ class ImageTable extends React.Component {
           </TableCell>
         ))}
         <TableCell>
-          Selecionada
+          {t('forms.acquisition.4.table.selected')}
         </TableCell>
       </TableRow>
     );
   }
 
   render() {
+    const { t } = this.props
+
     return (
       <Table>
         <TableHead>
@@ -115,8 +121,8 @@ class ImageTable extends React.Component {
               count={this.props.images.length}
               rowsPerPage={this.state.rows}
               page={this.state.page}
-              labelDisplayedRows={({ from, to, count }) => `${from} a ${to} de ${count}`}
-              labelRowsPerPage="Imagens por página:"
+              labelDisplayedRows={({ from, to, count }) => `${from} ${t('forms.acquisition.4.to')} ${to} ${t('forms.acquisition.4.of')} ${count}`}
+              labelRowsPerPage={t('forms.acquisition.4.imagesPerPage')}
               rowsPerPageOptions={[5, 10, 15, 20, 50]}
               onChangePage={(e, page) => this.setState({ page })}
               onChangeRowsPerPage={(e) => this.setState({ rows: e.target.value })}
@@ -128,4 +134,4 @@ class ImageTable extends React.Component {
   }
 }
 
-export default ImageTable;
+export default withTranslation()(ImageTable);

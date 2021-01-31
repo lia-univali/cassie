@@ -17,7 +17,6 @@ class NavigationBar extends React.Component {
             C.A.S.S.I.E. <small>Coastal Analysis via Satellite Imagery Engine</small>
           </Typography>
           <User name={user.name} image={user.image}>
-            <MenuItem onClick={() => {}}>Testar</MenuItem>
           </User>
         </Toolbar>
       </AppBar>
@@ -26,5 +25,5 @@ class NavigationBar extends React.Component {
 }
 
 export default connect(state => {
-  return {user: state.user};
+  return { user: state.user };
 })(NavigationBar);

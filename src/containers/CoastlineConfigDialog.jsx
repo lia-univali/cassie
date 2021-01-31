@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { registerDialog } from './DialogRoot';
+import { withTranslation } from 'react-i18next'
 
 class CoastlineConfigDialog extends React.Component {
   constructor(props) {
@@ -38,29 +39,28 @@ class CoastlineConfigDialog extends React.Component {
 
   render() {
     const { spacing, extent, threshold } = this.state;
+    const { t } = this.props;
 
     return (
       <div>
         <Dialog open={this.props.open}>
-          <DialogTitle>Parâmetros de análise</DialogTitle>
+          <DialogTitle>{t('forms.shorelineParameters.title')}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Defina os parâmetros de espaçamento e extensão dos transectos,
-              em metros, e o coeficiente de limiarização (valores mais altos
-              são mais rígidos quanto ao que é considerado um corpo de água).
+              {t('forms.shorelineParameters.description')}
             </DialogContentText>
             <div style={{ display: "flex", justifyContent: "space-evenly", marginTop: 16, "&>*": { padding: "10px" } }}>
-              {this.createInput("Espaçamento (m)", "spacing")}
-              {this.createInput("Extensão (m)", "extent")}
-              {this.createInput("Limiar", "threshold")}
+              {this.createInput(t('forms.shorelineParameters.spacing'), "spacing")}
+              {this.createInput(t('forms.shorelineParameters.extension'), "extent")}
+              {this.createInput(t('forms.shorelineParameters.threshold'), "threshold")}
             </div>
           </DialogContent>
           <DialogActions>
             <Button color="primary" onClick={() => this.props.close()}>
-              Cancelar
+              {t('forms.shorelineParameters.cancel')}
             </Button>
             <Button color="primary" onClick={() => this.props.publish({ spacing, extent, threshold })}>
-              Confirmar
+              {t('forms.shorelineParameters.confirm')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -69,4 +69,6 @@ class CoastlineConfigDialog extends React.Component {
   }
 }
 
-export default registerDialog("coastlineConfig")(CoastlineConfigDialog);
+const enhanced = withTranslation()(CoastlineConfigDialog)
+
+export default registerDialog("coastlineConfig")(enhanced);
