@@ -1,6 +1,6 @@
 import { computeBearing, computeDisplacement } from "../common/geodesy";
-import { combineReducers } from "../common/eeUtils";
-import { extractOcean, smoothLineString } from "./imagery";
+import { combineReducers, stringifyList } from "../common/eeUtils";
+import { extractCoastline } from "./imagery";
 import * as Metadata from "../common/metadata";
 import { EPOCH } from "../common/utils";
 
@@ -90,14 +90,16 @@ function transectAccumulator(step, extent) {
   };
 }
 
+
+
 /**
  * Extracts oceans (representing coastlines) from a set of images.
  * @param  {Array} dates a list containing the dates of the images to be analysed
  * @param  {Object} satellite information about the satellite
  * @param  {ee.Geometry} geometry the Area of Interest of the this  session
- * @return {ee.FeatureCollection} a collection of polygons
+ * @return {ee.FeatureCollection} a FeatureCollection of polygons
  */
-export function computeCoastlines(dates, satellite, geometry, threshold = 0) {
+export function extractCoastlines(dates, satellite, geometry, threshold, transects) {
   const [head, ...tail] = satellite.missions.map(mission => {
     const images = ee.List(
       dates
@@ -105,13 +107,11 @@ export function computeCoastlines(dates, satellite, geometry, threshold = 0) {
         .map(date => mission.algorithms.acquire(date.date, geometry))
     );
 
-    const oceans = images.map(image => {
-      image = ee.Image(image).clip(geometry);
-      const ocean = extractOcean(image, mission.bands, geometry, threshold);
-      return ocean;
+    const waterSegments = images.map(image => {
+      return extractCoastline(ee.Image(image), mission.bands, geometry, threshold, transects, null)
     });
 
-    return ee.FeatureCollection(oceans);
+    return ee.FeatureCollection(waterSegments);
   });
 
   let collection = head;
@@ -123,77 +123,66 @@ export function computeCoastlines(dates, satellite, geometry, threshold = 0) {
   return collection;
 }
 
+export function formatExportProperties(transect, statistics, keepProps) {
+  const dsas = ee.Dictionary(statistics).select(ee.List(['sce', 'nsm', 'epr', 'lrr']))
+  const props = ee.Dictionary(ee.Algorithms.If(keepProps, transect.toDictionary(keepProps), {}))
+
+  /* Distances properties  */
+  const distanceInfo = ee.Dictionary(statistics.get('distances')).values()
+
+  const dt_vec = stringifyList(distanceInfo.map((item) => ee.Date(ee.Dictionary(item).get('date')).format('YYYY-MM-dd')))
+
+  const dist_vec = stringifyList(distanceInfo.map((item) => ee.Dictionary(item).getNumber('distance')))
+
+  /* Coordinates properties  */
+  const coordinates = transect.geometry().coordinates()
+
+  const start = ee.List(coordinates.get(0)),
+    end = ee.List(coordinates.get(1))
+
+  const LongStart = start.getNumber(0),
+    LongEnd = end.getNumber(0)
+
+  const LatStart = start.getNumber(1),
+    LatEnd = end.getNumber(1)
+
+  /* Trend properties */
+  const trend = ee.Dictionary(statistics.get('trend'))
+
+  const r = trend.getNumber('correlation')
+  const rsquared = r.pow(2)
+
+  const intercept = trend.getNumber('offset')
+  const slope = trend.getNumber('scale')
+
+  /* Summary */
+  var summary = ee.Dictionary({
+    LongStart, LongEnd,
+    LatStart, LatEnd,
+    r, rsquared, intercept,
+    slope, dt_vec, dist_vec
+  })
+
+  return summary.combine(dsas.combine(props))
+}
+
 /**
  * Adds information about distances from the baseline to the nearest intersection
  * with the coastline polygon, for every transect in the collection.
  * @param {ee.List} transects the orthogonal transects
+ * @param {ee.Geometry} baseline the baseline
  * @param {ee.FeatureCollection} coastlines the coastlines
  */
-export function addDistances(transects, coastlines) {
+export function generateTransectsStatistics(transects, baseline, coastlines, keepProps) {
   return transects.map(transect => {
     transect = ee.Feature(transect);
-    const distances = computeDistances(transect, coastlines);
 
-    const x = ee.List(ee.Dictionary(distances).values()).map(dict => {
-      dict = ee.Dictionary(dict);
-      const input = ee.Date(dict.get("date")).difference(ee.Date(EPOCH), "day");
-      const output = dict.get("distance");
-      return [input, output];
-    });
+    const distances = calculateDistances(transect, baseline, coastlines);
+    const dsas = calculateGeneralDSAS(distances)
+    const statistics = ee.Dictionary({ distances }).combine(dsas)
+    const exportable = formatExportProperties(transect, statistics, keepProps)
 
-    // Shoreline Change Envelope
-
-    const byDistance = ee
-      .List(ee.Dictionary(distances).values())
-      .map(dict => ee.Dictionary(dict).get("distance"));
-
-    const closest = ee.Number(byDistance.reduce(ee.Reducer.min()));
-    const farthest = ee.Number(byDistance.reduce(ee.Reducer.max()));
-
-    const sce = farthest.subtract(closest);
-
-    let sortedDistances = ee
-      .FeatureCollection(
-        ee.List(ee.Dictionary(distances).values()).map(record => {
-          const dict = ee.Dictionary(record);
-          return ee.Feature(null, {
-            date: dict.get("date"),
-            distance: dict.get("distance")
-          });
-        })
-      )
-      .sort("date")
-      .toList(
-        ee
-          .Dictionary(distances)
-          .values()
-          .size()
-      );
-
-    const firstRecord = ee
-      .Feature(sortedDistances.reduce(ee.Reducer.first()))
-      .toDictionary(ee.List(["date", "distance"]));
-    const firstDate = ee.Date(firstRecord.get("date"));
-
-    const lastRecord = ee
-      .Feature(sortedDistances.reduce(ee.Reducer.last()))
-      .toDictionary(ee.List(["date", "distance"]));
-    const lastDate = ee.Date(lastRecord.get("date"));
-
-    const nsm = ee
-      .Number(lastRecord.get("distance"))
-      .subtract(ee.Number(firstRecord.get("distance")));
-
-    const epr = nsm.divide(lastDate.difference(firstDate, "month"));
-
-    const reducers = combineReducers(
-      ee.Reducer.linearFit(),
-      ee.Reducer.pearsonsCorrelation()
-    );
-    const trend = ee.Dictionary(x.reduce(reducers));
-    const lrr = ee.Number(trend.get("scale")).multiply(365);
-
-    return transect.set({ distances, x, trend, sce, nsm, epr, lrr });
+    return transect.setMulti(statistics.combine({ 'export': exportable }));
   });
 }
 
@@ -279,28 +268,11 @@ export function mapToSummary(transects, coastlines, areaOfInterest) {
     );
 
     let polygonFeature = ee.Feature(coastlineTable.get(key));
-    let coastStrings = ee.Geometry.MultiLineString(polygonFeature.geometry().coordinates());
 
-    coastStrings = ee.Geometry.MultiLineString(coastStrings.intersection(areaOfInterest.buffer(-10)).coordinates());
-
-    let withoutNoise = ee.Feature(
-      removeCoastlineNoise(coastStrings, transectsAsGeometry)
-    );
-
-    const smoothen = smoothLineString(withoutNoise.geometry())
-
-    return ee.Feature(
-      smoothen,
-      value.combine(ee.Dictionary(stats))
-    );
+    return polygonFeature.setMulti(value.combine(ee.Dictionary(stats)))
   });
 
   let collection = ee.FeatureCollection(fullPolygons);
-  // collection = collection.map((feature) => (
-  //   ee.Algorithms.If(ee.Feature(feature).geometry(),
-  //     ee.Feature(feature),
-  //     null)
-  // ), true)
 
   return collection.sort("date");
 }
@@ -341,83 +313,148 @@ export function generateOrthogonalTransects(
   return ee.List(transects);
 }
 
-export function computeDistances(transect, polygonCollection) {
-  // Map polygons, drop those which don't intersect the transect.
-  const polygonsThatIntersect = polygonCollection.map(
-    polygon =>
-      ee.Algorithms.If(
-        transect
-          .intersection(polygon, 1)
-          .geometry()
-          .coordinates(),
-        polygon,
-        null
-      ),
-    true
-  ); // by passing "true" as the second parameter, map
-  // won't add the returned nulls to the returned collection
+export function calculateDistances(transect, baseline, coastlines) {
+  const [distanceKey, idKey] = ['distance', 'withRespectTo']
+  const poi = transect.intersection(baseline, 1)
 
-  const polygonList = ee.List(
-    polygonsThatIntersect.toList(polygonsThatIntersect.size())
-  );
+  const distances = coastlines.map(coastline => {
+    const asFeature = ee.Feature(coastline)
 
-  const distances = polygonList.map(polygon => {
-    polygon = ee.Feature(polygon);
+    const intersections = ee.Geometry.MultiPoint(
+      transect.intersection(asFeature, 1).geometry().coordinates().flatten()
+    ).coordinates()
 
-    const intersection = transect.intersection(polygon, 1);
-    const points = ee.Geometry.MultiPoint(
-      intersection
-        .geometry()
-        .coordinates()
-        .flatten()
-    );
+    const distanceReference = ee.FeatureCollection(intersections.map(coordinate => {
+      return ee.Feature(null, {
+        [distanceKey]: poi.distance(ee.Geometry.Point(coordinate))
+      })
+    })).limit(1, distanceKey)
 
-    const middle = transect.centroid();
+    const meta = ee.Dictionary({
+      [idKey]: asFeature.id(),
+      date: ee.Date(asFeature.get(Metadata.TIME_START)),
+      intersections: intersections.size()
+    })
 
-    const key = "distance_from_midpoint";
-    const withDistance = points.coordinates().map(point => {
-      point = ee.Geometry.Point(point);
-      const distance = middle.distance(point, 1);
+    return ee.Algorithms.If(distanceReference.size().gt(0),
+      ee.Feature(distanceReference.toList(1).get(0)).setMulti(meta),
+      null)
+  }, true)
 
-      return ee.Feature(point, { [key]: distance });
-    });
+  const returnKeyring = collection => {
+    const asList = collection.toList(collection.size())
 
-    const setDistance = target => {
-      target = ee.Dictionary(target);
-      const sorted = ee.FeatureCollection(withDistance).limit(1, key); // O(n) maybe?
-      const closest = ee.Feature(ee.List(sorted.toList(1)).get(0));
-      const distance = middle.distance(closest);
+    const keys = asList.map(feature => ee.Feature(feature).getString(idKey))
+    const values = asList.map(feature => ee.Feature(feature).toDictionary())
 
-      return target.combine({
-        distance,
-        closest: closest.geometry().coordinates()
-      });
-    };
+    return ee.Dictionary.fromLists(keys, values)
+  }
 
-    const setFakeDistance = target => {
-      return ee
-        .Dictionary(target)
-        .combine({ distance: transect.length(1).divide(2) });
-    };
+  return ee.Dictionary(ee.Algorithms.If(distances.size().gt(0),
+    returnKeyring(distances),
+    {}))
+}
 
-    const intersections = ee.Number(withDistance.size()); // Each intersection generates two points
-    const dict = ee.Dictionary({
-      intersections,
-      //intersects: transect.containedIn(polygon, 1),
-      withRespectTo: polygon.id(),
-      date: polygon.get(Metadata.TIME_START)
-    });
+/**
+ * Given a dictionary of a transect's distance set, calculates
+ * the general DSAS Statistics: SCE, NSM, EPR, LRR.
+ * @param {ee.Dictionary} distances the dictionary of distances of the transect
+ */
+export function calculateGeneralDSAS(distances) {
+  /* General information */
+  const distanceList = ee.Dictionary(distances).values()
 
-    return setDistance(dict);
-  });
+  const guess = ee.Dictionary(ee.Algorithms.If(distanceList.size().gt(0), distanceList.get(0), {
+    date: ee.Date(0), distance: ee.Number(0)
+  }))
 
-  const ids = ee
-    .List(polygonsThatIntersect.toList(polygonsThatIntersect.size()))
-    .map(feature => {
-      return ee.Feature(feature).id();
-    });
+  const initialState = ee.Dictionary({
+    earliest: guess,
+    latest: guess,
+    closest: guess,
+    farthest: guess
+  })
 
-  return ee.Dictionary.fromLists(ids, distances);
+  const stats = ee.Dictionary(distanceList.slice(1).iterate((item, acc) => {
+    const current = ee.Dictionary(item)
+    const state = ee.Dictionary(acc)
+
+    /* by date */
+    const minByDate = ee.Dictionary(state.get('earliest'))
+    const maxByDate = ee.Dictionary(state.get('latest'))
+
+    const earliest = ee.Algorithms.If(ee.Date(current.get('date')).millis().lt(ee.Date(minByDate.get('date')).millis()),
+      current, minByDate)
+
+    const latest = ee.Algorithms.If(ee.Date(current.get('date')).millis().gt(ee.Date(maxByDate.get('date')).millis()),
+      current, maxByDate)
+
+    /* by distance */
+    const minByDistance = ee.Dictionary(state.get('closest'))
+    const maxByDistance = ee.Dictionary(state.get('farthest'))
+
+    const closest = ee.Algorithms.If(current.getNumber('distance').lt(minByDistance.getNumber('distance')),
+      current, minByDistance)
+
+    const farthest = ee.Algorithms.If(current.getNumber('distance').gt(maxByDistance.getNumber('distance')),
+      current, maxByDistance)
+
+    return { earliest, latest, closest, farthest }
+  }, initialState))
+
+  const earliest = ee.Dictionary(stats.get('earliest')),
+    latest = ee.Dictionary(stats.get('latest')),
+    closest = ee.Dictionary(stats.get('closest')),
+    farthest = ee.Dictionary(stats.get('farthest'))
+
+  // SCE
+  const sce = farthest.getNumber('distance').subtract(closest.getNumber('distance'))
+
+  // NSM
+  const nsm = latest.getNumber('distance').subtract(earliest.getNumber('distance'))
+
+  // EPR
+  const epr = nsm.divide(ee.Date(latest.get('date')).difference(earliest.get('date'), 'year'))
+
+  // LRR
+  const distribution = distanceList.map(item => {
+    const cast = ee.Dictionary(item)
+    const x = ee.Date(cast.get('date')).difference(ee.Date(EPOCH), 'day')
+    const y = cast.getNumber('distance')
+    return [x, y]
+  })
+
+  const reducers = combineReducers(ee.Reducer.linearFit(), ee.Reducer.pearsonsCorrelation())
+
+  const trend = ee.Dictionary(distribution.reduce(reducers))
+  const scale = trend.get('scale')
+  const lrr = ee.Number(ee.Algorithms.If(scale, scale, 0)).multiply(365)
+
+  return ee.Dictionary({
+    sce: sce, nsm: nsm, epr: epr, lrr: lrr, trend: trend, x: distribution
+  })
+}
+
+export function estevesLabelling(transects) {
+  const labels = ee.Dictionary({
+    stable: ee.Dictionary({ class: 'Estável', color: '#43a047' }),
+    accreted: ee.Dictionary({ class: 'Acrescida', color: '#1976d2' }),
+    eroded: ee.Dictionary({ class: 'Erodida', color: '#ffa000' }),
+    intenselyEroded: ee.Dictionary({ class: 'Intensamente Erodida', color: '#d32f2f' })
+  })
+
+  const classified = transects.map(f => {
+    const lrr = ee.Number(ee.Feature(f).get('lrr'))
+
+    const classification =
+      ee.Algorithms.If(lrr.lt(-1.0), labels.get('intenselyEroded'),
+        ee.Algorithms.If(lrr.lt(-0.5), labels.get('eroded'),
+          ee.Algorithms.If(lrr.lt(0.5), labels.get('stable'), labels.get('accreted'))))
+
+    return ee.Feature(f).set(classification)
+  })
+
+  return classified;
 }
 
 export function expandHorizontally(transects, amount) {

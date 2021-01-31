@@ -23,7 +23,7 @@ const TransectEvolution = ({ data }) => {
     "Coeficiente de correlação (r)": formatted(data.trend.correlation),
     "SCE": formatted(data.sce, "m"),
     "NSM": formatted(data.nsm, "m"),
-    "EPR": formatted(data.epr, "m/mês"),
+    "EPR": formatted(data.epr, "m/ano"),
     "Classe": data.class
   };
 

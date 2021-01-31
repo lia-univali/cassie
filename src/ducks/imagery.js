@@ -27,11 +27,14 @@ import { ConcreteLayer } from "../common/classes";
 import * as Selectors from "../selectors";
 import * as Metadata from "../common/metadata";
 import * as Coastline from "../procedures/coastline";
-import { extractOcean, generateLayer } from "../procedures/imagery";
+import { generateLayer } from "../procedures/imagery";
 import { computeBearing } from "../common/geodesy";
 import { acquireFromDate } from "../procedures/acquisition";
 
 import * as shp from 'shpjs'
+
+import testBaseline from '../sample/baseline.json'
+import testTransects from '../sample/transects.json'
 
 const ee = window.ee;
 
@@ -237,27 +240,6 @@ function* requestCoastlineInput() {
   };
 }
 
-function estevesLabelling(transects) {
-  const labels = ee.Dictionary({
-    stable: ee.Dictionary({ class: 'Estável', color: '#43a047' }),
-    accreted: ee.Dictionary({ class: 'Acrescida', color: '#1976d2' }),
-    eroded: ee.Dictionary({ class: 'Erodida', color: '#ffa000' }),
-    intenselyEroded: ee.Dictionary({ class: 'Intensamente Erodida', color: '#d32f2f' })
-  })
-
-  const classified = transects.map(f => {
-    const lrr = ee.Number(ee.Feature(f).get('lrr'))
-
-    const classification =
-      ee.Algorithms.If(lrr.lt(-1.0), labels.get('intenselyEroded'),
-        ee.Algorithms.If(lrr.lt(-0.5), labels.get('eroded'),
-          ee.Algorithms.If(lrr.lt(0.5), labels.get('stable'), labels.get('accreted'))))
-
-    return ee.Feature(f).set(classification)
-  })
-
-  return classified;
-}
 function* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold, names = []) {
   const { satellite, geometry } = yield select(
     Selectors.getAcquisitionParameters
@@ -266,16 +248,17 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
   const bufferedBaseline = baseline.buffer(extent / 2);
 
   const coastlines = yield call(
-    Coastline.computeCoastlines,
+    Coastline.extractCoastlines,
     dates,
     satellite,
     bufferedBaseline,
-    threshold
+    threshold,
+    transects
   );
 
-  transects = yield call(Coastline.addDistances, transects, coastlines);
+  transects = yield call(Coastline.generateTransectsStatistics, transects, baseline, coastlines, names);
 
-  const classified = yield call(estevesLabelling, transects);
+  const classified = yield call(Coastline.estevesLabelling, transects);
 
   const transectsViz = yield call(Coastline.expandHorizontally, classified, 10);
 
@@ -286,7 +269,7 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
     bufferedBaseline
   );
 
-  const lrrColors = yield evaluate(classified.map(f => ee.Feature(f).get('color')))
+  const classColors = yield evaluate(classified.map(f => ee.Feature(f).get('color')))
 
   const colors = generateColors(dates.length, 66);
   yield put(
@@ -302,7 +285,7 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
     Map.addEEFeature(
       transectsViz,
       "Transectos",
-      lrrColors,
+      classColors,
       1,
       Metadata.FeatureType.TRANSECT
     )
@@ -378,28 +361,11 @@ function* performCoastlineAnalysis(identifier, baseline, transects, extent, date
     shpTransects: yield evaluate(
       ee
         .FeatureCollection(classified)
-        .map(shapeTransectData)
-        .map(
-          selectProperties(
-            [
-              "LongStart",
-              "LongEnd",
-              "LatStart",
-              "LatEnd",
-              "r",
-              "rsquared",
-              "intercept",
-              "slope",
-              "epr",
-              "lrr",
-              "nsm",
-              "sce",
-              "class",
-
-              ...names
-            ]
-          )
-        )
+        .map(feature => {
+          const cast = ee.Feature(feature)
+          const props = ee.Dictionary(cast.get('export'))
+          return ee.Feature(feature.geometry(), props)
+        })
         .map(putObjectId)
     )
   };
@@ -443,37 +409,44 @@ function* handleTestSpecificState() {
 
   const identifier = "coastlineData"
 
-  yield put(Map.removeShapeGroup(identifier))
+  // yield put(Map.removeShapeGroup(identifier))
 
   const { availableDates } = yield select(Selectors.getAcquisitionParameters);
 
   try {
-    const gjBaseline = yield call(shp, "../../sample/baseline")
-    const gjTransects = yield call(shp, "../../sample/transetos")
 
-    const [baselineElement] = gjBaseline.features
+    /*const rawBaseline = yield call(shp, "../../sample/baseline")
+    const rawTransects = yield call(shp, "../../sample/transetos")*/
+    const rawBaseline = testBaseline
+    const rawTransects = testTransects
+
+    const [baselineElement] = rawBaseline.features
     const baseline = ee.Geometry(baselineElement.geometry)
 
-    const transects = ee.List(gjTransects.features.map(geojson => {
-      const [start, middle, end] = geojson.geometry.coordinates
-      geojson.geometry.coordinates = [start, end]
-
+    const transects = ee.List(rawTransects.features.map(geojson => {
       geojson.properties.endpoint = geojson.geometry.coordinates
 
       return ee.Feature(geojson)
     }));
 
-    console.log("ad", availableDates)
-    console.log("bl", yield evaluate(baseline))
-    console.log("tr", yield evaluate(transects))
+    console.log("TEST::Dates", availableDates)
+    console.log("TEST::Baseline", yield evaluate(baseline))
+    console.log("TEST::Transects", yield evaluate(transects))
 
     yield put(
       Map.addEEFeature(ee.Feature(baseline), "Linha de Base", "#00B3A1", 1, identifier)
     )
 
-    const colors = new Array(transects.size()).map(value => "#00B3A1")
+    //const colors = new Array(transects.size()).map(value => "#00B3A1")
 
-    yield* performCoastlineAnalysis(identifier, baseline, transects, 4000, availableDates, 0.0, ["transect_i"]);
+    const props = [
+      "transect_id",
+      "changerate",
+      "dt",
+      "dist"
+    ]
+
+    yield* performCoastlineAnalysis(identifier, baseline, transects, 3620, availableDates, 0.0, props);
   }
   catch (err) {
     console.log("Error while performing analysis", err)

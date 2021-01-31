@@ -108,7 +108,7 @@ class CoastlineEvolutionDialog extends React.Component {
                 <MenuItem
                   onClick={() =>
                     this.doAndClose(
-                      exportCSV(transectData, "transects.csv"),
+                      exportCSV(exportable.shpTransects.features.map(feature => feature.properties), "transects.csv"),
                       "transectosAnchorEl"
                     )
                   }
@@ -118,7 +118,7 @@ class CoastlineEvolutionDialog extends React.Component {
                 <MenuItem
                   onClick={() =>
                     this.doAndClose(
-                      exportJSON(transectData, "transects.json"),
+                      exportJSON(exportable.shpTransects.features, "transects.json"),
                       "transectosAnchorEl"
                     )
                   }
