@@ -1,14 +1,14 @@
 # CASSIE – Coastal Analysis via Satellite Imagery Engine
 
-> A tool for coastal regions mapping and analysis, using Google Earth Engine.
+>Cassie is an open source web tool that performs analysis and mapping of coastal regions, focusing on the variation of the coastline. To perform these procedures cassie uses the tools and images provided by the Google Earth Engine platform.
 
-Cassie is an open source web tool that performs analysis and mapping of coastal regions, focusing on the variation of the coastline. To perform these procedures cassie uses the tools and images provided by the Google Earth Engine platform.
-
-## Satellites
-* landsat 5 (1984-2011)
-* landsat 7 (since 1999)
-* landsat 8 (since 2013)
-* sentinel-2 (since 2013)
+## Satellite image collections
+Mission | Product | Period | Cycle (days) | Resolution (m)
+--------|:-------:|:------:|:------------:|:-----------:
+Landsat 5 (TM)   | SR  | 1984-2013    | 15 | 30
+Landsat 7 (ETM+) | SR  | 1999-present | 15 | 30
+Landsat 8 (OLI)  | SR  | 2013-present | 15 | 30
+Sentinel 2       | TOA | 2015-present | 5  | 10
 
 ## Usage
 
