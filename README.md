@@ -15,11 +15,9 @@ Sentinel 2       | TOA | 2015-present | 5  | 10
 ## Usage
 First navigate to http://cassiengine.com/ then click on `Access the tool` button.
 
-Cassie uses Google authentication to identify their user and allow the use of the Earth Engine. Before starting make sure that your account is registered on the GEE platform.
+Cassie uses Google authentication to identify their user and allow the use of the Earth Engine. Before starting make sure that your account is registered on the GEE platform. If you are not registered on Earth Engine, [Sign Up](https://signup.earthengine.google.com/)
 
-If you are not registered on Earth Engine, [Sign Up](https://signup.earthengine.google.com/)
-
-After sign in with your Google account, follow the Acquisition steps at detailed [`User Guide`](https://drive.google.com/file/d/1HPKQw_nOQEJwG8q0sfR6IMKBHD9bH8Jv/view).
+After sign in with your Google account, follow the Acquisition steps at detailed [`User Guide`](https://drive.google.com/file/d/1HPKQw_nOQEJwG8q0sfR6IMKBHD9bH8Jv/view)
 
 ## Running
 You must creacte an .env file with de following params:
