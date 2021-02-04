@@ -11,14 +11,17 @@ Landsat 8 (OLI)  | SR  | 2013-present | 15 | 30
 Sentinel 2       | TOA | 2015-present | 5  | 10
 
 ## Usage
+First navigate to http://cassiengine.com/ then click on `Access the tool` button.
 
-First Choose the satelite
+Cassie uses Google authentication to identify their user and allow the use of the Earth Engine. Before starting make sure that your account is registered on the GEE platform.
 
-![](docs/imagens/cassie/sats.png)
+If you are not registered on Earth Engine, [Sign Up](https://signup.earthengine.google.com/)
 
-Then the region to be mapped
+![](docs/imagens/usage/home.png)
 
-![](docs/imagens/cassie/area.png)
+After sign in with your Google account, follow the Acquisition steps at detailed [`User Guide`](https://drive.google.com/file/d/1HPKQw_nOQEJwG8q0sfR6IMKBHD9bH8Jv/view).
+
+![](docs/imagens/usage/transects2.png)
 
 ## Running
 You must creacte an .env file with de following params:
