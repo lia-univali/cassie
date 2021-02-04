@@ -20,6 +20,22 @@ Cassie uses Google authentication to identify their user and allow the use of th
 After sign in with your Google account, follow the Acquisition steps at detailed [`User Guide`](https://drive.google.com/file/d/1HPKQw_nOQEJwG8q0sfR6IMKBHD9bH8Jv/view)
 
 ## Running
+
+Clone this project and go to root
+```sh
+  $ git clone https://github.com/lia-univali/cassie.git
+  $ cd cassie
+```
+Install dependencies and start the application
+```sh
+  $ npm install
+  $ npm start
+```
+or
+```sh
+  $ yarn install
+  $ yarn start
+```
 You must creacte an .env file with de following params:
 ```
 API_KEY = xxxxxxxxxxxxxxx
