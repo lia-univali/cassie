@@ -2,6 +2,8 @@
 
 >Cassie is an open source web tool that performs analysis and mapping of coastal regions, focusing on the variation of the coastline. To perform these procedures cassie uses the tools and images provided by the Google Earth Engine platform.
 
+![](docs/imagens/usage/usage_cassie.gif)
+
 ## Satellite image collections
 Mission | Product | Period | Cycle (days) | Resolution (m)
 --------|:-------:|:------:|:------------:|:-----------:
@@ -17,11 +19,7 @@ Cassie uses Google authentication to identify their user and allow the use of th
 
 If you are not registered on Earth Engine, [Sign Up](https://signup.earthengine.google.com/)
 
-![](docs/imagens/usage/home.png)
-
 After sign in with your Google account, follow the Acquisition steps at detailed [`User Guide`](https://drive.google.com/file/d/1HPKQw_nOQEJwG8q0sfR6IMKBHD9bH8Jv/view).
-
-![](docs/imagens/usage/transects2.png)
 
 ## Running
 You must creacte an .env file with de following params:
