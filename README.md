@@ -19,7 +19,9 @@ Cassie uses Google authentication to identify their user and allow the use of th
 
 After sign in with your Google account, follow the Acquisition steps at detailed [`User Guide`](https://drive.google.com/file/d/1HPKQw_nOQEJwG8q0sfR6IMKBHD9bH8Jv/view)
 
-## Running
+## Running locally
+
+:warning: Useful for development purposes only
 
 Clone this project and go to root
 ```sh
@@ -42,6 +44,18 @@ API_KEY = xxxxxxxxxxxxxxx
 REACT_APP_CLIENT_ID = xxxxxxxxxxxxxxx
 REACT_APP_MAPS_KEY = xxxxxxxxxxxxxxxxxxxx
 ```
+
+## Contributing
+Did you find a bug or have a suggestion?
+
+[`Open a Issue`](https://github.com/lia-univali/cassie/issues)
+
+Do you want to submit a feature or correction?
+
+1. Fork the repository
+2. Clone the forked repository
+3. Make changes
+4. Create a [`Pull Request`](https://github.com/lia-univali/cassie/pulls)
 
 ## Dependencies
 
