@@ -22,44 +22,58 @@ After sign in with your Google account, follow the Acquisition steps at detailed
 ## Running locally
 :warning: Useful for development purposes only
 
-:skull: setup your Earth Engine Cloud Project
-```
-Create a Cloud project
-Enable the Earth engine API
-Create and register a service account
-```
-You must create an .env file (into root/src) with de following params:
-```
-REACT_APP_CLIENT_ID = xxxxxxxxxxxxxxx
-REACT_APP_MAPS_KEY = xxxxxxxxxxxxxxxxxxxx
-```
-Clone this project and go to root
+CASSIE uses GEE to perform all of its heavy computation, thus, if you're going to run locally, you need to create a Google Cloud Project to provide CASSIE the required API Keys it needs.
+
+If you're experienced with Google Cloud, you can follow the instructions bellow, otherwise, you can follow the detailed user guide on how to Setup a Google Cloud Project for Earth Engine Usage in [`Google Developers Reference`](https://developers.google.com/earth-engine/earthengine_cloud_project_setup).
+
+1. Create a Cloud project
+2. Enable the Earth engine API
+3. Enable the MAPS API
+4. Create credentials in your Cloud project
+
+Besides that, CASSIE runs on node.js, so [make sure you have it installed](https://nodejs.org).
+
+Clone this project and go to root:
 ```sh
   $ git clone https://github.com/lia-univali/cassie.git
   $ cd cassie
 ```
+
+Now, you must create a file named .env (in root) with the following parameters that you can get from the Credentials Page in your Cloud project (read the notes above about the Google Cloud):
+
+```
+REACT_APP_CLIENT_ID = xxxxxxxxxxxxxxx
+REACT_APP_MAPS_KEY = xxxxxxxxxxxxxxxxxxxx
+```
+
 Install dependencies and start the application
+
+with npm (automatically installed with node):
 ```sh
   $ npm install
   $ npm start
 ```
-or
+or (if you have `yarn` installed):
 ```sh
   $ yarn install
   $ yarn start
 ```
 
 ## Contributing
-Did you find a bug or have a suggestion?
+### Did you find a bug or have a suggestion?
 
 [`Open a Issue`](https://github.com/lia-univali/cassie/issues)
 
-Do you want to submit a feature or correction?
+### Do you want to submit a feature or correction?
 
 1. Fork the repository
 2. Clone the forked repository
 3. Make changes
 4. Create a [`Pull Request`](https://github.com/lia-univali/cassie/pulls)
+
+## Diagrams
+
+[![](https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgcGFydGljaXBhbnQgVXNlclxuICAgIHBhcnRpY2lwYW50IHNob3JlbGluZSBhcyBtb2R1bGUgU2hvcmVsaW5lXG4gICAgcGFydGljaXBhbnQgaW1hZ2VyeSBhcyBtb2R1bGUgSW1hZ2VyeVxuICAgIHBhcnRpY2lwYW50IEdFRVxuXG4gICAgVXNlci0-PitzaG9yZWxpbmU6ZGVyaXZlU2hvcmVsaW5lc1xuICAgIGxvb3AgRWFjaCBkYXRlXG4gICAgICAgIHNob3JlbGluZS0-PitpbWFnZXJ5OiBpZGVudGlmeVdhdGVyRmVhdHVyZShpbWFnZSwgYmFuZCwgcm9pLCB0aHJlc2hvbGRGbilcbiAgICAgICAgaW1hZ2VyeS0tPj4tc2hvcmVsaW5lOiByZXR1cm46IEZlYXR1cmVcblxuICAgICAgICBzaG9yZWxpbmUtPj4rc2hvcmVsaW5lOiByZW1vdmVDb2FzdGxpbmVOb2lzZShjb2FzdGxpbmUsIHRyYW5zZWN0cyk6IEZlYXR1cmVcblxuICAgICAgICBzaG9yZWxpbmUtPj4rR0VFOiBGZWF0dXJlQ29sbGVjdGlvbjo6c29ydChwYXJhbXMpXG4gICAgICAgIE5vdGUgcmlnaHQgb2YgR0VFOiBwYXJhbXM6IDxicj4geyBsYWJlbCA6ICdpbnRlcnNlY3Rpb24nfVxuICAgICAgICBHRUUtLT4-LXNob3JlbGluZTogcmV0dXJuOiBGZWF0dXJlQ29sbGVjdGlvblxuXG4gICAgICAgIHNob3JlbGluZS0-PitHRUU6IEZlYXR1cmVDb2xsZWN0aW9uOjpmaXJzdChzZWdtZW50cylcbiAgICAgICAgR0VFLS0-Pi1zaG9yZWxpbmU6IHJldHVybjogRmVhdHVyZVxuICAgICAgICBkZWFjdGl2YXRlIHNob3JlbGluZVxuICAgICAgICBcbiAgICAgICAgc2hvcmVsaW5lLT4-K3Nob3JlbGluZTogbGluZWFyR2F1c3NpYW5GaWx0ZXIoY29hc3RsaW5lLCBrZXJuZWwsIG1lYW4sIHNkKTogRmVhdHVyZVxuICAgICAgICBOb3RlIHJpZ2h0IG9mIEdFRToga2VybmVsID0gMyw8YnI-IG1lYW4gPSAwLDxicj4gc2QgPSAwLjc1XG4gICAgICAgIFxuICAgICAgICBzaG9yZWxpbmUtPj4rR0VFOiBHZW9tZXRyeTo6TGluZVN0cmluZyhjb29yZGluYXRlKVxuICAgICAgICBHRUUtLT4-LXNob3JlbGluZTogcmV0dXJuOiBHZW9tZXRyeS5MaW5lU3RyaW5nXG4gICAgICAgIGRlYWN0aXZhdGUgc2hvcmVsaW5lXG4gICAgZW5kXG5cbiAgICBzaG9yZWxpbmUtLT4-LVVzZXI6IEZlYXR1cmVDb2xsZWN0aW9uXG5cbiIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9)](https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgcGFydGljaXBhbnQgVXNlclxuICAgIHBhcnRpY2lwYW50IHNob3JlbGluZSBhcyBtb2R1bGUgU2hvcmVsaW5lXG4gICAgcGFydGljaXBhbnQgaW1hZ2VyeSBhcyBtb2R1bGUgSW1hZ2VyeVxuICAgIHBhcnRpY2lwYW50IEdFRVxuXG4gICAgVXNlci0-PitzaG9yZWxpbmU6ZGVyaXZlU2hvcmVsaW5lc1xuICAgIGxvb3AgRWFjaCBkYXRlXG4gICAgICAgIHNob3JlbGluZS0-PitpbWFnZXJ5OiBpZGVudGlmeVdhdGVyRmVhdHVyZShpbWFnZSwgYmFuZCwgcm9pLCB0aHJlc2hvbGRGbilcbiAgICAgICAgaW1hZ2VyeS0tPj4tc2hvcmVsaW5lOiByZXR1cm46IEZlYXR1cmVcblxuICAgICAgICBzaG9yZWxpbmUtPj4rc2hvcmVsaW5lOiByZW1vdmVDb2FzdGxpbmVOb2lzZShjb2FzdGxpbmUsIHRyYW5zZWN0cyk6IEZlYXR1cmVcblxuICAgICAgICBzaG9yZWxpbmUtPj4rR0VFOiBGZWF0dXJlQ29sbGVjdGlvbjo6c29ydChwYXJhbXMpXG4gICAgICAgIE5vdGUgcmlnaHQgb2YgR0VFOiBwYXJhbXM6IDxicj4geyBsYWJlbCA6ICdpbnRlcnNlY3Rpb24nfVxuICAgICAgICBHRUUtLT4-LXNob3JlbGluZTogcmV0dXJuOiBGZWF0dXJlQ29sbGVjdGlvblxuXG4gICAgICAgIHNob3JlbGluZS0-PitHRUU6IEZlYXR1cmVDb2xsZWN0aW9uOjpmaXJzdChzZWdtZW50cylcbiAgICAgICAgR0VFLS0-Pi1zaG9yZWxpbmU6IHJldHVybjogRmVhdHVyZVxuICAgICAgICBkZWFjdGl2YXRlIHNob3JlbGluZVxuICAgICAgICBcbiAgICAgICAgc2hvcmVsaW5lLT4-K3Nob3JlbGluZTogbGluZWFyR2F1c3NpYW5GaWx0ZXIoY29hc3RsaW5lLCBrZXJuZWwsIG1lYW4sIHNkKTogRmVhdHVyZVxuICAgICAgICBOb3RlIHJpZ2h0IG9mIEdFRToga2VybmVsID0gMyw8YnI-IG1lYW4gPSAwLDxicj4gc2QgPSAwLjc1XG4gICAgICAgIFxuICAgICAgICBzaG9yZWxpbmUtPj4rR0VFOiBHZW9tZXRyeTo6TGluZVN0cmluZyhjb29yZGluYXRlKVxuICAgICAgICBHRUUtLT4-LXNob3JlbGluZTogcmV0dXJuOiBHZW9tZXRyeS5MaW5lU3RyaW5nXG4gICAgICAgIGRlYWN0aXZhdGUgc2hvcmVsaW5lXG4gICAgZW5kXG5cbiAgICBzaG9yZWxpbmUtLT4-LVVzZXI6IEZlYXR1cmVDb2xsZWN0aW9uXG5cbiIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9)
 
 ## Dependencies
 
