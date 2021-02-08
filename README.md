@@ -5,12 +5,12 @@
 ![](docs/imagens/usage/usage_cassie.gif)
 
 ## Satellite image collections
-Mission | Product | Period | Cycle (days) | Resolution (m)
---------|:-------:|:------:|:------------:|:-----------:
-Landsat 5 (TM)   | SR  | 1984-2013    | 15 | 30
-Landsat 7 (ETM+) | SR  | 1999-present | 15 | 30
-Landsat 8 (OLI)  | SR  | 2013-present | 15 | 30
-Sentinel 2       | TOA | 2015-present | 5  | 10
+Collection | Mission | Product | Period | Cycle (days) | Resolution (m) | Fallback
+:-----------:|--------|:-------:|:------:|:------------:|:-----------:|:-----------:
+Landsat | Landsat 5 (TM)   | SR  | 1984-2013    | 15 | 30 | - 
+Landsat | Landsat 7 (ETM+) | SR  | 1999-present | 15 | 30 | Landsat 7 T2
+Landsat | Landsat 8 (OLI)  | SR  | 2013-present | 15 | 30 | Landsat 8 T2
+Sentinel| Sentinel 2 (MSI) | TOA | 2015-present | 5  | 10 | -
 
 ## Usage
 First navigate to http://cassiengine.com/ then click on `Access the tool` button.
@@ -20,9 +20,19 @@ Cassie uses Google authentication to identify their user and allow the use of th
 After sign in with your Google account, follow the Acquisition steps at detailed [`User Guide`](https://drive.google.com/file/d/1HPKQw_nOQEJwG8q0sfR6IMKBHD9bH8Jv/view)
 
 ## Running locally
-
 :warning: Useful for development purposes only
 
+:skull: setup your Earth Engine Cloud Project
+```
+Create a Cloud project
+Enable the Earth engine API
+Create and register a service account
+```
+You must create an .env file (into root/src) with de following params:
+```
+REACT_APP_CLIENT_ID = xxxxxxxxxxxxxxx
+REACT_APP_MAPS_KEY = xxxxxxxxxxxxxxxxxxxx
+```
 Clone this project and go to root
 ```sh
   $ git clone https://github.com/lia-univali/cassie.git
@@ -37,12 +47,6 @@ or
 ```sh
   $ yarn install
   $ yarn start
-```
-You must creacte an .env file with de following params:
-```
-API_KEY = xxxxxxxxxxxxxxx
-REACT_APP_CLIENT_ID = xxxxxxxxxxxxxxx
-REACT_APP_MAPS_KEY = xxxxxxxxxxxxxxxxxxxx
 ```
 
 ## Contributing
