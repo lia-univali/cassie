@@ -1,31 +1,21 @@
-import { createStore, applyMiddleware } from 'redux';
-import { createLogger } from 'redux-logger';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { routerMiddleware } from 'react-router-redux';
-import createSagaMiddleware from 'redux-saga';
-import thunk from 'redux-thunk';
-import rootSaga from './sagas';
-import reducer from './ducks/reducerConfig';
-const createHistory = require("history").createBrowserHistory;
+import { createStore, applyMiddleware } from 'redux'
+import { createLogger } from 'redux-logger'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import { routerMiddleware } from 'connected-react-router'
+import { createBrowserHistory } from 'history'
+import createSagaMiddleware from 'redux-saga'
+import thunk from 'redux-thunk'
+import { createRootReducer, saga } from './ducks'
 
+export const history = createBrowserHistory();
 
-export const history = createHistory();
 export default function configureStore() {
-  const saga = createSagaMiddleware();
-  const middleware = applyMiddleware(saga, thunk, createLogger({ collapsed: true }), routerMiddleware(history));
+  const sagas = createSagaMiddleware();
+  const middleware = applyMiddleware(routerMiddleware(history), sagas, thunk, createLogger({ collapsed: true }));
 
-  const store = createStore(reducer, composeWithDevTools(middleware));
+  const store = createStore(createRootReducer(history), composeWithDevTools(middleware));
 
-  if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
-    module.hot.accept(() => {
-      const nextReducer = require('./ducks/reducerConfig').default;
-      store.replaceReducer(nextReducer);
-    });
-  }
+  sagas.run(saga);
 
-  saga.run(rootSaga);
   return store;
 }
-
-//export default store;

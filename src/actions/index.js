@@ -3,7 +3,6 @@ import { bindDispatch } from '../common/utils';
 import * as Acquisition from '../ducks/acquisition';
 import * as Imagery from '../ducks/imagery';
 import * as Map from '../ducks/map';
-import * as User from './user';
 
 const makeHOC = modules => (
   connect(() => ({}), bindDispatch(modules))
@@ -11,5 +10,4 @@ const makeHOC = modules => (
 
 export const withAcquisition = () => makeHOC({ Acquisition });
 export const withImagery = () => makeHOC({ Imagery });
-export const withUser = () => makeHOC({ User });
 export const withMap = () => makeHOC({ Map });

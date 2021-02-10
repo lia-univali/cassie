@@ -90,7 +90,26 @@ function transectAccumulator(step, extent) {
   };
 }
 
+/**
+ * Acquires and extracts shorelines given an array of dates
+ * @param  {Array} dates a list containing the dates of the images to be analysed
+ * @param  {Object} satellite information about the satellite
+ * @param  {ee.Geometry} geometry the Area of Interest of the this  session
+ * @param  {ee.Number} threshold Suggested threshold for the extraction
+ * @return {ee.FeatureCollection} a FeatureCollection of polygons
+ */
+export const deriveShorelines = (dates, satellite, geometry, threshold, transects) => {
+  const data = dates.map(value => {
+    const mission = satellite.missions.find(mission => mission.name === value.name)
 
+    return extractCoastline(
+      ee.Image(mission.algorithms.acquire(value.date, geometry)),
+      mission.bands, geometry, threshold, transects, null
+    )
+  })
+
+  return data
+}
 
 /**
  * Extracts oceans (representing coastlines) from a set of images.

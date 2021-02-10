@@ -10,15 +10,15 @@ const defaultState = {
 };
 
 export const openDialog = (name) => {
-  return {type: OPEN, name};
+  return { type: OPEN, name };
 }
 
 export const closeDialog = (name) => {
-  return {type: CLOSE, name};
+  return { type: CLOSE, name };
 }
 
 export const publishOutcome = (name, payload) => dispatch => {
-  dispatch({type: PUBLISH, name, payload});
+  dispatch({ type: PUBLISH, name, payload });
   dispatch(closeDialog(name));
 }
 
@@ -36,19 +36,21 @@ export function* openAndWait(name) {
   return {};
 }
 
-export default function reducer(state = defaultState, action) {
+export const reducer = (state = defaultState, action) => {
   switch (action.type) {
-  case OPEN: {
-    const dialogs = update(state.dialogs, {$add: [action.name]});
+    case OPEN: {
+      const dialogs = update(state.dialogs, { $add: [action.name] });
 
-    return {...state, dialogs};
-  }
-  case CLOSE: {
-    const dialogs = update(state.dialogs, {$remove: [action.name]});
+      return { ...state, dialogs };
+    }
+    case CLOSE: {
+      const dialogs = update(state.dialogs, { $remove: [action.name] });
 
-    return {...state, dialogs};
+      return { ...state, dialogs };
+    }
+    default:
+      return state;
   }
-  default:
-    return state;
-  }
-};
+}
+
+export default reducer

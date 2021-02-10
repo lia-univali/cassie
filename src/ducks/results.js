@@ -6,8 +6,7 @@ export const pushResult = (identifier, payload) => {
   return { type: PUSH_RESULT, identifier, payload };
 }
 
-
-export default function reducer(state = {}, action) {
+export const reducer = (state = {}, action) => {
   switch (action.type) {
     case PUSH_RESULT:
       return { ...state, [action.identifier]: action.payload };
@@ -15,8 +14,10 @@ export default function reducer(state = {}, action) {
     default:
       return state;
   }
-};
+}
 
-export function* saga() {
+export default reducer
+
+export const saga = function* () {
   yield all([]);
 }

@@ -1,8 +1,10 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { Redirect, Switch, Route } from 'react-router-dom';
+import { withTranslation } from 'react-i18next'
+
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -16,10 +18,11 @@ import AOIChooser from './AOIChooser';
 import PeriodChooser from './PeriodChooser';
 import ImageListRefiner from './ImageListRefiner';
 import Footer from '../components/Footer';
-import { withAcquisition, withUser } from '../actions';
+import { withAcquisition } from '../actions';
 import { space } from '../theme';
 import { getAcquisitionParameters } from '../selectors';
-import { withTranslation } from 'react-i18next'
+
+import { Actions as Auth } from '../ducks/auth'
 
 export const PREVIOUS = -1;
 export const FIRST = 0;
@@ -65,7 +68,7 @@ class AcquisitionPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.user.login();
+    this.props.signin();
 
     if (!this.stepAttendsRequirements()) {
       this.navigate(FIRST);
@@ -186,11 +189,10 @@ const styles = theme => {
   };
 };
 
-const connector = connect(getAcquisitionParameters, { push });
+const connector = connect(getAcquisitionParameters, { push, signin: Auth.begin });
 
 const enhancer = compose(
   connector,
-  withUser(),
   withAcquisition(),
   withStyles(styles),
   withTranslation()

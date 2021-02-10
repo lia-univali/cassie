@@ -4,7 +4,7 @@ const initialState = {
   jobs: 0,
 };
 
-const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "BEGIN_EVALUATION":
       return { ...state, jobs: state.jobs + 1, working: true };
@@ -15,4 +15,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default reducer

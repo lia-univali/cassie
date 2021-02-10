@@ -1,4 +1,5 @@
 import { call, all, select, put } from "redux-saga/effects";
+import { callback } from '../store/tools/effects'
 import { get as getSatellite } from "../common/satellites";
 import { generateLayer, createThumbnail } from "../procedures/imagery";
 import {
@@ -7,7 +8,7 @@ import {
   evaluate
 } from "../common/sagaUtils";
 import { generateVisualizationParams } from "../common/eeUtils";
-import { loadLayer, pushImage } from "./imagery";
+import { Actions as Imagery } from "./imagery";
 import { getAcquisitionParameters, getImageryIdentifiers } from "../selectors";
 import { aggregateMissionsDates } from '../common/algorithms'
 import i18next from 'i18next'
@@ -130,7 +131,7 @@ const reduceMissionFallback = (state, action) => {
   return state;
 }
 
-export default function reducer(state = initialState, action) {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_SATELLITE:
       const { satellite, satelliteIndex } = action;
@@ -171,7 +172,9 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-function* handleLoadAvailableImages() {
+export default reducer
+
+const handleLoadAvailableImages = function* () {
   const { satellite, geometry } = yield select(getAcquisitionParameters);
 
   const missions = satellite.missions;
@@ -207,7 +210,7 @@ function* handleLoadAvailableImages() {
   }
 }
 
-function* handleAcquireImage({ missionName, date }) {
+const handleAcquireImage = function* ({ missionName, date }) {
   const { geometry, satellite } = yield select(getAcquisitionParameters);
   const { imageId } = yield select(getImageryIdentifiers);
 
@@ -216,13 +219,13 @@ function* handleAcquireImage({ missionName, date }) {
 
   const layer = generateLayer(image, mission, i18next.t('forms.imageryOverlay.base'));
 
-  yield put(pushImage(mission.shortname + "/" + date, date, mission.name));
-  yield put(loadLayer(layer, imageId));
+  yield put(Imagery.pushImage(mission.shortname + "/" + date, date, mission.name));
+  yield put(Imagery.loadLayer(layer, imageId));
 }
 
-function* handleRequestAOI() { }
+const handleRequestAOI = function* () { }
 
-function* handleLoadThumbnails() {
+const handleLoadThumbnails = function* () {
   const { geometry, satellite, availableDates } = yield select(
     getAcquisitionParameters
   );
@@ -232,19 +235,14 @@ function* handleLoadThumbnails() {
   for (const entry of availableDates) {
     const mission = satellite.get(entry.name);
     const image = mission.algorithms.acquire(entry.date, geometry);
-    const url = yield call(
-      createThumbnail,
-      image,
-      geometry,
-      generateVisualizationParams(mission)
-    );
+    const url = yield callback(createThumbnail, image, geometry, generateVisualizationParams(mission));
     const clouds = yield evaluate(image.get("CLOUDS"));
 
     yield put(insertMetadata(entry.name, entry.date, { id: id++, thumbnail: url, clouds: clouds }));
   }
 }
 
-export function* saga() {
+export const saga = function* () {
   yield all([
     createConcurrentHandler(LOAD_AVAILABLE_IMAGES, handleLoadAvailableImages),
     createBufferedHandler(ACQUIRE_IMAGE, handleAcquireImage),

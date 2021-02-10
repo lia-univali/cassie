@@ -70,7 +70,7 @@ export const concretizeLayer = (layer) => {
   // return new ConcreteLayer(layer, overlay, histogram);
 }
 
-export const createThumbnail = (image, geometry, params) => {
+export const createThumbnail = (image, geometry, params, callback) => {
   const generationParams = {
     region: geometry,
     format: 'jpg',
@@ -78,7 +78,7 @@ export const createThumbnail = (image, geometry, params) => {
     ...params
   };
 
-  return image.getThumbURL(generationParams);
+  return image.getThumbURL(generationParams, callback);
 }
 
 export const gaussDistribution = (x, mean, sigma) => {
@@ -194,41 +194,25 @@ export const otsuAlgorithm = (histogram) => {
 };
 
 export const getWaterSegment = (image, bands, geometry, threshold) => {
-  const morphParams = {
-    kernelType: "circle",
-    radius: 20,
-    iterations: 2,
-    units: "meters"
-  };
-
-  const oceanId = 999; // Arbitrary
-  const elevation = ee.Image("WWF/HydroSHEDS/03VFDEM").unmask(-oceanId, false).lte(-oceanId);
-
-  const ndwi = ee.Image(applyExpression(image, Indices.expression(Indices.find("NDWI")), bands)).rename('NDWI');
+  const ndwi = ee.Image(image)
+    .normalizedDifference([bands.green, bands.nir])
+    .rename('NDWI')
 
   const otsuThreshold = otsuAlgorithm(ee.Dictionary(ndwi.reduceRegion({
-    reducer: ee.Reducer.histogram(),
-    scale: 10,
-    maxPixels: 1e9
-  })).get('NDWI'));
+    reducer: ee.Reducer.histogram(), scale: 10, maxPixels: 1e12
+  })).get('NDWI'))
 
-  const water = ndwi.clip(geometry).gt(otsuThreshold).focal_min(morphParams).focal_max(morphParams); // Performs a morphological opening operation.
+  const water = ee.Feature(
+    ndwi
+      .clip(geometry)
+      .gt(otsuThreshold)
+      .reduceToVectors({ scale: 30, maxPixels: 1e12 })
+      .filter(ee.Filter.eq('label', 1))
+      .limit(1, 'count', false)
+      .first()
+  )
 
-  const vectors = water.reduceToVectors({
-    scale: 30,
-    maxPixels: 1e9
-  }).filter(ee.Filter.eq("label", 1));
-
-  const property = "sum";
-  const oceanProbabilities = elevation.reduceRegions({
-    collection: vectors,
-    reducer: ee.Reducer.sum(),
-    scale: 10,
-  }).map(simplify(60)).sort(property, false);
-
-  const mainSegment = ee.Feature(ee.List(oceanProbabilities.toList(1)).get(0)).geometry();
-
-  return mainSegment;
+  return water.geometry()
 }
 
 export const removeCoastlineNoise = (coastline, transects) => {

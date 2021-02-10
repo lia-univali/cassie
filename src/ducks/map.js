@@ -103,7 +103,7 @@ export function* requestAndWait(drawingType, message, name, group) {
 }
 
 const initialState = { layers: [], shapes: [], zIndex: 0 };
-export default function reducer(state = initialState, action) {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_EE_LAYER: {
       const layers = update(state.layers, {
@@ -150,7 +150,9 @@ export default function reducer(state = initialState, action) {
       return state;
     }
   }
-};
+}
+
+export default reducer
 
 function* handleAddEELayer({ overlay, position }) {
   Map.addLayer(overlay, position);

@@ -11,7 +11,7 @@ import LayerViewer from './LayerViewer';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Add from '@material-ui/icons/AddCircleOutline';
-import { requestExpression } from '../ducks/imagery';
+import { Actions as Imagery } from '../ducks/imagery';
 import { withTranslation } from 'react-i18next'
 
 class ImageViewer extends React.Component {
@@ -70,7 +70,7 @@ class ImageViewer extends React.Component {
 }
 
 const enhancer = compose(
-  connect(state => ({}), { requestExpression }),
+  connect(state => ({}), { requestExpression: Imagery.requestExpression }),
   withTranslation()
 )
 
