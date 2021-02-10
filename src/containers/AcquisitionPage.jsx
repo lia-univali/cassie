@@ -1,201 +1,181 @@
-import React from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { push } from 'connected-react-router';
-import { Redirect, Switch, Route } from 'react-router-dom';
-import { withTranslation } from 'react-i18next'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
+import { push } from 'connected-react-router'
+import { Redirect, Switch, Route } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel'
-import SatelliteChooser from './SatelliteChooser';
-import AOIChooser from './AOIChooser';
-import PeriodChooser from './PeriodChooser';
-import ImageListRefiner from './ImageListRefiner';
-import Footer from '../components/Footer';
-import { withAcquisition } from '../actions';
-import { space } from '../theme';
-import { getAcquisitionParameters } from '../selectors';
+import { makeStyles } from '@material-ui/core/styles'
+import { Divider, Grid, Paper, Step, StepLabel, Stepper, Typography } from '@material-ui/core'
 
+import SatelliteChooser from './SatelliteChooser'
+import AOIChooser from './AOIChooser'
+import PeriodChooser from './PeriodChooser'
+import ImageListRefiner from './ImageListRefiner'
+import Footer from '../components/Footer'
+
+import { getAcquisitionParameters } from '../selectors'
 import { Actions as Auth } from '../ducks/auth'
 
-export const PREVIOUS = -1;
-export const FIRST = 0;
-export const NEXT = 1;
-export const FINALIZE = 2;
+export const PREVIOUS = -1
+export const FIRST = 0
+export const NEXT = 1
+export const FINALIZE = 2
 
-class AcquisitionPage extends React.Component {
-  constructor(props) {
-    super(props);
+const STEPS = [
+  {
+    label: 'forms.acquisition.1.title',
+    content: 'forms.acquisition.1.description',
+    component: SatelliteChooser,
+  },
+  {
+    label: 'forms.acquisition.2.title',
+    content: 'forms.acquisition.2.description',
+    requires: "satellite",
+    component: AOIChooser,
+  },
+  {
+    label: 'forms.acquisition.3.title',
+    content: 'forms.acquisition.3.description',
+    requires: "geometry",
+    component: PeriodChooser,
+  },
+  {
+    label: 'forms.acquisition.4.title',
+    content: 'forms.acquisition.4.description',
+    requires: "availableDates",
+    component: ImageListRefiner,
+  }
+]
 
-    const { t } = props;
+const useStyles = makeStyles(theme => ({
+  wrapper: {
+    display: "flex",
+    flexFlow: "column",
+    flexGrow: 1,
+  },
+  header: {
+    backgroundColor: theme.palette.primary[400],
+    padding: theme.spacing(6, 0, 16),
+  },
+  title: {
+    color: "white",
+  },
+  content: {
+    width: 1000,
+    marginTop: theme.spacing(-9),
+  },
+  instructions: {
+    paddingTop: theme.spacing(2),
+    marginBottom: theme.spacing(4),
+  }
+}))
 
-    this.steps = [{
-      label: t('forms.acquisition.1.title'),
-      content: t('forms.acquisition.1.description'),
-      component: SatelliteChooser,
-    }, {
-      label: t('forms.acquisition.2.title'),
-      content: t('forms.acquisition.2.description'),
-      requires: "satellite",
-      component: AOIChooser,
-    }, {
-      label: t('forms.acquisition.3.title'),
-      content: t('forms.acquisition.3.description'),
-      requires: "geometry",
-      component: PeriodChooser,
-    }, {
-      label: t('forms.acquisition.4.title'),
-      content: t('forms.acquisition.4.description'),
-      requires: "availableDates",
-      component: ImageListRefiner,
-    }];
+const AcquisitionPage = (props) => {
+  const acquisitionData = useSelector(getAcquisitionParameters, shallowEqual)
+
+  const dispatch = useDispatch()
+  const [t] = useTranslation()
+  const classes = useStyles()
+
+  const { match } = props
+
+  const stepAttendsRequirements = () => {
+    const { params } = match
+
+    const hasStep = params.step !== undefined
+    const step = hasStep ? params.step - 1 : 0
+
+    const stepData = STEPS[step]
+    return (!("requires" in stepData) || stepData.requires in acquisitionData)
   }
 
-  stepAttendsRequirements() {
-    const { params } = this.props.match;
+  useEffect(() => {
+    dispatch(Auth.begin())
 
-    const hasStep = params.step !== undefined;
-    const step = hasStep ? params.step - 1 : 0;
-
-    const stepData = this.steps[step];
-    return (!("requires" in stepData) || stepData.requires in this.props);
-  }
-
-  componentDidMount() {
-    this.props.signin();
-
-    if (!this.stepAttendsRequirements()) {
-      this.navigate(FIRST);
+    if (!stepAttendsRequirements()) {
+      navigate(FIRST)
     }
+  }, [dispatch])
+
+  const extractPath = (hasStep) => {
+    return hasStep ? match.url.substring(0, match.url.lastIndexOf("/")) : match.url
   }
 
-  extractPath(hasStep) {
-    const { match } = this.props;
-
-    return hasStep ? match.url.substring(0, match.url.lastIndexOf("/")) : match.url;
-  }
-
-  navigate(direction) {
-    const path = this.extractPath(true);
-    const { step } = this.props.match.params;
+  const navigate = (direction) => {
+    const path = extractPath(true)
+    const { step } = match.params
 
     if (direction === NEXT || direction === PREVIOUS) {
-      this.props.push(`${path}/${parseInt(step, 10) + direction}`);
+      dispatch(push(`${path}/${parseInt(step, 10) + direction}`))
     } else if (direction === FIRST) {
-      this.props.push(`${path}/1`);
+      dispatch(push(`${path}/1`))
     } else if (direction === FINALIZE) {
-      this.props.push("/main/processing");
+      dispatch(push("/main/processing"))
     }
   }
 
-  renderStep(props, Component) {
-    if (this.stepAttendsRequirements()) {
-      return <Component {...props} navigate={direction => this.navigate(direction)} />;
+  const renderStep = (props, Component) => {
+    if (stepAttendsRequirements()) {
+      return <Component {...props} navigate={direction => navigate(direction)} />
     }
 
-    return null;
+    return null
   }
 
-  makeRoutes(hasStep) {
-    const path = this.extractPath(hasStep);
+  const makeRoutes = (hasStep) => {
+    const path = extractPath(hasStep)
 
-    return this.steps.map((el, i) => {
-      const id = i + 1;
-      const Component = el.component;
+    return STEPS.map((el, i) => {
+      const id = i + 1
+      const Component = el.component
 
       return (
-        <Route key={id} path={`${path}/${id}`} render={props => this.renderStep(props, Component)} />
-      );
+        <Route key={id} path={`${path}/${id}`} render={props => renderStep({ ...props, ...acquisitionData }, Component)} />
+      )
     }).concat(
       <Redirect key={0} from={path} to={path + "/1"} />
-    );
-  }
-
-  render() {
-    const { t, classes, match } = this.props;
-    console.log(this.props);
-
-    const hasStep = match.params.step !== undefined;
-    const step = hasStep ? match.params.step - 1 : 0;
-
-    return (
-      <div className={classes.wrapper}>
-        <Grid container spacing={0} justify="center">
-          <Grid item xs={12} className={classes.header}>
-            <div>
-              <Typography variant="h4" align="center" className={classes.title}>
-                {t('forms.acquisition.title')}
-              </Typography>
-            </div>
-          </Grid>
-          <Grid item className="vcenter flow-column">
-            <Paper className={classes.content} elevation={1}>
-              <Stepper activeStep={step}>
-                {this.steps.map((el, i) => (
-                  <Step key={i}>
-                    <StepLabel>{el.label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-              <Typography variant="subtitle1" align="center" className={classes.instructions}>
-                {this.steps[step].content}
-              </Typography>
-
-              <Divider />
-
-              <Switch>
-                {this.makeRoutes(hasStep)}
-              </Switch>
-            </Paper>
-
-          </Grid>
-        </Grid>
-
-        <Footer />
-      </div>
     )
   }
+
+  const hasStep = match.params.step !== undefined
+  const step = hasStep ? match.params.step - 1 : 0
+
+  return (
+    // @TODO has raw css
+    <div className={classes.wrapper}>
+      <Grid container spacing={0} justify="center">
+        <Grid item xs={12} className={classes.header}>
+          <div>
+            <Typography variant="h4" align="center" className={classes.title}>
+              {t('forms.acquisition.title')}
+            </Typography>
+          </div>
+        </Grid>
+        <Grid item className="vcenter flow-column">
+          <Paper className={classes.content} elevation={1}>
+            <Stepper activeStep={step}>
+              {
+                STEPS.map((el, i) => (
+                  <Step key={i}>
+                    <StepLabel>{t(el.label)}</StepLabel>
+                  </Step>
+                ))
+              }
+            </Stepper>
+            <Typography variant="subtitle1" align="center" className={classes.instructions}>
+              {t(STEPS[step].content)}
+            </Typography>
+            <Divider />
+            <Switch>
+              {makeRoutes(hasStep)}
+            </Switch>
+          </Paper>
+        </Grid>
+      </Grid>
+
+      <Footer />
+    </div>
+  )
 }
 
-const styles = theme => {
-  console.log(theme);
-  return {
-    wrapper: {
-      display: "flex",
-      flexFlow: "column",
-      flexGrow: 1,
-    },
-    header: {
-      backgroundColor: theme.palette.primary[400],
-      padding: space(6, 0, 16),
-    },
-    title: {
-      color: "white",
-    },
-    content: {
-      width: 1000,
-      marginTop: space(-9),
-    },
-    instructions: {
-      paddingTop: space(2),
-      marginBottom: space(4),
-    }
-  };
-};
-
-const connector = connect(getAcquisitionParameters, { push, signin: Auth.begin });
-
-const enhancer = compose(
-  connector,
-  withAcquisition(),
-  withStyles(styles),
-  withTranslation()
-);
-
-export default enhancer(AcquisitionPage);
+export default AcquisitionPage

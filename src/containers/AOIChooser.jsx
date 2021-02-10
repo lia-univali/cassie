@@ -1,124 +1,119 @@
-import React from 'react';
-import { compose } from 'redux';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import StepperButtons from '../components/StepperButtons';
-import Switch from '@material-ui/core/Switch';
-import Button from '@material-ui/core/Button';
-import GoogleMap, { DEFAULT_ZOOM } from '../components/GoogleMap';
-import { withAcquisition, withMap } from '../actions';
-import * as Map from '../common/map';
-import { withTranslation } from 'react-i18next'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import ee from '../services/earth-engine'
 
-class AOIChooser extends React.Component {
-  constructor(props) {
-    super(props);
+import { makeStyles } from '@material-ui/core/styles'
+import { Button, FormControlLabel, Switch } from '@material-ui/core'
 
-    this.state = {
-      visible: AOIChooser.isAboveThreshold(DEFAULT_ZOOM),
-      zoomLevel: DEFAULT_ZOOM,
-    };
+import GoogleMap, { DEFAULT_ZOOM } from '../components/GoogleMap'
+import StepperButtons from '../components/StepperButtons'
+import * as Map from '../common/map'
+import { setAOI } from '../ducks/acquisition'
+
+const useStyles = makeStyles(theme => ({
+  map: {
+    width: 1000,
+    height: 500,
   }
+}))
 
-  static isAboveThreshold(zoom) {
-    return zoom > 4;
-  }
+const isAboveThreshold = (zoom) => {
+  return zoom > 4
+}
 
-  changeDelimiterVisibility(visible) {
+const AOIChooser = ({ navigate }) => {
+  const dispatch = useDispatch()
+  const [t] = useTranslation()
+  const classes = useStyles()
+
+  const [visible, setVisible] = useState(isAboveThreshold(DEFAULT_ZOOM))
+  const [zoomLevel, setZoomLevel] = useState(DEFAULT_ZOOM)
+  const [switchDisabled, setSwitchDisabled] = useState(false)
+  const [overlay, setOverlay] = useState(null)
+  const [coordinates, setCoordinates] = useState(null)
+  const [wrs, setWrs] = useState(null) // @TODO enable this
+
+  const changeDelimiterVisibility = (visible) => {
+    /*
     if (visible) {
-      Map.displayElement(this.wrs);
+      Map.displayElement(wrs)
     } else {
-      Map.hideElement(this.wrs);
+      Map.hideElement(wrs)
     }
-
-    this.setState({ visible });
+    */
+    setVisible(visible)
   }
 
-  handleZoomChange(zoomLevel) {
-    const prevVisible = AOIChooser.isAboveThreshold(this.state.zoomLevel);
-    const visible = AOIChooser.isAboveThreshold(zoomLevel);
+  const handleZoomChange = (updatedLevel) => {
+    const prevVisible = isAboveThreshold(zoomLevel)
+    const visible = isAboveThreshold(updatedLevel)
 
     if (visible !== prevVisible) {
-      this.changeDelimiterVisibility(visible);
+      changeDelimiterVisibility(visible)
     }
 
-    this.setState({ zoomLevel, switchDisabled: visible === false });
+    setZoomLevel(updatedLevel)
+    setSwitchDisabled(!visible)
   }
 
-  componentDidMount() {
-    this.wrs = Map.loadWRSLayer();
+  useEffect(() => {
+    Map.onZoomChange(zoomLevel => handleZoomChange(zoomLevel))
+    Map.setDrawingControlsVisible(true)
 
-    Map.onZoomChange(zoomLevel => this.handleZoomChange(zoomLevel));
-    Map.setDrawingControlsVisible(true);
-  }
+    return () => {
+      Map.onZoomChange(() => { })
+    }
+  }, [])
 
-  componentWillUnmount() {
-    Map.onZoomChange(() => { });
-  }
-
-  handleDrawing(overlay, coordinates) {
-    this.setState({ overlay, coordinates });
+  const handleDrawing = (overlay, coordinates) => {
+    setOverlay(overlay)
+    setCoordinates(coordinates)
 
     Map.setDrawingControlsVisible(false);
   }
 
-  handleUndo() {
-    this.state.overlay.setMap(null);
-    this.setState({ overlay: undefined, coordinates: undefined });
+  const handleUndo = () => {
+    overlay.setMap(null)
 
-    Map.setDrawingControlsVisible(true);
+    setOverlay(null)
+    setCoordinates(null)
+
+    Map.setDrawingControlsVisible(true)
   }
 
-  handleSwitchChange(event) {
-    this.changeDelimiterVisibility(event.target.checked);
+  const handleSwitchChange = (event) => {
+    changeDelimiterVisibility(event.target.checked)
   }
 
-  handleChoose() {
-    const { overlay, coordinates } = this.state;
-
-    this.props.acquisition.setAOI(overlay, coordinates, window.ee.Geometry.Polygon([coordinates]));
+  const handleChoose = () => {
+    dispatch(setAOI(overlay, coordinates, ee.Geometry.Polygon([coordinates])))
   }
 
-  render() {
-    const styles = {
-      map: {
-        width: 1000,
-        height: 500,
-      },
-      middleButton: {
-        margin: "24px 8px"
-      }
-    };
+  const drawn = Boolean(coordinates)
 
-    const { t, navigate } = this.props;
-    const { coordinates, visible, switchDisabled } = this.state;
-    const drawn = coordinates !== undefined;
-
-    return (
-      <div className="vcenter flow-column">
-        <FormControlLabel label={t('forms.acquisition.2.showDelimiters')}
-          control={
-            <Switch
-              checked={visible}
-              disabled={switchDisabled}
-              onChange={e => this.handleSwitchChange(e)} />
-          }
-        />
-        <GoogleMap
-          style={styles.map}
-          onRegionDrawn={this.handleDrawing.bind(this)}
-        />
-        <StepperButtons navigate={navigate} nextDisabled={drawn === false} onNext={() => this.handleChoose()}>
-          <Button onClick={() => this.handleUndo()} disabled={drawn === false} color="secondary" variant="outlined">
-            {t('forms.acquisition.2.undo')}
-          </Button>
-        </StepperButtons>
-      </div>
-    );
-  }
+  return (
+    // @TODO has raw css
+    <div className="vcenter flow-column">
+      <FormControlLabel label={t('forms.acquisition.2.showDelimiters')}
+        control={
+          <Switch
+            checked={visible}
+            disabled={switchDisabled}
+            onChange={handleSwitchChange} />
+        }
+      />
+      <GoogleMap
+        style={{ width: 1000, height: 500 }}
+        onRegionDrawn={handleDrawing}
+      />
+      <StepperButtons navigate={navigate} nextDisabled={drawn === false} onNext={handleChoose}>
+        <Button onClick={handleUndo} disabled={drawn === false} color="secondary" variant="outlined">
+          {t('forms.acquisition.2.undo')}
+        </Button>
+      </StepperButtons>
+    </div>
+  )
 }
 
-export default compose(
-  withAcquisition(),
-  withMap(),
-  withTranslation(),
-)(AOIChooser);
+export default AOIChooser

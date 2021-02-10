@@ -14,7 +14,7 @@ const NavigationBar = () => {
         <Typography variant="h6" className="flex1" color="inherit">
           C.A.S.S.I.E. <small>Coastal Analysis via Satellite Imagery Engine</small>
         </Typography>
-        <User name={user.name} imageUrl={user.imageUrl} />
+        <User {...user} />
       </Toolbar>
     </AppBar>
   )

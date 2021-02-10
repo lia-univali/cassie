@@ -1,12 +1,14 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
+
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
+
 import NavigationBar from '../../../containers/NavigationBar';
 import DialogRoot from '../../../containers/DialogRoot';
 import AcquisitionPage from '../../../containers/AcquisitionPage';
 import ProcessingPage from '../ProcessingPage';
 import ActivityIndicator from '../../../containers/ActivityIndicator';
-import { withStyles } from '@material-ui/core/styles';
 
 // Register Dialogs
 import CoastlineEvolutionDialog from '../../../containers/CoastlineEvolutionDialog';
@@ -18,34 +20,33 @@ const NotFound = props => (
   <Typography variant="h2" align="center">
     Página não encontrada.
   </Typography>
-);
+)
 
-class MainPage extends React.Component {
-  render() {
-    const { classes, match } = this.props;
-
-    return (
-      <div className={classes.wrapper}>
-        <DialogRoot />
-
-        <NavigationBar />
-        <Switch>
-          <Route exact strict path={`${match.url}/acquisition/:step?`} component={AcquisitionPage} />
-          <Route exact strict path={`${match.url}/processing`} component={ProcessingPage} />
-          <Route path={match.url} component={NotFound} />
-        </Switch>
-        <ActivityIndicator />
-      </div>
-    );
-  }
-}
-
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   wrapper: {
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
-  },
-});
+  }
+}))
 
-export default withStyles(styles)(MainPage);
+const MainPage = ({ match }) => {
+  const classes = useStyles()
+
+  return (
+    <div className={classes.wrapper}>
+      <DialogRoot />
+
+      <NavigationBar />
+
+      <Switch>
+        <Route exact strict path={`${match.url}/acquisition/:step?`} component={AcquisitionPage} />
+        <Route exact strict path={`${match.url}/processing`} component={ProcessingPage} />
+        <Route path={match.url} component={NotFound} />
+      </Switch>
+      <ActivityIndicator />
+    </div>
+  )
+}
+
+export default MainPage

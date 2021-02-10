@@ -25,7 +25,11 @@ const LOAD_TEST_STATE = "cassie/acquisition/LOAD_TEST_STATE";
 const LOAD_THUMBNAILS = "cassie/acquisition/LOAD_THUMBNAILS";
 const INSERT_METADATA = "cassie/acquisition/INSERT_METADATA";
 
-// Defines the satellite to be used for this session.
+/**
+ * Defines the satellite to be used for this acquisition.
+ * @see satellites.js
+ * @param {Number} satelliteIndex the index of the satellite
+ */
 export const setSatellite = satelliteIndex => {
   const satellite = getSatellite(satelliteIndex);
   return { type: SET_SATELLITE, satellite, satelliteIndex };
@@ -36,22 +40,37 @@ export const setMissionFallback = mission => {
   return { type: SET_MISSION_FALLBACK, mission }
 }
 
-// Defines the Area Of Interest to be used for this session.
+/**
+ * Defines the Area Of Interest to be used for this acquisition.
+ * @param {*} overlay the overlay from Google Maps
+ * @param {Coordinate[]} coordinates the coordinates of the area
+ * @param {*} geometry the geometry of the AOI from Earth Engine
+ */
 export const setAOI = (overlay, coordinates, geometry) => {
   return { type: SET_AOI, overlay, coordinates, geometry };
 };
 
-// Retrieves a list of available images based on the current session's parameters.
+/**
+ * Begins downloading the list of available images for the currently selected
+ * satellite, storing it in the state afterwards.
+ */
 export const loadAvailableImages = () => {
   return { type: LOAD_AVAILABLE_IMAGES };
-};
+}
 
-// Sets the list of available acquisition dates for the current satellite.
+/**
+ * Sets the list of available dates for the current satellite.
+ * @param {String[]} dates the list of dates, formatted as YYYY-MM-dd
+ */
 export const setAvailableDates = (dates, missions) => {
   return { type: SET_AVAILABLE_DATES, dates, missions };
 };
 
-// Defines the time period to be used in the image acquisition step
+/**
+ * Defines the time period to be used in the image acquisition step
+ * @param {Number} start the timestamp of the starting date
+ * @param {Number} end the timestamp of the ending date
+ */
 export const setPeriod = (start, end) => {
   return { type: SET_PERIOD, start, end };
 };
@@ -61,6 +80,9 @@ export const acquireImage = (missionName, date, ...extras) => {
   return { type: ACQUIRE_IMAGE, missionName, date, extras };
 };
 
+/**
+ * Loads the default testing state into the state tree.
+ */
 export const loadTestState = () => {
   return { type: LOAD_TEST_STATE };
 };

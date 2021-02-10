@@ -3,7 +3,6 @@ import i18n from 'i18next'
 import { loadScript } from '../../services/dynamic-script'
 import { ee, initializeEEConnection } from '../../services/earth-engine'
 import * as Auth from './header'
-// import * as Snack from '../snack/header' @TODO Move on to Snack instead of notifications
 import { Actions as Snack } from '../snack'
 
 const AUTH_PARAMS = {

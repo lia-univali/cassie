@@ -28,7 +28,8 @@ const User = ({ name, imageUrl, children }) => {
     }))
   }
 
-  return name && (
+  return !name ? null : (
+    // @TODO has raw css
     <div>
       <div className="flex vcenter">
         <Avatar alt={name} src={imageUrl} />
