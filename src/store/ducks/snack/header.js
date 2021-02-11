@@ -1,4 +1,4 @@
-import duckify from '../../store/tools/duckify';
+import duckify from '../../tools/duckify';
 
 export const namespace = 'cassie'
 export const store = 'snack'

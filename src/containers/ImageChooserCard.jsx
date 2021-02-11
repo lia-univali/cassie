@@ -13,7 +13,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import ImageChooserForm from '../components/ImageChooserForm';
 import ActionList from './ActionList';
-import { acquireImage } from '../ducks/acquisition';
+import { acquireImage } from '../store/ducks/acquisition';
 import { getAcquisitionParameters } from '../selectors';
 import { withTranslation } from 'react-i18next'
 

@@ -1,10 +1,10 @@
 import { put, select } from 'redux-saga/effects'
-import { callback } from '../../../store/tools/effects'
-import ee from '../../../services/earth-engine'
+import { callback } from '../../../tools/effects'
+import ee from '../../../../services/earth-engine'
 import * as Imagery from '../header'
 import * as Map from "../../map"
-import { ConcreteLayer } from '../../../common/classes'
-import * as Selectors from '../../../selectors'
+import { ConcreteLayer } from '../../../../common/classes'
+import * as Selectors from '../../../../selectors'
 
 export const handleLoadLayer = function* ({ payload: { layer, parent } }) {
     const { imageId, layerId } = yield select(Selectors.getImageryIdentifiers);

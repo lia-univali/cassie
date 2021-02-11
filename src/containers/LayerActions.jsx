@@ -11,7 +11,7 @@ import OpacityControl from '../components/OpacityControl';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { smallIconButton } from '../theme';
 
-import { Actions as imagery } from '../ducks/imagery';
+import { Actions as imagery } from '../store/ducks/imagery';
 
 const LayerActions = ({ layer, index, parent }) => {
   const dispatch = useDispatch()

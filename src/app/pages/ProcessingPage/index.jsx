@@ -10,7 +10,7 @@ import ImageChooserCard from '../../../containers/ImageChooserCard'
 import { ShapeList } from '../../components'
 import LoadedImagesAccordion from '../../../containers/LoadedImagesAccordion'
 
-import { addEEFeature, centralizeMap } from '../../../ducks/map'
+import { addEEFeature, centralizeMap } from '../../../store/ducks/map'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {

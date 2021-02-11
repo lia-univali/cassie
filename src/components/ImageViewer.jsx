@@ -11,7 +11,7 @@ import LayerViewer from './LayerViewer';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Add from '@material-ui/icons/AddCircleOutline';
-import { Actions as Imagery } from '../ducks/imagery';
+import { Actions as Imagery } from '../store/ducks/imagery';
 import { withTranslation } from 'react-i18next'
 
 class ImageViewer extends React.Component {

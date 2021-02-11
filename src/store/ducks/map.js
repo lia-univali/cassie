@@ -1,8 +1,8 @@
 import { take, all, select, put, race } from 'redux-saga/effects';
-import { createConcurrentHandler, createBufferedHandler, evaluate } from '../common/sagaUtils';
-import { findLayerIndex, retrieveShape, retrieveHighlightedShape, retrieveShapeGroup } from '../selectors';
+import { createConcurrentHandler, createBufferedHandler, evaluate } from '../../common/sagaUtils';
+import { findLayerIndex, retrieveShape, retrieveHighlightedShape, retrieveShapeGroup } from '../../selectors';
 import update from 'immutability-helper';
-import * as Map from '../common/map';
+import * as Map from '../../common/map';
 
 const ADD_EE_LAYER = 'cassie/map/ADD_EE_LAYER';
 const ADD_EE_FEATURE = 'cassie/map/ADD_EE_FEATURE';

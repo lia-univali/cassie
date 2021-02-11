@@ -6,7 +6,7 @@ import { Snackbar as MuiSnackbar } from '@material-ui/core'
 import Task from './Task'
 import Alert from './Alert'
 
-import { Actions as Snack } from '../../../ducks/snack'
+import { Actions as Snack } from '../../../store/ducks/snack'
 
 const SnackbarRoot = () => {
   const dispatch = useDispatch()

@@ -1,19 +1,19 @@
 import { select, put, call } from 'redux-saga/effects'
 import { chunk } from 'lodash'
 import i18next from 'i18next'
-import ee from '../../../services/earth-engine'
-import { callback } from '../../../store/tools/effects'
-import { evaluate } from "../../../common/sagaUtils";
-import { generateColors } from "../../../common/utils";
-import { applyExpression } from "../../../common/eeUtils";
+import ee from '../../../../services/earth-engine'
+import { callback } from '../../../tools/effects'
+import { evaluate } from "../../../../common/sagaUtils";
+import { generateColors } from "../../../../common/utils";
+import { applyExpression } from "../../../../common/eeUtils";
 import { pushResult } from "../../results";
 import { openAndWait, openDialog } from "../../dialog";
 import * as Imagery from '../header'
 import * as Map from "../../map";
-import * as Selectors from "../../../selectors";
-import * as Metadata from "../../../common/metadata";
-import * as Coastline from "../../../procedures/coastline";
-import { generateLayer } from "../../../procedures/imagery";
+import * as Selectors from "../../../../selectors";
+import * as Metadata from "../../../../common/metadata";
+import * as Coastline from "../../../../procedures/coastline";
+import { generateLayer } from "../../../../procedures/imagery";
 
 export const requestCoastlineInput = function* () {
     const dates = yield* openAndWait("imageSelection");

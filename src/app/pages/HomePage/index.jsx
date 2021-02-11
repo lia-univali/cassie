@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
 import { useTranslation } from 'react-i18next'
 
-import { Actions as AuthActions } from '../../../ducks/auth'
+import { Actions as AuthActions } from '../../../store/ducks/auth'
 import { Actions as LangActions } from '../../../store/ducks/i18n'
 
 import { Avatar, Box, Button, Grid, Typography } from '@material-ui/core'

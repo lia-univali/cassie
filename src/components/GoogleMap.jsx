@@ -5,7 +5,7 @@ import i18next from 'i18next'
 import { Button, Grow, Paper, Typography } from '@material-ui/core'
 
 import * as Map from '../common/map'
-import * as MapActions from '../ducks/map'
+import * as MapActions from '../store/ducks/map'
 
 export const DEFAULT_ZOOM = 9
 

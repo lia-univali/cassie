@@ -11,8 +11,8 @@ import DropdownButton from '../components/DropdownButton'
 
 import { mediumIconButton } from '../theme'
 
-import * as modal from '../ducks/modal'
-import * as imagery from '../ducks/imagery'
+import * as modal from '../store/ducks/modal'
+import * as imagery from '../store/ducks/imagery'
 
 const ImageActions = ({ index, metadata }) => {
   const dispatch = useDispatch()

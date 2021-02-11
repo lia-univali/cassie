@@ -14,7 +14,7 @@ import ImageListRefiner from './ImageListRefiner'
 import Footer from '../components/Footer'
 
 import { getAcquisitionParameters } from '../selectors'
-import { Actions as Auth } from '../ducks/auth'
+import { Actions as Auth } from '../store/ducks/auth'
 
 export const PREVIOUS = -1
 export const FIRST = 0

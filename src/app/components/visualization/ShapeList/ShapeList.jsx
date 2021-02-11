@@ -7,7 +7,7 @@ import { Grid, List, ListItem, ListItemText, Paper } from '@material-ui/core'
 
 import TransectShapeList from './TransectShapeList'
 
-import { highlight, clearHighlight } from '../../../../ducks/map';
+import { highlight, clearHighlight } from '../../../../store/ducks/map';
 
 
 const useStyles = makeStyles(theme => ({

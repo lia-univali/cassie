@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import * as modal from '../ducks/modal'
+import * as modal from '../store/ducks/modal'
 import Button from '../components/Button'
 
 const DialogCancelButton = ({ title, ...rest }) => {

@@ -9,7 +9,7 @@ import { Button, FormControlLabel, Switch } from '@material-ui/core'
 import GoogleMap, { DEFAULT_ZOOM } from '../components/GoogleMap'
 import StepperButtons from '../components/StepperButtons'
 import * as Map from '../common/map'
-import { setAOI } from '../ducks/acquisition'
+import { setAOI } from '../store/ducks/acquisition'
 
 const useStyles = makeStyles(theme => ({
   map: {

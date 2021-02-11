@@ -8,7 +8,7 @@ import SatelliteCard from '../components/SatelliteCard'
 import { NEXT } from './AcquisitionPage'
 
 import { standard } from '../common/satellites'
-import { setSatellite } from '../ducks/acquisition'
+import { setSatellite } from '../store/ducks/acquisition'
 
 const useStyles = makeStyles(theme => ({
   content: {

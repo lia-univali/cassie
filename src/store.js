@@ -5,7 +5,7 @@ import { routerMiddleware } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
 import createSagaMiddleware from 'redux-saga'
 import thunk from 'redux-thunk'
-import { createRootReducer, saga } from './ducks'
+import { createRootReducer, saga } from './store/ducks'
 
 export const history = createBrowserHistory();
 

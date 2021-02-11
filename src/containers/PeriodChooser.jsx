@@ -11,7 +11,7 @@ import StepperButtons from '../components/StepperButtons'
 import CloudSelector from '../components/CloudSelector'
 import ActivityIndicator from './ActivityIndicator.jsx'
 
-import { loadAvailableImages, setAvailableDates } from '../ducks/acquisition'
+import { loadAvailableImages, setAvailableDates } from '../store/ducks/acquisition'
 import { formatDate, formatDateDiff, datesBetween } from '../common/utils'
 import { uniteMissionsDates } from '../common/algorithms'
 

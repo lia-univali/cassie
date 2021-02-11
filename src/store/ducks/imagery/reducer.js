@@ -1,6 +1,6 @@
 import update from 'immutability-helper'
 import { Types } from './header'
-import * as Selectors from '../../selectors'
+import * as Selectors from '../../../selectors'
 
 const INITIAL_STATE = {
     images: {},

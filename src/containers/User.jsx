@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router'
 import { useTranslation } from 'react-i18next'
 
-import * as auth from '../ducks/auth'
+import * as auth from '../store/ducks/auth'
 
 import { Avatar, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
 import { MoreVert } from '@material-ui/icons'

@@ -8,8 +8,8 @@ import {
   ListItemSecondaryAction, ListItemText
 } from '@material-ui/core'
 
-import { Actions as Imagery } from '../ducks/imagery'
-import { openDialog } from '../ducks/dialog'
+import { Actions as Imagery } from '../store/ducks/imagery'
+import { openDialog } from '../store/ducks/dialog'
 
 const ActionList = ({ name }) => {
   const hasShorelineData = useSelector(state => Boolean(state.results.coastlineData))

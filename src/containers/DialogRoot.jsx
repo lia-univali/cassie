@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { isDialogOpen } from '../selectors';
-import { closeDialog, publishOutcome } from '../ducks/dialog';
+import { closeDialog, publishOutcome } from '../store/ducks/dialog';
 
 const registeredDialogs = {};
 window.rd = registeredDialogs;
