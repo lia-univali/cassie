@@ -15,6 +15,8 @@ import * as Metadata from "../../../../common/metadata";
 import * as Coastline from "../../../../procedures/coastline";
 import { generateLayer } from "../../../../procedures/imagery";
 
+import { Actions as Snacks } from '../../snacks'
+
 export const requestCoastlineInput = function* () {
     const dates = yield* openAndWait("imageSelection");
 
@@ -100,6 +102,8 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
         transects
     );
 
+    yield put(Snacks.task('shoreline-ext-chunks', 'Extracting shorelines'))
+
     const shorelineChunks = chunk(shorelines, 5)
     let i = 0, collector = []
 
@@ -113,6 +117,8 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
     }
 
     const sds = ee.FeatureCollection(collector)
+
+    yield put(Snacks.dismiss('shoreline-ext-chunks'))
 
     transects = yield call(Coastline.generateTransectsStatistics, transects, baseline, sds, names);
 

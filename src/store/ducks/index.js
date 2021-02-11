@@ -3,7 +3,7 @@ import { all } from 'redux-saga/effects'
 import { connectRouter } from 'connected-react-router'
 import * as auth from './auth'
 import * as imagery from './imagery'
-import * as snack from './snack'
+import * as snacks from './snacks'
 import * as map from './map'
 import * as acquisition from './acquisition'
 import * as i18n from './i18n'
@@ -23,7 +23,7 @@ export const createRootReducer = (history) => combineReducers({
   [imagery.store]: imagery.reducer,
   results: results.reducer,
   acquisition: acquisition.reducer,
-  [snack.store]: snack.reducer,
+  [snacks.store]: snacks.reducer,
 });
 
 export const saga = function* () {

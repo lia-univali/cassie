@@ -1,9 +1,9 @@
-import { all, call, put, takeLeading } from 'redux-saga/effects'
+import { all, call, put, select, takeLeading } from 'redux-saga/effects'
 import i18n from 'i18next'
 import { loadScript } from '../../../services/dynamic-script'
 import { ee, initializeEEConnection } from '../../../services/earth-engine'
 import * as Auth from './header'
-import { Actions as Snack } from '../snack'
+import { Actions as Snack } from '../snacks'
 
 const AUTH_PARAMS = {
     client_id: process.env.REACT_APP_CLIENT_ID,
@@ -54,26 +54,30 @@ const loadClientAuthFailure = function* () {
 
 const begin = function* ({ payload: { callback } }) {
     if (window.gapi && window.gapi.auth2) {
-        yield put(Snack.task('signin-task', i18n.t('auth.loading')));
+        const isNotSigned = yield select(state => !state.auth.user)
 
-        const instance = window.gapi.auth2.getAuthInstance()
+        if (isNotSigned) {
+            yield put(Snack.task('signin-task', i18n.t('auth.loading')));
 
-        try {
-            if (!instance.isSignedIn.get()) {
-                yield call([instance, instance.signIn])
+            const instance = window.gapi.auth2.getAuthInstance()
+
+            try {
+                if (!instance.isSignedIn.get()) {
+                    yield call([instance, instance.signIn])
+                }
+
+                yield call(initializeEEConnection, process.env.REACT_APP_CLIENT_ID)
+
+                const user = window.gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile()
+                yield put(Auth.Actions.authorize(user.getName(), user.getImageUrl()))
+
+                yield put(Snack.dismiss('signin-task'))
+
+                callback()
             }
-
-            yield call(initializeEEConnection, process.env.REACT_APP_CLIENT_ID)
-
-            const user = window.gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile()
-            yield put(Auth.Actions.authorize(user.getName(), user.getImageUrl()))
-
-            yield put(Snack.dismiss())
-
-            callback()
-        }
-        catch (e) {
-            yield put(Auth.Actions.authorizeFailure(e))
+            catch (e) {
+                yield put(Auth.Actions.authorizeFailure(e))
+            }
         }
     } else {
         console.error('[auth] LOGIC ERROR: begin called before auth lib load')
@@ -81,10 +85,10 @@ const begin = function* ({ payload: { callback } }) {
 }
 
 const authorizeFailure = function* ({ payload: { error: { error } } }) {
-    // Hide notification and display error
     console.error(`[auth] AUTH ERROR: Not able to sign in due to ${error}`)
 
-    yield put(Snack.error('signin-task', `Error: ${error}`, 3000))
+    yield put(Snack.error('signin-task-error', `Error: ${error}`))
+    yield put(Snack.dismiss('signin-task'))
 }
 
 const revoke = function* ({ payload: { callback } }) {
