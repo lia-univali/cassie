@@ -36,7 +36,7 @@ const loadClientAuth = function* ({ payload: { onSuccess } }) {
         onSuccess()
     }
     catch (e) {
-        yield put(Auth.Actions.loadClientAuthFailure())
+        yield put(Auth.Actions.loadClientAuthFailure(e))
     }
 }
 

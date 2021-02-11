@@ -1,4 +1,4 @@
-import Algorithms from '../procedures'
+import Algorithms from '../algorithms'
 import sentinel2Thumb from "../resources/Sentinel-2.jpg";
 import landsatThumb from "../resources/Landsat.jpg";
 

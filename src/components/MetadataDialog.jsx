@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/Table';
 import DialogActions from './DialogActions';
-import BasicDialog from './BasicDialog';
+import BasicDialog from '../app/components/dialog/BasicDialog';
 
 const CompactJsonView = (props) => (
   <JsonView {...props}

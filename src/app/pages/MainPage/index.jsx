@@ -5,16 +5,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
 import NavigationBar from '../../../containers/NavigationBar';
-import DialogRoot from '../../../containers/DialogRoot';
+import DialogRoot from '../../components/dialog/DialogRoot';
 import AcquisitionPage from '../../../containers/AcquisitionPage';
 import ProcessingPage from '../ProcessingPage';
 import ActivityIndicator from '../../../containers/ActivityIndicator';
 
 // Register Dialogs
-import CoastlineEvolutionDialog from '../../../containers/CoastlineEvolutionDialog';
-import CoastlineConfigDialog from '../../../containers/CoastlineConfigDialog';
-import NewLayerDialog from '../../../containers/NewLayerDialog';
-import ImageSelectionDialog from '../../../containers/ImageSelectionDialog';
+import CoastlineEvolutionDialog from '../../components/dialog/CoastlineEvolutionDialog';
+import CoastlineConfigDialog from '../../components/dialog/CoastlineConfigDialog';
+import NewLayerDialog from '../../components/dialog/NewLayerDialog';
+import ImageSelectionDialog from '../../components/dialog/ImageSelectionDialog';
 
 const NotFound = props => (
   <Typography variant="h2" align="center">

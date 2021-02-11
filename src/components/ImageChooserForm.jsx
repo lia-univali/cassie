@@ -1,66 +1,51 @@
-import React from 'react';
-import createSpacing from '@material-ui/core/styles/createSpacing';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import { withTranslation } from 'react-i18next'
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next'
 
-class ImageChooserForm extends React.Component {
-  constructor(props) {
-    super(props);
+import { makeStyles } from '@material-ui/core/styles'
+import { Button, FormControl, Input, InputLabel, MenuItem, Select } from '@material-ui/core'
 
-    this.state = {
-      index: 0,
-    };
+const useStyles = makeStyles(theme => ({
+  content: {
+    marginRight: theme.spacing(2)
+  }
+}))
+
+const ImageChooserForm = ({ images = [], onLoadRequested = () => { }, disabledPredicate = () => false }) => {
+  const [t] = useTranslation()
+  const classes = useStyles()
+
+  const [index, setIndex] = useState(0)
+
+  const isDisabled = (index) => {
+    return disabledPredicate(index)
   }
 
-  isDisabled(index) {
-    const { disabledPredicate = () => false } = this.props;
-
-    return disabledPredicate(index);
-  }
-
-  createItems() {
-    const {
-      images = [],
-    } = this.props;
-
-    return images.map((image, i) => {
-      return (
-        <MenuItem key={i} disabled={this.isDisabled(i)} value={i}>
-          {image.shortname + "/" + image.date}
-        </MenuItem>
-      );
-    });
-  }
-
-  render() {
-    const { t, onLoadRequested = () => { } } = this.props;
-
-    return (
-      <form>
-        <FormControl style={{ marginRight: createSpacing.unit * 2 }}>
-          <InputLabel htmlFor="image-select">{t('forms.imageChooser.image')}</InputLabel>
-          <Select
-            input={<Input name="image" id="image-select" />}
-            onChange={e => this.setState({ index: e.target.value })}
-            value={this.state.index}
-          >
-            {this.createItems()}
-          </Select>
-        </FormControl>
-        <Button color="primary"
-          disabled={this.isDisabled(this.state.index)}
-          onClick={() => onLoadRequested(this.state.index)}
+  return (
+    <form>
+      <FormControl className={classes.content}>
+        <InputLabel htmlFor="image-select">{t('forms.imageChooser.image')}</InputLabel>
+        <Select
+          input={<Input name="image" id="image-select" />}
+          onChange={e => setIndex(e.target.value)}
+          value={index}
         >
-          {t('forms.imageChooser.load')}
-        </Button>
-      </form>
-    );
-  }
+          {
+            images.map((image, i) => (
+              <MenuItem key={i} disabled={isDisabled(i)} value={i}>
+                {`${image.shortname}/${image.date}`}
+              </MenuItem>
+            ))
+          }
+        </Select>
+      </FormControl>
+      <Button color="primary"
+        disabled={isDisabled(index)}
+        onClick={() => onLoadRequested(index)}
+      >
+        {t('forms.imageChooser.load')}
+      </Button>
+    </form>
+  )
 }
 
-export default withTranslation()(ImageChooserForm);
+export default ImageChooserForm

@@ -12,8 +12,8 @@ import * as Imagery from '../header'
 import * as Map from "../../map";
 import * as Selectors from "../../../../selectors";
 import * as Metadata from "../../../../common/metadata";
-import * as Coastline from "../../../../procedures/coastline";
-import { generateLayer } from "../../../../procedures/imagery";
+import * as Coastline from "../../../../algorithms/coastline";
+import { generateLayer } from "../../../../algorithms/imagery";
 
 import { Actions as Snacks } from '../../snacks'
 

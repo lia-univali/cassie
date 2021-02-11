@@ -1,7 +1,7 @@
 import { call, all, select, put } from "redux-saga/effects";
 import { callback } from '../tools/effects'
 import { get as getSatellite } from "../../common/satellites";
-import { generateLayer, createThumbnail } from "../../procedures/imagery";
+import { generateLayer, createThumbnail } from "../../algorithms/imagery";
 import {
   createConcurrentHandler,
   createBufferedHandler,
