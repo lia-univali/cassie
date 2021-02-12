@@ -6,10 +6,10 @@ import moment from 'moment'
 import { AppBar, Button, Menu, MenuItem, Paper, Tab, Tabs } from '@material-ui/core'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core'
 
-import TransectDataTable from '../../../containers/TransectDataTable'
+import TransectDataTable from '../visualization/TransectDataTable'
 import { registerDialog } from './DialogRoot'
 
-import Export from '../../../services/Export'
+import Export from '../../../services/export'
 import { exportCSV, exportJSON, exportCoordinates } from '../../../common/utils'
 
 const shapeTransectData = (transectData) => {

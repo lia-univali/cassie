@@ -1,11 +1,4 @@
-import Satellite from './satellite'
-import * as Coastline from './coastline'
-import * as Acquisition from './acquisition'
-import * as Common from './common'
-
-export default {
-  Satellite,
-  Coastline,
-  Acquisition,
-  Common
-}
+export { default as Satellite } from './satellite'
+export * as Shoreline from './shoreline'
+export * as Acquisition from './acquisition'
+export * as Common from './common'

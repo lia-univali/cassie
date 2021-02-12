@@ -1,77 +1,52 @@
-import React from 'react';
-import { compose } from 'redux'
-import { connect } from 'react-redux';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import ExpandIcon from '@material-ui/icons/ExpandMore';
-import LayerViewer from './LayerViewer';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import Add from '@material-ui/icons/AddCircleOutline';
-import { Actions as Imagery } from '../store/ducks/imagery';
-import { withTranslation } from 'react-i18next'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
-class ImageViewer extends React.Component {
-  createTitle() {
-    const { image } = this.props;
+import { Divider, IconButton, Tooltip, Typography } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary } from '@material-ui/core'
+import { AddCircleOutline as Add, ExpandMore as ExpandIcon } from '@material-ui/icons'
 
-    return (
-      <div>
-        <Typography variant="body1" className="word-breakable">
+import LayerViewer from './LayerViewer'
+import { Actions as Imagery } from '../store/ducks/imagery'
+
+
+const ImageViewer = ({ image, index }) => {
+  const dispatch = useDispatch()
+  const [t] = useTranslation()
+
+  const hasLayers = image && image.layers && Object.keys(image.layers).length > 0
+
+  return (
+    <Accordion defaultExpanded style={{ margin: '1px 1px' }}>
+      <AccordionSummary expandIcon={<ExpandIcon />}>
+        <Typography variant='body1' className='word-breakable'>
           {image.name}
         </Typography>
-
-      </div>
-    )
-  }
-
-  createLayers() {
-    const { t, image, index } = this.props;
-
-    if (image === undefined || image.layers === undefined || Object.keys(image.layers).length === 0) {
-      return <p>{t('forms.imageryOverlay.loading')}</p>
-    }
-
-    return Object.keys(image.layers).map((id, i) => (
-      <LayerViewer key={i} layer={image.layers[id]} index={id} parent={index} />
-    )).reverse();
-  }
-
-  render() {
-    const { t, index } = this.props;
-
-    return (
-      <ExpansionPanel defaultExpanded style={{ margin: "1px 1px" }}>
-        <ExpansionPanelSummary expandIcon={<ExpandIcon />}>
-          {this.createTitle()}
-        </ExpansionPanelSummary>
-
-        <Divider />
-
-        <ExpansionPanelDetails>
-          <div className="hexpand vcenter flow-column">
-            {this.createLayers()}
-          </div>
-        </ExpansionPanelDetails>
-
-        <Divider />
-
-        <Tooltip title={t('forms.imageryOverlay.hint')} placement="top">
-          <IconButton onClick={() => this.props.requestExpression(index)}>
-            <Add />
-          </IconButton>
-        </Tooltip>
-      </ExpansionPanel>
-    );
-  }
+      </AccordionSummary>
+      <Divider />
+      <AccordionDetails>
+        {/* @todo has raw css */}
+        <div className='hexpand vcenter flow-column'>
+          {
+            !hasLayers &&
+            <p>{t('forms.imageryOverlay.loading')}</p>
+          }
+          {
+            hasLayers &&
+            Object.keys(image.layers).reverse().map((id, i) => (
+              <LayerViewer key={i} layer={image.layers[id]} index={id} parent={index} />
+            ))
+          }
+        </div>
+      </AccordionDetails>
+      <Divider />
+      <Tooltip title={t('forms.imageryOverlay.hint')} placement='top'>
+        <IconButton onClick={() => dispatch(Imagery.requestExpression(index))}>
+          <Add />
+        </IconButton>
+      </Tooltip>
+    </Accordion>
+  )
 }
 
-const enhancer = compose(
-  connect(state => ({}), { requestExpression: Imagery.requestExpression }),
-  withTranslation()
-)
-
-export default enhancer(ImageViewer);
+export default ImageViewer

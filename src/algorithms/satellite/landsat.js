@@ -1,11 +1,7 @@
-import ee from "../../services/EarthEngine";
-import {
-  mergeProperties,
-  retrieveExtremes,
-  getDate
-} from "../common";
-import { scoreClouds } from "../imagery";
-import * as Metadata from "../../common/metadata";
+import { ee } from '../../services/earth-engine'
+import { mergeProperties, retrieveExtremes, getDate } from '../common'
+import { scoreClouds } from '../imagery'
+import * as Metadata from '../../common/metadata'
 
 const addGridPosition = element => {
   const image = ee.Image(element);

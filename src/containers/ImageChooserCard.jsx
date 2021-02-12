@@ -1,84 +1,58 @@
-import React from 'react';
-import { compose } from 'redux'
-import { connect } from 'react-redux';
-import MoreIcon from '@material-ui/icons/ExpandMore';
-import LessIcon from '@material-ui/icons/ExpandLess';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Collapse from '@material-ui/core/Collapse';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import ImageChooserForm from '../components/ImageChooserForm';
-import ActionList from './ActionList';
-import { acquireImage } from '../store/ducks/acquisition';
-import { getAcquisitionParameters } from '../selectors';
-import { withTranslation } from 'react-i18next'
+import React, { useState } from 'react'
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
-class ImageChooserCard extends React.Component {
-  constructor(props) {
-    super(props);
+import { Box, Collapse, Divider, IconButton, Typography } from '@material-ui/core'
+import { Card, CardHeader, CardContent, CardActions} from '@material-ui/core'
+import { ExpandMore as MoreIcon, ExpandLess as LessIcon } from '@material-ui/icons'
 
-    this.state = { expanded: true };
-  }
+import ImageChooserForm from '../components/ImageChooserForm'
+import ActionList from './ActionList'
+import { acquireImage } from '../store/ducks/acquisition'
 
-  shouldDisable(index) {
-    return false;
-    // return this.props.loadedImages.find(image => (
-    //   compareImages(image, this.props.images.features[index])
-    // )) !== undefined;
-  }
+const ImageChooserCard = ({ className }) => {
+  const availableDates = useSelector(state => state.acquisition.availableDates)
+  const satellite = useSelector(state => state.acquisition.satellite, shallowEqual)
 
-  render() {
-    const { expanded } = this.state;
-    const { t, availableDates, acquireImage, satellite, className } = this.props;
+  const dispatch = useDispatch()
+  const [t] = useTranslation()
 
-    if (availableDates === undefined) {
-      return null;
-    }
+  const [expanded, setExpanded] = useState(true)
 
-    return (
-      <Card className={className} style={{ margin: 12 }}>
-        <CardHeader
-          title={t('forms.imageChooser.title')}
-          subheader={`${availableDates.length} ${t('forms.imageChooser.resultQuantity')}`}
+  return availableDates === undefined ? null : (
+    <Card className={className} style={{ margin: 12 }}>
+      <CardHeader
+        title={t('forms.imageChooser.title')}
+        subheader={`${availableDates.length} ${t('forms.imageChooser.resultQuantity')}`}
+      />
+
+      <Divider />
+
+      <CardContent>
+        <ImageChooserForm
+          images={availableDates}
+          disabledPredicate={i => false}
+          onLoadRequested={i => dispatch(acquireImage(availableDates[i].name, availableDates[i].date))}
+          formatter={i => satellite.get(availableDates[i].name).format}
         />
+      </CardContent>
 
-        <Divider />
+      <Divider />
 
-        <CardContent>
-          <ImageChooserForm
-            images={availableDates}
-            disabledPredicate={i => this.shouldDisable(i)}
-            onLoadRequested={i => acquireImage(availableDates[i].name, availableDates[i].date)}
-            formatter={i => satellite.get(availableDates[i].name).format}
-          />
-        </CardContent>
-
-        <Divider />
-
-        <CardActions>
-          <div className="flex1">
-            <Typography variant="subtitle1">{t('forms.imageChooser.actions.title')}</Typography>
-          </div>
-
-          <IconButton onClick={() => this.setState({ expanded: !expanded })}>
-            {expanded ? <LessIcon /> : <MoreIcon />}
-          </IconButton>
-        </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <ActionList name="actions" />
-        </Collapse>
-      </Card>
-    );
-  }
+      <CardActions>
+        {/* @TODO has raw css */}
+        <Box flex='1'>
+          <Typography variant='subtitle1'>{t('forms.imageChooser.actions.title')}</Typography>
+        </Box>
+        <IconButton onClick={() => setExpanded(expanded => !expanded)}>
+          {expanded ? <LessIcon /> : <MoreIcon />}
+        </IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout='auto' unmountOnExit>
+        <ActionList name='actions' />
+      </Collapse>
+    </Card>
+  )
 }
 
-const enhancer = compose(
-  connect(state => getAcquisitionParameters(state), { acquireImage }),
-  withTranslation()
-)
-
-export default enhancer(ImageChooserCard);
+export default ImageChooserCard

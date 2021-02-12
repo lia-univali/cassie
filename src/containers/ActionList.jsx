@@ -24,7 +24,8 @@ const ActionList = ({ name }) => {
           <Avatar><Waves /></Avatar>
         </ListItemAvatar>
         <ListItemText primary={t('forms.imageChooser.actions.analyzeShoreline.title')} style={{ paddingRight: 48 }} />
-        {hasShorelineData &&
+        {
+          hasShorelineData &&
           <ListItemSecondaryAction>
             <IconButton aria-label='results' onClick={() => dispatch(openDialog('coastlineEvolution'))}>
               <Assignment />

@@ -1,15 +1,10 @@
-import {
-  mergeProperties,
-  addGridPosition,
-  retrieveExtremes,
-  getDate
-} from "./common";
-import { getSatelliteCollection } from "../common/eeUtils";
-import { scoreClouds } from "./imagery";
-import * as Metadata from "../common/metadata";
+import { ee } from '../../services/earth-engine'
+import { mergeProperties, addGridPosition, retrieveExtremes, getDate } from '../common'
+import { getSatelliteCollection } from '../../common/eeUtils'
+import { scoreClouds } from '../imagery'
+import * as Metadata from '../../common/metadata'
 
-const REVISIT_DAYS = 16;
-const ee = window.ee;
+const REVISIT_DAYS = 16
 
 const sliceByRevisit = (collection, startingDate, days) => {
   const start = ee.Date(startingDate).update(null, null, null, 0, 0, 0);

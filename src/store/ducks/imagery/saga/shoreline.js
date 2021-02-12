@@ -12,7 +12,7 @@ import * as Imagery from '../header'
 import * as Map from "../../map";
 import * as Selectors from "../../../../selectors";
 import * as Metadata from "../../../../common/metadata";
-import * as Coastline from "../../../../algorithms/coastline";
+import * as Coastline from "../../../../algorithms/shoreline";
 import { generateLayer } from "../../../../algorithms/imagery";
 
 import { Actions as Snacks } from '../../snacks'
@@ -81,26 +81,19 @@ const estevesLabelling = (transects) => {
 const performCoastlineAnalysis = function* (identifier, baseline, transects, extent, dates, threshold, names = []) {
     const { satellite } = yield select(
         Selectors.getAcquisitionParameters
-    );
+    )
 
-    const bufferedBaseline = baseline.buffer(extent / 2);
-
-    const asAsync = job => (...params) => {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(job.apply(job, [...params]))
-            }, 0)
-        })
-    }
+    const bufferedBaseline = baseline.buffer(extent / 2)
 
     const shorelines = yield call(
-        asAsync(Coastline.deriveShorelines),
+        Coastline.deriveShorelines,
         dates,
         satellite,
         bufferedBaseline,
+        30,
         threshold,
         transects
-    );
+    )
 
     yield put(Snacks.task('shoreline-ext-chunks', 'Extracting shorelines'))
 
@@ -120,22 +113,22 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
 
     yield put(Snacks.dismiss('shoreline-ext-chunks'))
 
-    transects = yield call(Coastline.generateTransectsStatistics, transects, baseline, sds, names);
+    transects = yield call(Coastline.generateTransectsStatistics, transects, baseline, sds, names)
 
-    const classified = yield call(estevesLabelling, transects);
+    const classified = yield call(estevesLabelling, transects)
 
-    const transectsViz = yield call(Coastline.expandHorizontally, classified, 10);
+    const transectsViz = yield call(Coastline.expandHorizontally, classified, 10)
 
     const enhancedCoastlines = yield call(
         Coastline.mapToSummary,
         classified,
         sds,
         bufferedBaseline
-    );
+    )
 
     const lrrColors = yield evaluate(classified.map(f => ee.Feature(f).get('color')))
 
-    const colors = generateColors(dates.length, 66);
+    const colors = generateColors(dates.length, 66)
     yield put(
         Map.addEEFeature(
             enhancedCoastlines,
@@ -144,7 +137,7 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
             1,
             identifier
         )
-    );
+    )
     yield put(
         Map.addEEFeature(
             transectsViz,
@@ -153,62 +146,62 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
             1,
             Metadata.FeatureType.TRANSECT
         )
-    );
+    )
 
     const finalQuery = ee
         .List(enhancedCoastlines.toList(enhancedCoastlines.size()))
         .map(poly => {
             return ee.Feature(poly).toDictionary(["date", "mean", "stdDev"]);
-        });
+        })
 
-    const coastlineCollection = yield evaluate(enhancedCoastlines);
+    const coastlineCollection = yield evaluate(enhancedCoastlines)
 
     const [evolutionData, transectData] = yield evaluate(
         ee.List([finalQuery, classified])
-    );
+    )
 
     const withColors = evolutionData.map((row, i) => ({
         ...row,
         color: colors[i]
-    }));
+    }))
 
     const putObjectId = feature => {
         return ee
             .Feature(feature)
-            .set("objectid", ee.Feature(feature).get("system:index"));
-    };
+            .set("objectid", ee.Feature(feature).get("system:index"))
+    }
 
     const selectProperties = (properties) => feature => {
-        const props = ee.List(properties);
-        const cast = ee.Feature(feature);
-        return ee.Feature(cast.geometry(), cast.toDictionary(props));
-    };
+        const props = ee.List(properties)
+        const cast = ee.Feature(feature)
+        return ee.Feature(cast.geometry(), cast.toDictionary(props))
+    }
 
     const shapeTransectData = feature => {
-        const cast = ee.Feature(feature);
-        const geometry = ee.Geometry(cast.geometry());
-        let properties = cast.toDictionary();
+        const cast = ee.Feature(feature)
+        const geometry = ee.Geometry(cast.geometry())
+        let properties = cast.toDictionary()
 
         // insert initial and final coordinates
-        const begin = ee.List(geometry.coordinates().get(0));
-        properties = properties.set("LongStart", ee.Number(begin.get(0)));
-        properties = properties.set("LatStart", ee.Number(begin.get(1)));
+        const begin = ee.List(geometry.coordinates().get(0))
+        properties = properties.set("LongStart", ee.Number(begin.get(0)))
+        properties = properties.set("LatStart", ee.Number(begin.get(1)))
 
-        const end = ee.List(geometry.coordinates().get(1));
-        properties = properties.set("LongEnd", ee.Number(end.get(0)));
-        properties = properties.set("LatEnd", ee.Number(end.get(1)));
+        const end = ee.List(geometry.coordinates().get(1))
+        properties = properties.set("LongEnd", ee.Number(end.get(0)))
+        properties = properties.set("LatEnd", ee.Number(end.get(1)))
 
         // set regression values
-        const trend = ee.Dictionary(properties.get("trend"));
-        const r = ee.Number(trend.get("correlation"));
+        const trend = ee.Dictionary(properties.get("trend"))
+        const r = ee.Number(trend.get("correlation"))
 
-        properties = properties.set("r", r);
-        properties = properties.set("rsquared", r.pow(2));
-        properties = properties.set("intercept", trend.get("offset"));
-        properties = properties.set("slope", trend.get("scale"));
+        properties = properties.set("r", r)
+        properties = properties.set("rsquared", r.pow(2))
+        properties = properties.set("intercept", trend.get("offset"))
+        properties = properties.set("slope", trend.get("scale"))
 
-        return ee.Feature(geometry, properties);
-    };
+        return ee.Feature(geometry, properties)
+    }
 
     const exportable = {
         shpBaseline: yield evaluate(
@@ -259,7 +252,7 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
         })
     );
 
-    yield put(openDialog("coastlineEvolution"));
+    yield put(openDialog("coastlineEvolution"))
 }
 
 export const handleAnalyzeCoastline = function* () {
@@ -281,7 +274,7 @@ export const handleAnalyzeCoastline = function* () {
         extent
     );
 
-    yield* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold === -1 ? 0 : threshold);
+    yield* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold);
 }
 
 export const handleTestSpecificState = function* () {
