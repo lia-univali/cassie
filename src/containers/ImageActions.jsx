@@ -1,22 +1,26 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import More from '@material-ui/icons/MoreVert';
-import MenuItem from '@material-ui/core/MenuItem';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Button from '../components/Button';
-import IndexDropdown from '../components/IndexDropdown';
-import DropdownButton from '../components/DropdownButton';
-import { bindDispatch } from '../common/utils';
-import { mediumIconButton } from '../theme';
-import * as Modal from '../actions/modal';
-import * as Imagery from '../actions/imagery';
-import * as Application from '../actions/application';
+import { useDispatch } from 'react-redux'
 
-const ImageActions = ({ application, imagery, modal, index, metadata }) => {
+import { MenuItem, ExpansionPanelActions } from '@material-ui/core'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import { More } from '@material-ui/icons'
+
+import Button from '../components/Button'
+import IndexDropdown from '../components/IndexDropdown'
+import DropdownButton from '../components/DropdownButton'
+
+import { mediumIconButton } from '../theme'
+
+import * as modal from '../store/ducks/modal'
+import * as imagery from '../store/ducks/imagery'
+
+// @TODO unused component
+const ImageActions = ({ index, metadata }) => {
+  const dispatch = useDispatch()
+
   const handleInclude = ({ expression, label, params }) => {
-    imagery.addCustomLayer(expression, index, label, params);
-  };
+    dispatch(imagery.addCustomLayer(expression, index, label, params))
+  }
 
   return (
     <MuiThemeProvider theme={mediumIconButton}>
@@ -35,14 +39,14 @@ const ImageActions = ({ application, imagery, modal, index, metadata }) => {
 
         <DropdownButton icon={More}>
           {metadata !== undefined &&
-            <MenuItem onClick={() => modal.open("VIEW_METADATA", { data: metadata })}>
+            <MenuItem onClick={() => dispatch(modal.open("VIEW_METADATA", { data: metadata }))}>
               Ver metadados
             </MenuItem>
           }
         </DropdownButton>
       </ExpansionPanelActions>
     </MuiThemeProvider>
-  );
-};
+  )
+}
 
-export default connect(() => ({}), bindDispatch({ Application, Modal, Imagery }))(ImageActions);
+export default ImageActions

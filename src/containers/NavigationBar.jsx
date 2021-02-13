@@ -1,27 +1,23 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { useSelector, shallowEqual } from 'react-redux';
+
+import { AppBar, Typography, Toolbar } from '@material-ui/core';
+
 import User from './User';
 
-class NavigationBar extends React.Component {
-  render() {
-    const { user } = this.props;
+const NavigationBar = () => {
+  const user = useSelector(state => state.auth.user, shallowEqual)
 
-    return (
-      <AppBar position="static" elevation={0}>
-        <Toolbar>
-          <Typography variant="h6" className="flex1" color="inherit">
-            C.A.S.S.I.E. <small>Coastal Analysis via Satellite Imagery Engine</small>
-          </Typography>
-          <User name={user.name} image={user.image} />
-        </Toolbar>
-      </AppBar>
-    );
-  }
+  return (
+    <AppBar position="static" elevation={0}>
+      <Toolbar>
+        <Typography variant="h6" className="flex1" color="inherit">
+          C.A.S.S.I.E. <small>Coastal Analysis via Satellite Imagery Engine</small>
+        </Typography>
+        <User {...user} />
+      </Toolbar>
+    </AppBar>
+  )
 }
 
-export default connect(state => {
-  return { user: state.user };
-})(NavigationBar);
+export default NavigationBar

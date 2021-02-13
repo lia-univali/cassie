@@ -2,7 +2,7 @@ import React from 'react';
 import DialogContent from '@material-ui/core/Dialog';
 import DialogActions from './DialogActions';
 import Typography from '@material-ui/core/Typography';
-import BasicDialog from './BasicDialog';
+import BasicDialog from '../app/components/dialog/BasicDialog';
 import Button from './Button';
 
 class ConsentDialog extends React.Component {

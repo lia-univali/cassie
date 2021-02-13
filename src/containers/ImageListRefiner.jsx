@@ -5,7 +5,7 @@ import ImageTable from '../components/ImageTable';
 import StepperButtons from '../components/StepperButtons';
 import update from 'immutability-helper';
 import { FINALIZE } from './AcquisitionPage';
-import { loadThumbnails, setAvailableDates } from '../ducks/acquisition';
+import { loadThumbnails, setAvailableDates } from '../store/ducks/acquisition';
 import { withTranslation } from 'react-i18next'
 
 class ImageListRefiner extends React.Component {

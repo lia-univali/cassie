@@ -1,103 +1,111 @@
+import { take, all, select, put, race } from 'redux-saga/effects';
+import { createConcurrentHandler, createBufferedHandler, evaluate } from '../../common/sagaUtils';
+import { findLayerIndex, retrieveShape, retrieveHighlightedShape, retrieveShapeGroup } from '../../selectors';
 import update from 'immutability-helper';
+import * as Map from '../../common/map';
 
-const mapType = (name) => `cassie.map.${name}`
+const ADD_EE_LAYER = 'cassie/map/ADD_EE_LAYER';
+const ADD_EE_FEATURE = 'cassie/map/ADD_EE_FEATURE';
+const REMOVE_SHAPE = 'cassie/map/REMOVE_SHAPE';
+const REMOVE_SHAPE_GROUP = 'cassie/map/REMOVE_SHAPE_GROUP';
+const CHANGE_OPACITY = 'cassie/map/CHANGE_OPACITY';
+const REQUEST_DRAWING = 'cassie/map/REQUEST_DRAWING';
+const CANCEL_DRAWING = 'cassie/map/CANCEL_DRAWING';
+const COMPLETE_DRAWING = 'cassie/map/COMPLETE_DRAWING';
+const CENTRALIZE_MAP = 'cassie/map/CENTRALIZE_MAP';
+const ADD_SHAPES = 'cassie/map/ADD_SHAPES';
+const HIGHLIGHT = 'cassie/map/HIGHLIGHT';
+const CLEAR_HIGHLIGHT = 'cassie/map/CLEAR_HIGHLIGHT';
+const COMMIT_HIGHLIGHT = 'cassie/map/COMMIT_HIGHTLIGHT';
+const COMMIT_SHAPE_REMOVAL = 'cassie/map/COMMIT_SHAPE_REMOVAL';
 
-/**
- * Types
- */
-
-export const Types = {
-  ADD_EE_LAYER: mapType('ADD_EE_LAYER'),
-  ADD_EE_FEATURE: mapType('ADD_EE_FEATURE'),
-  REMOVE_SHAPE: mapType('REMOVE_SHAPE'),
-  REMOVE_SHAPE_GROUP: mapType('REMOVE_SHAPE_GROUP'),
-  CHANGE_OPACITY: mapType('CHANGE_OPACITY'),
-  REQUEST_DRAWING: mapType('REQUEST_DRAWING'),
-  CANCEL_DRAWING: mapType('CANCEL_DRAWING'),
-  COMPLETE_DRAWING: mapType('COMPLETE_DRAWING'),
-  CENTRALIZE_MAP: mapType('CENTRALIZE_MAP'),
-  ADD_SHAPES: mapType('ADD_SHAPES'),
-  HIGHLIGHT: mapType('HIGHLIGHT'),
-  CLEAR_HIGHLIGHT: mapType('CLEAR_HIGHLIGHT'),
-  COMMIT_HIGHLIGHT: mapType('COMMIT_HIGHTLIGHT'),
-  COMMIT_SHAPE_REMOVAL: mapType('COMMIT_SHAPE_REMOVAL')
+export const addEELayer = (overlay, identifier, position) => {
+  return { type: ADD_EE_LAYER, overlay, identifier, position };
 }
 
-/**
- * Actions
- */
+export const addEEFeature = (feature, name, color = "#FF0000", opacity = 1, group) => {
+  return { type: ADD_EE_FEATURE, feature, name, color, opacity, group };
+}
 
-export const Actions = {
-  addEELayer: (overlay, identifier, position) => {
-    return { type: Types.ADD_EE_LAYER, overlay, identifier, position };
-  },
+export const changeOpacity = (identifier, opacity) => {
+  return { type: CHANGE_OPACITY, identifier, opacity };
+}
 
-  addEEFeature: (feature, name, color = "#FF0000", opacity = 1, group) => {
-    return { type: Types.ADD_EE_FEATURE, feature, name, color, opacity, group };
-  },
+export const cancelDrawing = () => {
+  return { type: CANCEL_DRAWING };
+}
 
-  changeOpacity: (identifier, opacity) => {
-    return { type: Types.CHANGE_OPACITY, identifier, opacity };
-  },
+export const completeDrawing = (overlay, coordinates) => {
+  return { type: COMPLETE_DRAWING, overlay, coordinates };
+}
 
-  cancelDrawing: () => {
-    return { type: Types.CANCEL_DRAWING };
-  },
+export const requestDrawing = (drawingType, message) => {
+  return { type: REQUEST_DRAWING, drawingType, message };
+}
 
-  completeDrawing: (overlay, coordinates) => {
-    return { type: Types.COMPLETE_DRAWING, overlay, coordinates };
-  },
+export const addShapes = (shapes, name, group = "all", content = null) => {
+  return { type: ADD_SHAPES, shapes, name, group, content };
+}
 
-  requestDrawing: (drawingType, message) => {
-    return { type: Types.REQUEST_DRAWING, drawingType, message };
-  },
+export const highlight = (index) => {
+  return { type: HIGHLIGHT, index };
+}
 
-  addShapes: (shapes, name, group = "all", content = null) => {
-    return { type: Types.ADD_SHAPES, shapes, name, group, content };
-  },
+export const clearHighlight = () => {
+  return { type: CLEAR_HIGHLIGHT };
+}
 
-  highlight: (index) => {
-    return { type: Types.HIGHLIGHT, index };
-  },
+export const commitHighlight = (index) => {
+  return { type: COMMIT_HIGHLIGHT, index };
+}
 
-  clearHighlight: () => {
-    return { type: Types.CLEAR_HIGHLIGHT };
-  },
+export const commitShapeRemoval = (index) => {
+  return { type: COMMIT_SHAPE_REMOVAL, index };
+}
 
-  commitHighlight: (index) => {
-    return { type: Types.COMMIT_HIGHLIGHT, index };
-  },
+export const removeShape = (index) => {
+  return { type: REMOVE_SHAPE, index };
+}
 
-  commitShapeRemoval: (index) => {
-    return { type: Types.COMMIT_SHAPE_REMOVAL, index };
-  },
+export const removeShapeGroup = (group) => {
+  return { type: REMOVE_SHAPE_GROUP, group };
+}
 
-  removeShape: (index) => {
-    return { type: Types.REMOVE_SHAPE, index };
-  },
+export const centralizeMap = (coordinates) => {
+  return { type: CENTRALIZE_MAP, coordinates };
+}
 
-  removeShapeGroup: (group) => {
-    return { type: Types.REMOVE_SHAPE_GROUP, group };
-  },
+const ee = window.ee;
 
-  centralizeMap: (coordinates) => {
-    return { type: Types.CENTRALIZE_MAP, coordinates };
+export function* requestAndWait(drawingType, message, name, group) {
+  yield put(requestDrawing(drawingType, message));
+
+  const { completion } = yield race({
+    completion: take(COMPLETE_DRAWING),
+    cancellation: take(CANCEL_DRAWING),
+  });
+
+  if (completion) {
+    let geometry = null;
+    if (drawingType === 'polyline') {
+      geometry = ee.Geometry.LineString(completion.coordinates);
+    } else {
+      geometry = ee.Geometry.Polygon([completion.coordinates]);
+    }
+
+    yield put(addEEFeature(ee.Feature(geometry), name || drawingType, "#00B3A1", 1, group));
+    yield take("END_EVALUATION");
+    completion.overlay.setMap(null);
+    return completion;
   }
+
+  return {};
 }
 
-/**
- * Reducer
- */
-
-const initialState = {
-  layers: [],
-  shapes: [],
-  zIndex: 0
-};
-
-export default function reducer(state = initialState, action) {
+const initialState = { layers: [], shapes: [], zIndex: 0 };
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case Types.ADD_EE_LAYER: {
+    case ADD_EE_LAYER: {
       const layers = update(state.layers, {
         $splice: [[action.position, 0, action.identifier]]
       });
@@ -105,7 +113,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, layers };
     }
 
-    case Types.ADD_SHAPES: {
+    case ADD_SHAPES: {
       const shapes = update(state.shapes, {
         $push: [{ overlays: action.shapes, name: action.name, group: action.group, content: action.content }]
       });
@@ -113,24 +121,24 @@ export default function reducer(state = initialState, action) {
       return { ...state, shapes };
     }
 
-    case Types.ADD_EE_FEATURE: {
+    case ADD_EE_FEATURE: {
       return { ...state, zIndex: state.zIndex + 1 };
     }
 
-    case Types.REQUEST_DRAWING: {
+    case REQUEST_DRAWING: {
       return { ...state, currentlyDrawing: true, drawingMessage: action.message };
     }
 
-    case Types.COMPLETE_DRAWING:
-    case Types.CANCEL_DRAWING: {
+    case COMPLETE_DRAWING:
+    case CANCEL_DRAWING: {
       return { ...state, currentlyDrawing: false };
     }
 
-    case Types.COMMIT_HIGHLIGHT: {
+    case COMMIT_HIGHLIGHT: {
       return { ...state, highlighted: action.index };
     }
 
-    case Types.COMMIT_SHAPE_REMOVAL: {
+    case COMMIT_SHAPE_REMOVAL: {
       const shapes = update(state.shapes, {
         $unset: [action.index]
       });
@@ -142,4 +150,107 @@ export default function reducer(state = initialState, action) {
       return state;
     }
   }
-};
+}
+
+export default reducer
+
+function* handleAddEELayer({ overlay, position }) {
+  Map.addLayer(overlay, position);
+}
+
+function* handleAddEEFeature({ feature, name, color, opacity, group }) {
+  const collection = ee.FeatureCollection(feature);
+  const list = ee.List(collection.toList(collection.size()));
+
+  const content = yield evaluate(list);
+
+  const colors = Array.isArray(color) ? color : [color];
+  let colorIndex = 0;
+
+  const shapes = content.map(element => {
+    const shape = Map.addShape(element, colors[colorIndex], opacity, group);
+
+    if (colorIndex < colors.length - 1) {
+      colorIndex++;
+    }
+
+    return shape;
+  });
+
+  yield put(addShapes(shapes, name, group, content));
+}
+
+function* handleChangeOpacity({ identifier, opacity }) {
+  const index = yield select(findLayerIndex(identifier));
+
+  Map.setOpacity(index, opacity);
+}
+
+function* handleRequestDrawing({ drawingType }) {
+  Map.setDrawingControlsVisible(false);
+  Map.setDrawingMode(drawingType);
+}
+
+function* handleDrawingTermination() {
+  Map.setDrawingMode(null);
+}
+
+function* handleHighlight({ index }) {
+  const shape = yield select(retrieveShape(index))
+
+  shape.overlays.forEach(overlay => {
+    Map.highlightShape(overlay)
+  });
+
+  yield put(commitHighlight(index));
+}
+
+//Should probably debounce this.
+function* handleClearHighlight() {
+  const shape = yield select(retrieveHighlightedShape);
+
+  shape.overlays.forEach(overlay => {
+    Map.clearHighlight(overlay);
+  });
+
+  yield put(commitHighlight(undefined));
+}
+
+function* handleRemoveShape({ index }) {
+  const shape = yield select(retrieveShape(index));
+  shape.overlays.forEach(overlay => {
+    Map.removeShape(overlay);
+  });
+
+  yield put(commitShapeRemoval(index));
+}
+
+function* handleRemoveShapeGroup({ group }) {
+  const indices = yield select(retrieveShapeGroup(group));
+  for (const index of indices.sort((a, b) => b - a)) {
+    yield put(removeShape(index));
+  }
+}
+
+function* handleCentralizeMap({ coordinates }) {
+  const bounds = new window.google.maps.LatLngBounds();
+  coordinates.forEach(([lng, lat]) => bounds.extend({ lat, lng }));
+
+  const center = bounds.getCenter();
+  Map.centralize(center.lat(), center.lng());
+}
+
+export function* saga() {
+  yield all([
+    createConcurrentHandler(ADD_EE_LAYER, handleAddEELayer),
+    createBufferedHandler(ADD_EE_FEATURE, handleAddEEFeature),
+    createConcurrentHandler(CHANGE_OPACITY, handleChangeOpacity),
+    createBufferedHandler(REQUEST_DRAWING, handleRequestDrawing),
+    createConcurrentHandler([CANCEL_DRAWING, COMPLETE_DRAWING], handleDrawingTermination),
+    createBufferedHandler(HIGHLIGHT, handleHighlight),
+    createBufferedHandler(CLEAR_HIGHLIGHT, handleClearHighlight),
+    createConcurrentHandler(REMOVE_SHAPE_GROUP, handleRemoveShapeGroup),
+    createBufferedHandler(REMOVE_SHAPE, handleRemoveShape),
+    createBufferedHandler(CENTRALIZE_MAP, handleCentralizeMap),
+  ]);
+}
