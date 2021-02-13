@@ -1,7 +1,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-const EvolutionChart = ({ width = 600, height = 400, regression = [], x = [], y = [],
+const EvolutionChart = ({ width = 500, height = 300, regression = [], x = [], y = [],
                           xLabel = 'x', yLabel = 'y', trendLabel = 'trend'}) => {
   const createData = () => {
     return {

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FeatureInfo from '../containers/FeatureInfo';
+import FeatureInfo from '../app/components/visualization/FeatureInfo';
 
 let Map = undefined;
 const STYLE_KEY = "customStyle";

@@ -61,20 +61,8 @@ export const combineReducers = (...reducers) => {
   return group
 }
 
-export const stringifyList = (list) => {
-  const flatten = ee.List(list).flatten()
-
-  const returnContent = () => {
-    const rtail = flatten.slice(0, -1).iterate((cur, acc) => {
-      return ee.String(acc).cat(ee.String(cur)).cat(', ')
-    }, ee.String('"['))
-
-    const rhead = ee.String(rtail).cat(list.get(-1)).cat(']"')
-
-    return rhead
-  }
-
-  return ee.Algorithms.If(flatten.size().gt(0), returnContent(), ee.String('"[]"'))
+export const stringifyList = (subject) => {
+  return ee.String('[').cat(ee.List(subject).join(',')).cat(']')
 }
 
 export const generateVisualizationParams = mission => {

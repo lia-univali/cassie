@@ -65,28 +65,27 @@ const deriveInChunks = function*(dates, ...params) {
 
     yield put(Snacks.task('shore-ext-chunks', progress(0)))
 
-    let [ count, evaluated ] = [ 0, [] ]
+    const evaluated = []
     const chunks = chunk(dates, size)
     
     const timer = new Timer()
 
     // Update snack message and progress load
-    const status = () => progress(count, timer.format(timer.project(count, length)))
-    const load = () => ({ variant: 'determinate', value: count / length * 100 })
+    const status = () => progress(evaluated.length, timer.format(timer.project(evaluated.length, length)))
+    const load = () => ({ variant: 'determinate', value: evaluated.length / length * 100 })
 
     for (const chunk of chunks) {
-        count += (count + size) > length ? (length - count) : size
-
         try {
             const shorelines = yield call(Coastline.deriveShorelines, chunk, ...params)
             const job = ee.List(shorelines)
             const data = yield callback([job, job.evaluate])
 
-            evaluated = evaluated.concat(data)
+            evaluated.push(...data)
         }
         catch (e) {
             // @TODO i18n
-            yield put(Snacks.error(`shore-ext-chunks-err${count}`, `Error in chunk ${count / size}. Fragment will be ignored.`))
+            yield put(Snacks.error(`shore-ext-chunks-err${evaluated.length}`, 
+                `Error in chunk ${evaluated.length / size}. Fragment will be ignored.`))
             console.error(`[ducks/shoreline] ERROR: ${e}`)
         }
         
@@ -94,6 +93,7 @@ const deriveInChunks = function*(dates, ...params) {
     }
 
     yield put(Snacks.dismiss('shore-ext-chunks'))
+    yield put(Snacks.success('shore-ext-success', 'Shorelines derived'))
 
     return ee.FeatureCollection(evaluated)
 }
@@ -103,25 +103,19 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
 
     const roi = baseline.buffer(extent / 2)
 
-    console.log('dates', dates)
-
     const sds = yield call(deriveInChunks, dates, satellite, roi, 30, threshold, transects)
     const results = yield call(Coastline.generateTransectsStatistics, transects, baseline, sds, names)
+    
+    const transectsViz = yield call(Coastline.expandHorizontally, results, 10)
+    const enhancedCoastlines = yield call(Coastline.mapToSummary, results, sds, roi)
 
-    console.log('sds', yield callback([sds, sds.evaluate]))
-    console.log('results', yield callback([results, results.evaluate]))
+    const shoreColors = generateColors(dates.length, 66)
+    
+    const transectLabels = yield evaluate(results.map(f => ee.Feature(f).get('label')))
+    const transectColors = transectLabels.map(label => Metadata.ESTEVES_LABELS[label].color)
 
-    yield put(Snacks.success('shore-ext-success', 'Shorelines derived!'))
-    /*
-    const classified = yield call(Coastline.estevesLabelling, results)
-    const transectsViz = yield call(Coastline.expandHorizontally, classified, 10)
-    const enhancedCoastlines = yield call(Coastline.mapToSummary, classified, sds, roi)
-
-    const colors = generateColors(dates.length, 66)
-    const lrrColors = yield evaluate(classified.map(f => ee.Feature(f).get('color')))
-
-    yield put(Map.addEEFeature(enhancedCoastlines, 'forms.map.shorelines', colors, 1, identifier))
-    yield put(Map.addEEFeature(transectsViz, 'forms.map.transects.title', lrrColors, 1, Metadata.FeatureType.TRANSECT))
+    yield put(Map.addEEFeature(enhancedCoastlines, 'forms.map.shorelines', shoreColors, 1, identifier))
+    yield put(Map.addEEFeature(transectsViz, 'forms.map.transects.title', transectColors, 1, Metadata.FeatureType.TRANSECT))
 
     const finalQuery = ee
         .List(enhancedCoastlines.toList(enhancedCoastlines.size()))
@@ -129,16 +123,15 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
 
     const coastlineCollection = yield evaluate(enhancedCoastlines)
 
-    const [evolutionData, transectData] = yield evaluate(ee.List([finalQuery, classified]))
+    const [evolutionData, transectData] = yield evaluate(ee.List([finalQuery, results]))
 
-    const withColors = evolutionData.map((row, i) => ({ ...row, color: colors[i] }))
+    const evolution = evolutionData.map((row, i) => ({ ...row, color: shoreColors[i] }))
 
     yield put(
-        pushResult(identifier, { transectData, coastlineCollection, evolution: withColors })
+        pushResult(identifier, { transectData, coastlineCollection, evolution })
     )
 
     yield put(openDialog('coastlineEvolution'))
-    */
 }
 
 export const handleAnalyzeCoastline = function* () {

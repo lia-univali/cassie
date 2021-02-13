@@ -1,5 +1,6 @@
 import { ee } from '../../services/earth-engine'
 import { computeBearing, computeDisplacement } from '../geodesy'
+import { INTERNALS } from '../../common/metadata'
 
 const offsetMapper = (extent, origin, theta) => {
   return offset => {
@@ -35,7 +36,9 @@ const offsetMapper = (extent, origin, theta) => {
       alphaLat
     ]);
 
-    return ee.Feature(geometry, { endpoints: geometry.coordinates() });
+    return ee.Feature(geometry, {
+      [INTERNALS]: { endpoints: geometry.coordinates() }
+    });
   };
 }
 

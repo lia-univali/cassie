@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next'
 
 import { Typography } from '@material-ui/core'
 
-import EvolutionChart from './EvolutionChart'
-import { fromEpoch } from '../common/utils'
+import EvolutionChart from '../../../components/EvolutionChart'
+import { INTERNALS } from '../../../common/metadata'
+import { fromEpoch } from '../../../common/utils'
 
 const generateRegression = (slope, intercept, x) => {
   return x.map(values => {
@@ -27,15 +28,15 @@ const TransectEvolution = ({ data }) => {
 
   const metadata = {
     [t('forms.transectEvolution.lrr')]: formatted(data.lrr, t('forms.transectEvolution.units.mByYr')),
-    [t('forms.transectEvolution.r')]: formatted(data.trend.correlation),
+    [t('forms.transectEvolution.r')]: formatted(data.r),
     [t('forms.transectEvolution.sce')]: formatted(data.sce, t('forms.transectEvolution.units.meters')),
     [t('forms.transectEvolution.nsm')]: formatted(data.nsm, t('forms.transectEvolution.units.meters')),
     [t('forms.transectEvolution.epr')]: formatted(data.epr, t('forms.transectEvolution.units.mByMonth')),
-    [t('forms.transectEvolution.classification')]: data.class
+    [t('forms.transectEvolution.label')]: data.label
   }
 
-  const sortedValues = data.x.sort()
-  const regression = generateRegression(data.trend.scale, data.trend.offset, sortedValues)
+  const sortedValues = data[INTERNALS].regression.sort()
+  const regression = generateRegression(data.slope, data.intercept, sortedValues)
 
   return (
     <div>

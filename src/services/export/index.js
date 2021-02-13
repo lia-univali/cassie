@@ -1,13 +1,13 @@
-import ShpWrite from "./shapefile"
-import JSZip from "jszip"
+import ShpWrite from './shapefile'
+import JSZip from 'jszip'
 
 const defaultOptions = {
   device: {
     shapefile: (
-      name = "layers",
-      point = "points",
-      polygon = "polygons",
-      line = "lines"
+      name = 'layers',
+      point = 'points',
+      polygon = 'polygons',
+      line = 'lines'
     ) => ({
       folder: name,
       types: {
@@ -17,7 +17,7 @@ const defaultOptions = {
       }
     }),
 
-    shapefileGroup: (group = "layers", ...names) => ({
+    shapefileGroup: (group = 'layers', ...names) => ({
       folder: group,
       names
     })
@@ -50,19 +50,19 @@ const shapefile = {
       const layers = zip.folder(options.folder)
 
       shapefiles.forEach((shapefile, i) => {
-        layers.file(options.names[i] + ".shp", shapefile.shp.buffer, {
+        layers.file(options.names[i] + '.shp', shapefile.shp.buffer, {
           binary: true
         })
-        layers.file(options.names[i] + ".shx", shapefile.shx.buffer, {
+        layers.file(options.names[i] + '.shx', shapefile.shx.buffer, {
           binary: true
         })
-        layers.file(options.names[i] + ".dbf", shapefile.dbf.buffer, {
+        layers.file(options.names[i] + '.dbf', shapefile.dbf.buffer, {
           binary: true
         })
       })
 
-      zip.generateAsync({ type: "blob", compression: "STORE" }).then(zipped => {
-        any.toDevice.trigger(zipped, options.folder + ".zip")
+      zip.generateAsync({ type: 'blob', compression: 'STORE' }).then(zipped => {
+        any.toDevice.trigger(zipped, options.folder + '.zip')
       })
     }
   } /* toDevice */

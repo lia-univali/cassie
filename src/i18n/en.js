@@ -123,12 +123,12 @@ const en = {
                         finalDate: 'Date End',
                         intercept: 'Intercept',
                         slope: 'Slope',
-                        rSquared: 'r²',
+                        rsquared: 'r²',
                         lrr: 'LRR',
                         sce: 'SCE',
                         nsm: 'NSM',
                         epr: 'EPR',
-                        classification: 'Class'
+                        label: 'Class'
                     }
                 },
                 process: {
@@ -150,7 +150,7 @@ const en = {
                 sce: 'SCE',
                 nsm: 'NSM',
                 epr: 'EPR',
-                classification: 'Classification',
+                label: 'Classification',
                 units: {
                     meters: 'm',
                     mByYr: 'm/yr',
@@ -184,6 +184,6 @@ const en = {
             }
         }
     }
-};
+}
 
-export default en;
+export default en

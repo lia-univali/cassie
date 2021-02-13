@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import moment from 'moment'
+import { omit } from 'lodash'
 
 import { AppBar, Button, Menu, MenuItem, Paper, Tab, Tabs } from '@material-ui/core'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core'
@@ -11,51 +11,14 @@ import { registerDialog } from './DialogRoot'
 
 import Export from '../../../services/export'
 import { exportCSV, exportJSON } from '../../../common/utils'
+import { INTERNALS } from '../../../common/metadata'
 
 const shapeTransectData = (transectData) => {
-  return transectData.map((content, i) => {
-    const { id, geometry, properties } = content
-    const [lngStart, latStart] = geometry.coordinates[0]
-    const [lngEnd, latEnd] = geometry.coordinates[1]
-
-    const { lrr, trend, sce, nsm, epr } = properties
-    const r = trend.correlation
-    const rSquared = Math.pow(r, 2)
-    const intercept = trend.offset
-    const slope = trend.scale
-    const classification = properties.class
-
-    const dates = Object.values(properties.distances).map(el =>
-      moment(el.date)
-    )
-    const firstDate = moment(moment.min(dates)).format()
-    const lastDate = moment(moment.max(dates)).format()
-
-    return {
-      id: parseInt(id, 10),
-      lngStart,
-      latStart,
-      lngEnd,
-      latEnd,
-      firstDate,
-      lastDate,
-      intercept,
-      slope,
-      lrr,
-      r,
-      rSquared,
-      sce,
-      nsm,
-      epr,
-      class: classification
-    }
-  })
+  return transectData.map(({ id, properties }) => ({ id: parseInt(id, 10), ...omit(properties, [INTERNALS]) }))
 }
 
 const CoastlineEvolutionDialog = ({ open, close }) => {
-  const transects = useSelector(state => /*state.results.coastlineData ? state.results.coastlineData.transectData :*/ [])
-  //const exportable = useSelector(state => state.results.coastlineData ? state.results.coastlineData.exportable : {})
-
+  const transects = useSelector(state => state.results.coastlineData ? state.results.coastlineData.transectData : [])
   const transectData = shapeTransectData(transects)
 
   const [t] = useTranslation()
@@ -100,7 +63,7 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
             >
               <MenuItem
                 onClick={() => {
-                  //exportCSV(exportable.shpTransects.features.map(feature => feature.properties), "transects.csv")
+                  exportCSV(transectData, 'transects.csv')
                   setTransectsAnchorEl(null)
                 }}
               >
@@ -108,7 +71,7 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  //exportJSON(exportable.shpTransects.features, "transects.json")
+                  exportJSON(transectData, 'transects.json')
                   setTransectsAnchorEl(null)
                 }}
               >
@@ -116,19 +79,19 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  /*Export.table.toDevice.asShapefileGroup(
+                  Export.table.toDevice.asShapefileGroup(
                     [
-                      exportable.shpBaseline,
-                      exportable.shpCoasts,
-                      exportable.shpTransects
+                      /*exportable.shpBaseline,
+                      exportable.shpCoasts,*/
+                      { features: transects.map(transect => ({ ...transect, properties: omit(transect.properties, [INTERNALS]) })) }
                     ],
                     Export.defaultOptions.device.shapefileGroup(
-                      "layers",
-                      "baseline",
-                      "coastlines",
-                      "transects"
+                      'layers',
+                      /*'baseline',
+                      'coastlines',*/
+                      'transects'
                     )
-                  )*/
+                  )
                   setTransectsAnchorEl(null)
                 }}
               >

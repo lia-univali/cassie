@@ -123,12 +123,12 @@ const pt = {
                         finalDate: 'Data final',
                         intercept: 'Intercepto',
                         slope: 'Inclinação',
-                        rSquared: 'r²',
+                        rsquared: 'r²',
                         lrr: 'LRR',
                         sce: 'SCE',
                         nsm: 'NSM',
                         epr: 'EPR',
-                        classification: 'Classe'
+                        label: 'Classe'
                     }
                 },
                 process: {
@@ -150,7 +150,7 @@ const pt = {
                 sce: 'SCE',
                 nsm: 'NSM',
                 epr: 'EPR',
-                classification: 'Classificação',
+                label: 'Classificação',
                 units: {
                     meters: 'm',
                     mByYr: 'm/ano',
@@ -184,6 +184,6 @@ const pt = {
             }
         }
     }
-};
+}
 
-export default pt;
+export default pt

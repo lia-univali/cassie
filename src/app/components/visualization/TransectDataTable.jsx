@@ -12,19 +12,19 @@ const column = (key, label, numeric = true, format = undefined) => (
 const COLUMNS = [
   column('id', 'ID', true, x => parseInt(x, 10)),
   column('latStart', 'forms.shorelineAnalysis.transectsReport.headers.initialLatitude'),
-  column('lngStart', 'forms.shorelineAnalysis.transectsReport.headers.initialLongitude'),
+  column('longStart', 'forms.shorelineAnalysis.transectsReport.headers.initialLongitude'),
   column('latEnd', 'forms.shorelineAnalysis.transectsReport.headers.finalLatitude'),
-  column('lngEnd', 'forms.shorelineAnalysis.transectsReport.headers.finalLongitude'),
+  column('longEnd', 'forms.shorelineAnalysis.transectsReport.headers.finalLongitude'),
   column('firstDate', 'forms.shorelineAnalysis.transectsReport.headers.initialDate', false, formatDate),
   column('lastDate', 'forms.shorelineAnalysis.transectsReport.headers.finalDate', false, formatDate),
   column('intercept', 'forms.shorelineAnalysis.transectsReport.headers.intercept'),
   column('slope', 'forms.shorelineAnalysis.transectsReport.headers.slope'),
-  column('rSquared', 'forms.shorelineAnalysis.transectsReport.headers.rSquared'),
+  column('rsquared', 'forms.shorelineAnalysis.transectsReport.headers.rsquared'),
   column('lrr', 'forms.shorelineAnalysis.transectsReport.headers.lrr'),
   column('sce', 'forms.shorelineAnalysis.transectsReport.headers.sce'),
   column('nsm', 'forms.shorelineAnalysis.transectsReport.headers.nsm'),
   column('epr', 'forms.shorelineAnalysis.transectsReport.headers.epr'),
-  column('class', 'forms.shorelineAnalysis.transectsReport.headers.classification', false)
+  column('label', 'forms.shorelineAnalysis.transectsReport.headers.label', false)
 ]
 
 const TransectDataTable = ({ data }) => {
@@ -36,21 +36,20 @@ const TransectDataTable = ({ data }) => {
   const sortedRows = () => {
     return [...data].sort((a, b) => {
       if (a[sortProperty] === b[sortProperty]) {
-        return 0;
+        return 0
       }
 
-      const val = a[sortProperty] < b[sortProperty] ? -1 : 1;
+      const val = a[sortProperty] < b[sortProperty] ? -1 : 1
 
       if (ordering === 'desc') {
-        return -val;
+        return -val
       }
 
-      return val;
+      return val
     })
   }
 
   const handleSort = (newProperty) => {
-
     if (newProperty === sortProperty) {
       setOrdering(ordering => ordering === 'asc' ? 'desc' : 'asc')
     } else {

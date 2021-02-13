@@ -212,30 +212,31 @@ export const deriveShoreline = (image, geometry, scale, bands, threshold, transe
   return data
 }
 
-export function mapToSummary(transects, coastlines) {
+export const mapToSummary = (transects, coastlines) => {
   const coastlineList = ee.List(coastlines.toList(coastlines.size()))
   const coastlineIds = coastlineList.map(feature => ee.Feature(feature).id())
   const coastlineTable = ee.Dictionary.fromLists(coastlineIds, coastlineList)
 
   const distances = ee
     .List(transects)
-    .map(transect => ee.Dictionary(ee.Feature(transect).get("distances")).values())
+    .map(transect => ee.Dictionary(ee.Dictionary(ee.Feature(transect)
+                        .get(Metadata.INTERNALS)).get('measurement')).values())
     .flatten()
 
-  let transformed = distances.iterate((current, last) => {
+  const transformed = ee.Dictionary(distances.iterate((current, last) => {
     current = ee.Dictionary(current)
     const dict = ee.Dictionary(last)
 
     const emptyDict = ee.Dictionary({ distances: ee.List([]) })
 
-    const key = current.get("withRespectTo")
-    const value = current.get("distance")
+    const key = current.get('withRespectTo')
+    const value = current.get('distance')
     const feature = ee.Feature(coastlineTable.get(key))
 
     let target = ee.Dictionary(
       ee.Algorithms.If(dict.contains(key), dict.get(key), emptyDict)
     )
-    const targetList = ee.List(target.get("distances"))
+    const targetList = ee.List(target.get('distances'))
 
     target = target.combine(
       ee.Dictionary({
@@ -245,26 +246,23 @@ export function mapToSummary(transects, coastlines) {
     )
 
     return dict.set(key, target)
-  }, ee.Dictionary({}))
-
-  transformed = ee.Dictionary(transformed)
+  }, ee.Dictionary({})))
 
   const fullPolygons = ee.List(transformed.keys()).map(key => {
-    const value = ee.Dictionary(transformed.get(key));
+    const value = ee.Dictionary(transformed.get(key))
 
-    const distances = ee.List(value.get("distances"));
+    const distances = ee.List(value.get('distances'))
+
     const stats = distances.reduce(
       combineReducers(ee.Reducer.mean(), ee.Reducer.stdDev())
     )
 
-    let polygonFeature = ee.Feature(coastlineTable.get(key));
+    let polygonFeature = ee.Feature(coastlineTable.get(key))
 
     return polygonFeature.setMulti(value.combine(ee.Dictionary(stats)))
   })
 
-  let collection = ee.FeatureCollection(fullPolygons)
-
-  return collection.sort("date")
+  return ee.FeatureCollection(fullPolygons).sort('date')
 }
 
 export const expandCoastline = (coordinates, distance) => {
@@ -337,11 +335,12 @@ const rectifyJunctions = (segments, originalCoordinates) => {
     }
   )
 
-  const first = ee.List(ee.List(segments.get(0)).get(0)); // Start of the first segment
-  const last = ee.List(ee.List(segments.get(-1)).get(1)); // End of the last segment
+  const first = ee.List(ee.List(segments.get(0)).get(0)) // Start of the first segment
+  const last = ee.List(ee.List(segments.get(-1)).get(1)) // End of the last segment
 
-  processed = ee.List(processed);
-  processed = processed.insert(0, ee.List([first.get(0), first.get(1)]));
-  processed = processed.add(ee.List([last.get(0), last.get(1)]));
-  return processed;
+  processed = ee.List(processed)
+  processed = processed.insert(0, ee.List([first.get(0), first.get(1)]))
+  processed = processed.add(ee.List([last.get(0), last.get(1)]))
+
+  return processed
 }
