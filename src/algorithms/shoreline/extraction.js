@@ -1,18 +1,33 @@
 import { ee } from '../../services/earth-engine'
 import { computeBearing, computeDisplacement } from '../geodesy'
-import { combineReducers } from '../utils'
 import * as Metadata from '../../common/metadata'
 import { getDate } from '../utils';
 
+/**
+ * Partitions the raster *image* using the water index
+ * and the threshold function, then reduces the output
+ * raster to vector, corresponding to the water body in
+ * the given *image*.
+ * @param {ee.Image} image 
+ * @param {ee.Geometry} geometry 
+ * @param {Number} scale 
+ * @param {Object} bands 
+ * @param {Function} thresholdFn Threshold supplier function
+ * @returns {ee.Geometry} the identified water body
+ */
 export const identifyWaterFeature = (image, geometry, scale, bands, thresholdFn) => {
   const internalBandName = 'NDWI'
 
+  /* Produce water index */
   const ndwi = ee.Image(image)
     .normalizedDifference([bands.green, bands.nir])
     .rename(internalBandName)
 
   const threshold = thresholdFn(ndwi, internalBandName, geometry, scale)
 
+  /**
+   * Partitions image and reduces to a single vector
+   */
   const water = ee.Feature(
     ndwi
       .clip(geometry)
@@ -28,16 +43,17 @@ export const identifyWaterFeature = (image, geometry, scale, bands, thresholdFn)
 
 /**
  * Removes noises from the shoreline by keeping only
- * the polygons that intersect with all transects
+ * the polygons that have the most intersections with
+ * the transects
  * @param {ee.Geometry.MultiLineString} shoreline
- * @param {ee.Geometry.MultiLineString} transects
+ * @param {ee.Geometry.MultiLineString|ee.FeatureCollection} transects
  * @returns {ee.Feature<ee.Geometry.LineString>} shoreline without noise
  */
- export const removeShorelineNoise = (coastline, transects) => {
-  const coordinates = ee.Geometry(coastline).coordinates()
+ export const removeShorelineNoise = (shorelines, transects) => {
+  const coordinates = ee.Geometry(shorelines).coordinates()
 
   const guard = ee.List(
-            ee.Algorithms.If(ee.Geometry(coastline).type().compareTo('MultiLineString').eq(0),
+            ee.Algorithms.If(ee.Geometry(shorelines).type().compareTo('MultiLineString').eq(0),
             coordinates, [coordinates]))
 
   const weighted = guard.map(segment => {
@@ -50,6 +66,13 @@ export const identifyWaterFeature = (image, geometry, scale, bands, thresholdFn)
   return ee.Feature(ee.FeatureCollection(weighted).limit(1, 'weight', false).first()).geometry()
 }
 
+/**
+ * Creates a gaussian kernel controlled by *size*, *mean*
+ * and *sigma*. The output kernel size is always odd.
+ * @param {Number} size 
+ * @param {Number} mean 
+ * @param {Number} sigma 
+ */
 export const gaussianKernel = (size, mean, sigma) => {
   const gaussianCurve = (x, mean, sigma) => {
     const divider = ee.Number(sigma).multiply(ee.Number(2).multiply(Math.PI).sqrt())
@@ -77,7 +100,10 @@ export const gaussianKernel = (size, mean, sigma) => {
 }
 
 /**
- * 
+ * Convolves over the list *coordinates* producing local averages
+ * weighted by the produced kernel of *samples*, *mean*, *sd*.
+ * The result is a smoothed list (often linestring) with removed noises
+ * such as pixel-induced staircase effect.
  * @param {ee.List} coordinates List containing the path
  * @param {ee.Number} samples Size of the kernel
  * @param {ee.Number} mean Center of the normal distribution
@@ -138,8 +164,10 @@ export const linearGaussianFilter = (coordinates, samples = 3, mean = 0, sd = 0.
 export const thresholdingAlgorithm = (histogram, count) => {
   const counts = ee.Array(ee.Dictionary(histogram).get('histogram'))
   const means = ee.Array(ee.Dictionary(histogram).get('bucketMeans'))
+  
   const size = means.length().get([0])
   const total = counts.reduce(ee.Reducer.sum(), [0]).get([0])
+  
   const sum = means.multiply(counts).reduce(ee.Reducer.sum(), [0]).get([0])
   const mean = sum.divide(total)
 
@@ -159,6 +187,14 @@ export const thresholdingAlgorithm = (histogram, count) => {
   return means.sort(bss).get([-1])
 }
 
+/**
+ * Selects the threshold function according to
+ * the input *threshold*.
+ * This will be refactored to use something other than
+ * a number to choose the intended threshold function.
+ * @param {Number} threshold 
+ * @returns {Function} the thresholding function
+ */
 const selectThreshold = (threshold) => {
   switch (threshold) {
     case 0.0:
@@ -172,6 +208,17 @@ const selectThreshold = (threshold) => {
   }
 }
 
+/**
+ * Extracts the raw shoreline of the given *image*,
+ * by identifying the water feature (body) and
+ * converting it into linestrings
+ * @param {ee.Image} image 
+ * @param {ee.Geometry} geometry 
+ * @param {Number} scale 
+ * @param {Object} bands 
+ * @param {Function} thresholdFn
+ * @returns {ee.Geometry.MultiLineString}
+ */
 export const extractShoreline = (image, geometry, scale, bands, thresholdFn) => {
   const waterSegment = identifyWaterFeature(image, geometry, scale, bands, thresholdFn)
   
@@ -179,6 +226,18 @@ export const extractShoreline = (image, geometry, scale, bands, thresholdFn) => 
             .intersection(geometry.buffer(-10))
 }
 
+/**
+ * Fully derives the shoreline using the satellite *image*.
+ * The satellite derived shoreline is a single smoothed linestring
+ * without noisy features (polygons that are not the shoreline).
+ * @param {ee.Image} image
+ * @param {ee.Geometry} geometry
+ * @param {Number} scale
+ * @param {Object} bands
+ * @param {Function} threshold
+ * @param {ee.FeatureCollection|ee.List} transects
+ * @param {Array<String>} props
+ */
 export const deriveShoreline = (image, geometry, scale, bands, threshold, transects, props) => {
   const transectsGeometry = ee.FeatureCollection(transects).geometry()
 
@@ -212,59 +271,11 @@ export const deriveShoreline = (image, geometry, scale, bands, threshold, transe
   return data
 }
 
-export const mapToSummary = (transects, coastlines) => {
-  const coastlineList = ee.List(coastlines.toList(coastlines.size()))
-  const coastlineIds = coastlineList.map(feature => ee.Feature(feature).id())
-  const coastlineTable = ee.Dictionary.fromLists(coastlineIds, coastlineList)
-
-  const distances = ee
-    .List(transects)
-    .map(transect => ee.Dictionary(ee.Dictionary(ee.Feature(transect)
-                        .get(Metadata.INTERNALS)).get('measurement')).values())
-    .flatten()
-
-  const transformed = ee.Dictionary(distances.iterate((current, last) => {
-    current = ee.Dictionary(current)
-    const dict = ee.Dictionary(last)
-
-    const emptyDict = ee.Dictionary({ distances: ee.List([]) })
-
-    const key = current.get('withRespectTo')
-    const value = current.get('distance')
-    const feature = ee.Feature(coastlineTable.get(key))
-
-    let target = ee.Dictionary(
-      ee.Algorithms.If(dict.contains(key), dict.get(key), emptyDict)
-    )
-    const targetList = ee.List(target.get('distances'))
-
-    target = target.combine(
-      ee.Dictionary({
-        distances: targetList.add(value),
-        date: feature.get(Metadata.TIME_START)
-      })
-    )
-
-    return dict.set(key, target)
-  }, ee.Dictionary({})))
-
-  const fullPolygons = ee.List(transformed.keys()).map(key => {
-    const value = ee.Dictionary(transformed.get(key))
-
-    const distances = ee.List(value.get('distances'))
-
-    const stats = distances.reduce(
-      combineReducers(ee.Reducer.mean(), ee.Reducer.stdDev())
-    )
-
-    let polygonFeature = ee.Feature(coastlineTable.get(key))
-
-    return polygonFeature.setMulti(value.combine(ee.Dictionary(stats)))
-  })
-
-  return ee.FeatureCollection(fullPolygons).sort('date')
-}
-
+/**
+ * Expands the given *coordinates* by an amount *distance*
+ * @param {} coordinates 
+ * @param {} distance 
+ */
 export const expandCoastline = (coordinates, distance) => {
   coordinates = ee.List(coordinates)
   const neighbors = ee.List(coordinates.slice(1))
@@ -301,6 +312,11 @@ export const expandCoastline = (coordinates, distance) => {
   return ee.Feature(ee.Geometry.Polygon([combined]))
 }
 
+/**
+ * Normalizes the junctions *segments*
+ * @param {} segments 
+ * @param {} originalCoordinates 
+ */
 const rectifyJunctions = (segments, originalCoordinates) => {
   segments = ee.List(segments)
   originalCoordinates = ee.List(originalCoordinates).slice(1)

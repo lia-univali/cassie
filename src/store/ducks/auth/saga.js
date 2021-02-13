@@ -41,22 +41,20 @@ const loadClientAuth = function* ({ payload: { onSuccess } }) {
 }
 
 const loadClientAuthSuccess = function* () {
-    // Dismiss load notification
-    // NotificationActions.dismiss(...)
-    console.log('[auth] LOAD SUCCESS')
+    console.info('[ducks/auth] LOAD SUCCESS')
 }
 
 const loadClientAuthFailure = function* () {
     // Display notification
     // NotificationActions.display(...)
-    console.error('[auth] LOAD ERROR: Not able to load client:auth2')
+    console.error('[ducks/auth] LOAD ERROR: Not able to load client:auth2')
 }
 
 const begin = function* ({ payload: { callback } }) {
     if (window.gapi && window.gapi.auth2) {
-        const isNotSigned = yield select(state => !state.auth.user)
+        const signedUser = yield select(state => state.auth.user)
 
-        if (isNotSigned) {
+        if (!signedUser) {
             yield put(Snack.task('signin-task', i18n.t('auth.loading')));
 
             const instance = window.gapi.auth2.getAuthInstance()
@@ -78,14 +76,16 @@ const begin = function* ({ payload: { callback } }) {
             catch (e) {
                 yield put(Auth.Actions.authorizeFailure(e))
             }
+        } else {
+            yield put(Auth.Actions.authorize(signedUser.name, signedUser.imageUrl))
         }
     } else {
-        console.error('[auth] LOGIC ERROR: begin called before auth lib load')
+        console.error('[ducks/auth] LOGIC ERROR: begin called before auth lib load')
     }
 }
 
 const authorizeFailure = function* ({ payload: { error: { error } } }) {
-    console.error(`[auth] AUTH ERROR: Not able to sign in due to ${error}`)
+    console.error(`[ducks/auth] AUTH ERROR: Not able to sign in due to ${error}`)
 
     yield put(Snack.error('signin-task-error', `Error: ${error}`))
     yield put(Snack.dismiss('signin-task'))

@@ -107,30 +107,22 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
     const results = yield call(Coastline.generateTransectsStatistics, transects, baseline, sds, names)
     
     const transectsViz = yield call(Coastline.expandHorizontally, results, 10)
-    const enhancedCoastlines = yield call(Coastline.mapToSummary, results, sds, roi)
+    const shorelines = yield call(Coastline.summaryShorelineStatistics, results, sds, roi)
 
     const shoreColors = generateColors(dates.length, 66)
     
     const transectLabels = yield evaluate(results.map(f => ee.Feature(f).get('label')))
     const transectColors = transectLabels.map(label => Metadata.ESTEVES_LABELS[label].color)
 
-    yield put(Map.addEEFeature(enhancedCoastlines, 'forms.map.shorelines', shoreColors, 1, identifier))
+    yield put(Map.addEEFeature(shorelines, 'forms.map.shorelines', shoreColors, 1, identifier))
     yield put(Map.addEEFeature(transectsViz, 'forms.map.transects.title', transectColors, 1, Metadata.FeatureType.TRANSECT))
 
-    const finalQuery = ee
-        .List(enhancedCoastlines.toList(enhancedCoastlines.size()))
-        .map(poly => ee.Feature(poly).toDictionary(['date', 'mean', 'stdDev']))
+    const [transectData, shorelineData] = yield evaluate(ee.List([
+        results,
+        shorelines.toList(shorelines.size())
+    ]))
 
-    const coastlineCollection = yield evaluate(enhancedCoastlines)
-
-    const [evolutionData, transectData] = yield evaluate(ee.List([finalQuery, results]))
-
-    const evolution = evolutionData.map((row, i) => ({ ...row, color: shoreColors[i] }))
-
-    yield put(
-        pushResult(identifier, { transectData, coastlineCollection, evolution })
-    )
-
+    yield put(pushResult(identifier, { transectData, shorelineData }))
     yield put(openDialog('coastlineEvolution'))
 }
 

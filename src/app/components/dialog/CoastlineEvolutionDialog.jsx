@@ -19,6 +19,8 @@ const shapeTransectData = (transectData) => {
 
 const CoastlineEvolutionDialog = ({ open, close }) => {
   const transects = useSelector(state => state.results.coastlineData ? state.results.coastlineData.transectData : [])
+  const baselineData = useSelector(state => state.results.baselineData ? state.results.baselineData.baseline : {})
+  const shorelineData = useSelector(state => state.results.coastlineData ? state.results.coastlineData.shorelineData : [])
   const transectData = shapeTransectData(transects)
 
   const [t] = useTranslation()
@@ -81,14 +83,14 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
                 onClick={() => {
                   Export.table.toDevice.asShapefileGroup(
                     [
-                      /*exportable.shpBaseline,
-                      exportable.shpCoasts,*/
+                      { features: [{ geometry: { type: 'LineString', coordinates: baselineData.content || [] }, properties: {} }] },
+                      { features: shorelineData.map(shoreline => ({ ...shoreline, properties: omit(shoreline.properties, [INTERNALS]) })) },
                       { features: transects.map(transect => ({ ...transect, properties: omit(transect.properties, [INTERNALS]) })) }
                     ],
                     Export.defaultOptions.device.shapefileGroup(
                       'layers',
-                      /*'baseline',
-                      'coastlines',*/
+                      'baseline',
+                      'coastlines',
                       'transects'
                     )
                   )
