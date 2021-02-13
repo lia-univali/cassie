@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { DropdownButton } from 'react-bootstrap';
 
+// @TODO unused component
 class AreaProcedureButton extends React.Component {
   createImageItems() {
     return this.props.images.map((image, i) => (

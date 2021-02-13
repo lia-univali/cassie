@@ -40,7 +40,7 @@ const reducer = (state = INITIAL_STATE, action) => {
 			}
 		}
 		case Types.ERASE: {
-			return { ...state, notes: state.notes.filter(note => action.payload.key === note.key) }
+			return { ...state, notes: state.notes.filter(note => action.payload.key !== note.key) }
 		}
 		default: return { ...state }
 	}

@@ -202,8 +202,8 @@ export const formatExportProperties = (transect, statistics, keepProps) => {
     const distances = calculateDistances(transect, baseline, shorelines)
     const dsas = calculateGeneralDSAS(distances)
     const statistics = ee.Dictionary({ distances }).combine(dsas)
-    const exportable = formatExportProperties(transect, statistics, keepProps) // @TODO maybe unnecessary
+    // const exportable = formatExportProperties(transect, statistics, keepProps) // @TODO maybe unnecessary
 
-    return transect.setMulti(statistics.combine({ 'export': exportable }))
+    return transect.setMulti(statistics)
   })
 }

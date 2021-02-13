@@ -33,6 +33,7 @@ const Notifier = () => {
   useEffect(() => {
     snacks.forEach(({ type, key, message, options = {}, dismissed = false }) => {
       if (dismissed) {
+          console.log(`Closing ${key}`)
           closeSnackbar(key)
           return
       }
@@ -52,11 +53,13 @@ const Notifier = () => {
               }
           },
           onExited: (event, myKey) => {
-              dispatch(Snack.erase(myKey))
-              eraseDisplayed(myKey)
+            console.log(`Erasing ${key}`)
+            dispatch(Snack.erase(myKey))
+            eraseDisplayed(myKey)
           },
       })
 
+      console.log(`Storing ${key}`)
       storeDisplayed(key)
     })
   }, [dispatch, snacks, enqueueSnackbar, closeSnackbar])

@@ -28,16 +28,16 @@ export const Actions = {
             options: { ...options, persist: true }
         }
     }),
-    success: () => ({
-        type: Types.DISPLAY
+    success: (key, message, options = {}) => ({
+        type: Types.DISPLAY, payload: { type: 'alert', key, message, options: { ...options, variant: 'success'} }
     }),
-    info: () => ({
-        type: Types.DISPLAY
+    info: (key, message, options = {}) => ({
+        type: Types.DISPLAY, payload: { type: 'alert', key, message, options: { ...options, variant: 'info'} }
     }),
-    warn: () => ({
-        type: Types.DISPLAY
+    warn: (key, message, options = {}) => ({
+        type: Types.DISPLAY, payload: { type: 'alert', key, message, options: { ...options, variant: 'warning'} }
     }),
-    error: (key, message, options) => ({
+    error: (key, message, options = {}) => ({
         type: Types.DISPLAY, payload: { type: 'alert', key, message, options: { ...options, variant: 'error'} }
     })
 }

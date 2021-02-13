@@ -10,7 +10,7 @@ import TransectDataTable from '../visualization/TransectDataTable'
 import { registerDialog } from './DialogRoot'
 
 import Export from '../../../services/export'
-import { exportCSV, exportJSON, exportCoordinates } from '../../../common/utils'
+import { exportCSV, exportJSON } from '../../../common/utils'
 
 const shapeTransectData = (transectData) => {
   return transectData.map((content, i) => {
@@ -53,8 +53,8 @@ const shapeTransectData = (transectData) => {
 }
 
 const CoastlineEvolutionDialog = ({ open, close }) => {
-  const transects = useSelector(state => state.results.coastlineData ? state.results.coastlineData.transectData : [])
-  const exportable = useSelector(state => state.results.coastlineData ? state.results.coastlineData.exportable : {})
+  const transects = useSelector(state => /*state.results.coastlineData ? state.results.coastlineData.transectData :*/ [])
+  //const exportable = useSelector(state => state.results.coastlineData ? state.results.coastlineData.exportable : {})
 
   const transectData = shapeTransectData(transects)
 
@@ -68,15 +68,15 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
   ]
 
   return (
-    <Dialog open={open} maxWidth="md" onClose={() => close()}>
+    <Dialog open={open} maxWidth='md' onClose={() => close()}>
       <DialogTitle>{t('forms.shorelineAnalysis.title')}</DialogTitle>
       <DialogContent>
         <Paper>
-          <AppBar position="static" color="default">
+          <AppBar position='static' color='default'>
             <Tabs
               value={tab}
-              indicatorColor="primary"
-              textColor="primary"
+              indicatorColor='primary'
+              textColor='primary'
               onChange={(e, tab) => setTab(tab)}
             >
               <Tab label={t('forms.shorelineAnalysis.transectsReport.title')} />
@@ -100,7 +100,7 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
             >
               <MenuItem
                 onClick={() => {
-                  exportCSV(exportable.shpTransects.features.map(feature => feature.properties), "transects.csv")
+                  //exportCSV(exportable.shpTransects.features.map(feature => feature.properties), "transects.csv")
                   setTransectsAnchorEl(null)
                 }}
               >
@@ -108,7 +108,7 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  exportJSON(exportable.shpTransects.features, "transects.json")
+                  //exportJSON(exportable.shpTransects.features, "transects.json")
                   setTransectsAnchorEl(null)
                 }}
               >
@@ -116,7 +116,7 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  Export.table.toDevice.asShapefileGroup(
+                  /*Export.table.toDevice.asShapefileGroup(
                     [
                       exportable.shpBaseline,
                       exportable.shpCoasts,
@@ -128,7 +128,7 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
                       "coastlines",
                       "transects"
                     )
-                  )
+                  )*/
                   setTransectsAnchorEl(null)
                 }}
               >
@@ -137,7 +137,7 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
             </Menu>
           </div>
         )}
-        <Button color="primary" onClick={() => close()}>
+        <Button color='primary' onClick={() => close()}>
           {t('forms.shorelineAnalysis.close')}
         </Button>
       </DialogActions>
@@ -145,4 +145,4 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
   )
 }
 
-export default registerDialog("coastlineEvolution")(CoastlineEvolutionDialog)
+export default registerDialog('coastlineEvolution')(CoastlineEvolutionDialog)
