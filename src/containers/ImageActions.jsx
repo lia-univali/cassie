@@ -14,6 +14,7 @@ import { mediumIconButton } from '../theme'
 import * as modal from '../store/ducks/modal'
 import * as imagery from '../store/ducks/imagery'
 
+// @TODO unused component
 const ImageActions = ({ index, metadata }) => {
   const dispatch = useDispatch()
 

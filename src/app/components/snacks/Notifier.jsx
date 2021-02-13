@@ -2,7 +2,18 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useSnackbar } from 'notistack'
 
+import Task from './Task'
+
 import { Actions as Snack } from '../../../store/ducks/snacks'
+
+const createSnack = (type, key, options) => {
+  switch (type) {
+    case 'task':
+      return { ...options, message: <Task key={key} id={key} {...options}/> }
+    default:
+      return { ...options }
+  }
+}
 
 let displayed = []
 
@@ -20,7 +31,7 @@ const Notifier = () => {
   }
 
   useEffect(() => {
-    snacks.forEach(({ key, message, options = {}, dismissed = false }) => {
+    snacks.forEach(({ type, key, message, options = {}, dismissed = false }) => {
       if (dismissed) {
           closeSnackbar(key)
           return
@@ -30,9 +41,11 @@ const Notifier = () => {
         return
       }
 
-      enqueueSnackbar(message, {
+      const target = createSnack(type, key, { ...options, message } )
+
+      enqueueSnackbar(target.message, {
           key,
-          ...options,
+          ...target,
           onClose: (event, reason, myKey) => {
               if (options.onClose) {
                   options.onClose(event, reason, myKey)

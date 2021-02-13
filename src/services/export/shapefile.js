@@ -7,7 +7,7 @@ import ShpWrite from 'shp-write'
 
 /* Filter by shape type and adapt it to the shapefile format */
 const filterType = (type, esriType) => {
-  return function(gj) {
+  return (gj) => {
     const oftype = gj.features.filter(isType(type));
     return {
       geometries:

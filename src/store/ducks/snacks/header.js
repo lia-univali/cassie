@@ -1,7 +1,5 @@
 import duckify from '../../tools/duckify';
 
-import { Task } from '../../../app/components'
-
 export const namespace = 'cassie'
 export const store = 'snacks'
 
@@ -9,11 +7,11 @@ export const Types =
     duckify(namespace, store, ['DISPLAY', 'UPDATE', 'DISMISS', 'ERASE'])
 
 export const Actions = {
-    display: (key, message, options) => ({
-        type: Types.DISPLAY, payload: { key, message, options }
+    display: (key, message, options = {}) => ({
+        type: Types.DISPLAY, payload: { type: 'regular', key, message, options }
     }),
-    update: (key, data) => ({
-        type: Types.UPDATE, payload: { key, data }
+    update: (key, message, options = {}) => ({
+        type: Types.UPDATE, payload: { key, data: { message, options } }
     }),
     dismiss: (key) => ({
         type: Types.DISMISS, payload: { key, dismissAll: !key }
@@ -21,13 +19,12 @@ export const Actions = {
     erase: (key) => ({
         type: Types.ERASE, payload: { key }
     }),
-    task: (key, message, options = {}) => ({
+    task: (key, message, options = { variant: 'indeterminate', value: 0 }) => ({
         type: Types.DISPLAY,
         payload: {
+            type: 'task',
             key,
-            message: (
-                <Task id={key} message={message} dismissable={options.dismissable} />
-            ),
+            message,
             options: { ...options, persist: true }
         }
     }),
@@ -41,7 +38,7 @@ export const Actions = {
         type: Types.DISPLAY
     }),
     error: (key, message, options) => ({
-        type: Types.DISPLAY, payload: { key, message, options: { ...options, variant: 'error'} }
+        type: Types.DISPLAY, payload: { type: 'alert', key, message, options: { ...options, variant: 'error'} }
     })
 }
 

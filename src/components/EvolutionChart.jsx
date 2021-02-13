@@ -1,15 +1,9 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-class EvolutionChart extends React.Component {
-  createData() {
-    const {
-      regression,
-      x = [],
-      y = [],
-      label = "Valor", // @TODO: i18next
-    } = this.props;
-
+const EvolutionChart = ({ width = 600, height = 400, regression = [], x = [], y = [],
+                          xLabel = 'x', yLabel = 'y', trendLabel = 'trend'}) => {
+  const createData = () => {
     return {
       labels: x,
       datasets: [
@@ -20,7 +14,7 @@ class EvolutionChart extends React.Component {
           backgroundColor: "#009688",
           fill: false,
           data: y,
-          label,
+          label: yLabel,
         }, {
           pointRadius: 0,
           lineTension: 0,
@@ -30,15 +24,13 @@ class EvolutionChart extends React.Component {
           fill: false,
           borderDash: [10, 10],
           data: regression,
-          label: "Tendência",
+          label: trendLabel,
         }
       ]
     };
   }
 
-  createOptions() {
-    const { xLabel, yLabel } = this.props;
-
+  const createOptions = () => {
     return {
       scales: {
         xAxes: [{
@@ -62,15 +54,11 @@ class EvolutionChart extends React.Component {
     }
   }
 
-  render() {
-    const { width = 600, height = 400 } = this.props;
-
-    return (
-      <div>
-        <Line data={this.createData()} options={this.createOptions()} width={width} height={height} />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Line data={createData()} options={createOptions()} width={width} height={height} />
+    </div>
+  )
 }
 
-export default EvolutionChart;
+export default EvolutionChart

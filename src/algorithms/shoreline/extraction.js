@@ -1,8 +1,8 @@
 import { ee } from '../../services/earth-engine'
 import { computeBearing, computeDisplacement } from '../geodesy'
-import { combineReducers } from '../../common/eeUtils'
+import { combineReducers } from '../utils'
 import * as Metadata from '../../common/metadata'
-import { getDate } from './../common';
+import { getDate } from '../utils';
 
 export const identifyWaterFeature = (image, geometry, scale, bands, thresholdFn) => {
   const internalBandName = 'NDWI'
@@ -174,11 +174,9 @@ const selectThreshold = (threshold) => {
 
 export const extractShoreline = (image, geometry, scale, bands, thresholdFn) => {
   const waterSegment = identifyWaterFeature(image, geometry, scale, bands, thresholdFn)
-
-  const redundantSegment = ee.Geometry.MultiLineString(waterSegment.coordinates())
-  const coastline = redundantSegment.intersection(geometry.buffer(-10))
-
-  return coastline
+  
+  return ee.Geometry.MultiLineString(waterSegment.coordinates())
+            .intersection(geometry.buffer(-10))
 }
 
 export const deriveShoreline = (image, geometry, scale, bands, threshold, transects, props) => {

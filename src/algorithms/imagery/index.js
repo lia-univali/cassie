@@ -1,6 +1,6 @@
 import { ee } from '../../services/earth-engine'
 import { Layer } from '../../common/classes';
-import { generateVisualizationParams } from '../../common/eeUtils';
+import { generateVisualizationParams } from '../utils';
 
 /*
  * Given a {masked} image having {bandName} with pixel values {0, 1} where 1 indicates

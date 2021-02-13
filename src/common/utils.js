@@ -147,6 +147,36 @@ export const interpolateColors = (values, lowest, highest) => {
   });
 }
 
+export class Timer {
+  constructor() {
+    this.start = Date.now()
+  }
+
+  elapsed = () => {
+    return Date.now() - this.start
+  }
+
+  restart = () => {
+    const now = Date.now()
+    const elapsed = now - this.start
+    this.start = now
+
+    return elapsed
+  }
+
+  project = (x0, xn) => {
+    return (xn - x0) * this.elapsed() / x0
+  }
+
+  format = (ms) => {
+    const ref = Math.floor(ms / 1000)
+    const mm = Math.floor(ref / 60)
+    const ss = ref - mm * 60
+
+    return `${mm}m${ss}s`
+  }
+}
+
 export const datesBetween = (dates, start, end) => {
   return dates.filter(date => moment(date).isSameOrAfter(start) && moment(date).isSameOrBefore(end));
 }

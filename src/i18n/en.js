@@ -131,6 +131,10 @@ const en = {
                         classification: 'Class'
                     }
                 },
+                process: {
+                    extraction: 'Extracting shorelines',
+                    estimate: 'ETC'
+                },
                 exports: {
                     title: 'Export Data',
                     csv: 'Export CSV',
@@ -154,7 +158,8 @@ const en = {
                 },
                 labels: {
                     x: 'Year',
-                    y: 'Distance to baseline (m)'
+                    y: 'Distance to baseline (m)',
+                    trend: 'Trend'
                 }
             },
             imageryOverlay: {

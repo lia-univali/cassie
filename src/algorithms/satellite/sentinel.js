@@ -1,5 +1,5 @@
 import { ee } from '../../services/earth-engine'
-import { mergeProperties, retrieveExtremes, getDate } from '../common'
+import { mergeProperties, retrieveExtremes, getDate } from '../utils'
 import { scoreCloudRatio } from '../imagery'
 import * as Metadata from '../../common/metadata'
 

@@ -7,7 +7,7 @@ import {
   createBufferedHandler,
   evaluate
 } from "../../common/sagaUtils";
-import { generateVisualizationParams } from "../../common/eeUtils";
+import { generateVisualizationParams } from "../../algorithms/utils";
 import { Actions as Imagery } from "./imagery";
 import { getAcquisitionParameters, getImageryIdentifiers } from "../../selectors";
 import { aggregateMissionsDates } from '../../common/algorithms'

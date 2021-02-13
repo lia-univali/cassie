@@ -1,6 +1,6 @@
 import { ee } from '../../services/earth-engine'
-import { mergeProperties, addGridPosition, retrieveExtremes, getDate } from '../common'
-import { getSatelliteCollection } from '../../common/eeUtils'
+import { mergeProperties, addGridPosition, retrieveExtremes, getDate } from '../utils'
+import { getSatelliteCollection } from '../utils'
 import { scoreClouds } from '../imagery'
 import * as Metadata from '../../common/metadata'
 

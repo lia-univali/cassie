@@ -1,7 +1,14 @@
 import { ee } from '../../services/earth-engine'
-import { combineReducers, stringifyList } from '../../common/eeUtils'
+import { combineReducers, stringifyList } from '../utils'
 import * as Metadata from '../../common/metadata'
 import { EPOCH } from '../../common/utils'
+
+const ESTEVES_LABELS = {
+  stable: { class: 'Stable', color: '#43a047' },
+  accreted: { class: 'Accreted', color: '#1976d2' },
+  eroded: { class: 'Eroded', color: '#ffa000' },
+  criticallyEroded: { class: 'Critically Eroded', color: '#d32f2f' }
+}
 
 export const calculateDistances = (transect, baseline, coastlines) => {
   const [distanceKey, idKey] = ['distance', 'withRespectTo']
@@ -124,22 +131,15 @@ export const calculateGeneralDSAS = (distances) => {
 }
 
 export const estevesLabelling = (transects) => {
-  const labels = ee.Dictionary({
-    stable: ee.Dictionary({ class: 'Estável', color: '#43a047' }),
-    accreted: ee.Dictionary({ class: 'Acrescida', color: '#1976d2' }),
-    eroded: ee.Dictionary({ class: 'Erodida', color: '#ffa000' }),
-    intenselyEroded: ee.Dictionary({ class: 'Intensamente Erodida', color: '#d32f2f' })
-  })
-
   const classified = transects.map(f => {
-    const lrr = ee.Number(ee.Feature(f).get('lrr'))
+      const lrr = ee.Number(ee.Feature(f).get('lrr'))
 
-    const classification =
-      ee.Algorithms.If(lrr.lt(-1.0), labels.get('intenselyEroded'),
-        ee.Algorithms.If(lrr.lt(-0.5), labels.get('eroded'),
-          ee.Algorithms.If(lrr.lt(0.5), labels.get('stable'), labels.get('accreted'))))
+      const classification =
+          ee.Algorithms.If(lrr.lt(-1.0), ESTEVES_LABELS.criticallyEroded,
+              ee.Algorithms.If(lrr.lt(-0.5), ESTEVES_LABELS.eroded,
+                  ee.Algorithms.If(lrr.lt(0.5), ESTEVES_LABELS.stable, ESTEVES_LABELS.accreted)))
 
-    return ee.Feature(f).set(classification)
+      return ee.Feature(f).set(classification)
   })
 
   return classified
@@ -202,7 +202,7 @@ export const formatExportProperties = (transect, statistics, keepProps) => {
     const distances = calculateDistances(transect, baseline, shorelines)
     const dsas = calculateGeneralDSAS(distances)
     const statistics = ee.Dictionary({ distances }).combine(dsas)
-    const exportable = formatExportProperties(transect, statistics, keepProps)
+    const exportable = formatExportProperties(transect, statistics, keepProps) // @TODO maybe unnecessary
 
     return transect.setMulti(statistics.combine({ 'export': exportable }))
   })

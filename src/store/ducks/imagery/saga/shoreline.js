@@ -1,11 +1,11 @@
 import { select, put, call } from 'redux-saga/effects'
 import { chunk } from 'lodash'
-import i18next from 'i18next'
+import i18n from 'i18next'
 import ee from '../../../../services/earth-engine'
 import { callback } from '../../../tools/effects'
 import { evaluate } from "../../../../common/sagaUtils";
-import { generateColors } from "../../../../common/utils";
-import { applyExpression } from "../../../../common/eeUtils";
+import { Timer, generateColors } from "../../../../common/utils";
+import { applyExpression } from "../../../../algorithms/utils";
 import { pushResult } from "../../results";
 import { openAndWait, openDialog } from "../../dialog";
 import * as Imagery from '../header'
@@ -26,7 +26,7 @@ export const requestCoastlineInput = function* () {
 
     const { coordinates, overlay } = yield* Map.requestAndWait(
         "polyline",
-        i18next.t('forms.imageChooser.actions.analyzeShoreline.baselineDraw'),
+        i18n.t('forms.imageChooser.actions.analyzeShoreline.baselineDraw'),
         'forms.map.baseline',
         "coastlineData"
     );
@@ -56,127 +56,88 @@ export const requestCoastlineInput = function* () {
     };
 }
 
-const estevesLabelling = (transects) => {
-    const labels = ee.Dictionary({
-        stable: ee.Dictionary({ class: 'Stable', color: '#43a047' }),
-        accreted: ee.Dictionary({ class: 'Accreted', color: '#1976d2' }),
-        eroded: ee.Dictionary({ class: 'Eroded', color: '#ffa000' }),
-        criticallyEroded: ee.Dictionary({ class: 'Critically Eroded', color: '#d32f2f' })
-    })
+const deriveInChunks = function*(dates, ...params) {
+    const [ length, size ] = [ dates.length, 5 ]
+    
+    const progress = (step, etc = '') => 
+        `${i18n.t('forms.shorelineAnalysis.process.extraction')} ${step}/${length} `
+        + `${etc ? `[${i18n.t('forms.shorelineAnalysis.process.estimate')} ${etc}]` : ''}`
 
-    const classified = transects.map(f => {
-        const lrr = ee.Number(ee.Feature(f).get('lrr'))
+    yield put(Snacks.task('shore-ext-chunks', progress(0)))
 
-        const classification =
-            ee.Algorithms.If(lrr.lt(-1.0), labels.get('criticallyEroded'),
-                ee.Algorithms.If(lrr.lt(-0.5), labels.get('eroded'),
-                    ee.Algorithms.If(lrr.lt(0.5), labels.get('stable'), labels.get('accreted'))))
+    const chunks = chunk(dates, size)
+    let [ count, evaluated ] = [ 0, [] ]
 
-        return ee.Feature(f).set(classification)
-    })
+    const timer = new Timer()
+    for (const chunk of chunks) {
+        count += (count + size) > length ? (length - count) : size
 
-    return classified;
+        try {
+            const shorelines = yield call(Coastline.deriveShorelines, chunk, ...params)
+            const job = ee.List(shorelines)
+            const data = yield callback([job, job.evaluate])
+
+            evaluated = evaluated.concat(data)
+        }
+        catch (e) {
+            yield put(Snacks.error(`shore-ext-chunks-err${count}`, `Error in chunk ${count / size}. Fragment will be ignored.`))
+            console.error(`[ducks/shoreline] ERROR: ${e}`)
+        }
+        
+        yield put(Snacks.update('shore-ext-chunks',
+            progress(count, timer.format(timer.project(count, length))),
+            { variant: 'determinate', value: count / length * 100 }
+        ))
+    }
+
+    yield put(Snacks.dismiss('shore-ext-chunks'))
+
+    return ee.FeatureCollection(evaluated)
 }
 
 const performCoastlineAnalysis = function* (identifier, baseline, transects, extent, dates, threshold, names = []) {
-    const { satellite } = yield select(
-        Selectors.getAcquisitionParameters
-    )
+    const { satellite } = yield select(Selectors.getAcquisitionParameters)
 
-    const bufferedBaseline = baseline.buffer(extent / 2)
+    const roi = baseline.buffer(extent / 2)
 
-    const shorelines = yield call(
-        Coastline.deriveShorelines,
-        dates,
-        satellite,
-        bufferedBaseline,
-        30,
-        threshold,
-        transects
-    )
-
-    yield put(Snacks.task('shoreline-ext-chunks', 'Extracting shorelines'))
-
-    const shorelineChunks = chunk(shorelines, 5)
-    let i = 0, collector = []
-
-    for (const chunk of shorelineChunks) {
-        console.log(`Acquiring ${i++}`)
-
-        const job = ee.List(chunk)
-        const data = yield callback([job, job.evaluate])
-
-        collector = collector.concat(data)
-    }
-
-    const sds = ee.FeatureCollection(collector)
-
-    yield put(Snacks.dismiss('shoreline-ext-chunks'))
-
+    const sds = yield call(deriveInChunks, dates, satellite, roi, 30, threshold, transects)
     transects = yield call(Coastline.generateTransectsStatistics, transects, baseline, sds, names)
 
-    const classified = yield call(estevesLabelling, transects)
-
+    const classified = yield call(Coastline.estevesLabelling, transects)
     const transectsViz = yield call(Coastline.expandHorizontally, classified, 10)
-
-    const enhancedCoastlines = yield call(
-        Coastline.mapToSummary,
-        classified,
-        sds,
-        bufferedBaseline
-    )
-
-    const lrrColors = yield evaluate(classified.map(f => ee.Feature(f).get('color')))
+    const enhancedCoastlines = yield call(Coastline.mapToSummary, classified, sds, roi)
 
     const colors = generateColors(dates.length, 66)
-    yield put(
-        Map.addEEFeature(
-            enhancedCoastlines,
-            'forms.map.shorelines',
-            colors,
-            1,
-            identifier
-        )
-    )
-    yield put(
-        Map.addEEFeature(
-            transectsViz,
-            'forms.map.transects.title',
-            lrrColors,
-            1,
-            Metadata.FeatureType.TRANSECT
-        )
-    )
+    const lrrColors = yield evaluate(classified.map(f => ee.Feature(f).get('color')))
+
+    yield put(Map.addEEFeature(enhancedCoastlines, 'forms.map.shorelines', colors, 1, identifier))
+    yield put(Map.addEEFeature(transectsViz, 'forms.map.transects.title', lrrColors, 1, Metadata.FeatureType.TRANSECT))
 
     const finalQuery = ee
         .List(enhancedCoastlines.toList(enhancedCoastlines.size()))
-        .map(poly => {
-            return ee.Feature(poly).toDictionary(["date", "mean", "stdDev"]);
-        })
+        .map(poly => ee.Feature(poly).toDictionary(['date', 'mean', 'stdDev']))
 
     const coastlineCollection = yield evaluate(enhancedCoastlines)
 
-    const [evolutionData, transectData] = yield evaluate(
-        ee.List([finalQuery, classified])
-    )
+    const [evolutionData, transectData] = yield evaluate(ee.List([finalQuery, classified]))
 
-    const withColors = evolutionData.map((row, i) => ({
-        ...row,
-        color: colors[i]
-    }))
+    const withColors = evolutionData.map((row, i) => ({ ...row, color: colors[i] }))
 
+    // @TODO remove
     const putObjectId = feature => {
         return ee
             .Feature(feature)
-            .set("objectid", ee.Feature(feature).get("system:index"))
+            .set('objectid', ee.Feature(feature).get('system:index'))
     }
 
+    // @TODO remove
     const selectProperties = (properties) => feature => {
         const props = ee.List(properties)
         const cast = ee.Feature(feature)
         return ee.Feature(cast.geometry(), cast.toDictionary(props))
     }
 
+    // @TODO remove
     const shapeTransectData = feature => {
         const cast = ee.Feature(feature)
         const geometry = ee.Geometry(cast.geometry())
@@ -203,6 +164,7 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
         return ee.Feature(geometry, properties)
     }
 
+    // @TODO remove
     const exportable = {
         shpBaseline: yield evaluate(
             ee
@@ -244,50 +206,36 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
     };
 
     yield put(
-        pushResult(identifier, {
-            transectData,
-            coastlineCollection,
-            evolution: withColors,
-            exportable
-        })
+        pushResult(identifier, { transectData, coastlineCollection, evolution: withColors, exportable })
     );
 
-    yield put(openDialog("coastlineEvolution"))
+    yield put(openDialog('coastlineEvolution'))
 }
 
 export const handleAnalyzeCoastline = function* () {
-    const identifier = "coastlineData";
+    const identifier = 'coastlineData'
 
-    yield put(Map.removeShapeGroup(identifier));
+    yield put(Map.removeShapeGroup(identifier))
 
-    const input = yield* requestCoastlineInput();
-    if (input === null) return;
+    const input = yield call(requestCoastlineInput)
 
-    const { coordinates, spacing, extent, dates, threshold } = input;
+    if (input) {
+        const { coordinates, spacing, extent, dates, threshold } = input
 
-    const baseline = ee.Geometry.LineString(coordinates);
+        const baseline = ee.Geometry.LineString(coordinates)
+        const transects = yield call(Coastline.generateOrthogonalTransects, coordinates, spacing, extent)
 
-    const transects = yield call(
-        Coastline.generateOrthogonalTransects,
-        coordinates,
-        spacing,
-        extent
-    );
-
-    yield* performCoastlineAnalysis(identifier, baseline, transects, extent, dates, threshold);
+        yield call(performCoastlineAnalysis, identifier, baseline, transects, extent, dates, threshold)
+    }
 }
 
-export const handleTestSpecificState = function* () {
-    // Reserved
-}
+export const handleTestSpecificState = function* () {}
 
 export const handleRequestExpression = function* ({ payload: { parent } }) {
-    const { name, expression } = yield* openAndWait("newLayer")
+    const { name, expression } = yield call(openAndWait, 'newLayer')
 
-    if (expression !== undefined) {
-        const { geometry, satellite } = yield select(
-            Selectors.getAcquisitionParameters
-        )
+    if (expression) {
+        const { geometry, satellite } = yield select(Selectors.getAcquisitionParameters)
 
         const { date, missionName } = yield select(state => state.imagery.images[parent])
 

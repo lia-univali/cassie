@@ -131,6 +131,10 @@ const pt = {
                         classification: 'Classe'
                     }
                 },
+                process: {
+                    extraction: 'Extraindo linhas de costa',
+                    estimate: 'Estimado'
+                },
                 exports: {
                     title: 'Exportar Dados de Transectos',
                     csv: 'Exportar CSV',
@@ -154,7 +158,8 @@ const pt = {
                 },
                 labels: {
                     x: 'Ano',
-                    y: 'Distância da Linha de Base (m)'
+                    y: 'Distância da Linha de Base (m)',
+                    trend: 'Tendência'
                 }
             },
             imageryOverlay: {
