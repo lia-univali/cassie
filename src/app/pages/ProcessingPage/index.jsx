@@ -5,10 +5,10 @@ import ee from '../../../services/earth-engine' // @TODO remove this!
 
 import { Box, Grid, Grow } from '@material-ui/core'
 
-import GoogleMap from '../../../components/GoogleMap'
-import ImageChooserCard from '../../../containers/ImageChooserCard'
+import GoogleMap from '../../components/map/GoogleMap'
+import ImageChooserCard from '../../components/map/ImageChooserCard'
 import { ShapeList } from '../../components'
-import LoadedImagesAccordion from '../../../containers/LoadedImagesAccordion'
+import LoadedImagesAccordion from '../../components/map/LoadedImagesAccordion'
 
 import { addEEFeature, centralizeMap } from '../../../store/ducks/map'
 

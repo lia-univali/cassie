@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Button } from '@material-ui/core'
 
-import DropdownButton from '../../../components/DropdownButton'
+import DropdownButton from '../core/DropdownButton'
 import * as Indices from '../../../common/indices'
 
 // @TODO unused component

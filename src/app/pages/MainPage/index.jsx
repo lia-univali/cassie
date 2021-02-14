@@ -8,7 +8,7 @@ import NavigationBar from '../../components/core/NavigationBar'
 import DialogRoot from '../../components/dialog/DialogRoot'
 import AcquisitionPage from '../AcquisitionPage'
 import ProcessingPage from '../ProcessingPage'
-import ActivityIndicator from '../../../containers/ActivityIndicator'
+import ActivityIndicator from '../../components/core/ActivityIndicator'
 
 // Register Dialogs
 import CoastlineEvolutionDialog from '../../components/dialog/CoastlineEvolutionDialog'

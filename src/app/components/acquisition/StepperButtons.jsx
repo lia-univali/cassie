@@ -4,7 +4,7 @@ import i18n from 'i18next'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 
-import { NEXT, PREVIOUS } from '../app/pages/AcquisitionPage'
+import { NEXT, PREVIOUS } from '../../pages/AcquisitionPage'
 
 const useStyles = makeStyles(theme => ({
   wrapper: {

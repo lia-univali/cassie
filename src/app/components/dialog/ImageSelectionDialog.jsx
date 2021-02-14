@@ -7,7 +7,7 @@ import { Button, Typography } from '@material-ui/core'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core'
 
 import { registerDialog } from './DialogRoot'
-import ImageTable from '../../../components/ImageTable'
+import ImageTable from '../visualization/ImageTable'
 
 const ImageSelectionDialog = ({ open, close, publish }) => {
   const availableDates = useSelector(state => state.acquisition.availableDates, shallowEqual)

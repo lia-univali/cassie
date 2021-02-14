@@ -7,7 +7,7 @@ import { Accordion, AccordionDetails, AccordionSummary } from '@material-ui/core
 import { AddCircleOutline as Add, ExpandMore as ExpandIcon } from '@material-ui/icons'
 
 import LayerViewer from './LayerViewer'
-import { Actions as Imagery } from '../store/ducks/imagery'
+import { Actions as Imagery } from '../../../store/ducks/imagery'
 
 
 const ImageViewer = ({ image, index }) => {

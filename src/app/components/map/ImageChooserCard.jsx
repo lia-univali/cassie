@@ -6,9 +6,9 @@ import { Box, Collapse, Divider, IconButton, Typography } from '@material-ui/cor
 import { Card, CardHeader, CardContent, CardActions} from '@material-ui/core'
 import { ExpandMore as MoreIcon, ExpandLess as LessIcon } from '@material-ui/icons'
 
-import ImageChooserForm from '../components/ImageChooserForm'
+import ImageChooserForm from './ImageChooserForm'
 import ActionList from './ActionList'
-import { acquireImage } from '../store/ducks/acquisition'
+import { acquireImage } from '../../../store/ducks/acquisition'
 
 const ImageChooserCard = ({ className }) => {
   const availableDates = useSelector(state => state.acquisition.availableDates)

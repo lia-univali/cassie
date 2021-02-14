@@ -7,11 +7,11 @@ import Hide from '@material-ui/icons/VisibilityOff'
 import Delete from '@material-ui/icons/Delete'
 import Threshold from '@material-ui/icons/InvertColors'
 import Unthreshold from '@material-ui/icons/InvertColorsOff'
-import OpacityControl from '../components/OpacityControl'
+import OpacityControl from './OpacityControl'
 import { MuiThemeProvider } from '@material-ui/core/styles'
-import { smallIconButton } from '../theme'
+import { smallIconButton } from '../../../theme'
 
-import { Actions as imagery } from '../store/ducks/imagery'
+import { Actions as imagery } from '../../../store/ducks/imagery'
 
 const LayerActions = ({ layer, index, parent }) => {
   const dispatch = useDispatch()

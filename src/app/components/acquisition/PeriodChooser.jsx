@@ -6,14 +6,14 @@ import { first, last } from 'lodash'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography } from '@material-ui/core'
 
-import TimePeriodSelector from '../components/TimePeriodSelector'
-import StepperButtons from '../components/StepperButtons'
-import CloudSelector from '../components/CloudSelector'
-import ActivityIndicator from './ActivityIndicator.jsx'
+import TimePeriodSelector from './TimePeriodSelector'
+import StepperButtons from './StepperButtons'
+import CloudSelector from './CloudSelector'
+import ActivityIndicator from '../core/ActivityIndicator.jsx'
 
-import { loadAvailableImages, setAvailableDates } from '../store/ducks/acquisition'
-import { formatDate, formatDateDiff, datesBetween } from '../common/utils'
-import { uniteMissionsDates } from '../common/algorithms'
+import { loadAvailableImages, setAvailableDates } from '../../../store/ducks/acquisition'
+import { formatDate, formatDateDiff, datesBetween } from '../../../common/utils'
+import { uniteMissionsDates } from '../../../common/algorithms'
 
 const useStyles = makeStyles(theme => ({
   description: {

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import ee from '../services/earth-engine'
+import ee from '../../../services/earth-engine'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, FormControlLabel, Switch } from '@material-ui/core'
 
-import GoogleMap, { DEFAULT_ZOOM } from '../components/GoogleMap'
-import StepperButtons from '../components/StepperButtons'
-import * as Map from '../common/map'
-import { setAOI } from '../store/ducks/acquisition'
+import GoogleMap, { DEFAULT_ZOOM } from '../map/GoogleMap'
+import StepperButtons from './StepperButtons'
+import * as Map from '../../../common/map'
+import { setAOI } from '../../../store/ducks/acquisition'
 
 const useStyles = makeStyles(theme => ({
   map: {

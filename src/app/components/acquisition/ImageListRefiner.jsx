@@ -3,11 +3,11 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import update from 'immutability-helper'
 import { useTranslation } from 'react-i18next'
 
-import ImageTable from '../components/ImageTable'
-import StepperButtons from '../components/StepperButtons'
+import ImageTable from '../visualization/ImageTable'
+import StepperButtons from './StepperButtons'
 
-import { FINALIZE } from '../app/pages/AcquisitionPage'
-import { loadThumbnails, setAvailableDates } from '../store/ducks/acquisition'
+import { FINALIZE } from '../../pages/AcquisitionPage'
+import { loadThumbnails, setAvailableDates } from '../../../store/ducks/acquisition'
 
 const ImageListRefiner = ({ navigate }) => {
   const metadata = useSelector(state => state.acquisition.metadata)

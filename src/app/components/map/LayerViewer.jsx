@@ -3,8 +3,8 @@ import React from 'react'
 import { CircularProgress, Fade, MenuItem, Typography } from '@material-ui/core'
 import { ExpandMore as Expand } from '@material-ui/icons'
 
-import LayerActions from '../containers/LayerActions'
-import DropdownButton from './DropdownButton'
+import LayerActions from './LayerActions'
+import DropdownButton from '../core/DropdownButton'
 
 const LayerTitle = ({ title, threshold, loading = false }) => {
   const display = threshold && <i>{` (T = ${threshold.toFixed(3)})`}</i>

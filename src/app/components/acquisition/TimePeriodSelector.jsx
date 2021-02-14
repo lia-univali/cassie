@@ -6,7 +6,7 @@ import { Typography } from '@material-ui/core'
 
 import Tick from './Tick'
 import { createRangeWithTooltip } from './Slider'
-import { sequence, formatDate } from '../common/utils'
+import { sequence, formatDate } from '../../../common/utils'
 
 const TooltipRange = createRangeWithTooltip()
 

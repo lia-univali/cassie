@@ -38,6 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+// @TODO container to component
 const ActivityIndicator = ({ onAbort, textual }) => {
   const shown = useSelector(state => state.common.working)
 

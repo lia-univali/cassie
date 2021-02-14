@@ -5,7 +5,7 @@ import { Checkbox } from '@material-ui/core'
 import { Table, TableHead, TableSortLabel, TableBody, TableRow,
           TableCell, TableFooter, TablePagination } from '@material-ui/core'
 
-import { sequence } from '../common/utils'
+import { sequence } from '../../../common/utils'
 import SatelliteImageThumbnail from './SatelliteImageThumbnail'
 
 const ImageTable = ({ images, metadata, selected = [], onCheckboxChange = () => {} }) => {

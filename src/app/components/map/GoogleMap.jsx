@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, Grow, Paper, Typography } from '@material-ui/core'
 
-import * as Map from '../common/map'
-import * as MapActions from '../store/ducks/map'
+import * as Map from '../../../common/map'
+import * as MapActions from '../../../store/ducks/map'
 
 export const DEFAULT_ZOOM = 9
 

@@ -4,11 +4,11 @@ import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { Grid } from '@material-ui/core'
 
-import SatelliteCard from '../components/SatelliteCard'
-import { NEXT } from '../app/pages/AcquisitionPage'
+import SatelliteCard from './SatelliteCard'
+import { NEXT } from '../../pages/AcquisitionPage'
 
-import { standard } from '../common/satellites'
-import { setSatellite } from '../store/ducks/acquisition'
+import { standard } from '../../../common/satellites'
+import { setSatellite } from '../../../store/ducks/acquisition'
 
 const useStyles = makeStyles(theme => ({
   content: {

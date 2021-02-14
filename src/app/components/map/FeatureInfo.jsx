@@ -1,7 +1,7 @@
 import React from 'react'
 import JsonView from 'react-json-view'
 
-import TransectEvolution from './TransectEvolution'
+import TransectEvolution from '../visualization/TransectEvolution'
 import { FeatureType } from '../../../common/metadata'
 
 const FeatureInfo = ({ data }) => {

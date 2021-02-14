@@ -7,7 +7,7 @@ import { More } from '@material-ui/icons'
 
 import Button from './Button'
 import IndexDropdown from './IndexDropdown'
-import DropdownButton from '../../../components/DropdownButton'
+import DropdownButton from '../core/DropdownButton'
 
 import { mediumIconButton } from '../../../theme'
 
