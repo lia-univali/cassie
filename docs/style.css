@@ -399,8 +399,10 @@ header .page-header .bounce {
   margin-top: 40px;
 }
 
-.completion-section img#furg {
+.completion-section img#atlantic {
   margin-top: 30px;
+  -webkit-transform: scale(0.7);
+          transform: scale(0.7);
 }
 
 .completion-section img#lia {
