@@ -9,7 +9,8 @@ import { EPOCH } from '../../common/utils'
  * of transect with baseline
  * @param {ee.Feature} transect
  * @param {ee.Geometry.LineString} baseline reference
- * @param {ee.FeatureCollection} shorelines 
+ * @param {ee.FeatureCollection} shorelines
+ * @returns {ee.Dictionary} the distances
  */
 export const calculateDistances = (transect, baseline, shorelines) => {
   const [distanceKey, idKey] = ['distance', 'withRespectTo']
@@ -73,8 +74,10 @@ export const estevesLabelling = (lrr) => {
 /**
  * Given a dictionary of a transect's distance set, calculates
  * the general DSAS Statistics (SCE, NSM, EPR, LRR)
- * and Esteves classification
+ * and Esteves classification.
+ * *Adds CASSIE internals props*
  * @param {ee.Dictionary} measurement the dictionary of distances of the transect
+ * @returns {ee.Dictionary} the statistics
  */
 export const calculateStatistics = (measurement) => {
   /* General information */
@@ -183,6 +186,7 @@ export const calculateStatistics = (measurement) => {
  * @param {ee.Feature} transect 
  * @param {ee.Dictionary} measurement
  * @param {Array<String>} keepProps
+ * @returns {ee.Dictionary} the useful and kept properties
  */
 export const complementaryProperties = (transect, measurement, keepProps) => {
   const props = ee.Dictionary(ee.Algorithms.If(keepProps, transect.toDictionary(keepProps), {}))
@@ -224,6 +228,7 @@ export const complementaryProperties = (transect, measurement, keepProps) => {
  * @param {ee.Geometry} baseline the baseline
  * @param {ee.FeatureCollection} shoreline the features
  * @param {Array<String>} keepProps the array of transect properties to keep
+ * @returns {ee.List<ee.Feature>} the transects with added statistics
  */
  export const generateTransectsStatistics = (transects, baseline, features, keepProps) => {
   return transects.map(input => {
@@ -254,7 +259,8 @@ export const complementaryProperties = (transect, measurement, keepProps) => {
  * such as StdDev and Mean.
  * *Adds CASSIE internals props*
  * @param {ee.List<Feature>} transects 
- * @param {ee.FeatureCollection} shorelines 
+ * @param {ee.FeatureCollection} shorelines
+ * @returns {ee.FeatureCollection} the shorelines with added statistics
  */
 export const summaryShorelineStatistics = (transects, shorelines) => {
   const shorelineList = ee.List(shorelines.toList(shorelines.size()))

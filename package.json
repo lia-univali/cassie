@@ -95,7 +95,7 @@
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive --source-map true --source-map-contents sass",
     "reactjs-start": "react-scripts start",
     "start": "set PORT=5001 && npm-run-all -p watch-css reactjs-start",
-    "build": "react-scripts build",
+    "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

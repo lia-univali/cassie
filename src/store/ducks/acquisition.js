@@ -1,29 +1,25 @@
-import { call, all, select, put } from "redux-saga/effects";
+import { call, all, select, put } from 'redux-saga/effects'
+import i18n from 'i18next'
 import { callback } from '../tools/effects'
-import { get as getSatellite } from "../../common/satellites";
-import { generateLayer, createThumbnail } from "../../algorithms/imagery";
-import {
-  createConcurrentHandler,
-  createBufferedHandler,
-  evaluate
-} from "../../common/sagaUtils";
-import { generateVisualizationParams } from "../../algorithms/utils";
-import { Actions as Imagery } from "./imagery";
-import { getAcquisitionParameters, getImageryIdentifiers } from "../../selectors";
+import { get as getSatellite } from '../../common/satellites'
+import { generateLayer, createThumbnail } from '../../algorithms/imagery'
+import { createConcurrentHandler, createBufferedHandler, evaluate } from '../../common/sagaUtils'
+import { generateVisualizationParams } from '../../algorithms/utils'
+import { Actions as Imagery } from './imagery'
+import { getAcquisitionParameters, getImageryIdentifiers } from '../../selectors'
 import { aggregateMissionsDates } from '../../common/algorithms'
-import i18next from 'i18next'
 
-const SET_SATELLITE = "cassie/acquisition/SET_SATELLITE";
-const SET_MISSION_FALLBACK = "cassie/acquisition/SET_MISSION_FALLBACK";
-const SET_AOI = "cassie/acquisition/SET_AOI";
-const SET_PERIOD = "cassie/acquisition/SET_PERIOD";
-const SET_AVAILABLE_DATES = "cassie/acquisition/SET_AVAILABLE_DATES";
-const LOAD_AVAILABLE_IMAGES = "cassie/acquisition/LOAD_AVAILABLE_IMAGES";
-const ACQUIRE_IMAGE = "cassie/acquisition/ACQUIRE_IMAGE";
-const REQUEST_AOI = "cassie/acquisition/REQUEST_AOI";
-const LOAD_TEST_STATE = "cassie/acquisition/LOAD_TEST_STATE";
-const LOAD_THUMBNAILS = "cassie/acquisition/LOAD_THUMBNAILS";
-const INSERT_METADATA = "cassie/acquisition/INSERT_METADATA";
+const SET_SATELLITE = 'cassie/acquisition/SET_SATELLITE'
+const SET_MISSION_FALLBACK = 'cassie/acquisition/SET_MISSION_FALLBACK'
+const SET_AOI = 'cassie/acquisition/SET_AOI'
+const SET_PERIOD = 'cassie/acquisition/SET_PERIOD'
+const SET_AVAILABLE_DATES = 'cassie/acquisition/SET_AVAILABLE_DATES'
+const LOAD_AVAILABLE_IMAGES = 'cassie/acquisition/LOAD_AVAILABLE_IMAGES'
+const ACQUIRE_IMAGE = 'cassie/acquisition/ACQUIRE_IMAGE'
+const REQUEST_AOI = 'cassie/acquisition/REQUEST_AOI'
+const LOAD_TEST_STATE = 'cassie/acquisition/LOAD_TEST_STATE'
+const LOAD_THUMBNAILS = 'cassie/acquisition/LOAD_THUMBNAILS'
+const INSERT_METADATA = 'cassie/acquisition/INSERT_METADATA'
 
 /**
  * Defines the satellite to be used for this acquisition.
@@ -239,7 +235,7 @@ const handleAcquireImage = function* ({ missionName, date }) {
   const mission = satellite.get(missionName);
   const image = mission.algorithms.acquire(date, geometry);
 
-  const layer = generateLayer(image, mission, i18next.t('forms.imageryOverlay.base'));
+  const layer = generateLayer(image, mission, i18n.t('forms.imageryOverlay.base'));
 
   yield put(Imagery.pushImage(mission.shortname + "/" + date, date, mission.name));
   yield put(Imagery.loadLayer(layer, imageId));
