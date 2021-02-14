@@ -1,30 +1,16 @@
-import React from 'react';
-import { compose } from 'redux';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import { space } from '../theme';
-import { withTranslation } from 'react-i18next'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
-const Footer = ({ t, classes }) => (
-  <div className={classes.wrapper}>
-    <div className={classes.footer}>
-      <Typography variant="body1" gutterBottom>
-        {t('self.poweredBy')}
-      </Typography>
-      <Typography variant="body1">
-        {t('self.imageryProvider')}
-      </Typography>
-    </div>
-  </div>
-);
+import { makeStyles } from '@material-ui/core/styles'
+import { Typography } from '@material-ui/core'
 
-const style = (theme) => ({
+const useStyles = makeStyles(theme => ({
   wrapper: {
     marginTop: 'auto',
     width: '100%',
   },
   footer: {
-    marginTop: space(3),
+    marginTop: theme.spacing(3),
     height: 150,
     flexFlow: 'column',
     alignItems: 'center',
@@ -32,11 +18,24 @@ const style = (theme) => ({
     display: 'flex',
     backgroundColor: theme.palette.grey[200],
   }
-});
+}))
 
-const enhancer = compose(
-  withStyles(style),
-  withTranslation()
-)
+const Footer = ({ }) => {
+  const [t] = useTranslation()
+  const classes = useStyles()
 
-export default enhancer(Footer);
+  return (
+    <div className={classes.wrapper}>
+      <div className={classes.footer}>
+        <Typography variant='body1' gutterBottom>
+          {t('self.poweredBy')}
+        </Typography>
+        <Typography variant='body1'>
+          {t('self.imageryProvider')}
+        </Typography>
+      </div>
+    </div>
+  )
+}
+
+export default Footer

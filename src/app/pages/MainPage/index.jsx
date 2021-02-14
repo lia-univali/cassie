@@ -4,9 +4,9 @@ import { Switch, Route } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography } from '@material-ui/core'
 
-import NavigationBar from '../../../containers/NavigationBar'
+import NavigationBar from '../../components/core/NavigationBar'
 import DialogRoot from '../../components/dialog/DialogRoot'
-import AcquisitionPage from '../../../containers/AcquisitionPage'
+import AcquisitionPage from '../AcquisitionPage'
 import ProcessingPage from '../ProcessingPage'
 import ActivityIndicator from '../../../containers/ActivityIndicator'
 

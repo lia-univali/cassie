@@ -5,14 +5,14 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Grid } from '@material-ui/core'
 
 import SatelliteCard from '../components/SatelliteCard'
-import { NEXT } from './AcquisitionPage'
+import { NEXT } from '../app/pages/AcquisitionPage'
 
 import { standard } from '../common/satellites'
 import { setSatellite } from '../store/ducks/acquisition'
 
 const useStyles = makeStyles(theme => ({
   content: {
-    "&:not(:first-child)": {
+    '&:not(:first-child)': {
       borderLeft: `1px solid ${theme.palette.divider}`,
     }
   }
@@ -30,7 +30,7 @@ const SatelliteChooser = ({ navigate }) => {
   const spacecrafts = standard
 
   return (
-    <Grid container spacing={0} justify="center">
+    <Grid container spacing={0} justify='center'>
       {
         spacecrafts.map((satellite, i) => (
           <Grid item key={i} xs={4} className={classes.content}>

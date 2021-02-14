@@ -61,7 +61,7 @@ export const combineReducers = (...reducers) => {
   return group
 }
 
-export const stringifyList = (subject) => {
+export const serializeList = (subject) => {
   return ee.String('[').cat(ee.List(subject).join(',')).cat(']')
 }
 

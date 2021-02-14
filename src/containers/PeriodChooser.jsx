@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { first, last } from 'lodash'
 
@@ -45,11 +45,11 @@ const PeriodChooser = ({ navigate }) => {
   }, [dates])
 
   const selectDates = () => {
-    return uniteMissionsDates(missions).filter(entry => entry.content <= cloudLevel);
+    return uniteMissionsDates(missions).filter(entry => entry.content <= cloudLevel)
   }
 
   const handleNext = () => {
-    const dates = selectDates().filter(entry => entry.date >= start && entry.date <= end);
+    const dates = selectDates().filter(entry => entry.date >= start && entry.date <= end)
 
     dispatch(setAvailableDates(dates))
   }
@@ -58,21 +58,21 @@ const PeriodChooser = ({ navigate }) => {
     return <ActivityIndicator textual />
   }
 
-  const flatten = selectDates().map(entry => entry.date);
-  const length = datesBetween(flatten, start, end).length;
+  const flatten = selectDates().map(entry => entry.date)
+  const length = datesBetween(flatten, start, end).length
 
   return (
     // @TODO has raw CSS
-    <div className="vcenter flow-column margin-above">
+    <div className='vcenter flow-column margin-above'>
       <TimePeriodSelector dates={flatten} start={start} end={end}
         onChange={(start, end) => setPeriod([start, end])}
       />
 
       <div className={classes.description}>
-        <Typography variant="subtitle1" align="center">
+        <Typography variant='subtitle1' align='center'>
           {t('forms.acquisition.3.period')}: {formatDate(start)} {t('forms.acquisition.3.to')} {formatDate(end)}
         </Typography>
-        <Typography variant="subtitle1" align="center">
+        <Typography variant='subtitle1' align='center'>
           {formatDateDiff(start, end)}, {length} {t('forms.acquisition.3.imageQuantity')}
         </Typography>
       </div>

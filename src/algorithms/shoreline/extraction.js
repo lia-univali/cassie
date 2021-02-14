@@ -49,7 +49,7 @@ export const identifyWaterFeature = (image, geometry, scale, bands, thresholdFn)
  * @param {ee.Geometry.MultiLineString|ee.FeatureCollection} transects
  * @returns {ee.Feature<ee.Geometry.LineString>} shoreline without noise
  */
- export const removeShorelineNoise = (shorelines, transects) => {
+export const removeShorelineNoise = (shorelines, transects) => {
   const coordinates = ee.Geometry(shorelines).coordinates()
 
   const guard = ee.List(

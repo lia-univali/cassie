@@ -1,17 +1,17 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import Show from '@material-ui/icons/Visibility';
-import Hide from '@material-ui/icons/VisibilityOff';
-import Delete from '@material-ui/icons/Delete';
-import Threshold from '@material-ui/icons/InvertColors';
-import Unthreshold from '@material-ui/icons/InvertColorsOff';
-import OpacityControl from '../components/OpacityControl';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import { smallIconButton } from '../theme';
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import IconButton from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
+import Show from '@material-ui/icons/Visibility'
+import Hide from '@material-ui/icons/VisibilityOff'
+import Delete from '@material-ui/icons/Delete'
+import Threshold from '@material-ui/icons/InvertColors'
+import Unthreshold from '@material-ui/icons/InvertColorsOff'
+import OpacityControl from '../components/OpacityControl'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import { smallIconButton } from '../theme'
 
-import { Actions as imagery } from '../store/ducks/imagery';
+import { Actions as imagery } from '../store/ducks/imagery'
 
 const LayerActions = ({ layer, index, parent }) => {
   const dispatch = useDispatch()
@@ -32,14 +32,14 @@ const LayerActions = ({ layer, index, parent }) => {
     <MuiThemeProvider theme={smallIconButton}>
       <div>
         {canThreshold &&
-          <Tooltip title={isThresholded ? "Remover limiarização" : "Limiarizar"} placement="top">
+          <Tooltip title={isThresholded ? 'Remover limiarização' : 'Limiarizar'} placement='top'>
             <IconButton onClick={() => handleThreshold()}>
               {isThresholded ? <Unthreshold /> : <Threshold />}
             </IconButton>
           </Tooltip>
         }
 
-        <Tooltip title={visible ? "Esconder" : "Mostrar"} placement="top">
+        <Tooltip title={visible ? 'Esconder' : 'Mostrar'} placement='top'>
           <IconButton onClick={() => dispatch(imagery.toggleVisibility(index))}>
             {visible ? <Show /> : <Hide />}
           </IconButton>
@@ -50,7 +50,7 @@ const LayerActions = ({ layer, index, parent }) => {
         />
 
         {removable &&
-          <Tooltip title="Remover" placement="top">
+          <Tooltip title='Remover' placement='top'>
             <IconButton onClick={() => { } /* @TODO Fix layer removal */}>
               <Delete />
             </IconButton>

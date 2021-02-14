@@ -1,61 +1,48 @@
-import React from 'react';
-import Menu from '@material-ui/core/Menu';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import React, { useState } from 'react'
 
-class DropdownButton extends React.Component {
-  constructor(props) {
-    super(props);
+import { Button, IconButton, Menu } from '@material-ui/core'
 
-    this.state = {open: false};
+const DropdownButton = ({ icon, text, className, children, onClick = () => {}, ...rest }) => {
+  const [state, setState] = useState({ open: false, anchor: null })
+  const { open, anchor } = state
+
+  const openMenu = (e) => {
+    setState({ open: true, anchor: e.currentTarget })
+  }
+  
+  const closeMenu = () => {
+    setState({ open: false, anchor: null })
   }
 
-  createButton() {
-    const { icon, text, children, className, onClick, ...rest } = this.props;
-
-    const SpecializedButton = icon ? IconButton : Button;
-    const Icon = icon;
+  const createButton = () => {
+    const SpecializedButton = icon ? IconButton : Button
+    const Icon = icon
 
     return (
-      <SpecializedButton onClick={(e) => this.openMenu(e)} {...rest}>
+      <SpecializedButton onClick={openMenu} {...rest}>
         {text || null}
         {icon && <Icon/>}
       </SpecializedButton>
-    );
+    )
   }
 
-  closeMenu() {
-    this.setState({open: false});
+  const handleClick = () => {
+    onClick()
+    closeMenu()
   }
 
-  openMenu(event) {
-    this.setState({open: true, anchor: event.currentTarget});
-  }
-
-  handleClick() {
-    if (this.props.onClick) {
-      this.props.onClick();
-    }
-    
-    this.closeMenu();
-  }
-
-  render() {
-    const { className, children } = this.props;
-
-    return (
-      <div className={className}>
-        {this.createButton()}
-        <Menu anchorEl={this.state.anchor}
-          onClick={() => this.handleClick()}
-          open={this.state.open}
-          onClose={() => this.closeMenu()}
-        >
-          {children}
-        </Menu>
-      </div>
-    );
-  }
+  return (
+    <div className={className}>
+      {createButton()}
+      <Menu anchorEl={anchor}
+        onClick={handleClick}
+        open={open}
+        onClose={closeMenu}
+      >
+        {children}
+      </Menu>
+    </div>
+  )
 }
 
-export default DropdownButton;
+export default DropdownButton

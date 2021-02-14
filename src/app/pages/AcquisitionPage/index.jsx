@@ -7,14 +7,14 @@ import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/core/styles'
 import { Divider, Grid, Paper, Step, StepLabel, Stepper, Typography } from '@material-ui/core'
 
-import SatelliteChooser from './SatelliteChooser'
-import AOIChooser from './AOIChooser'
-import PeriodChooser from './PeriodChooser'
-import ImageListRefiner from './ImageListRefiner'
-import Footer from '../components/Footer'
+import SatelliteChooser from '../../../containers/SatelliteChooser'
+import AOIChooser from '../../../containers/AOIChooser'
+import PeriodChooser from '../../../containers/PeriodChooser'
+import ImageListRefiner from '../../../containers/ImageListRefiner'
+import Footer from '../../../components/Footer'
 
-import { getAcquisitionParameters } from '../selectors'
-import { Actions as Auth } from '../store/ducks/auth'
+import { getAcquisitionParameters } from '../../../selectors'
+import { Actions as Auth } from '../../../store/ducks/auth'
 
 export const PREVIOUS = -1
 export const FIRST = 0
@@ -30,27 +30,27 @@ const STEPS = [
   {
     label: 'forms.acquisition.2.title',
     content: 'forms.acquisition.2.description',
-    requires: "satellite",
+    requires: 'satellite',
     component: AOIChooser,
   },
   {
     label: 'forms.acquisition.3.title',
     content: 'forms.acquisition.3.description',
-    requires: "geometry",
+    requires: 'geometry',
     component: PeriodChooser,
   },
   {
     label: 'forms.acquisition.4.title',
     content: 'forms.acquisition.4.description',
-    requires: "availableDates",
+    requires: 'availableDates',
     component: ImageListRefiner,
   }
 ]
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
-    display: "flex",
-    flexFlow: "column",
+    display: 'flex',
+    flexFlow: 'column',
     flexGrow: 1,
   },
   header: {
@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(6, 0, 16),
   },
   title: {
-    color: "white",
+    color: 'white',
   },
   content: {
     width: 1000,
@@ -86,7 +86,7 @@ const AcquisitionPage = (props) => {
     const step = hasStep ? params.step - 1 : 0
 
     const stepData = STEPS[step]
-    return (!("requires" in stepData) || stepData.requires in acquisitionData)
+    return (!('requires' in stepData) || stepData.requires in acquisitionData)
   }
 
   useEffect(() => {
@@ -98,7 +98,7 @@ const AcquisitionPage = (props) => {
   }, [dispatch])
 
   const extractPath = (hasStep) => {
-    return hasStep ? match.url.substring(0, match.url.lastIndexOf("/")) : match.url
+    return hasStep ? match.url.substring(0, match.url.lastIndexOf('/')) : match.url
   }
 
   const navigate = (direction) => {
@@ -110,7 +110,7 @@ const AcquisitionPage = (props) => {
     } else if (direction === FIRST) {
       dispatch(push(`${path}/1`))
     } else if (direction === FINALIZE) {
-      dispatch(push("/main/processing"))
+      dispatch(push('/main/processing'))
     }
   }
 
@@ -133,7 +133,7 @@ const AcquisitionPage = (props) => {
         <Route key={id} path={`${path}/${id}`} render={props => renderStep({ ...props, ...acquisitionData }, Component)} />
       )
     }).concat(
-      <Redirect key={0} from={path} to={path + "/1"} />
+      <Redirect key={0} from={path} to={path + '/1'} />
     )
   }
 
@@ -143,15 +143,15 @@ const AcquisitionPage = (props) => {
   return (
     // @TODO has raw css
     <div className={classes.wrapper}>
-      <Grid container spacing={0} justify="center">
+      <Grid container spacing={0} justify='center'>
         <Grid item xs={12} className={classes.header}>
           <div>
-            <Typography variant="h4" align="center" className={classes.title}>
+            <Typography variant='h4' align='center' className={classes.title}>
               {t('forms.acquisition.title')}
             </Typography>
           </div>
         </Grid>
-        <Grid item className="vcenter flow-column">
+        <Grid item className='vcenter flow-column'>
           <Paper className={classes.content} elevation={1}>
             <Stepper activeStep={step}>
               {
@@ -162,7 +162,7 @@ const AcquisitionPage = (props) => {
                 ))
               }
             </Stepper>
-            <Typography variant="subtitle1" align="center" className={classes.instructions}>
+            <Typography variant='subtitle1' align='center' className={classes.instructions}>
               {t(STEPS[step].content)}
             </Typography>
             <Divider />

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 import { useTranslation } from 'react-i18next'
 
-import * as auth from '../store/ducks/auth'
+import * as auth from '../../../store/ducks/auth'
 
 import { Avatar, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
 import { MoreVert } from '@material-ui/icons'
@@ -31,12 +31,12 @@ const User = ({ name, imageUrl, children }) => {
   return !name ? null : (
     // @TODO has raw css
     <div>
-      <div className="flex vcenter">
+      <div className='flex vcenter'>
         <Avatar alt={name} src={imageUrl} />
-        <Typography variant="body2" color="inherit" className="margin-left">
+        <Typography variant='body2' color='inherit' className='margin-left'>
           {name}
         </Typography>
-        <IconButton color="inherit" onClick={e => handleOpen(e)} disableRipple>
+        <IconButton color='inherit' onClick={e => handleOpen(e)} disableRipple>
           <MoreVert />
         </IconButton>
       </div>
@@ -44,7 +44,7 @@ const User = ({ name, imageUrl, children }) => {
         anchorEl={anchor}
         open={anchor !== null}
         onClose={() => handleClose()}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         getContentAnchorEl={null}
       >
         {children}

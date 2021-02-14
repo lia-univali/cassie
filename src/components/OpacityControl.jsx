@@ -4,9 +4,9 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { IconButton, Popover, Tooltip, Typography } from '@material-ui/core'
 import { Gradient as Opacity } from '@material-ui/icons/'
 
-import Slider from './Slider';
+import Slider from './Slider'
 
-import { lerp, extractAlpha } from '../common/utils';
+import { lerp, extractAlpha } from '../common/utils'
 
 const useStyles = makeStyles(theme => ({
   wrapper: {

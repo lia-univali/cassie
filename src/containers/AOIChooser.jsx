@@ -70,7 +70,7 @@ const AOIChooser = ({ navigate }) => {
     setOverlay(overlay)
     setCoordinates(coordinates)
 
-    Map.setDrawingControlsVisible(false);
+    Map.setDrawingControlsVisible(false)
   }
 
   const handleUndo = () => {
@@ -94,7 +94,7 @@ const AOIChooser = ({ navigate }) => {
 
   return (
     // @TODO has raw css
-    <div className="vcenter flow-column">
+    <div className='vcenter flow-column'>
       <FormControlLabel label={t('forms.acquisition.2.showDelimiters')}
         control={
           <Switch
@@ -108,7 +108,7 @@ const AOIChooser = ({ navigate }) => {
         onRegionDrawn={handleDrawing}
       />
       <StepperButtons navigate={navigate} nextDisabled={drawn === false} onNext={handleChoose}>
-        <Button onClick={handleUndo} disabled={drawn === false} color="secondary" variant="outlined">
+        <Button onClick={handleUndo} disabled={drawn === false} color='secondary' variant='outlined'>
           {t('forms.acquisition.2.undo')}
         </Button>
       </StepperButtons>

@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 import { Button, CircularProgress, Fade, Paper, Typography } from '@material-ui/core'
 
 const useTextualStyles = makeStyles(theme => ({
@@ -17,7 +17,7 @@ const Textual = () => {
   const classes = useTextualStyles()
 
   return (
-    <Typography className={classes.text} variant="subtitle1" align="center">
+    <Typography className={classes.text} variant='subtitle1' align='center'>
       {t('general.loading')}
     </Typography>
   )
@@ -52,9 +52,9 @@ const ActivityIndicator = ({ onAbort, textual }) => {
     <Fade in={shown} timeout={1000} unmountOnExit>
       <div className={classes.wrapper}>
         <Paper className={classes.content}>
-          <CircularProgress thickness={5} size={100} color="secondary" />
+          <CircularProgress thickness={5} size={100} color='secondary' />
           {onAbort &&
-            <Button className={classes.abort} color="error" onClick={onAbort} dense>
+            <Button className={classes.abort} color='error' onClick={onAbort} dense>
               {t('general.cancel')}
             </Button>
           }
