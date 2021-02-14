@@ -1,111 +1,90 @@
-import React from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import TimePeriodSelector from '../components/TimePeriodSelector';
-import lastItem from 'lodash/last';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import StepperButtons from '../components/StepperButtons';
-import CloudSelector from '../components/CloudSelector';
-import ActivityIndicator from './ActivityIndicator.jsx';
-import { formatDate, formatDateDiff, datesBetween } from '../common/utils';
-import { withAcquisition } from '../actions';
-import { space } from '../theme';
-import { uniteMissionsDates, summarizeMissionsDates } from '../common/algorithms';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useTranslation } from 'react-i18next'
+import { first, last } from 'lodash'
 
-class PeriodChooser extends React.Component {
-  constructor(props) {
-    super(props);
+import { makeStyles } from '@material-ui/core/styles'
+import { Typography } from '@material-ui/core'
 
-    this.state = {
-      cloudLevel: 1,
-    };
+import TimePeriodSelector from '../components/TimePeriodSelector'
+import StepperButtons from '../components/StepperButtons'
+import CloudSelector from '../components/CloudSelector'
+import ActivityIndicator from './ActivityIndicator.jsx'
 
-    if (props.dates !== undefined) {
-      this.state = {
-        start: props.dates[0].date,
-        end: lastItem(props.dates).date,
-      };
-    }
-  }
+import { loadAvailableImages, setAvailableDates } from '../store/ducks/acquisition'
+import { formatDate, formatDateDiff, datesBetween } from '../common/utils'
+import { uniteMissionsDates } from '../common/algorithms'
 
-  componentDidMount() {
-    this.props.acquisition.loadAvailableImages();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.dates !== undefined) {
-      const dates = nextProps.dates;
-
-      this.setState({ start: dates[0].date, end: lastItem(dates).date });
-    }
-  }
-
-  handleNext() {
-    const { start, end } = this.state;
-    const dates = this.selectDates().filter(entry => entry.date >= start && entry.date <= end);
-
-    this.props.acquisition.setAvailableDates(dates);
-  }
-
-  selectDates() {
-    return uniteMissionsDates(this.props.missions)
-      .filter(entry => entry.content <= this.state.cloudLevel);
-  }
-
-  render() {
-    const { start, end } = this.state;
-    const { dates: dict, navigate, classes, working } = this.props;
-
-    if (working === true || dict === undefined) {
-      return <ActivityIndicator textual />
-    }
-
-    const dates = this.selectDates(dict).map(entry => entry.date);
-    const length = datesBetween(dates, start, end).length;
-
-    return (
-      <div className="vcenter flow-column margin-above">
-        <TimePeriodSelector dates={dates} start={start} end={end}
-          onChange={(start, end) => this.setState({ start, end })}
-        />
-
-        <div className={classes.description}>
-          <Typography variant="subheading" align="center">
-            Período: {formatDate(start)} a {formatDate(end)}
-          </Typography>
-          <Typography variant="subheading" align="center">
-            {formatDateDiff(start, end)}, {length} image{length === 1 ? 'm' : 'ns'}
-          </Typography>
-        </div>
-
-        <CloudSelector
-          level={this.state.cloudLevel}
-          onChange={cloudLevel => this.setState({ cloudLevel })}
-        />
-
-        <StepperButtons navigate={navigate} onNext={() => this.handleNext()} />
-      </div>
-    );
-  }
-}
-
-const style = {
+const useStyles = makeStyles(theme => ({
   description: {
-    margin: space(7, 0, 3)
+    margin: theme.spacing(7, 0, 3)
   }
+}))
+
+const PeriodChooser = ({ navigate }) => {
+  const dates = useSelector(state => state.acquisition.availableDates, shallowEqual)
+  const missions = useSelector(state => state.acquisition.missions, shallowEqual)
+  const working = useSelector(state => state.common.working)
+
+  const dispatch = useDispatch()
+  const [t] = useTranslation()
+  const classes = useStyles()
+
+  const [cloudLevel, setCloudLevel] = useState(1)
+  const [period, setPeriod] = useState([])
+  const [start, end] = period
+
+  useEffect(() => {
+    dispatch(loadAvailableImages())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (dates) {
+      setPeriod([first(dates).date, last(dates).date])
+    }
+  }, [dates])
+
+  const selectDates = () => {
+    return uniteMissionsDates(missions).filter(entry => entry.content <= cloudLevel);
+  }
+
+  const handleNext = () => {
+    const dates = selectDates().filter(entry => entry.date >= start && entry.date <= end);
+
+    dispatch(setAvailableDates(dates))
+  }
+
+  if (working === true || !dates) {
+    return <ActivityIndicator textual />
+  }
+
+  const flatten = selectDates().map(entry => entry.date);
+  const length = datesBetween(flatten, start, end).length;
+
+  return (
+    // @TODO has raw CSS
+    <div className="vcenter flow-column margin-above">
+      <TimePeriodSelector dates={flatten} start={start} end={end}
+        onChange={(start, end) => setPeriod([start, end])}
+      />
+
+      <div className={classes.description}>
+        <Typography variant="subtitle1" align="center">
+          {t('forms.acquisition.3.period')}: {formatDate(start)} {t('forms.acquisition.3.to')} {formatDate(end)}
+        </Typography>
+        <Typography variant="subtitle1" align="center">
+          {formatDateDiff(start, end)}, {length} {t('forms.acquisition.3.imageQuantity')}
+        </Typography>
+      </div>
+
+      <CloudSelector
+        level={cloudLevel}
+        onChange={cloudLevel => setCloudLevel(cloudLevel)}
+      />
+
+      <StepperButtons navigate={navigate} onNext={handleNext} />
+    </div>
+  )
 }
 
-const connector = connect(state => ({
-  dates: state.acquisition.availableDates,
-  missions: state.acquisition.missions,
-  working: state.common.working,
-}));
-
-const enhancer = compose(
-  connector,
-  withAcquisition(),
-  withStyles(style),
-);
-
-export default enhancer(PeriodChooser);
+export default PeriodChooser

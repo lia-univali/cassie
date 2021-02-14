@@ -1,16 +1,18 @@
 import React from 'react';
+import { compose } from 'redux';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { space } from '../theme';
+import { withTranslation } from 'react-i18next'
 
-const Footer = ({ classes }) => (
+const Footer = ({ t, classes }) => (
   <div className={classes.wrapper}>
     <div className={classes.footer}>
       <Typography variant="body1" gutterBottom>
-        Powered by: Google Earth Engine
+        {t('self.poweredBy')}
       </Typography>
       <Typography variant="body1">
-        Fontes das imagens dos satélites: NASA (Landsat) e ESA (Sentinel)
+        {t('self.imageryProvider')}
       </Typography>
     </div>
   </div>
@@ -32,4 +34,9 @@ const style = (theme) => ({
   }
 });
 
-export default withStyles(style)(Footer);
+const enhancer = compose(
+  withStyles(style),
+  withTranslation()
+)
+
+export default enhancer(Footer);

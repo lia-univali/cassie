@@ -1,61 +1,57 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import { logout } from '../actions/basic';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router'
+import { useTranslation } from 'react-i18next'
 
-class User extends React.Component {
-  constructor(props) {
-    super(props);
+import * as auth from '../store/ducks/auth'
 
-    this.state = { anchor: null };
+import { Avatar, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
+import { MoreVert } from '@material-ui/icons'
+
+const User = ({ name, imageUrl, children }) => {
+  const [anchor, setAnchor] = useState(null)
+  const dispatch = useDispatch()
+  const [t] = useTranslation()
+
+  const handleOpen = (event) => {
+    setAnchor(event.currentTarget)
   }
 
-  handleOpen(event) {
-    this.setState({ anchor: event.currentTarget });
+  const handleClose = () => {
+    setAnchor(null)
   }
 
-  handleClose() {
-    this.setState({ anchor: null });
+  const handleLogout = () => {
+    dispatch(auth.Actions.revoke(() => {
+      dispatch(push('/'))
+      document.location.reload()
+    }))
   }
 
-  render() {
-    const { anchor } = this.state;
-    const { name, image, children, logout, ...rest } = this.props;
-
-    if (!name) {
-      return null;
-    }
-
-    return (
-      <div>
-        <div className="flex vcenter">
-          <Avatar alt={name} src={image} />
-          <Typography variant="body2" color="inherit" className="margin-left">
-            {name}
-          </Typography>
-          <IconButton color="inherit" onClick={e => this.handleOpen(e)} disableRipple>
-            <MoreIcon />
-          </IconButton>
-        </div>
-        <Menu
-          anchorEl={anchor}
-          open={anchor !== null}
-          onClose={() => this.handleClose()}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          getContentAnchorEl={null}
-        >
-          {children}
-          <MenuItem onClick={() => logout()}>Sair</MenuItem>
-        </Menu>
+  return !name ? null : (
+    // @TODO has raw css
+    <div>
+      <div className="flex vcenter">
+        <Avatar alt={name} src={imageUrl} />
+        <Typography variant="body2" color="inherit" className="margin-left">
+          {name}
+        </Typography>
+        <IconButton color="inherit" onClick={e => handleOpen(e)} disableRipple>
+          <MoreVert />
+        </IconButton>
       </div>
-    );
-  }
+      <Menu
+        anchorEl={anchor}
+        open={anchor !== null}
+        onClose={() => handleClose()}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        getContentAnchorEl={null}
+      >
+        {children}
+        <MenuItem onClick={handleLogout}>{t('auth.signout')}</MenuItem>
+      </Menu>
+    </div>
+  )
 }
 
-export default connect(() => ({}), { logout })(User);
+export default User

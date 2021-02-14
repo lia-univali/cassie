@@ -1,13 +1,16 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import * as Modal from 'actions/modal';
-import Button from '../components/Button';
-import { bindDispatch } from '../common/utils';
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import * as modal from '../store/ducks/modal'
+import Button from '../components/Button'
 
-const DialogCancelButton = ({ title, modal, ...rest }) => (
-  <Button color="default" onClick={() => modal.close()} {...rest}>
-    {title}
-  </Button>
-)
+const DialogCancelButton = ({ title, ...rest }) => {
+  const dispatch = useDispatch()
 
-export default connect(() => ({}), bindDispatch({ Modal }))(DialogCancelButton);
+  return (
+    <Button color="default" onClick={() => dispatch(modal.close())} {...rest}>
+      {title}
+    </Button>
+  )
+}
+
+export default DialogCancelButton

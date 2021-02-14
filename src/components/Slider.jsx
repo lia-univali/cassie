@@ -68,7 +68,7 @@ const ThemedRange = ({theme, ...rest}) => {
 export const createRangeWithTooltip = () => {
   const Enhanced = RcSlider.createSliderWithTooltip(RcRange);
 
-  return withTheme()(({theme, ...rest}) => {
+  return withTheme(({theme, ...rest}) => {
     const mergedProps = {...rest, ...rangeTheme(theme)};
 
     return <Enhanced {...mergedProps}/>
@@ -76,5 +76,5 @@ export const createRangeWithTooltip = () => {
 };
 
 
-export const Range = withTheme()(ThemedRange);
-export default withTheme()(Slider);
+export const Range = withTheme(ThemedRange);
+export default withTheme(Slider);

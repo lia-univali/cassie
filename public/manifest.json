@@ -1,11 +1,11 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "CASSIE",
+  "name": "Coastal Analysis via Satellite Imagery Engine",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/ico"
     }
   ],
   "start_url": "./index.html",

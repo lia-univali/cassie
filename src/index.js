@@ -1,30 +1,21 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import configureStore from "./store";
-import moment from "moment";
-import registerServiceWorker from "./registerServiceWorker";
-import { CLIENT_ID } from "./actions/user";
-import Boot from "./Boot";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { SnackbarProvider } from 'notistack'
 
-const store = configureStore();
-console.log("Store configured");
-window.store = store;
-moment.locale("pt-BR");
+import configureStore from './store'
+import moment from 'moment'
+import Boot from './Boot'
+import './i18n'
 
-let Cassie = () => (
-  <Provider store={store}>
-    <Boot />
-  </Provider>
-);
+moment.locale("pt-BR")
 
-window.gapi.load("auth2", () => {
-  window.gapi.auth2
-    .init({
-      client_id: CLIENT_ID
-    })
-    .then(() => {
-      ReactDOM.render(<Cassie />, document.getElementById("root"));
-      registerServiceWorker();
-    });
-});
+ReactDOM.render(
+  <Provider store={configureStore()}>
+    <SnackbarProvider
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+      <Boot />
+    </SnackbarProvider>
+  </Provider>,
+  document.getElementById("root")
+)

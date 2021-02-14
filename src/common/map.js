@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FeatureInfo from '../containers/FeatureInfo';
+import FeatureInfo from '../app/components/visualization/FeatureInfo';
 
 let Map = undefined;
 const STYLE_KEY = "customStyle";
@@ -12,8 +12,6 @@ let infoWindow;
 export const initializeMap = (map) => {
   infoWindow = new window.google.maps.InfoWindow({ content: "Hello world!" });
   Map = map;
-
-  console.log("Initialized!", map);
 
   Map.customLayers = [];
   Map.data.setStyle(feature => {
@@ -72,7 +70,6 @@ export const initializeMap = (map) => {
     event.feature.forEachProperty((value, name) => properties[name] = value);
     infoWindow.setPosition(event.latLng);
 
-    //infoWindow.setContent('<pre>' + JSON.stringify(properties, null, "    ") + '</pre>');
     infoWindow.setContent('<div id="infowindow">hello world!</div>');
     infoWindow.open(Map);
 
@@ -131,25 +128,10 @@ export const addShape = (geoJson, color = "#FF0000", opacity = 0.5, type) => {
 
 export const highlightShape = (shape) => {
   shape.setProperty(HIGHLIGHTED_KEY, true);
-  // clearHighlight();
-  // Map.highlightedShape = shape;
-  //
-  // const delta = 1 - shape.style.fillOpacity;
-  // const newOpacity = shape.style.fillOpacity + (delta * 0.4);
-  //
-  // Map.data.overrideStyle(shape, {...shape.style,
-  //   fillOpacity: newOpacity,
-  //   strokeWeight: 1.5,
-  // });
 }
 
 export const clearHighlight = (shape) => {
   shape.setProperty(HIGHLIGHTED_KEY, false);
-
-  // if (Map.highlightedShape !== undefined) {
-  //   Map.data.overrideStyle(Map.highlightedShape, Map.highlightedShape.style);
-  //   Map.highlightedShape = undefined;
-  // }
 }
 
 export const removeShape = (shape) => {
@@ -212,7 +194,6 @@ export const loadWRSLayer = () => {
     }]
   });
 
-  console.log(layer);
   return layer;
 }
 
