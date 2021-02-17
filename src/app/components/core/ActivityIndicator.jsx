@@ -45,16 +45,13 @@ const ActivityIndicator = ({ onAbort, textual }) => {
   const [t] = useTranslation()
   const classes = useStyles()
 
-  if (textual) {
-    return <Textual />
-  }
-
-  return (
+  return textual ? <Textual /> : (
     <Fade in={shown} timeout={1000} unmountOnExit>
       <div className={classes.wrapper}>
         <Paper className={classes.content}>
           <CircularProgress thickness={5} size={100} color='secondary' />
-          {onAbort &&
+          {
+            onAbort &&
             <Button className={classes.abort} color='error' onClick={onAbort} dense>
               {t('general.cancel')}
             </Button>

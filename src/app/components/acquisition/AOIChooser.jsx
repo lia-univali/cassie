@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import ee from '../../../services/earth-engine'
 
 import { makeStyles } from '@material-ui/core/styles'
-import { Button, FormControlLabel, Switch } from '@material-ui/core'
+import { Box, Button, FormControlLabel, Switch } from '@material-ui/core'
 
 import GoogleMap, { DEFAULT_ZOOM } from '../map/GoogleMap'
 import StepperButtons from './StepperButtons'
@@ -93,8 +93,7 @@ const AOIChooser = ({ navigate }) => {
   const drawn = Boolean(coordinates)
 
   return (
-    // @TODO has raw css
-    <div className='vcenter flow-column'>
+    <Box display='flex' alignItems='center' flexDirection='column'>
       <FormControlLabel label={t('forms.acquisition.2.showDelimiters')}
         control={
           <Switch
@@ -104,7 +103,7 @@ const AOIChooser = ({ navigate }) => {
         }
       />
       <GoogleMap
-        style={{ width: 1000, height: 500 }}
+        style={{ width: 1000, height: 500 } /* @TODO pass as props */}
         onRegionDrawn={handleDrawing}
       />
       <StepperButtons navigate={navigate} nextDisabled={drawn === false} onNext={handleChoose}>
@@ -112,7 +111,7 @@ const AOIChooser = ({ navigate }) => {
           {t('forms.acquisition.2.undo')}
         </Button>
       </StepperButtons>
-    </div>
+    </Box>
   )
 }
 

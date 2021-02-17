@@ -1,15 +1,17 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
+
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import { IconButton, Tooltip } from '@material-ui/core'
+
 import Show from '@material-ui/icons/Visibility'
 import Hide from '@material-ui/icons/VisibilityOff'
 import Delete from '@material-ui/icons/Delete'
 import Threshold from '@material-ui/icons/InvertColors'
 import Unthreshold from '@material-ui/icons/InvertColorsOff'
-import OpacityControl from './OpacityControl'
-import { MuiThemeProvider } from '@material-ui/core/styles'
+
 import { smallIconButton } from '../../../theme'
+import OpacityControl from './OpacityControl'
 
 import { Actions as imagery } from '../../../store/ducks/imagery'
 
@@ -29,9 +31,11 @@ const LayerActions = ({ layer, index, parent }) => {
   }
 
   return (
+    // @TODO i18n & theme
     <MuiThemeProvider theme={smallIconButton}>
       <div>
-        {canThreshold &&
+        {
+          canThreshold &&
           <Tooltip title={isThresholded ? 'Remover limiarização' : 'Limiarizar'} placement='top'>
             <IconButton onClick={() => handleThreshold()}>
               {isThresholded ? <Unthreshold /> : <Threshold />}
@@ -49,7 +53,8 @@ const LayerActions = ({ layer, index, parent }) => {
           onOpacityChange={v => dispatch(imagery.updateOpacity(index, v))}
         />
 
-        {removable &&
+        {
+          removable &&
           <Tooltip title='Remover' placement='top'>
             <IconButton onClick={() => { } /* @TODO Fix layer removal */}>
               <Delete />

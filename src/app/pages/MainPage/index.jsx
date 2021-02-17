@@ -17,16 +17,16 @@ import NewLayerDialog from '../../components/dialog/NewLayerDialog'
 import ImageSelectionDialog from '../../components/dialog/ImageSelectionDialog'
 
 const NotFound = props => (
-  <Typography variant="h2" align="center">
+  <Typography variant='h2' align='center'>
     Página não encontrada.
   </Typography>
 )
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
   }
 }))
 

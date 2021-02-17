@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { CircularProgress } from '@material-ui/core'
+import { Box, CircularProgress } from '@material-ui/core'
 
 const SatelliteThumbnail = ({ url, height }) => {
   return (
-    <div style={{ height: height, display: 'flex', alignItems: 'center' }}>
+    <Box height={height} >
       {
         url &&
         <a href={url}>
@@ -15,7 +15,7 @@ const SatelliteThumbnail = ({ url, height }) => {
         !url &&
         <CircularProgress />
       }
-    </div>
+    </Box>
   )
 }
 

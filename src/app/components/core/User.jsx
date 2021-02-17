@@ -5,21 +5,22 @@ import { useTranslation } from 'react-i18next'
 
 import * as auth from '../../../store/ducks/auth'
 
-import { Avatar, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { Avatar, Box, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
 import { MoreVert } from '@material-ui/icons'
 
+const useStyles = makeStyles(theme => ({
+  contextItem: {
+    marginRight: theme.spacing(2)
+  }
+}))
+
 const User = ({ name, imageUrl, children }) => {
-  const [anchor, setAnchor] = useState(null)
   const dispatch = useDispatch()
   const [t] = useTranslation()
+  const classes = useStyles()
 
-  const handleOpen = (event) => {
-    setAnchor(event.currentTarget)
-  }
-
-  const handleClose = () => {
-    setAnchor(null)
-  }
+  const [anchor, setAnchor] = useState(null)
 
   const handleLogout = () => {
     dispatch(auth.Actions.revoke(() => {
@@ -29,28 +30,27 @@ const User = ({ name, imageUrl, children }) => {
   }
 
   return !name ? null : (
-    // @TODO has raw css
-    <div>
-      <div className='flex vcenter'>
-        <Avatar alt={name} src={imageUrl} />
-        <Typography variant='body2' color='inherit' className='margin-left'>
+    <Box>
+      <Box display='flex' alignItems='center'>
+        <Avatar className={classes.contextItem} alt={name} src={imageUrl} />
+        <Typography className={classes.contextItem} variant='body1' color='inherit'>
           {name}
         </Typography>
-        <IconButton color='inherit' onClick={e => handleOpen(e)} disableRipple>
+        <IconButton color='inherit' onClick={e => setAnchor(e.currentTarget)} disableRipple>
           <MoreVert />
         </IconButton>
-      </div>
+      </Box>
       <Menu
         anchorEl={anchor}
-        open={anchor !== null}
-        onClose={() => handleClose()}
+        open={Boolean(anchor)}
+        onClose={() => setAnchor(null)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         getContentAnchorEl={null}
       >
         {children}
         <MenuItem onClick={handleLogout}>{t('auth.signout')}</MenuItem>
       </Menu>
-    </div>
+    </Box>
   )
 }
 

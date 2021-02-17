@@ -40,7 +40,6 @@ const ImageChooserCard = ({ className }) => {
       <Divider />
 
       <CardActions>
-        {/* @TODO has raw css */}
         <Box flex='1'>
           <Typography variant='subtitle1'>{t('forms.imageChooser.actions.title')}</Typography>
         </Box>
@@ -48,6 +47,7 @@ const ImageChooserCard = ({ className }) => {
           {expanded ? <LessIcon /> : <MoreIcon />}
         </IconButton>
       </CardActions>
+      
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <ActionList name='actions' />
       </Collapse>

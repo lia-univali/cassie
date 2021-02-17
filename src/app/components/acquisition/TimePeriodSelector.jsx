@@ -2,7 +2,8 @@ import React from 'react';
 import moment from 'moment'
 import lastItem from 'lodash/last'
 
-import { Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { Box, Typography } from '@material-ui/core'
 
 import Tick from './Tick'
 import { createRangeWithTooltip } from './Slider'
@@ -10,37 +11,38 @@ import { sequence, formatDate } from '../../../common/utils'
 
 const TooltipRange = createRangeWithTooltip()
 
-const styles = {
+const toTimestamp = (date) => parseInt(moment(date).format('x'), 10)
+const fromTimestamp = (timestamp) => moment(timestamp).format('YYYY-MM-DD')
+
+const useStyles = makeStyles(theme => ({
+  wrapper: {
+    width: '80%'
+  },
   labels: {
     marginTop: 4,
     justifyContent: "space-between",
   },
-  labelContainer: {
+  container: {
     position: "relative"
   },
   label: {
     position: "absolute",
     top: 18,
   }
-}
-
-const toTimestamp = (date) => parseInt(moment(date).format('x'), 10)
-const fromTimestamp = (timestamp) => moment(timestamp).format('YYYY-MM-DD')
+}))
 
 const TimePeriodSelector = ({ start, end, dates = [], labels = 4, onChange = () => { } }) => {
+  const classes = useStyles()
+
   const timestamps = dates.map(toTimestamp)
-
-  start = start === undefined ? timestamps[0] : toTimestamp(start)
-  end = end === undefined ? lastItem(timestamps) : toTimestamp(end)
-
   const interval = (lastItem(timestamps) - timestamps[0]) / (labels - 1)
-  
-  const marks = {}
-  timestamps.forEach(stamp => marks[stamp] = '')
+  const marks = timestamps.reduce((acc, current) => ({ ...acc, [current]: '' }), {})
+
+  start = !start ? timestamps[0] : toTimestamp(start)
+  end = !end ? lastItem(timestamps) : toTimestamp(end)
 
   return (
-    // @TODO has raw css
-    <div style={{ width: '80%' }}>
+    <Box className={classes.wrapper}>
       <TooltipRange
         min={timestamps[0]} max={lastItem(timestamps)}
         marks={marks} step={null}
@@ -48,19 +50,19 @@ const TimePeriodSelector = ({ start, end, dates = [], labels = 4, onChange = () 
         value={[start, end]}
         onChange={val => onChange(fromTimestamp(val[0]), fromTimestamp(val[1]))}
       />
-      <div className='vcenter' style={styles.labels}>
+      <Box className={classes.labels} display='flex' alignItems='center'>
         {
           sequence(labels).map(i => (
-            <div key={i} className='vcenter flow-column' style={styles.labelContainer}>
+            <Box key={i} className={classes.container} display='flex' alignItems='center' flexDirection='column'>
               <Tick height={15} />
-              <Typography variant='body1' style={styles.label}>
+              <Typography className={classes.label} variant='body1'>
                 {formatDate(Math.round(timestamps[0] + interval * i))}
               </Typography>
-            </div>
+            </Box>
           ))
         }
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

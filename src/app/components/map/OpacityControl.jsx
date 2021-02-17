@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { IconButton, Popover, Tooltip, Typography } from '@material-ui/core'
+import { Box, IconButton, Popover, Tooltip, Typography } from '@material-ui/core'
 import { Gradient as Opacity } from '@material-ui/icons/'
 
 import Slider from '../acquisition/Slider'
@@ -10,7 +10,6 @@ import { lerp, extractAlpha } from '../../../common/utils'
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
-    display: 'hcenter',
     width: 150,
     margin: theme.spacing(2, 3, 1)
   },
@@ -24,15 +23,10 @@ const OpacityControl = ({ opacity = 1, onOpacityChange = () => {} }) => {
   const theme = useTheme() // @TODO verify
 
   const [state, setState] = useState({ open: false, anchorEl: null })
-
   const { open, anchorEl } = state
 
   const togglePopover = (event) => {
-    if (open) {
-      setState({ open: false, anchorEl: null })
-    } else if (event) {
-      setState({ open: true, anchorEl: event.currentTarget })
-    }
+    setState({ open: !open, anchorEl: !open && event.currentTarget })
   }
 
   const opaque = extractAlpha(theme.palette.action.active)
@@ -56,7 +50,7 @@ const OpacityControl = ({ opacity = 1, onOpacityChange = () => {} }) => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       >
-        <div className={classes.wrapper}>
+        <Box display='flex' flexDirection='column' className={classes.wrapper}>
           <Slider
             value={opacity * 100}
             onChange={v => onOpacityChange(v / 100)}
@@ -64,7 +58,7 @@ const OpacityControl = ({ opacity = 1, onOpacityChange = () => {} }) => {
           <Typography className={classes.content} variant='body1' align='center'>
             {parseInt(opacity * 100, 10)}%
           </Typography>
-        </div>
+        </Box>
       </Popover>
     </span>
   )

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { first, last } from 'lodash'
 
 import { makeStyles } from '@material-ui/core/styles'
-import { Typography } from '@material-ui/core'
+import { Box, Typography } from '@material-ui/core'
 
 import TimePeriodSelector from './TimePeriodSelector'
 import StepperButtons from './StepperButtons'
@@ -16,6 +16,9 @@ import { formatDate, formatDateDiff, datesBetween } from '../../../common/utils'
 import { uniteMissionsDates } from '../../../common/algorithms'
 
 const useStyles = makeStyles(theme => ({
+  wrapper: {
+    marginTop: theme.spacing(2)
+  },
   description: {
     margin: theme.spacing(7, 0, 3)
   }
@@ -62,28 +65,24 @@ const PeriodChooser = ({ navigate }) => {
   const length = datesBetween(flatten, start, end).length
 
   return (
-    // @TODO has raw CSS
-    <div className='vcenter flow-column margin-above'>
+    <Box className={classes.wrapper} display='flex' alignItems='center' flexDirection='column'>
       <TimePeriodSelector dates={flatten} start={start} end={end}
         onChange={(start, end) => setPeriod([start, end])}
       />
-
-      <div className={classes.description}>
+      <Box className={classes.description}>
         <Typography variant='subtitle1' align='center'>
           {t('forms.acquisition.3.period')}: {formatDate(start)} {t('forms.acquisition.3.to')} {formatDate(end)}
         </Typography>
         <Typography variant='subtitle1' align='center'>
           {formatDateDiff(start, end)}, {length} {t('forms.acquisition.3.imageQuantity')}
         </Typography>
-      </div>
-
+      </Box>
       <CloudSelector
         level={cloudLevel}
         onChange={cloudLevel => setCloudLevel(cloudLevel)}
       />
-
       <StepperButtons navigate={navigate} onNext={handleNext} />
-    </div>
+    </Box>
   )
 }
 

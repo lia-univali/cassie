@@ -60,6 +60,11 @@ const useStyles = makeStyles(theme => ({
   title: {
     color: 'white',
   },
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    flexFlow: 'column'
+  },
   content: {
     width: 1000,
     marginTop: theme.spacing(-9),
@@ -141,17 +146,16 @@ const AcquisitionPage = (props) => {
   const step = hasStep ? match.params.step - 1 : 0
 
   return (
-    // @TODO has raw css
     <div className={classes.wrapper}>
       <Grid container spacing={0} justify='center'>
         <Grid item xs={12} className={classes.header}>
           <div>
-            <Typography variant='h4' align='center' className={classes.title}>
+            <Typography className={classes.title} variant='h4' align='center'>
               {t('forms.acquisition.title')}
             </Typography>
           </div>
         </Grid>
-        <Grid item className='vcenter flow-column'>
+        <Grid item className={classes.container}>
           <Paper className={classes.content} elevation={1}>
             <Stepper activeStep={step}>
               {
@@ -162,7 +166,7 @@ const AcquisitionPage = (props) => {
                 ))
               }
             </Stepper>
-            <Typography variant='subtitle1' align='center' className={classes.instructions}>
+            <Typography className={classes.instructions} variant='subtitle1' align='center'>
               {t(STEPS[step].content)}
             </Typography>
             <Divider />
@@ -172,7 +176,6 @@ const AcquisitionPage = (props) => {
           </Paper>
         </Grid>
       </Grid>
-
       <Footer />
     </div>
   )

@@ -40,7 +40,7 @@ const ShapeList = () => {
                     `1 ${t('forms.map.item.s')}`
                     : `${item.overlays.length} ${t('forms.map.item.p')}`}
                 />
-                {item.name === t('forms.map.transects.title') && <TransectShapeList />}
+                {item.name === 'forms.map.transects.title' && <TransectShapeList />}
               </Grid>
             </ListItem>
           ))
