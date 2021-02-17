@@ -106,18 +106,6 @@ export const select = (obj, ...keys) => {
   return result
 }
 
-export const asPromise = (action, ...params) => {
-  return new Promise((resolve, reject) => {
-    action(...params, (success, error) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(success)
-      }
-    })
-  })
-}
-
 export const generateColors = (amount, lightness = 50) => {
   const slice = amount === 1 ? 0 : 240.0 / (amount - 1)
 

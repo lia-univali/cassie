@@ -3,7 +3,7 @@ import i18n from 'i18next'
 import { callback } from '../tools/effects'
 import { get as getSatellite } from '../../common/satellites'
 import { generateLayer, createThumbnail } from '../../algorithms/imagery'
-import { createConcurrentHandler, createBufferedHandler, evaluate } from '../../common/sagaUtils'
+import { concurrentHandler, bufferedHandler, evaluate } from '../tools/effects'
 import { generateVisualizationParams } from '../../algorithms/utils'
 import { Actions as Imagery } from './imagery'
 import { getAcquisitionParameters, getImageryIdentifiers } from '../../selectors'
@@ -262,9 +262,9 @@ const handleLoadThumbnails = function* () {
 
 export const saga = function* () {
   yield all([
-    createConcurrentHandler(LOAD_AVAILABLE_IMAGES, handleLoadAvailableImages),
-    createBufferedHandler(ACQUIRE_IMAGE, handleAcquireImage),
-    createBufferedHandler(REQUEST_AOI, handleRequestAOI),
-    createConcurrentHandler(LOAD_THUMBNAILS, handleLoadThumbnails)
+    concurrentHandler(LOAD_AVAILABLE_IMAGES, handleLoadAvailableImages),
+    bufferedHandler(ACQUIRE_IMAGE, handleAcquireImage),
+    bufferedHandler(REQUEST_AOI, handleRequestAOI),
+    concurrentHandler(LOAD_THUMBNAILS, handleLoadThumbnails)
   ]);
 }
