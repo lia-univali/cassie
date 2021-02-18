@@ -62,7 +62,7 @@ export const combineReducers = (...reducers) => {
 }
 
 export const serializeList = (subject) => {
-  return ee.String('[').cat(ee.List(subject).join(',')).cat(']')
+  return ee.String('"[').cat(ee.List(subject).join(',')).cat(']"')
 }
 
 export const generateVisualizationParams = mission => {
