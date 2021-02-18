@@ -4,7 +4,7 @@ import { Box, CircularProgress } from '@material-ui/core'
 
 const SatelliteThumbnail = ({ url, height }) => {
   return (
-    <Box height={height} >
+    <Box display='flex' alignItems='center' height={height} >
       {
         url &&
         <a href={url}>
