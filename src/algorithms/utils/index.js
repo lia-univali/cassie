@@ -32,18 +32,18 @@ export const retrieveExtremes = collection => {
 }
 
 export const mergeProperties = collection => {
-  const sensorKey = "SENSOR_ID"
+  const sensorKey = 'SENSOR_ID'
 
   // Date of the earliest image in the collection
   const first = ee.List(collection.sort(Metadata.TIME_START).toList(1)).get(0)
   const date = getDate(first)
-  // const sensor = ee.Image(first).get(sensorKey);
+  // const sensor = ee.Image(first).get(sensorKey)
 
   return {
     [Metadata.NAME]: date.format("'IMG_'YYYY-MM-dd"),
     [Metadata.FOOTPRINT]: mergeFootprints(collection),
     [Metadata.TIME_START]: date,
-    [sensorKey]: "TM",
+    [sensorKey]: 'TM',
   }
 }
 
@@ -61,8 +61,8 @@ export const combineReducers = (...reducers) => {
   return group
 }
 
-export const stringifyList = (subject) => {
-  return ee.String('[').cat(ee.List(subject).join(',')).cat(']')
+export const serializeList = (subject) => {
+  return ee.String('"[').cat(ee.List(subject).join(',')).cat(']"')
 }
 
 export const generateVisualizationParams = mission => {
@@ -92,7 +92,7 @@ export const applyExpression = (image, expressionOrLabel, bands) => {
 }
 
 export const imageToKey = image => {
-  return JSON.stringify(pick(image, "id", "version"))
+  return JSON.stringify(pick(image, 'id', 'version'))
 }
 
 export const getSatelliteCollection = satellite => {

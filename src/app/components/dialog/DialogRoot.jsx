@@ -20,7 +20,7 @@ export const registerDialog = (name, mapStateToProps = () => ({}), actionCreator
 
     registeredDialogs[name] = ConnectedComponent
 
-    console.log("Registered", name)
+    console.log('Registered', name)
 
     return ConnectedComponent
   }

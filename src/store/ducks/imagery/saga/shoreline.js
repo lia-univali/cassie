@@ -4,7 +4,7 @@ import i18n from 'i18next'
 import { ee } from '../../../../services/earth-engine'
 
 import { callback } from '../../../tools/effects'
-import { evaluate } from "../../../../common/sagaUtils"
+import { evaluate } from "../../../tools/effects"
 import { Timer, generateColors } from "../../../../common/utils"
 import { applyExpression } from "../../../../algorithms/utils"
 import { pushResult } from "../../results"

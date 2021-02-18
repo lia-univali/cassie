@@ -1,5 +1,5 @@
 import { ee } from '../../services/earth-engine'
-import { combineReducers, stringifyList } from '../utils'
+import { combineReducers, serializeList } from '../utils'
 import { TIME_START, INTERNALS, ESTEVES_LABELS } from '../../common/metadata'
 import { EPOCH } from '../../common/utils'
 
@@ -9,7 +9,8 @@ import { EPOCH } from '../../common/utils'
  * of transect with baseline
  * @param {ee.Feature} transect
  * @param {ee.Geometry.LineString} baseline reference
- * @param {ee.FeatureCollection} shorelines 
+ * @param {ee.FeatureCollection} shorelines
+ * @returns {ee.Dictionary} the distances
  */
 export const calculateDistances = (transect, baseline, shorelines) => {
   const [distanceKey, idKey] = ['distance', 'withRespectTo']
@@ -73,8 +74,10 @@ export const estevesLabelling = (lrr) => {
 /**
  * Given a dictionary of a transect's distance set, calculates
  * the general DSAS Statistics (SCE, NSM, EPR, LRR)
- * and Esteves classification
+ * and Esteves classification.
+ * *Adds CASSIE internals props*
  * @param {ee.Dictionary} measurement the dictionary of distances of the transect
+ * @returns {ee.Dictionary} the statistics
  */
 export const calculateStatistics = (measurement) => {
   /* General information */
@@ -183,6 +186,7 @@ export const calculateStatistics = (measurement) => {
  * @param {ee.Feature} transect 
  * @param {ee.Dictionary} measurement
  * @param {Array<String>} keepProps
+ * @returns {ee.Dictionary} the useful and kept properties
  */
 export const complementaryProperties = (transect, measurement, keepProps) => {
   const props = ee.Dictionary(ee.Algorithms.If(keepProps, transect.toDictionary(keepProps), {}))
@@ -190,8 +194,8 @@ export const complementaryProperties = (transect, measurement, keepProps) => {
   /* Distances properties  */
   const distanceInfo = measurement.values()
 
-  const dates = stringifyList(distanceInfo.map((item) => ee.Date(ee.Dictionary(item).get('date')).format('YYYY-MM-dd')))
-  const distances = stringifyList(distanceInfo.map((item) => ee.Dictionary(item).getNumber('distance')))
+  const dates = serializeList(distanceInfo.map((item) => ee.Date(ee.Dictionary(item).get('date')).format('YYYY-MM-dd')))
+  const distances = serializeList(distanceInfo.map((item) => ee.Dictionary(item).getNumber('distance')))
 
   /* Coordinates properties  */
   const coordinates = transect.geometry().coordinates()
@@ -222,10 +226,11 @@ export const complementaryProperties = (transect, measurement, keepProps) => {
  * 
  * @param {ee.List} transects the orthogonal transects
  * @param {ee.Geometry} baseline the baseline
- * @param {ee.FeatureCollection} shoreline the features
+ * @param {ee.FeatureCollection} shoreline the shorelines
  * @param {Array<String>} keepProps the array of transect properties to keep
+ * @returns {ee.List<ee.Feature>} the transects with added statistics
  */
- export const generateTransectsStatistics = (transects, baseline, features, keepProps) => {
+ export const generateTransectsStatistics = (transects, baseline, shorelines, keepProps) => {
   return transects.map(input => {
     const transect = ee.Feature(input)
 
@@ -236,7 +241,7 @@ export const complementaryProperties = (transect, measurement, keepProps) => {
      * Calculate DSAS, Esteves Classification
      * and add useful properties
      */
-    const measurement = calculateDistances(transect, baseline, features)
+    const measurement = calculateDistances(transect, baseline, shorelines)
     const stats = calculateStatistics(measurement)
     const extra = complementaryProperties(transect, measurement, keepProps)
 
@@ -254,7 +259,8 @@ export const complementaryProperties = (transect, measurement, keepProps) => {
  * such as StdDev and Mean.
  * *Adds CASSIE internals props*
  * @param {ee.List<Feature>} transects 
- * @param {ee.FeatureCollection} shorelines 
+ * @param {ee.FeatureCollection} shorelines
+ * @returns {ee.FeatureCollection} the shorelines with added statistics
  */
 export const summaryShorelineStatistics = (transects, shorelines) => {
   const shorelineList = ee.List(shorelines.toList(shorelines.size()))

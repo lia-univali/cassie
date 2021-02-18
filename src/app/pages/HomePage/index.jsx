@@ -18,43 +18,43 @@ import en from '../../../resources/i18n/en.svg'
 
 const useStyles = makeStyles(theme => ({
   backdrop: {
-    height: "100vh",
-    width: "100vw",
-    position: "fixed",
-    zIndex: "-1",
+    height: '100vh',
+    width: '100vw',
+    position: 'fixed',
+    zIndex: '-1',
     top: 0,
     left: 0,
     backgroundColor: theme.palette.primary.light,
   },
   heading: {
-    padding: "60px 0px",
+    padding: '60px 0px',
     backgroundColor: theme.palette.primary.main,
   },
   content: {
-    padding: "60px 0px",
+    padding: '60px 0px',
   },
   logo: {
     fontSize: 120,
-    color: "white",
-    margin: "0px 0px 20px 0px",
+    color: 'white',
+    margin: '0px 0px 20px 0px',
   },
   title: {
-    color: "rgba(0, 0, 0, 0.6)",
-    fontSize: "7rem",
+    color: 'rgba(0, 0, 0, 0.6)',
+    fontSize: '7rem',
   },
   subtitle: {
-    color: "rgba(0, 0, 0, 0.5)",
+    color: 'rgba(0, 0, 0, 0.5)',
   },
   wrapper: {
     display: 'flex',
     alignItems: 'center',
     flexFlow: 'column',
     backgroundColor: theme.palette.primary[200],
-    padding: "40px 48px",
+    padding: '40px 48px',
   },
   i18nSwitchers: {
-    borderRadius: "5px",
-    backgroundColor: "#74c7be",
+    borderRadius: '5px',
+    backgroundColor: '#74c7be',
   },
   i18nSwitch: {
     padding: '5px 10px',
@@ -66,11 +66,11 @@ const useStyles = makeStyles(theme => ({
     width: '25px'
   },
   description: {
-    margin: "30px 0px 40px 0px",
-    color: "rgba(0, 0, 0, 0.85)",
+    margin: '30px 0px 40px 0px',
+    color: 'rgba(0, 0, 0, 0.85)',
   },
   google: {
-    margin: "-4px 20px -4px -15px",
+    margin: '-4px 20px -4px -15px',
   }
 }))
 
@@ -92,41 +92,38 @@ const HomePage = () => {
   return (
     <Box>
       <Box className={classes.backdrop} />
-      <Box
-        display='flex' flexDirection='column' alignItems='center'
-        className={classes.heading}
-      >
+      <Box className={classes.heading} display='flex' flexDirection='column' alignItems='center'>
         <LogoIcon className={classes.logo} />
-        <Typography variant="h1" className={classes.title}>
+        <Typography className={classes.title} variant='h1'>
           C.A.S.S.I.E.
         </Typography>
-        <Typography variant="h5" className={classes.subtitle}>
+        <Typography className={classes.subtitle} variant='h5'>
           Coastal Analysis System via Satellite Imagery Engine
         </Typography>
       </Box>
-      <Grid container justify='center' spacing={0} className={classes.content}>
-        <Grid item xs={10} md={6} className={classes.wrapper}>
+      <Grid container className={classes.content} justify='center' spacing={0}>
+        <Grid item className={classes.wrapper} xs={10} md={6}>
           <Box className={classes.i18nSwitchers}>
-            <Button onClick={() => handleLanguageChange("pt-BR")} className={classes.i18nSwitch}>
-              <Avatar alt="" src={pt} className={classes.flag} />
+            <Button className={classes.i18nSwitch} onClick={() => handleLanguageChange('pt-BR')}>
+              <Avatar alt='' src={pt} className={classes.flag} />
               pt-BR
             </Button>
-            <Button onClick={() => handleLanguageChange("en-US")} className={classes.i18nSwitch}>
-              <Avatar alt="" src={en} className={classes.flag} />
+            <Button className={classes.i18nSwitch} onClick={() => handleLanguageChange('en-US')}>
+              <Avatar className={classes.flag} alt='' src={en} />
               en-US
             </Button>
           </Box>
-          <Typography variant="body1" align="center" className={classes.description} >
-            {t("self.abstract")}
+          <Typography className={classes.description} variant='body1' align='center' >
+            {t('self.abstract')}
           </Typography>
           <Button
-            disabled={busy} variant="contained" size="large"
+            disabled={busy} variant='contained' size='large'
             onClick={() => dispatch(AuthActions.begin(() => dispatch(push('/main/acquisition'))))}
           >
-            <Avatar variant='square' alt='Google Logo'
-              src={busy ? googleLogoDisabled : googleLogo} className={classes.google}
+            <Avatar className={classes.google} variant='square'
+              alt='Google Logo' src={busy ? googleLogoDisabled : googleLogo} 
             />
-            {t("auth.signin")}
+            {t('auth.signin')}
           </Button>
         </Grid>
       </Grid>

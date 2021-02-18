@@ -1,5 +1,5 @@
 import { take, all, select, put, race } from 'redux-saga/effects';
-import { createConcurrentHandler, createBufferedHandler, evaluate } from '../../common/sagaUtils';
+import { concurrentHandler, bufferedHandler, evaluate } from '../tools/effects';
 import { findLayerIndex, retrieveShape, retrieveHighlightedShape, retrieveShapeGroup } from '../../selectors';
 import update from 'immutability-helper';
 import * as Map from '../../common/map';
@@ -242,15 +242,15 @@ function* handleCentralizeMap({ coordinates }) {
 
 export function* saga() {
   yield all([
-    createConcurrentHandler(ADD_EE_LAYER, handleAddEELayer),
-    createBufferedHandler(ADD_EE_FEATURE, handleAddEEFeature),
-    createConcurrentHandler(CHANGE_OPACITY, handleChangeOpacity),
-    createBufferedHandler(REQUEST_DRAWING, handleRequestDrawing),
-    createConcurrentHandler([CANCEL_DRAWING, COMPLETE_DRAWING], handleDrawingTermination),
-    createBufferedHandler(HIGHLIGHT, handleHighlight),
-    createBufferedHandler(CLEAR_HIGHLIGHT, handleClearHighlight),
-    createConcurrentHandler(REMOVE_SHAPE_GROUP, handleRemoveShapeGroup),
-    createBufferedHandler(REMOVE_SHAPE, handleRemoveShape),
-    createBufferedHandler(CENTRALIZE_MAP, handleCentralizeMap),
+    concurrentHandler(ADD_EE_LAYER, handleAddEELayer),
+    bufferedHandler(ADD_EE_FEATURE, handleAddEEFeature),
+    concurrentHandler(CHANGE_OPACITY, handleChangeOpacity),
+    bufferedHandler(REQUEST_DRAWING, handleRequestDrawing),
+    concurrentHandler([CANCEL_DRAWING, COMPLETE_DRAWING], handleDrawingTermination),
+    bufferedHandler(HIGHLIGHT, handleHighlight),
+    bufferedHandler(CLEAR_HIGHLIGHT, handleClearHighlight),
+    concurrentHandler(REMOVE_SHAPE_GROUP, handleRemoveShapeGroup),
+    bufferedHandler(REMOVE_SHAPE, handleRemoveShape),
+    bufferedHandler(CENTRALIZE_MAP, handleCentralizeMap),
   ]);
 }

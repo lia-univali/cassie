@@ -3,11 +3,11 @@ import { shallowEqual, useSelector } from 'react-redux'
 import update from 'immutability-helper'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Typography } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core'
 
 import { registerDialog } from './DialogRoot'
-import ImageTable from '../../../components/ImageTable'
+import ImageTable from '../visualization/ImageTable'
 
 const ImageSelectionDialog = ({ open, close, publish }) => {
   const availableDates = useSelector(state => state.acquisition.availableDates, shallowEqual)
@@ -38,7 +38,7 @@ const ImageSelectionDialog = ({ open, close, publish }) => {
   }, [availableDates])
 
   return (
-    <Dialog open={open} maxWidth="md" onClose={() => close()}>
+    <Dialog open={open} maxWidth='md' onClose={() => close()}>
       <DialogTitle>{t('forms.imageChooser.actions.analyzeShoreline.imageSelection.title')}</DialogTitle>
       <DialogContent>
         <ImageTable metadata={metadata} images={dates} selected={selected}
@@ -47,10 +47,10 @@ const ImageSelectionDialog = ({ open, close, publish }) => {
 
       </DialogContent>
       <DialogActions>
-        <Button color="primary" onClick={() => close()}>
+        <Button color='primary' onClick={() => close()}>
           {t('forms.imageChooser.actions.analyzeShoreline.imageSelection.cancel')}
         </Button>
-        <Button color="primary" onClick={() => handleFinish()}>
+        <Button color='primary' onClick={() => handleFinish()}>
           {t('forms.imageChooser.actions.analyzeShoreline.imageSelection.confirm')}
         </Button>
       </DialogActions>

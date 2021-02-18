@@ -49,7 +49,7 @@ export const identifyWaterFeature = (image, geometry, scale, bands, thresholdFn)
  * @param {ee.Geometry.MultiLineString|ee.FeatureCollection} transects
  * @returns {ee.Feature<ee.Geometry.LineString>} shoreline without noise
  */
- export const removeShorelineNoise = (shorelines, transects) => {
+export const removeShorelineNoise = (shorelines, transects) => {
   const coordinates = ee.Geometry(shorelines).coordinates()
 
   const guard = ee.List(
@@ -71,7 +71,8 @@ export const identifyWaterFeature = (image, geometry, scale, bands, thresholdFn)
  * and *sigma*. The output kernel size is always odd.
  * @param {Number} size 
  * @param {Number} mean 
- * @param {Number} sigma 
+ * @param {Number} sigma
+ * @returns {ee.List<Number>} the gaussian kernel
  */
 export const gaussianKernel = (size, mean, sigma) => {
   const gaussianCurve = (x, mean, sigma) => {
@@ -108,6 +109,7 @@ export const gaussianKernel = (size, mean, sigma) => {
  * @param {ee.Number} samples Size of the kernel
  * @param {ee.Number} mean Center of the normal distribution
  * @param {ee.Number} sd Standard Deviation, controls the size of the bell-shaped curve
+ * @returns {ee.List<Number>} the filtered coordinates
  */
 export const linearGaussianFilter = (coordinates, samples = 3, mean = 0, sd = 0.75) => {
   const coordinateList = ee.List(coordinates)
@@ -157,9 +159,10 @@ export const linearGaussianFilter = (coordinates, samples = 3, mean = 0, sd = 0.
 }
 
 /**
- * Given a histogram, find the appropriate thresholds for {count} classes
+ * Given a histogram, find the appropriate thresholds for *count* classes
  * @param {ee.Dictionary} histogram 
- * @param {Number} count 
+ * @param {Number} count
+ * @returns {ee.Number} the optimal threshold
  */
 export const thresholdingAlgorithm = (histogram, count) => {
   const counts = ee.Array(ee.Dictionary(histogram).get('histogram'))
@@ -252,11 +255,11 @@ export const deriveShoreline = (image, geometry, scale, bands, threshold, transe
 
 /**
  * Acquires and extracts shorelines given an array of dates
- * @param  {Array} dates a list containing the dates of the images to be analysed
- * @param  {Object} satellite information about the satellite
- * @param  {ee.Geometry} geometry the Area of Interest of the this  session
- * @param  {ee.Number} threshold Suggested threshold for the extraction
- * @return {ee.FeatureCollection} a FeatureCollection of polygons
+ * @param {Array} dates a list containing the dates of the images to be analysed
+ * @param {Object} satellite information about the satellite
+ * @param {ee.Geometry} geometry the Area of Interest of the this  session
+ * @param {ee.Number} threshold Suggested threshold for the extraction
+ * @returns {ee.FeatureCollection} a FeatureCollection of polygons
  */
  export const deriveShorelines = (dates, satellite, geometry, scale, threshold, transects) => {
   const data = dates.map(value => {

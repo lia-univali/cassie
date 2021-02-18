@@ -5,16 +5,16 @@ import ee from '../../../services/earth-engine' // @TODO remove this!
 
 import { Box, Grid, Grow } from '@material-ui/core'
 
-import GoogleMap from '../../../components/GoogleMap'
-import ImageChooserCard from '../../../containers/ImageChooserCard'
+import GoogleMap from '../../components/map/GoogleMap'
+import ImageChooserCard from '../../components/map/ImageChooserCard'
 import { ShapeList } from '../../components'
-import LoadedImagesAccordion from '../../../containers/LoadedImagesAccordion'
+import LoadedImagesAccordion from '../../components/map/LoadedImagesAccordion'
 
 import { addEEFeature, centralizeMap } from '../../../store/ducks/map'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
-    maxHeight: "calc(100vh - 64px)",
+    maxHeight: 'calc(100vh - 64px)',
     flexGrow: 1,
     position: 'relative',
   },
@@ -51,7 +51,7 @@ const ProcessingPage = () => {
       const feature = ee.Feature(ee.Geometry.Polygon([coordinates]))
       const border = feature.buffer(15).difference(feature)
 
-      dispatch(addEEFeature(border, 'forms.map.roi', "#00A391", 0.6))
+      dispatch(addEEFeature(border, 'forms.map.roi', '#00A391', 0.6))
       dispatch(centralizeMap(coordinates))
     }
   }
@@ -59,7 +59,7 @@ const ProcessingPage = () => {
   return (
     <Box className={classes.wrapper}>
       <Grow in={!isDrawing} unmountOnExit>
-        <Grid container justify="center" spacing={0} className={classes.mapOverlay}>
+        <Grid container justify='center' spacing={0} className={classes.mapOverlay}>
           <Grid item xs={9} className={classes.mapContainer}>
             <ShapeList />
             <ImageChooserCard />
