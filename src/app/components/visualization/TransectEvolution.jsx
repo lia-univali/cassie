@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Typography } from '@material-ui/core'
 
-import EvolutionChart from '../../../components/EvolutionChart'
+import EvolutionChart from './EvolutionChart'
 import { INTERNALS } from '../../../common/metadata'
 import { fromEpoch } from '../../../common/utils'
 

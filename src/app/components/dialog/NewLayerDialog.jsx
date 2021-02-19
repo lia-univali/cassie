@@ -39,7 +39,7 @@ const NewLayerDialog = ({ open, close, publish }) => {
   ))
 
   return (
-    <Dialog open={open} maxWidth="md" onClose={() => close()}>
+    <Dialog open={open} maxWidth='md' onClose={() => close()}>
       <DialogTitle>{t('forms.imageryOverlay.add.title')}</DialogTitle>
       <DialogContent>
         <form>
@@ -74,7 +74,7 @@ const NewLayerDialog = ({ open, close, publish }) => {
         </form>
       </DialogContent>
       <DialogActions>
-        <Button color="primary" onClick={handleCreate}>
+        <Button color='primary' onClick={handleCreate}>
           {t('forms.imageryOverlay.add.create')}
         </Button>
       </DialogActions>
@@ -82,4 +82,4 @@ const NewLayerDialog = ({ open, close, publish }) => {
   )
 }
 
-export default registerDialog("newLayer")(NewLayerDialog)
+export default registerDialog('newLayer')(NewLayerDialog)

@@ -5,9 +5,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Box, CircularProgress, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
-  vcenter: {
-    display: 'flex',
-    alignItems: 'center'
+  content: {
+    marginLeft: theme.spacing(2)
   }
 }))
 
@@ -18,9 +17,9 @@ const Task = React.forwardRef(({ id }, ref) => {
   const classes = useStyles()
 
   return (
-    <Box className={classes.vcenter} ref={ref}>
+    <Box display='flex' alignItems='center' ref={ref}>
       <CircularProgress variant={variant} value={value} color='secondary' size={32} />
-      <Typography className='margin-left' variant='body2' color='inherit'>
+      <Typography className={classes.content} variant='body2' color='inherit'>
         {message}
       </Typography>
     </Box>

@@ -31,7 +31,7 @@ const CoastlineConfigDialog = ({ open, close, publish }) => {
 
   const createInput = (label, value, mutator) => {
     return (
-      <TextField className={classes.input} type="number" label={label} value={value}
+      <TextField className={classes.input} type='number' label={label} value={value}
         onChange={event => mutator(event.target.value)}
       />
     )

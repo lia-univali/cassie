@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { ThemeProvider } from '@material-ui/core/styles';
+import React, { useEffect } from 'react'
+import { ThemeProvider } from '@material-ui/core/styles'
 import { loadScript } from './services/dynamic-script'
-import App from './App';
-import theme from './theme';
+import App from './App'
+import theme from './theme'
 
 const Boot = () => {
   useEffect(() => {

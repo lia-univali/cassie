@@ -1,9 +1,9 @@
+import { bindActionCreators } from 'redux'
+import i18n from 'i18next'
 import moment from 'moment'
 import ColorConverter from 'color-convert'
-import { bindActionCreators } from 'redux'
-import i18next from 'i18next'
 
-export const EPOCH = "1900-01-01T00:00:00Z"
+export const EPOCH = '1900-01-01T00:00:00Z'
 
 export const fromEpoch = (value, units) => {
   return moment.utc(EPOCH).add(value, units)
@@ -19,9 +19,9 @@ export const cloneClass = (original) => {
 
 export const formatArea = (area, places = 3) => {
   if (area >= 1E6) {
-    return (area / 1E6).toFixed(places) + " km²"
+    return (area / 1E6).toFixed(places) + ' km²'
   } else {
-    return area.toFixed(places) + " m²"
+    return area.toFixed(places) + ' m²'
   }
 }
 
@@ -32,19 +32,19 @@ export const makeTriangle = (centre, radius) => {
   const gamma = beta + ((Math.PI * 2) / 3)
 
   const computePosition = (angle, axis) => {
-    const segment = axis === "x" ? Math.cos(angle) : Math.sin(angle)
+    const segment = axis === 'x' ? Math.cos(angle) : Math.sin(angle)
 
-    return (segment * radius) + centre[axis === "x" ? 0 : 1]
+    return (segment * radius) + centre[axis === 'x' ? 0 : 1]
   }
 
-  const topX = computePosition(alpha, "x")
-  const topY = computePosition(alpha, "y")
+  const topX = computePosition(alpha, 'x')
+  const topY = computePosition(alpha, 'y')
 
-  const leftX = computePosition(beta, "x")
-  const leftY = computePosition(beta, "y")
+  const leftX = computePosition(beta, 'x')
+  const leftY = computePosition(beta, 'y')
 
-  const rightX = computePosition(gamma, "x")
-  const rightY = computePosition(gamma, "y")
+  const rightX = computePosition(gamma, 'x')
+  const rightY = computePosition(gamma, 'y')
 
   return [[topX, topY], [leftX, leftY], [rightX, rightY]]
 }
@@ -58,7 +58,7 @@ export const normalize = (x, min, max) => {
 }
 
 export const asPercentage = (value) => {
-  return (parseFloat(value) * 100).toFixed(2) + "%"
+  return (parseFloat(value) * 100).toFixed(2) + '%'
 }
 
 export const hasKeys = (object, ...keys) => {
@@ -77,10 +77,10 @@ export const extractAlpha = (rgba) => {
   }
 }
 
-export const organizeHierarchically = (object, separator = "_") => {
+export const organizeHierarchically = (object, separator = '_') => {
   const result = {}
   Object.keys(object).forEach(k => {
-    const [lhs, rhs] = k.match(new RegExp("(.*)" + separator + "(.+)"))
+    const [lhs, rhs] = k.match(new RegExp('(.*)' + separator + '(.+)'))
 
     if (result[lhs] === undefined) {
       result[lhs] = {}
@@ -106,23 +106,11 @@ export const select = (obj, ...keys) => {
   return result
 }
 
-export const asPromise = (action, ...params) => {
-  return new Promise((resolve, reject) => {
-    action(...params, (success, error) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(success)
-      }
-    })
-  })
-}
-
 export const generateColors = (amount, lightness = 50) => {
   const slice = amount === 1 ? 0 : 240.0 / (amount - 1)
 
   return sequence(amount).map(i => {
-    return "#" + ColorConverter.hsl.hex(slice * i, 100, lightness)
+    return '#' + ColorConverter.hsl.hex(slice * i, 100, lightness)
   })
 }
 
@@ -138,7 +126,7 @@ export const interpolateColors = (values, lowest, highest) => {
     x = normalize(x, -absoluteMax, absoluteMax)
 
     const rgb = lowest.map((value, i) => lerp(value, highest[i], x))
-    return "#" + ColorConverter.rgb.hex(rgb)
+    return '#' + ColorConverter.rgb.hex(rgb)
   })
 }
 
@@ -177,30 +165,30 @@ export const datesBetween = (dates, start, end) => {
 }
 
 export const formatDate = (date, withTime = false) => {
-  const pattern = withTime ? "DD/MM/YYYY HH:mm:ss" : "DD/MM/YYYY"
+  const pattern = withTime ? 'DD/MM/YYYY HH:mm:ss' : 'DD/MM/YYYY'
   return moment(date).format(pattern)
 }
 
-export const dateDiff = (dateA, dateB, measure = "years") => {
+export const dateDiff = (dateA, dateB, measure = 'years') => {
   return Math.abs(moment(dateA).diff(moment(dateB), measure))
 }
 
 export const formatDateDiff = (dateA, dateB) => {
-  const years = dateDiff(dateA, dateB, "years")
+  const years = dateDiff(dateA, dateB, 'years')
 
   if (years === 0) {
-    const months = dateDiff(dateA, dateB, "months")
+    const months = dateDiff(dateA, dateB, 'months')
 
     if (months === 0) {
-      const days = dateDiff(dateA, dateB, "days")
+      const days = dateDiff(dateA, dateB, 'days')
 
-      return `${days} ${i18next.t('forms.acquisition.3.durationDays')}`
+      return `${days} ${i18n.t('forms.acquisition.3.durationDays')}`
     }
 
-    return `${months} ${i18next.t('forms.acquisition.3.durationMonths')}`
+    return `${months} ${i18n.t('forms.acquisition.3.durationMonths')}`
   }
 
-  return `${years} ${i18next.t('forms.acquisition.3.durationYears')}`
+  return `${years} ${i18n.t('forms.acquisition.3.durationYears')}`
 }
 
 export const firstValue = object => {
