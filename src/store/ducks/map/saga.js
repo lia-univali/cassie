@@ -16,25 +16,28 @@ export const requestAndWait = function*(drawingType, message, name, group) {
   })
 
   if (completion) {
+    const { payload: { overlay, coordinates } } = completion
+    
     const geometry = drawingType === 'polyline'
-                    ? ee.Geometry.LineString(completion.coordinates)
-                    : ee.Geometry.Polygon([completion.coordinates])
+                    ? ee.Geometry.LineString(coordinates)
+                    : ee.Geometry.Polygon([coordinates])
 
     yield put(Actions.addEEFeature(ee.Feature(geometry), name || drawingType, '#00B3A1', 1, group))
     yield take('DONE')
-    completion.overlay.setMap(null)
+
+    overlay.setMap(null)
     
-    return completion
+    return completion.payload
   }
 
   return {}
 }
 
-const handleAddEELayer = function*({ overlay, position }) {
+const handleAddEELayer = function*({ payload: { overlay, position } }) {
   Map.addLayer(overlay, position)
 }
 
-const handleAddEEFeature = function*({ feature, name, color, opacity, group }) {
+const handleAddEEFeature = function*({ payload: { feature, name, color, opacity, group } }) {
   const collection = ee.FeatureCollection(feature)
   const list = ee.List(collection.toList(collection.size()))
 
@@ -56,13 +59,13 @@ const handleAddEEFeature = function*({ feature, name, color, opacity, group }) {
   yield put(Actions.addShapes(shapes, name, group, content))
 }
 
-const handleChangeOpacity = function*({ identifier, opacity }) {
+const handleChangeOpacity = function*({ payload: { identifier, opacity } }) {
   const index = yield select(findLayerIndex(identifier))
 
   Map.setOpacity(index, opacity)
 }
 
-const handleRequestDrawing = function*({ drawingType }) {
+const handleRequestDrawing = function*({ payload: { drawingType } }) {
   Map.setDrawingControlsVisible(false)
   Map.setDrawingMode(drawingType)
 }
@@ -71,7 +74,7 @@ const handleDrawingTermination = function*() {
   Map.setDrawingMode(null)
 }
 
-const handleHighlight = function*({ index }) {
+const handleHighlight = function*({ payload: { index } }) {
   const shape = yield select(retrieveShape(index))
 
   shape.overlays.forEach(overlay => {
@@ -91,7 +94,7 @@ const handleClearHighlight = function*() {
   yield put(Actions.commitHighlight(undefined))
 }
 
-const handleRemoveShape = function*({ index }) {
+const handleRemoveShape = function*({ payload: { index } }) {
   const shape = yield select(retrieveShape(index))
   shape.overlays.forEach(overlay => {
     Map.removeShape(overlay)
@@ -100,14 +103,14 @@ const handleRemoveShape = function*({ index }) {
   yield put(Actions.commitShapeRemoval(index))
 }
 
-const handleRemoveShapeGroup = function*({ group }) {
+const handleRemoveShapeGroup = function*({ payload: { group } }) {
   const indices = yield select(retrieveShapeGroup(group))
   for (const index of indices.sort((a, b) => b - a)) {
     yield put(Actions.removeShape(index))
   }
 }
 
-const handleCentralizeMap = function*({ coordinates }) {
+const handleCentralizeMap = function*({ payload: { coordinates } }) {
   const bounds = new window.google.maps.LatLngBounds()
   coordinates.forEach(([lng, lat]) => bounds.extend({ lat, lng }))
 

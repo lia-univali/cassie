@@ -7,7 +7,7 @@ const initialState = {
   zIndex: 0
 }
 
-export const reducer = (state = initialState, { type, ...payload }) => {
+export const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case Types.ADD_EE_LAYER: {
       const layers = update(state.layers, {
