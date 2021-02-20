@@ -44,6 +44,7 @@ const MainPage = ({ match }) => {
         <Route exact strict path={`${match.url}/processing`} component={ProcessingPage} />
         <Route path={match.url} component={NotFound} />
       </Switch>
+      
       <ActivityIndicator />
     </div>
   )

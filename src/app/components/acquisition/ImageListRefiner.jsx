@@ -7,7 +7,7 @@ import ImageTable from '../visualization/ImageTable'
 import StepperButtons from './StepperButtons'
 
 import { FINALIZE } from '../../pages/AcquisitionPage'
-import { loadThumbnails, setAvailableDates } from '../../../store/ducks/acquisition'
+import { Actions as Acquisition } from '../../../store/ducks/acquisition'
 
 const ImageListRefiner = ({ navigate }) => {
   const metadata = useSelector(state => state.acquisition.metadata)
@@ -29,11 +29,11 @@ const ImageListRefiner = ({ navigate }) => {
   const handleFinish = () => {
     const filtered = dates.filter((image, i) => selected[i] === true)
 
-    dispatch(setAvailableDates(filtered))
+    dispatch(Acquisition.setAvailableDates(filtered))
   }
 
   useEffect(() => {
-    dispatch(loadThumbnails())
+    dispatch(Acquisition.loadThumbnails())
   }, [dispatch])
 
   return (

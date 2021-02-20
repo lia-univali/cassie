@@ -16,6 +16,7 @@ const CompactJsonView = (props) => (
 )
 
 // @TODO unused component
+// Uses erased modal logic
 const MetadataDialog = (params, modalProps) => {
   modalProps.maxWidth = 'md'
 

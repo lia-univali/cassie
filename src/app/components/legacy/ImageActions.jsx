@@ -38,7 +38,9 @@ const ImageActions = ({ index, metadata }) => {
         </Button>
 
         <DropdownButton icon={More}>
-          {metadata !== undefined &&
+          {
+            // Uses erased modal logic
+            metadata !== undefined &&
             <MenuItem onClick={() => dispatch(modal.open('VIEW_METADATA', { data: metadata }))}>
               Ver metadados
             </MenuItem>

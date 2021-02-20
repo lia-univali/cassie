@@ -9,7 +9,7 @@ import { Box, Button, FormControlLabel, Switch } from '@material-ui/core'
 import GoogleMap, { DEFAULT_ZOOM } from '../map/GoogleMap'
 import StepperButtons from './StepperButtons'
 import * as Map from '../../../common/map'
-import { setAOI } from '../../../store/ducks/acquisition'
+import { Actions as Acquisition } from '../../../store/ducks/acquisition'
 
 const useStyles = makeStyles(theme => ({
   map: {
@@ -87,7 +87,7 @@ const AOIChooser = ({ navigate }) => {
   }
 
   const handleChoose = () => {
-    dispatch(setAOI(overlay, coordinates, ee.Geometry.Polygon([coordinates])))
+    dispatch(Acquisition.setAOI(overlay, coordinates, ee.Geometry.Polygon([coordinates])))
   }
 
   const drawn = Boolean(coordinates)

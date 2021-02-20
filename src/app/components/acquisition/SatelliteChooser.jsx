@@ -8,7 +8,7 @@ import SatelliteCard from './SatelliteCard'
 import { NEXT } from '../../pages/AcquisitionPage'
 
 import { standard } from '../../../common/satellites'
-import { setSatellite } from '../../../store/ducks/acquisition'
+import { Actions as Acquisition } from '../../../store/ducks/acquisition'
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -23,7 +23,7 @@ const SatelliteChooser = ({ navigate }) => {
   const classes = useStyles()
 
   const handleChoice = (index) => {
-    dispatch(setSatellite(index))
+    dispatch(Acquisition.setSatellite(index))
     navigate(NEXT)
   }
 

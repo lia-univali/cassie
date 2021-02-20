@@ -7,7 +7,7 @@ import { Grid, List, ListItem, ListItemText, Paper } from '@material-ui/core'
 
 import TransectShapeList from './TransectShapeList'
 
-import { highlight, clearHighlight } from '../../../../store/ducks/map';
+import { Actions as Map } from '../../../../store/ducks/map'
 
 
 const useStyles = makeStyles(theme => ({
@@ -30,10 +30,10 @@ const ShapeList = () => {
         {
           shapes.map((item, i) => (
             <ListItem key={i}
-              onMouseOver={() => dispatch(highlight(i))}
-              onMouseOut={() => dispatch(clearHighlight())}
+              onMouseOver={() => dispatch(Map.highlight(i))}
+              onMouseOut={() => dispatch(Map.clearHighlight())}
             >
-              <Grid container direction="column">
+              <Grid container direction='column'>
                 <ListItemText
                   primary={t(item.name)}
                   secondary={item.overlays.length === 1 ?

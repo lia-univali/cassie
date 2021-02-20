@@ -1,15 +1,15 @@
 import React from 'react'
 import { connect, useSelector, shallowEqual } from 'react-redux'
 import { isDialogOpen } from '../../../selectors'
-import { closeDialog, publishOutcome } from '../../../store/ducks/dialog'
+import { Actions as Dialog } from '../../../store/ducks/dialog'
 
 const registeredDialogs = {}
 window.rd = registeredDialogs
 
 export const registerDialog = (name, mapStateToProps = () => ({}), actionCreators = {}) => {
   return (Component) => {
-    const close = () => closeDialog(name)
-    const publish = payload => publishOutcome(name, payload)
+    const close = () => Dialog.close(name)
+    const publish = payload => Dialog.publish(name, payload)
 
     const ConnectedComponent = connect(state => ({
       ...mapStateToProps(state),
