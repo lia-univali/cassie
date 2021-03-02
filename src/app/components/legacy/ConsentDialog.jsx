@@ -7,6 +7,7 @@ import DialogActions from './DialogActions'
 import BasicDialog from '../dialog/BasicDialog'
 
 // @TODO unused component
+// Uses erased modal logic
 const ConsentDialog = ({ modal, modalProps }) => {
   const handleContinue = () => {
     //ee.data.authenticateViaPopup(onSuccess, error => alert(error))

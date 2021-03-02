@@ -8,7 +8,7 @@ import { ExpandMore as MoreIcon, ExpandLess as LessIcon } from '@material-ui/ico
 
 import ImageChooserForm from './ImageChooserForm'
 import ActionList from './ActionList'
-import { acquireImage } from '../../../store/ducks/acquisition'
+import { Actions as Acquisition } from '../../../store/ducks/acquisition'
 
 const ImageChooserCard = ({ className }) => {
   const availableDates = useSelector(state => state.acquisition.availableDates)
@@ -32,7 +32,7 @@ const ImageChooserCard = ({ className }) => {
         <ImageChooserForm
           images={availableDates}
           disabledPredicate={i => false}
-          onLoadRequested={i => dispatch(acquireImage(availableDates[i].name, availableDates[i].date))}
+          onLoadRequested={i => dispatch(Acquisition.acquireImage(availableDates[i].name, availableDates[i].date))}
           formatter={i => satellite.get(availableDates[i].name).format}
         />
       </CardContent>

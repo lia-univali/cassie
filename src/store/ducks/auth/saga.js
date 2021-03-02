@@ -41,12 +41,11 @@ const loadClientAuth = function* ({ payload: { onSuccess } }) {
 }
 
 const loadClientAuthSuccess = function* () {
-    console.info('[ducks/auth] LOAD SUCCESS')
+    // Load success
 }
 
 const loadClientAuthFailure = function* () {
     // Display notification
-    // NotificationActions.display(...)
     console.error('[ducks/auth] LOAD ERROR: Not able to load client:auth2')
 }
 

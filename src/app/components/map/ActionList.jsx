@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 
 import { Actions as Imagery } from '../../../store/ducks/imagery'
-import { openDialog } from '../../../store/ducks/dialog'
+import { Actions as Dialog } from '../../../store/ducks/dialog'
 
 const ActionList = ({ name }) => {
   const hasShorelineData = useSelector(state => Boolean(state.results.coastlineData))
@@ -27,7 +27,7 @@ const ActionList = ({ name }) => {
         {
           hasShorelineData &&
           <ListItemSecondaryAction>
-            <IconButton aria-label='results' onClick={() => dispatch(openDialog('coastlineEvolution'))}>
+            <IconButton aria-label='results' onClick={() => dispatch(Dialog.open('coastlineEvolution'))}>
               <Assignment />
             </IconButton>
           </ListItemSecondaryAction>

@@ -10,7 +10,7 @@ import ImageChooserCard from '../../components/map/ImageChooserCard'
 import { ShapeList } from '../../components'
 import LoadedImagesAccordion from '../../components/map/LoadedImagesAccordion'
 
-import { addEEFeature, centralizeMap } from '../../../store/ducks/map'
+import { Actions as Map } from '../../../store/ducks/map'
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -51,8 +51,8 @@ const ProcessingPage = () => {
       const feature = ee.Feature(ee.Geometry.Polygon([coordinates]))
       const border = feature.buffer(15).difference(feature)
 
-      dispatch(addEEFeature(border, 'forms.map.roi', '#00A391', 0.6))
-      dispatch(centralizeMap(coordinates))
+      dispatch(Map.addEEFeature(border, 'forms.map.roi', '#00A391', 0.6))
+      dispatch(Map.centralizeMap(coordinates))
     }
   }
 

@@ -3,28 +3,27 @@ import { chunk } from 'lodash'
 import i18n from 'i18next'
 import { ee } from '../../../../services/earth-engine'
 
-import { callback } from '../../../tools/effects'
-import { evaluate } from "../../../tools/effects"
-import { Timer, generateColors } from "../../../../common/utils"
-import { applyExpression } from "../../../../algorithms/utils"
-import { pushResult } from "../../results"
-import { openAndWait, openDialog } from "../../dialog"
-import * as Imagery from '../header'
-import * as Map from "../../map"
-import * as Selectors from "../../../../selectors"
-import * as Metadata from "../../../../common/metadata"
-import * as Coastline from "../../../../algorithms/shoreline"
-import { generateLayer } from "../../../../algorithms/imagery"
+import { callback, evaluate } from '../../../tools/effects'
 
+import { Actions as Dialog } from '../../dialog'
 import { Actions as Snacks } from '../../snacks'
+import { Actions as Results } from '../../results'
+import { Actions as Map } from '../../map'
+import { openAndWait } from '../../dialog/saga'
+import { requestAndWait } from '../../map/saga'
+
+import * as Selectors from '../../../../selectors'
+import { Timer, generateColors } from '../../../../common/utils'
+import * as Metadata from '../../../../common/metadata'
+import * as Coastline from '../../../../algorithms/shoreline'
 
 export const requestCoastlineInput = function* () {
     const dates = yield call(openAndWait, 'imageSelection')
 
     if (Array.isArray(dates)) {
         const { coordinates, overlay } = yield call(
-            Map.requestAndWait,
-            "polyline",
+            requestAndWait,
+            'polyline',
             i18n.t('forms.imageChooser.actions.analyzeShoreline.baselineDraw'),
             'forms.map.baseline',
             "coastlineData"
@@ -37,7 +36,7 @@ export const requestCoastlineInput = function* () {
                 const baseline = yield select(Selectors.retrieveShapeByName('forms.map.baseline'))
                 baseline.content = baseline.content[0].geometry.coordinates
     
-                yield put(pushResult('baselineData', { baseline }))
+                yield put(Results.push('baselineData', { baseline }))
     
                 return {
                     dates,
@@ -122,8 +121,8 @@ const performCoastlineAnalysis = function* (identifier, baseline, transects, ext
         shorelines.toList(shorelines.size())
     ]))
 
-    yield put(pushResult(identifier, { transectData, shorelineData }))
-    yield put(openDialog('coastlineEvolution'))
+    yield put(Results.push(identifier, { transectData, shorelineData }))
+    yield put(Dialog.open('coastlineEvolution'))
 }
 
 export const handleAnalyzeCoastline = function* () {
@@ -140,25 +139,5 @@ export const handleAnalyzeCoastline = function* () {
         const transects = yield call(Coastline.generateOrthogonalTransects, coordinates, spacing, extent)
 
         yield call(performCoastlineAnalysis, identifier, baseline, transects, extent, dates, threshold)
-    }
-}
-
-export const handleTestSpecificState = function* () {}
-
-export const handleRequestExpression = function* ({ payload: { parent } }) {
-    const { name, expression } = yield call(openAndWait, 'newLayer')
-
-    if (expression) {
-        const { geometry, satellite } = yield select(Selectors.getAcquisitionParameters)
-
-        const { date, missionName } = yield select(state => state.imagery.images[parent])
-
-        const mission = satellite.get(missionName)
-        const image = mission.algorithms.acquire(date, geometry)
-
-        const modified = applyExpression(image, expression, mission.bands)
-        const layer = generateLayer(modified, satellite, name, {})
-
-        yield put(Imagery.Actions.loadLayer(layer, parent))
     }
 }

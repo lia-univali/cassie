@@ -11,7 +11,7 @@ import StepperButtons from './StepperButtons'
 import CloudSelector from './CloudSelector'
 import ActivityIndicator from '../core/ActivityIndicator.jsx'
 
-import { loadAvailableImages, setAvailableDates } from '../../../store/ducks/acquisition'
+import { Actions as Acquisition } from '../../../store/ducks/acquisition'
 import { formatDate, formatDateDiff, datesBetween } from '../../../common/utils'
 import { uniteMissionsDates } from '../../../common/algorithms'
 
@@ -38,7 +38,7 @@ const PeriodChooser = ({ navigate }) => {
   const [start, end] = period
 
   useEffect(() => {
-    dispatch(loadAvailableImages())
+    dispatch(Acquisition.loadAvailableImages())
   }, [dispatch])
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const PeriodChooser = ({ navigate }) => {
   const handleNext = () => {
     const dates = selectDates().filter(entry => entry.date >= start && entry.date <= end)
 
-    dispatch(setAvailableDates(dates))
+    dispatch(Acquisition.setAvailableDates(dates))
   }
 
   if (working === true || !dates) {

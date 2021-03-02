@@ -77,9 +77,9 @@ export const cancellable = function*(effect) {
 
 // @TODO remove
 export const evaluate = function*(query) {
-  yield put({ type: 'BEGIN_EVALUATION' })
+  yield put({ type: 'EVALUATE' })
   const result = yield callback([query, query.evaluate])
-  yield put({ type: 'END_EVALUATION' })
+  yield put({ type: 'DONE' })
 
   return result
 }
