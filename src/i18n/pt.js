@@ -1,7 +1,7 @@
 const pt = {
     translation: {
         self: {
-            shortDesc: 'Uma ferramenta da web de código aberto para mapeamento e análise automática da linha costeira usando imagens de satélite.',
+            shortDesc: 'Uma ferramenta web de código aberto para mapeamento e análise automática da linha costeira usando imagens de satélite.',
             abstract: 'Uma ferramenta integrada à plataforma Google Earth Engine capaz de oferecer, de maneira acessível, acesso direto a dados públicos de satélites internacionais, contando com sofisticadas capacidades de análise de ocupação do solo tanto no domínio espacial quanto temporal. Produzida para atender às necessidades de cientistas, gestores e estudantes, com foco na conservação dos recursos naturais do planeta Terra.',
             poweredBy: 'Powered by: Google Earth Engine',
             imageryProvider: 'Fontes das imagens dos satélites: NASA (Landsat) e ESA (Sentinel)'
@@ -12,6 +12,23 @@ const pt = {
             },
             instructions: {
                 title: 'Instruções para utilização do CASSIE',
+                text: 'Para utilizar o CASSIE é necessário possuir uma conta google cadastrada na plataforma google earth engine.',
+                btnEngineSingUp: 'Realizar Cadastro',
+                btnManual: 'Manual de Uso',
+                btnVideo: 'Video Demonstrativo'
+            },
+            baysqueeze: {
+                title: 'Projeto BAYSQUEEZE',
+                text: 'O projeto procura contribuir com ações e resultados para o bem e preservação do nosso planeta, tomando para si, a tarefa de cumprir os objetivos de desenvolvimento sustentável, estabelecidos pela ONU, bem como atender às necessidades nacionais de conhecimento sobre mudanças climáticas, paralelamente aos objetivos da sub-rede "Zonas Costeiras", da Rede Brasileira de Pesquisas sobre Mudanças Climáticas Globais(Rede Clima).',
+                btn: 'Mais sobre o projeto'
+            },
+            riscport: {
+                title: 'Projeto RISCPORT',
+                text: 'O projeto procura contribuir com ações e resultados para o bem e preservação do nosso planeta, tomando para si, a tarefa de cumprir os objetivos de desenvolvimento sustentável, estabelecidos pela ONU, bem como atender às necessidades nacionais de conhecimento sobre mudanças climáticas, paralelamente aos objetivos da sub-rede "Zonas Costeiras", da Rede Brasileira de Pesquisas sobre Mudanças Climáticas Globais(Rede Clima).',
+                btn: 'Mais sobre o projeto'
+            },
+            members: {
+                title: 'Equipe'
             }
         },        
         general: {
