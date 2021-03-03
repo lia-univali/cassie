@@ -1,16 +1,25 @@
 const pt = {
     translation: {
         self: {
+            shortDesc: 'Uma ferramenta da web de código aberto para mapeamento e análise automática da linha costeira usando imagens de satélite.',
             abstract: 'Uma ferramenta integrada à plataforma Google Earth Engine capaz de oferecer, de maneira acessível, acesso direto a dados públicos de satélites internacionais, contando com sofisticadas capacidades de análise de ocupação do solo tanto no domínio espacial quanto temporal. Produzida para atender às necessidades de cientistas, gestores e estudantes, com foco na conservação dos recursos naturais do planeta Terra.',
             poweredBy: 'Powered by: Google Earth Engine',
             imageryProvider: 'Fontes das imagens dos satélites: NASA (Landsat) e ESA (Sentinel)'
         },
+        home: {
+            about: {
+                title: 'Conheça o CASSIE',
+            },
+            instructions: {
+                title: 'Instruções para utilização do CASSIE',
+            }
+        },        
         general: {
             loading: 'Carregando...',
             cancel: 'Cancelar'
         },
         auth: {
-            signin: 'Entrar com o Google',
+            signin: 'Acessar Ferramenta com o Google',
             signout: 'Sair',
             loading: 'Autenticando...'
         },

@@ -1,6 +1,7 @@
 const en = {
     translation: {
         self: {
+            shortDesc: 'An open-source web tool for automatic shoreline mapping and analysis using satellite imagery.',
             abstract: 'A tool integrated with the Google Earth Engine platform capable of offering, in an accessible way, direct access to public data from international satellites, with sophisticated land use analysis capabilities in both space and time. Developed to meet the needs of scientists, managers and students, with a focus on the conservation of the planet Earth\'s natural resources.',
             poweredBy: 'Powered by: Google Earth Engine',
             imageryProvider: 'Imagery Providers: NASA (Landsat) and ESA (Sentinel)'

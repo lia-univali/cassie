@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { Actions as AuthActions } from '../../../store/ducks/auth'
 import { Actions as LangActions } from '../../../store/ducks/i18n'
 
-import { Avatar, Box, Button, Grid, Typography } from '@material-ui/core'
+import { Container, Avatar, Box, Button, Grid, Typography, AppBar, Toolbar,IconButton } from '@material-ui/core'
+// import {MenuIcon} from '@material-ui/icons/Menu'
 
 import LogoIcon from '@material-ui/icons/Language'
 import { makeStyles } from '@material-ui/core/styles'
@@ -27,11 +28,22 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.light,
   },
   heading: {
-    padding: '60px 0px',
+    
     backgroundColor: theme.palette.primary.main,
+    background: 'url(/bg.jpg)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    minHeight: '75vh'
+  },
+  headingContainer: {
+    padding: '10vh 0px',
   },
   content: {
     padding: '60px 0px',
+  },
+  black_content: {
+    padding: '60px 0px',
+    backgroundColor: 'black'
   },
   logo: {
     fontSize: 120,
@@ -39,11 +51,17 @@ const useStyles = makeStyles(theme => ({
     margin: '0px 0px 20px 0px',
   },
   title: {
-    color: 'rgba(0, 0, 0, 0.6)',
-    fontSize: '7rem',
+    color: 'white',
+    fontWeight: '600',
+    marginBottom: '1rem'
+  },
+  content_title: {
+    fontWeight: '600',
+    marginBottom: '1.5rem'
   },
   subtitle: {
-    color: 'rgba(0, 0, 0, 0.5)',
+    color: 'white',
+    fontSize: '1.5rem',
   },
   wrapper: {
     display: 'flex',
@@ -53,12 +71,13 @@ const useStyles = makeStyles(theme => ({
     padding: '40px 48px',
   },
   i18nSwitchers: {
-    borderRadius: '5px',
-    backgroundColor: '#74c7be',
+    textAlign: 'right',
+    backgroundColor: 'white'
   },
   i18nSwitch: {
     padding: '5px 10px',
     margin: '0 10px',
+    
   },
   flag: {
     marginRight: '5px',
@@ -71,6 +90,9 @@ const useStyles = makeStyles(theme => ({
   },
   google: {
     margin: '-4px 20px -4px -15px',
+  },
+  intro_gif:{
+    maxWidth: '100%',
   }
 }))
 
@@ -89,44 +111,84 @@ const HomePage = () => {
     dispatch(LangActions.setLang(local))
   }
 
-  return (
+  return (  
     <Box>
-      <Box className={classes.backdrop} />
-      <Box className={classes.heading} display='flex' flexDirection='column' alignItems='center'>
-        <LogoIcon className={classes.logo} />
-        <Typography className={classes.title} variant='h1'>
-          C.A.S.S.I.E.
-        </Typography>
-        <Typography className={classes.subtitle} variant='h5'>
-          Coastal Analysis System via Satellite Imagery Engine
-        </Typography>
-      </Box>
-      <Grid container className={classes.content} justify='center' spacing={0}>
-        <Grid item className={classes.wrapper} xs={10} md={6}>
-          <Box className={classes.i18nSwitchers}>
-            <Button className={classes.i18nSwitch} onClick={() => handleLanguageChange('pt-BR')}>
-              <Avatar alt='' src={pt} className={classes.flag} />
-              pt-BR
-            </Button>
-            <Button className={classes.i18nSwitch} onClick={() => handleLanguageChange('en-US')}>
-              <Avatar className={classes.flag} alt='' src={en} />
-              en-US
-            </Button>
-          </Box>
-          <Typography className={classes.description} variant='body1' align='center' >
-            {t('self.abstract')}
-          </Typography>
-          <Button
-            disabled={busy} variant='contained' size='large'
-            onClick={() => dispatch(AuthActions.begin(() => dispatch(push('/main/acquisition'))))}
-          >
-            <Avatar className={classes.google} variant='square'
-              alt='Google Logo' src={busy ? googleLogoDisabled : googleLogo} 
-            />
-            {t('auth.signin')}
+      <Box className={classes.heading} >
+
+        <Box className={classes.i18nSwitchers}>
+          <Button className={classes.i18nSwitch} onClick={() => handleLanguageChange('pt-BR')}>
+            <Avatar alt='' src={pt} className={classes.flag} />
+            pt-BR
           </Button>
-        </Grid>
-      </Grid>
+          <Button className={classes.i18nSwitch} onClick={() => handleLanguageChange('en-US')}>
+            <Avatar className={classes.flag} alt='' src={en} />
+            en-US
+          </Button>
+        </Box>
+
+        <Container className={classes.headingContainer} maxWidth="md" display='flex' flexDirection='column'>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography className={classes.title} variant='h2'>
+                Coastal Analysis System via Satellite Imagery Engine
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <Typography className={classes.subtitle} variant='body1'>
+                {t('self.shortDesc')}
+              </Typography>
+              
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                disabled={busy} variant='contained' size='large' color="primary"
+                onClick={() => dispatch(AuthActions.begin(() => dispatch(push('/main/acquisition'))))}
+              >
+                <Avatar className={classes.google} variant='square'
+                  alt='Google Logo' src={busy ? googleLogoDisabled : googleLogo} 
+                />
+                {t('auth.signin')}
+              </Button>
+            </Grid>
+            
+          </Grid>         
+        </Container>
+        
+      </Box>
+      <Box className={classes.content}>
+        <Container maxWidth="md" display='flex' flexDirection='column'>
+          <Typography className={classes.content_title} variant='h3' align='center'>
+            {t('home.about.title')}
+          </Typography>
+          <Grid container spacing={3} justify="center" alignItems="center">
+            <Grid item xs={12} md={6}>
+              <img src="/usage_cassie.gif" className={classes.intro_gif}/>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant='body1'>
+                {t('self.abstract')}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+      <Box className={classes.black_content}>
+        <Container maxWidth="md" display='flex' flexDirection='column'>
+          <Typography className={classes.title} variant='h3' align='center'>
+            {t('home.instructions.title')}
+          </Typography>
+          <Grid container spacing={3} justify="center" alignItems="center">
+            <Grid item xs={12} md={6}>
+              <img src="/usage_cassie.gif" className={classes.intro_gif}/>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant='body1'>
+                {t('self.abstract')}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
     </Box>
   )
 }
