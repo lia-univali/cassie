@@ -2,15 +2,13 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
 import { useTranslation } from 'react-i18next'
-
 import { Actions as AuthActions } from '../../../store/ducks/auth'
 import { Actions as LangActions } from '../../../store/ducks/i18n'
 
-import { Container, Avatar, Box, Button, Grid, Divider,Tooltip, Typography, Link, Badge, Card, CardContent, CardActions } from '@material-ui/core'
-// import {MenuIcon} from '@material-ui/icons/Menu'
+import { Container, Avatar, Box, Button, Grid,Tooltip, Typography, Link, Badge, Card, CardContent, CardActions } from '@material-ui/core'
+
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 
-import LogoIcon from '@material-ui/icons/Language'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import googleLogo from '../../../resources/googleLogo.svg'
 import googleLogoDisabled from '../../../resources/googleLogoDisabled.svg'
@@ -262,7 +260,6 @@ const HomePage = () => {
       ],
       link: 'https://siaiap32.univali.br/seer/index.php/acotb/article/view/12871'
     },
-    ,
     {
       kind: t('home.papers.curso_text'),
       title: "Determinação e análise da evolução da linha de costa com ferramenta do Google Earth Engine (e-CASSIE).",
@@ -330,7 +327,7 @@ const HomePage = () => {
           </Typography>
           <Grid container spacing={3} justify="center" alignItems="center">
             <Grid item xs={12} md={6}>
-              <img src="/usage_cassie.gif" className={classes.intro_gif}/>
+              <img src="/usage_cassie.gif" alt={t('home.about.title')} className={classes.intro_gif}/>
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant='body1'>
@@ -502,14 +499,14 @@ const HomePage = () => {
             <Grid item xs={12} md={6} align='center'>
               <Typography className={classes.title} variant='h4' >{t('home.sponsor.realiza')}</Typography>
               <Link href='http://ialab.com.br/' target="_blank" rel="noopener">
-                <img src={"/grupos/lia_sm.png"} className={classes.sponsor_img}/>
+                <img src={"/grupos/lia_sm.png"} alt='LIA' className={classes.sponsor_img}/>
               </Link>
               
             </Grid>
             <Grid item xs={12} md={6} align='center'>
               <Typography className={classes.title} variant='h4' >{t('home.sponsor.apoio')}</Typography>
               <Link href='http://cnpq.br/' target="_blank" rel="noopener">
-                <img src={"/grupos/cnpq.png"} className={classes.sponsor_img}/>
+                <img src={"/grupos/cnpq.png"} alt='CNPQ' className={classes.sponsor_img}/>
               </Link>
               <Typography className={classes.spaced_text} variant='body1' >{t('home.sponsor.apoio_desc')}</Typography>
             </Grid>
@@ -518,12 +515,12 @@ const HomePage = () => {
               <Grid container  spacing={3} justify="center">
                 <Grid item xs={12} md={6} align='center'>
                   <Link href='http://redeclima.ccst.inpe.br/' target="_blank" rel="noopener">
-                    <img src={"/grupos/rede.png"} className={classes.sponsor_img_sqr}/>
+                    <img src={"/grupos/rede.png"} alt='Rede Clima' className={classes.sponsor_img_sqr}/>
                   </Link>
                 </Grid>
                 <Grid item xs={12} md={6} align='center'>
                   <Link href='https://www.icmbio.gov.br/cepsul/' target="_blank" rel="noopener">
-                    <img src={"/grupos/cepsul.png"} className={classes.sponsor_img_sqr}/>
+                    <img src={"/grupos/cepsul.png"} alt='CEPSUL' className={classes.sponsor_img_sqr}/>
                   </Link>
                 </Grid>
               </Grid>
@@ -533,22 +530,22 @@ const HomePage = () => {
               <Grid container  spacing={3} justify="center">
                 <Grid item xs={12} md={3} align='center'>
                   <Link href='https://www.univali.br/Paginas/default.aspx' target="_blank" rel="noopener">
-                    <img src={"/grupos/univali.png"} className={classes.sponsor_img_partner}/>
+                    <img src={"/grupos/univali.png"} alt='Univali'  className={classes.sponsor_img_partner}/>
                   </Link>
                 </Grid>
                 <Grid item xs={12} md={3} align='center'>
                   <Link href='https://ufsc.br/' target="_blank" rel="noopener">
-                    <img src={"/grupos/ufsc.png"} className={classes.sponsor_img_partner}/>
+                    <img src={"/grupos/ufsc.png"} alt='UFSC' className={classes.sponsor_img_partner}/>
                   </Link>
                 </Grid>
                 <Grid item xs={12} md={3} align='center'>
                   <Link href='https://www.furg.br/' target="_blank" rel="noopener">
-                    <img src={"/grupos/furg.png"} className={classes.sponsor_img_partner}/>
+                    <img src={"/grupos/furg.png"} alt='FURG' className={classes.sponsor_img_partner}/>
                   </Link>
                 </Grid>
                 <Grid item xs={12} md={3} align='center'>
                   <Link href='https://colabatlantic.com/' target="_blank" rel="noopener">
-                    <img src={"/grupos/atlantic.png"} className={classes.sponsor_img_partner}/>
+                    <img src={"/grupos/atlantic.png"} alt='CoLAB + Atlantic' className={classes.sponsor_img_partner}/>
                   </Link>
                 </Grid>
               </Grid>
