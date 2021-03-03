@@ -6,6 +6,43 @@ const en = {
             poweredBy: 'Powered by: Google Earth Engine',
             imageryProvider: 'Imagery Providers: NASA (Landsat) and ESA (Sentinel)'
         },
+        home: {
+            about: {
+                title: 'About',
+            },
+            instructions: {
+                title: 'CASSIE User Guide',
+                text: 'To use CASSIE, you must have a google account registered on the google earth engine platform.',
+                btnEngineSingUp: 'Register',
+                btnManual: 'User Guide',
+                btnVideo: 'Instruction Video'
+            },
+            baysqueeze: {
+                title: 'BAYSQUEEZE',
+                text: 'The project seeks to contribute with actions and results for the preservation of our planet, by assuming the task of fulfilling the United Nations Sustainable Development Goals, as well as attending the national needs of knowledge about climate change, in parallel with the goals of the sub-network "Coastal Zones", of the Brazilian Research Network on Global Climate Change (Rede Clima). ',
+                btn: 'Know more about the project'
+            },
+            riscport: {
+                title: 'RISCPORT',
+                text: 'O projeto procura contribuir com ações e resultados para o bem e preservação do nosso planeta, tomando para si, a tarefa de cumprir os objetivos de desenvolvimento sustentável, estabelecidos pela ONU, bem como atender às necessidades nacionais de conhecimento sobre mudanças climáticas, paralelamente aos objetivos da sub-rede "Zonas Costeiras", da Rede Brasileira de Pesquisas sobre Mudanças Climáticas Globais(Rede Clima).',
+                btn: 'Mais sobre o projeto'
+            },
+            members: {
+                title: 'Team',
+                roles: {
+                    researcher: 'Researcher',
+                    coord: 'Coordinator',
+                    atp: 'Grant holder ATP-B',
+                    fumdes: 'Grant holder FUMDES'
+                }
+            },
+            papers: {
+                title: 'Publications',
+                resumo_text: 'Abstract in conference Proceedings',
+                curso_text: 'Workshop',
+                more: 'Learn More'
+            }
+        },
         general: {
             loading: 'Loading...',
             cancel: 'Cancel'

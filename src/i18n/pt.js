@@ -18,17 +18,29 @@ const pt = {
                 btnVideo: 'Video Demonstrativo'
             },
             baysqueeze: {
-                title: 'Projeto BAYSQUEEZE',
+                title: 'BAYSQUEEZE',
                 text: 'O projeto procura contribuir com ações e resultados para o bem e preservação do nosso planeta, tomando para si, a tarefa de cumprir os objetivos de desenvolvimento sustentável, estabelecidos pela ONU, bem como atender às necessidades nacionais de conhecimento sobre mudanças climáticas, paralelamente aos objetivos da sub-rede "Zonas Costeiras", da Rede Brasileira de Pesquisas sobre Mudanças Climáticas Globais(Rede Clima).',
                 btn: 'Mais sobre o projeto'
             },
             riscport: {
-                title: 'Projeto RISCPORT',
+                title: 'RISCPORT',
                 text: 'O projeto procura contribuir com ações e resultados para o bem e preservação do nosso planeta, tomando para si, a tarefa de cumprir os objetivos de desenvolvimento sustentável, estabelecidos pela ONU, bem como atender às necessidades nacionais de conhecimento sobre mudanças climáticas, paralelamente aos objetivos da sub-rede "Zonas Costeiras", da Rede Brasileira de Pesquisas sobre Mudanças Climáticas Globais(Rede Clima).',
                 btn: 'Mais sobre o projeto'
             },
             members: {
-                title: 'Equipe'
+                title: 'Equipe',
+                roles: {
+                    researcher: 'Pesquisador',
+                    coord: 'Coordenador',
+                    atp: 'Bolsista ATP-B',
+                    fumdes: 'Bolsista FUMDES'
+                }
+            },
+            papers: {
+                title: 'Produção científica',
+                resumo_text: 'Resumo em Evento',
+                curso_text: 'Curso',
+                more: 'Saiba Mais'
             }
         },        
         general: {
