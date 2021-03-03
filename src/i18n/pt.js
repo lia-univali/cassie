@@ -41,6 +41,13 @@ const pt = {
                 resumo_text: 'Resumo em Evento',
                 curso_text: 'Curso',
                 more: 'Saiba Mais'
+            },
+            sponsor: {
+                realiza: 'Realização',
+                apoio: 'Apoio Financeiro',
+                apoio_desc: 'CNPq MCTIC/CNPq – N° 21/2017; Processo No. 441545/2017-3.',
+                inst: 'Apoio Institucional',
+                partners: 'Parceiros'
             }
         },        
         general: {
