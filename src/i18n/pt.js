@@ -3,7 +3,9 @@ const pt = {
         self: {
             abstract: 'Uma ferramenta integrada à plataforma Google Earth Engine capaz de oferecer, de maneira acessível, acesso direto a dados públicos de satélites internacionais, contando com sofisticadas capacidades de análise de ocupação do solo tanto no domínio espacial quanto temporal. Produzida para atender às necessidades de cientistas, gestores e estudantes, com foco na conservação dos recursos naturais do planeta Terra.',
             poweredBy: 'Powered by: Google Earth Engine',
-            imageryProvider: 'Fontes das imagens dos satélites: NASA (Landsat) e ESA (Sentinel)'
+            imageryProvider: 'Fontes das imagens dos satélites: NASA (Landsat) e ESA (Sentinel)',
+            code: 'CASSIE',
+            name: 'Coastal Analyst System from Space Imagery Engine',
         },
         general: {
             loading: 'Carregando...',
