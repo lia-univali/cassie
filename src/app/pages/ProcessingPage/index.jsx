@@ -7,6 +7,7 @@ import { Box, Grid, Grow } from '@material-ui/core'
 
 import GoogleMap from '../../components/map/GoogleMap'
 import ImageChooserCard from '../../components/map/ImageChooserCard'
+import ActionsCard from '../../components/map/ActionsCard'
 import { ShapeList } from '../../components'
 import LoadedImagesAccordion from '../../components/map/LoadedImagesAccordion'
 
@@ -66,6 +67,7 @@ const ProcessingPage = () => {
           </Grid>
           <Grid item xs={3}>
             <LoadedImagesAccordion />
+            <ActionsCard />
           </Grid>
         </Grid>
       </Grow>

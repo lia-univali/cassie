@@ -6,7 +6,6 @@ import { Box, Collapse, Chip, Divider, IconButton, Typography } from '@material-
 import { Card, CardHeader, CardContent, CardActions} from '@material-ui/core'
 import { ExpandMore as MoreIcon, ExpandLess as LessIcon } from '@material-ui/icons'
 
-import ImageChooserForm from './ImageChooserForm'
 import ActionList from './ActionList'
 import { Actions as Acquisition } from '../../../store/ducks/acquisition'
 
@@ -24,9 +23,8 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ImageChooserCard = ({ className }) => {
+const ActionsCard = ({ className }) => {
   const availableDates = useSelector(state => state.acquisition.availableDates)
-  const satellite = useSelector(state => state.acquisition.satellite, shallowEqual)
   const classes = useStyles()
   const dispatch = useDispatch()
   const [t] = useTranslation()
@@ -36,39 +34,14 @@ const ImageChooserCard = ({ className }) => {
   return availableDates === undefined ? null : (
     <Card className={className} style={{ margin: 12 }}>
       <CardHeader
-        title= {
-          <div>
-            {t('forms.imageChooser.title')}
-            <Chip className={classes.chip} label={`${availableDates.length} ${t('forms.imageChooser.resultQuantity')}`} />
-          </div>
-        }
+        title={t('forms.imageChooser.actions.title')}
       />
-
       <Divider />
-
-      <CardContent>
-        <ImageChooserForm
-          images={availableDates}
-          disabledPredicate={i => false}
-          onLoadRequested={i => dispatch(Acquisition.acquireImage(availableDates[i].name, availableDates[i].date))}
-          formatter={i => satellite.get(availableDates[i].name).format}
-        />
-      </CardContent>
-
-      {/* <CardActions>
-        <Box flex='1'>
-          <Typography variant='subtitle1'>{t('forms.imageChooser.actions.title')}</Typography>
-        </Box>
-        <IconButton onClick={() => setExpanded(expanded => !expanded)}>
-          {expanded ? <LessIcon /> : <MoreIcon />}
-        </IconButton>
-      </CardActions>
-      
-      <Collapse in={expanded} timeout='auto' unmountOnExit>
+      <CardContent className={classes.item}>
         <ActionList name='actions' />
-      </Collapse> */}
+      </CardContent>
     </Card>
   )
 }
 
-export default ImageChooserCard
+export default ActionsCard
