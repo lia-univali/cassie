@@ -15,6 +15,9 @@ const useStyles = makeStyles(theme => ({
     '&:not(:first-child)': {
       borderLeft: `1px solid ${theme.palette.divider}`,
     }
+  },
+  grid: {
+    margin: theme.spacing(2)
   }
 }))
 
@@ -30,10 +33,10 @@ const SatelliteChooser = ({ navigate }) => {
   const spacecrafts = standard
 
   return (
-    <Grid container spacing={0} justify='center'>
+    <Grid container spacing={3} justify='center' className={classes.grid}>
       {
         spacecrafts.map((satellite, i) => (
-          <Grid item key={i} xs={4} className={classes.content}>
+          <Grid item key={i} xs={4} >
             <SatelliteCard
               name={satellite.name}
               provider={satellite.provider}
