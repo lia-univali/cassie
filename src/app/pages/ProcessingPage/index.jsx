@@ -64,10 +64,11 @@ const ProcessingPage = () => {
           <Grid item xs={9} className={classes.mapContainer}>
             <ShapeList />
             <ImageChooserCard />
+            <ActionsCard />
+            
           </Grid>
           <Grid item xs={3}>
             <LoadedImagesAccordion />
-            <ActionsCard />
           </Grid>
         </Grid>
       </Grow>

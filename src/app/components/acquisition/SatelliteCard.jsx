@@ -7,7 +7,9 @@ import { Card, CardActions,CardActionArea, CardContent, CardMedia } from '@mater
 
 const useStyles = makeStyles(theme => ({
   image: {
-    height: 180,
+    height: 200,
+    backgroundPosition: 'center',
+
   },
   description: {
     paddingTop: theme.spacing(1),

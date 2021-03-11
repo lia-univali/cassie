@@ -9,7 +9,7 @@ const LoadedImagesAccordion = ({ }) => {
   const images = useSelector(state => state.imagery.images)
 
   return (
-    <div style={{ maxHeight: '100%', overflowY: 'auto', margin: 12 }}>
+    <div style={{ maxHeight: '100%', overflowY: 'auto', margin: 12}}>
       {
         Object.keys(images).reverse().map((id, i) => {
           return <ImageViewer key={id} index={id} image={images[id]} />
