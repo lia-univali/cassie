@@ -22,7 +22,8 @@ const NewLayerDialog = ({ open, close, publish }) => {
   const [name, setName] = useState('')
   const [expression, setExpression] = useState('')
 
-  const handleCreate = () => {
+  const handleCreate = (e) => {
+    e.preventDefault()
     publish({ expression, name })
   }
 
@@ -42,7 +43,7 @@ const NewLayerDialog = ({ open, close, publish }) => {
     <Dialog open={open} maxWidth='md' onClose={() => close()}>
       <DialogTitle>{t('forms.imageryOverlay.add.title')}</DialogTitle>
       <DialogContent>
-        <form>
+        <form onSubmit={handleCreate}>
           <TextField className={classes.input} id='name' fullWidth
             label={t('forms.imageryOverlay.add.name')}
             value={name}
