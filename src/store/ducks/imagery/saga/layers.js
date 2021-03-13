@@ -7,7 +7,7 @@ import { Actions as Map } from '../../map'
 import { openAndWait } from '../../dialog/saga'
 
 import { applyExpression } from '../../../../algorithms/utils'
-import { generateLayer } from '../../../../algorithms/imagery'
+import { cumulativeWindow, generateLayer } from '../../../../algorithms/imagery'
 import { ConcreteLayer } from '../../../../common/classes'
 import * as Selectors from '../../../../selectors'
 
@@ -59,8 +59,17 @@ export const handleRequestExpression = function* ({ payload: { parent } }) {
         const mission = satellite.get(missionName)
         const image = mission.algorithms.acquire(date, geometry)
 
-        const modified = applyExpression(image, expression, mission.bands)
-        const layer = generateLayer(modified, satellite, name, {})
+        const target = 'band_exp'
+        const modified = applyExpression(image, expression, mission.bands).rename(target)
+
+        /* Calculate visualization parameters (min/max)
+         * Issue #47 */
+        const reducer = { reducer: ee.Reducer.histogram(), scale: mission.opticalResolution, geometry }
+        const histogram = modified.reduceRegion(reducer).get(target)
+        const window = cumulativeWindow(histogram, 0.01)
+        const [min, max] = yield callback([window, window.evaluate])
+
+        const layer = generateLayer(modified, satellite, name, { min, max })
 
         yield put(Imagery.Actions.loadLayer(layer, parent))
     }
