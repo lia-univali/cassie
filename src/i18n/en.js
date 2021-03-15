@@ -41,6 +41,13 @@ const en = {
                 resumo_text: 'Abstract in Proceedings',
                 curso_text: 'Workshop',
                 more: 'Learn More'
+            },
+            sponsor: {
+                realiza: 'Developed by',
+                apoio: 'Financial Support',
+                apoio_desc: 'CNPq MCTIC/CNPq – N° 21/2017; Process No. 441545/2017-3.',
+                inst: 'Institutional support',
+                partners: 'Project Partners',
             }
         },
         general: {

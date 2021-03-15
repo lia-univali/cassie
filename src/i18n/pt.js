@@ -48,6 +48,17 @@ const pt = {
                 apoio_desc: 'CNPq MCTIC/CNPq – N° 21/2017; Processo No. 441545/2017-3.',
                 inst: 'Apoio Institucional',
                 partners: 'Parceiros'
+            },
+            footer: {
+                contact:{
+                    title: 'Contato',
+                    manage: 'Coordenação do projeto',
+                    techquest: 'Dúvidas Técnicas'
+                },
+                resources: {
+                    title: 'Recursos',
+                    faq: 'Perguntas Frequentes'
+                }
             }
         },        
         general: {

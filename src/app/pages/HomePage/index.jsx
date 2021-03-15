@@ -5,13 +5,14 @@ import { useTranslation } from 'react-i18next'
 import { Actions as AuthActions } from '../../../store/ducks/auth'
 import { Actions as LangActions } from '../../../store/ducks/i18n'
 
-import { Container, Avatar, Box, Button, Grid,Tooltip, Typography, Link, Badge, Card, CardContent, CardActions } from '@material-ui/core'
+import { Container, Collapse, IconButton, Avatar, Box, Button, Grid,Tooltip, Typography, Link, Badge, Card, CardContent, CardActions } from '@material-ui/core'
 
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
-
+import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import googleLogo from '../../../resources/googleLogo.svg'
 import googleLogoDisabled from '../../../resources/googleLogoDisabled.svg'
+import Alert from '@material-ui/lab/Alert';
 
 import pt from '../../../resources/i18n/pt.svg'
 import en from '../../../resources/i18n/en.svg'
@@ -137,6 +138,24 @@ const useStyles = makeStyles(theme => ({
   },
   avatar_link: {
     border: 'none',
+  },
+  copy: {
+    backgroundColor: theme.palette.grey[900],
+    padding: theme.spacing(1)
+  },
+  lia_footer:{
+    maxWidth: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+    display: 'inline-block',
+  },
+  text_footer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  footer_ass_link: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
   }
 }))
 
@@ -164,6 +183,9 @@ const HomePage = () => {
   const dispatch = useDispatch()
   const [t] = useTranslation()
   const classes = useStyles()
+
+  const [alertOpen, setAlertOpen] = React.useState(true);
+
   const groupsData = {
     loc: {
       name: 'LOC UFSC',
@@ -193,6 +215,7 @@ const HomePage = () => {
       name: "Rudimar L.S. Dazzi",
       img: "rudimar.jpg",
       group: groupsData.lia,
+      mail: 'rudimar@univali.br',
       role: t('home.members.roles.coord'),
       link: 'http://lattes.cnpq.br/9340343036686762'
     },
@@ -200,6 +223,7 @@ const HomePage = () => {
       name: "Rodrigo Lyra",
       img: "rodrigo.jpg",
       group: groupsData.lia,
+      mail: 'rlyra@univali.br',
       role: t('home.members.roles.coord'),
       link: 'http://lattes.cnpq.br/0117343254850007'
     },
@@ -214,6 +238,7 @@ const HomePage = () => {
       name: "Israel Efraim de Oliveira",
       img: "israel.png",
       group: groupsData.lia,
+      mail: 'israel.oliveira@edu.univali.br',
       role: t('home.members.roles.atp'),
       link: 'https://github.com/IsraelEfraim'
     },
@@ -280,6 +305,24 @@ const HomePage = () => {
 
   return (  
     <Box>
+      {/* <Collapse in={alertOpen}>
+        <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setAlertOpen(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          Close me!
+        </Alert>
+      </Collapse> */}
       <Box className={classes.heading} >
         <NavBar>
           <Button className={classes.i18nSwitch} onClick={() => handleLanguageChange('pt-BR')}>
@@ -492,7 +535,6 @@ const HomePage = () => {
         </Container>
       </Box>
 
-
       <Box className={classes.content}>
         <Container maxWidth="md" display='flex' flexDirection='column'>
           <Grid container  spacing={3} justify="center">
@@ -554,15 +596,50 @@ const HomePage = () => {
         </Container>
       </Box>
 
-      <Box className={classes.content} bgcolor='black'>
-        <Container maxWidth="md" display='flex' flexDirection='column'>
+      <Box  bgcolor='black'>
+        <Container className={classes.content} maxWidth="md" display='flex' flexDirection='column'>
           <Grid container  spacing={3} justify="center">
-            <Grid item xs={12} md={6} align='center'>
-              
+            <Grid item xs={12} md={4}>
+              <Typography variant="h6" color="secondary">
+                CASSIE
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <Grid container spacing={3} justify="center">
+                <Grid item xs={12} md={6}>
+                  <Typography variant="h6" color="primary">
+                    {t('home.footer.contact.title')}
+                  </Typography>
+                  <WhiteTextTypography variant="overline">{t('home.footer.contact.manage')}</WhiteTextTypography>
+                  <WhiteTextTypography variant="body2"><Link color="inherit" href={'mailto:'+authorsData.rudimar.mail}>{authorsData.rudimar.name}</Link></WhiteTextTypography>
+                  <WhiteTextTypography variant="body2"><Link color="inherit" href={'mailto:'+authorsData.lyra.mail}>{authorsData.lyra.name}</Link></WhiteTextTypography>
+                  <br></br>
+                  <WhiteTextTypography variant="overline">{t('home.footer.contact.techquest')}</WhiteTextTypography>
+                  <WhiteTextTypography variant="body2"><Link color="inherit" href={'mailto:'+authorsData.israel.mail}>{authorsData.israel.name}</Link></WhiteTextTypography>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="h6" color="primary">
+                  {t('home.footer.resources.title')}
+                  </Typography>
+                  <WhiteTextTypography variant="body2"><Link color="inherit" href="">{t('home.footer.resources.faq')}</Link></WhiteTextTypography>
+                </Grid>
+              </Grid>
             </Grid>
             
           </Grid>
+          
+          
         </Container>
+        <Grid container justify="center" className={classes.copy}>
+          <Grid item xs={12} md={12} align="center">
+            <Typography variant="body2" color="secondary" className={classes.text_footer}>
+            coded by <a href="https://alissonsteffens.com" className={classes.footer_ass_link}>Alisson</a> at
+            <a href="https://github.com/lia-univali" target="_blank">
+            <img src={"/grupos/lia_smw.png"} className={classes.lia_footer}
+            /></a>
+            </Typography>
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   )
