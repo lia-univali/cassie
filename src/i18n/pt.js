@@ -15,7 +15,9 @@ const pt = {
                 text: 'Para utilizar o CASSIE é necessário possuir uma conta google cadastrada na plataforma google earth engine.',
                 btnEngineSingUp: 'Realizar Cadastro',
                 btnManual: 'Manual de Uso',
-                btnVideo: 'Video Demonstrativo'
+                linkManual: 'https://tinyurl.com/cassie-manual-pt',
+                btnVideo: 'Video Demonstrativo',
+                linkVideo: 'https://www.youtube.com/watch?v=7q-3xNVq0tY&'
             },
             baysqueeze: {
                 title: 'BAYSQUEEZE',
@@ -24,7 +26,7 @@ const pt = {
             },
             riscport: {
                 title: 'RISCPORT',
-                text: 'O projeto procura contribuir com ações e resultados para o bem e preservação do nosso planeta, tomando para si, a tarefa de cumprir os objetivos de desenvolvimento sustentável, estabelecidos pela ONU, bem como atender às necessidades nacionais de conhecimento sobre mudanças climáticas, paralelamente aos objetivos da sub-rede "Zonas Costeiras", da Rede Brasileira de Pesquisas sobre Mudanças Climáticas Globais(Rede Clima).',
+                text: 'Este projeto tem como objetivo principal realizar uma análise dos riscos climáticos (ambientais e econômicos) e determinar as possíveis medidas de adaptação, como base na projeção futura das ameaças ambientais (ex: ondas de tempestades), para incrementar a resiliência do setor portuário e áreas adjacentes na Baía da Babitonga, em um contexto de uma rede interdisicplinar-multiinstitucuional.',
                 btn: 'Mais sobre o projeto'
             },
             members: {
@@ -57,7 +59,8 @@ const pt = {
                 },
                 resources: {
                     title: 'Recursos',
-                    faq: 'Perguntas Frequentes'
+                    faq: 'Perguntas Frequentes',
+                    code: 'Código Fonte'
                 }
             }
         },        

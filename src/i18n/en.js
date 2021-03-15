@@ -15,7 +15,9 @@ const en = {
                 text: 'To use CASSIE, you must have a google account registered on the google earth engine platform.',
                 btnEngineSingUp: 'Register',
                 btnManual: 'User Guide',
-                btnVideo: 'Instruction Video'
+                linkManual: 'https://tinyurl.com/cassie-manual-en',
+                btnVideo: 'Instruction Video',
+                linkVideo: 'https://www.youtube.com/watch?v=7q-3xNVq0tY&'
             },
             baysqueeze: {
                 title: 'BAYSQUEEZE',
@@ -48,6 +50,18 @@ const en = {
                 apoio_desc: 'CNPq MCTIC/CNPq – N° 21/2017; Process No. 441545/2017-3.',
                 inst: 'Institutional support',
                 partners: 'Project Partners',
+            },
+            footer: {
+                contact:{
+                    title: 'Contact',
+                    manage: 'Project Management',
+                    techquest: 'Technical Questions'
+                },
+                resources: {
+                    title: 'Resources',
+                    faq: 'FAQ',
+                    code: 'Source Code'
+                }
             }
         },
         general: {

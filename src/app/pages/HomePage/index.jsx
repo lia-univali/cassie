@@ -5,18 +5,17 @@ import { useTranslation } from 'react-i18next'
 import { Actions as AuthActions } from '../../../store/ducks/auth'
 import { Actions as LangActions } from '../../../store/ducks/i18n'
 
-import { Container, Collapse, IconButton, Avatar, Box, Button, Grid,Tooltip, Typography, Link, Badge, Card, CardContent, CardActions } from '@material-ui/core'
+import { Container, Avatar, Box, Button, Grid,Tooltip, Typography, Link, Badge, Card, CardContent, CardActions } from '@material-ui/core'
 
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
-import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import googleLogo from '../../../resources/googleLogo.svg'
 import googleLogoDisabled from '../../../resources/googleLogoDisabled.svg'
-import Alert from '@material-ui/lab/Alert';
 
 import pt from '../../../resources/i18n/pt.svg'
 import en from '../../../resources/i18n/en.svg'
 import NavBar from '../../components/homepage/NavBar'
+import Footer from '../../components/homepage/Footer'
 
 const useStyles = makeStyles(theme => ({
   backdrop: {
@@ -139,24 +138,7 @@ const useStyles = makeStyles(theme => ({
   avatar_link: {
     border: 'none',
   },
-  copy: {
-    backgroundColor: theme.palette.grey[900],
-    padding: theme.spacing(1)
-  },
-  lia_footer:{
-    maxWidth: theme.spacing(3),
-    marginLeft: theme.spacing(1),
-    display: 'inline-block',
-  },
-  text_footer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  footer_ass_link: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  }
+  
 }))
 
 const WhiteTextTypography = withStyles({
@@ -184,12 +166,11 @@ const HomePage = () => {
   const [t] = useTranslation()
   const classes = useStyles()
 
-  const [alertOpen, setAlertOpen] = React.useState(true);
 
   const groupsData = {
     loc: {
       name: 'LOC UFSC',
-      img: 'ufsc.png',
+      img: 'loc.png',
       link: 'https://ufsc.br/'
     },
     lia: {
@@ -305,24 +286,6 @@ const HomePage = () => {
 
   return (  
     <Box>
-      {/* <Collapse in={alertOpen}>
-        <Alert
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setAlertOpen(false);
-              }}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-        >
-          Close me!
-        </Alert>
-      </Collapse> */}
       <Box className={classes.heading} >
         <NavBar>
           <Button className={classes.i18nSwitch} onClick={() => handleLanguageChange('pt-BR')}>
@@ -396,10 +359,10 @@ const HomePage = () => {
             <Button variant="outlined" className={classes.spaced_btn} color="primary" href="https://earthengine.google.com/signup/" m='10'>
               {t('home.instructions.btnEngineSingUp')}
             </Button>
-            <Button variant="outlined" className={classes.spaced_btn} color="secondary" href="https://earthengine.google.com/signup/">
+            <Button variant="outlined" className={classes.spaced_btn} color="secondary" href={t('home.instructions.linkManual')}>
               {t('home.instructions.btnManual')}
             </Button>
-            <Button variant="outlined" className={classes.spaced_btn} color="default" href="https://earthengine.google.com/signup/">
+            <Button variant="outlined" className={classes.spaced_btn} color="default" href={t('home.instructions.linkVideo')}>
               {t('home.instructions.btnVideo')}
             </Button>
           </Box>
@@ -433,18 +396,17 @@ const HomePage = () => {
       <Box className={classes.risc}>
         <Container maxWidth="md" display='flex' flexDirection='column'>
           <Grid container  spacing={3} justify="center" alignItems="center">
-            
             <Grid item xs={12} md={6}>
               <Box className={classes.bay_text}>
                 <WhiteTextTypography className={classes.title} variant='h3' align="left">
                   {t('home.riscport.title')}
                 </WhiteTextTypography>
                 <WhiteTextTypography variant='body1' className={classes.spaced_text} align="left">
-                  {t('home.baysqueeze.text')}
+                  {t('home.riscport.text')}
                 </WhiteTextTypography>
                 <Box display='flex' flexDirection='row' justifyContent="flex-start">
                   <Button variant='contained' color="secondary" href="https://earthengine.google.com/signup/">
-                    {t('home.baysqueeze.btn')}
+                    {t('home.riscport.btn')}
                   </Button>
                 </Box>
               </Box>
@@ -495,7 +457,6 @@ const HomePage = () => {
               </Grid>
               ))}
           </Grid>
-          
         </Container>
       </Box>
 
@@ -520,7 +481,6 @@ const HomePage = () => {
                           <SmallAvatar alt={pesq.group.name} src={"/grupos/"+pesq.group.img} />
                         </Tooltip>                            
                       </Link>
-                    
                     }
                   >
                     <Avatar alt={pesq.name} src={"/equipe/"+pesq.img}  className={classes.large}/>
@@ -596,51 +556,7 @@ const HomePage = () => {
         </Container>
       </Box>
 
-      <Box  bgcolor='black'>
-        <Container className={classes.content} maxWidth="md" display='flex' flexDirection='column'>
-          <Grid container  spacing={3} justify="center">
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6" color="secondary">
-                CASSIE
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <Grid container spacing={3} justify="center">
-                <Grid item xs={12} md={6}>
-                  <Typography variant="h6" color="primary">
-                    {t('home.footer.contact.title')}
-                  </Typography>
-                  <WhiteTextTypography variant="overline">{t('home.footer.contact.manage')}</WhiteTextTypography>
-                  <WhiteTextTypography variant="body2"><Link color="inherit" href={'mailto:'+authorsData.rudimar.mail}>{authorsData.rudimar.name}</Link></WhiteTextTypography>
-                  <WhiteTextTypography variant="body2"><Link color="inherit" href={'mailto:'+authorsData.lyra.mail}>{authorsData.lyra.name}</Link></WhiteTextTypography>
-                  <br></br>
-                  <WhiteTextTypography variant="overline">{t('home.footer.contact.techquest')}</WhiteTextTypography>
-                  <WhiteTextTypography variant="body2"><Link color="inherit" href={'mailto:'+authorsData.israel.mail}>{authorsData.israel.name}</Link></WhiteTextTypography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="h6" color="primary">
-                  {t('home.footer.resources.title')}
-                  </Typography>
-                  <WhiteTextTypography variant="body2"><Link color="inherit" href="">{t('home.footer.resources.faq')}</Link></WhiteTextTypography>
-                </Grid>
-              </Grid>
-            </Grid>
-            
-          </Grid>
-          
-          
-        </Container>
-        <Grid container justify="center" className={classes.copy}>
-          <Grid item xs={12} md={12} align="center">
-            <Typography variant="body2" color="secondary" className={classes.text_footer}>
-            coded by <a href="https://alissonsteffens.com" className={classes.footer_ass_link}>Alisson</a> at
-            <a href="https://github.com/lia-univali" target="_blank">
-            <img src={"/grupos/lia_smw.png"} className={classes.lia_footer}
-            /></a>
-            </Typography>
-          </Grid>
-        </Grid>
-      </Box>
+      <Footer/>
     </Box>
   )
 }
