@@ -62,11 +62,17 @@ const pt = {
                 resources: {
                     title: 'Recursos',
                     faq: 'Perguntas Frequentes',
-                    code: 'Código Fonte'
+                    code: 'Código Fonte',
+                    problems: 'Problemas Conhecidos'
                 }
+            },
+            warning: {
+                text: 'O CASSIE ainda está em desenvolvimento.',
+                link: 'Saiba mais'
             }
         },
         faq: {
+            title: "Perguntas Frequentes",
             '0': {
                 title: 'Como o CASSIE Funciona?',
                 text: 'O CASSIE utiliza do Google Earth Engine (GEE), uma plataforma de processamento paralelo em nuvem de dados geospaciais (<a href="https://www.sciencedirect.com/science/article/pii/S0034425717302900" target="_blank">Gorelick et al., 2017</a>). O CASSIE se comunica com o GEE por meio de uma API (Application Programming Interface - Interface de Programação de Aplicativos), que o permite utilizar dos datasets e do potencial de processamento do GEE.'
@@ -87,6 +93,14 @@ const pt = {
                 title: 'Minha conta é registrada no GEE mas não consigo acessar a ferramenta',
                 text: 'O registro na plataforma Google Earth Engine é finalizado com uma confirmação recebida por e-mail. Em alguns casos, o e-mail de confirmação é recebido instantaneamente após o cadastro ser feito. Entretanto, nem sempre a confirmação é instantanea e pode levar um tempo que a equipe do CASSIE não tem controle sobre. Se o utilizador realizou o cadastro e ainda não recebeu o e-mail de confirmação e considera que o tempo de aguardo não é normal, deve entrar em contato com a <a href="https://developers.google.com/earth-engine/help">equipe do Google Earth Engine</a>. Assim que o cadastro for confirmado com o recebimento do e-mail, o utilizador já pode utilizar o CASSIE. Caso o usuário não consiga entrar mesmo após a confirmação, recomenda-se a <a href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=pt-BR" target="_blank">limpeza dos cookies do navegador.</a>'
             }
+        },
+        problems: {
+            title: "Problemas Conhecidos",
+            text: 'O CASSIE ainda está em desenvolvimento, alguns processos podem falhar. Esses são alguns problemas conhecidos.',
+            '0': {
+                title: 'Analise de muitos dados',
+                text: 'O CASSIE por vezes não é capaz de realizar grandes análises, com região muito grande ou com muitas imagens.'
+            },
         },       
         general: {
             loading: 'Carregando...',

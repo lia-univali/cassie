@@ -112,9 +112,10 @@ export default function Footer(managers, techs) {
                 <Typography variant="h6" color="primary">
                 {t('home.footer.resources.title')}
                 </Typography>
-                <WhiteTextTypography variant="overline"><Link color="inherit" href="/faq" >{t('home.footer.resources.faq')}</Link></WhiteTextTypography>
-                
                 <WhiteTextTypography variant="overline"><Link target="_blank" rel="noopener" color="inherit" href="https://github.com/lia-univali/cassie">{t('home.footer.resources.code')}</Link></WhiteTextTypography>
+                <WhiteTextTypography variant="overline"><Link color="inherit" href="/faq" >{t('home.footer.resources.faq')}</Link></WhiteTextTypography>
+                <WhiteTextTypography variant="overline"><Link color="inherit" href="/problems" >{t('home.footer.resources.problems')}</Link></WhiteTextTypography>
+                
               </Grid>
               <Grid item xs={12} md={2} align="right">
                 <Link href="https://twitter.com/cassiengine" className={classes.icon}>

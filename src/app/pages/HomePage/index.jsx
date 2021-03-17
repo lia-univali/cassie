@@ -5,18 +5,15 @@ import { useTranslation } from 'react-i18next'
 import { Actions as AuthActions } from '../../../store/ducks/auth'
 import { Actions as LangActions } from '../../../store/ducks/i18n'
 
-import { Container, Avatar, Box, Button, Grid,Tooltip, Typography, Link, Badge, Card, CardContent, CardActions } from '@material-ui/core'
+import { Container, Avatar, Snackbar, Box, Button, Grid,Tooltip, Typography, Link, Badge, Card, CardContent, CardActions } from '@material-ui/core'
 
+import Alert from '@material-ui/lab/Alert';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import googleLogo from '../../../resources/googleLogo.svg'
 import googleLogoDisabled from '../../../resources/googleLogoDisabled.svg'
-
-import pt from '../../../resources/i18n/pt.svg'
-import en from '../../../resources/i18n/en.svg'
-import NavBar from '../../components/homepage/NavBar'
-import Footer from '../../components/homepage/Footer'
-
+import Slide from '@material-ui/core/Slide';
+import HomePageLayout from '../../components/homepage/HomePageLayout'
 const useStyles = makeStyles(theme => ({
   backdrop: {
     height: '100vh',
@@ -282,20 +279,22 @@ const HomePage = () => {
   const handleLanguageChange = (local) => {
     dispatch(LangActions.setLang(local))
   }
+  const [open, setOpen] = React.useState(true);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
   return (  
-    <Box>
+    <HomePageLayout>
       <Box className={classes.heading} >
-        <NavBar>
-          <Button className={classes.i18nSwitch} onClick={() => handleLanguageChange('pt-BR')}>
-            <Avatar alt='' src={pt} className={classes.flag} />
-            pt-BR
-          </Button>
-          <Button className={classes.i18nSwitch} onClick={() => handleLanguageChange('en-US')}>
-            <Avatar className={classes.flag} alt='' src={en} />
-            en-US
-          </Button>
-        </NavBar>
         <Container className={classes.headingContainer} maxWidth="md" display='flex' flexDirection='column'>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -548,9 +547,23 @@ const HomePage = () => {
         </Container>
       </Box>
 
-      <Footer/>
+      <Slide direction="left" in={true} timeout={800} mountOnEnter unmountOnExit>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          open={open}
+          autoHideDuration={20000}
+          onClose={handleClose}
+        >
+          <Alert elevation={6} variant="filled" onClose={handleClose} severity="warning">
+            {t('home.warning.text')} <Link color="textPrimary" href="/problems">{t('home.warning.link')}</Link>
+          </Alert>
+        </Snackbar>
+      </Slide>
       
-    </Box>
+    </HomePageLayout>
   )
 }
 

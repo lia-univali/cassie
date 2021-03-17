@@ -2,7 +2,7 @@ const en = {
     translation: {
         self: {
             title: 'CASSIE',
-            fullTitle: 'Coastal Analyst System from Space Imagery Engine',
+            fullTitle: 'Coastal Analyst System from Space Imagery Engine',  
             shortDesc: 'An open-source web tool for automatic shoreline mapping and analysis using satellite imagery.',
             abstract: 'A tool integrated with the Google Earth Engine platform capable of offering, in an accessible way, direct access to public data from international satellites, with sophisticated land use analysis capabilities in both space and time. Developed to meet the needs of scientists, managers and students, with a focus on the conservation of the planet Earth\'s natural resources.',
             poweredBy: 'Powered by: Google Earth Engine',
@@ -62,11 +62,17 @@ const en = {
                 resources: {
                     title: 'Resources',
                     faq: 'FAQ',
-                    code: 'Source Code'
+                    code: 'Source Code',
+                    problems: 'Known Issues'
                 }
+            },
+            warning: {
+                text: 'CASSIE is still under development.',
+                link: 'See more'
             }
         },
         faq: {
+            title: "Frequently Asked Questions",
             '0': {
                 title: 'How does CASSIE works?',
                 text: 'CASSIE uses Google Earth Engine (GEE), a platform of parallel processing in geospatial data cloud (<a href="https://www.sciencedirect.com/science/article/pii/S0034425717302900" target="_blank">Gorelick et al., 2017</a>). CASSIE communicates with the GEE through an API (Application Programming Interface), which allows it to use the datasets and processing potential of the GEE.'
@@ -87,6 +93,14 @@ const en = {
                 title: 'My account is registered in Google Earth Engine, but I still can\'t access the tool',
                 text: 'Registration on the Google Earth Engine platform is terminated with a confirmation received via email. In some cases, the confirmation email is received instantly after the registration is made. However, confirmation is not always instantaneous and can take time that the CASSIE team has no control over. If the user has made the registration and has not yet received the confirmation email, and considers that the waiting time is too long, the user should contact the <a href="https://developers.google.com/earth-engine/help">Google Earth Engine team</a>. If the user cannot enter even after confirmation, it is recommended to <a href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=en" target="_blank">clear the browser cookies.'
             }
+        },
+        problems: {
+            title: "Known Issues",
+            text: 'CASSIE is still under development, some processes may fail. These are some known issues.',
+            '0': {
+                title: 'Analise de muitos dados',
+                text: 'O CASSIE por vezes não é capaz de realizar grandes análises, com região muito grande ou com muitas imagens.'
+            },
         },
         general: {
             loading: 'Loading...',
