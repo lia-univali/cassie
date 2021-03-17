@@ -1,6 +1,8 @@
 const en = {
     translation: {
         self: {
+            title: 'CASSIE',
+            fullTitle: 'Coastal Analyst System from Space Imagery Engine',
             shortDesc: 'An open-source web tool for automatic shoreline mapping and analysis using satellite imagery.',
             abstract: 'A tool integrated with the Google Earth Engine platform capable of offering, in an accessible way, direct access to public data from international satellites, with sophisticated land use analysis capabilities in both space and time. Developed to meet the needs of scientists, managers and students, with a focus on the conservation of the planet Earth\'s natural resources.',
             poweredBy: 'Powered by: Google Earth Engine',
@@ -26,8 +28,8 @@ const en = {
             },
             riscport: {
                 title: 'RISCPORT',
-                text: 'O projeto procura contribuir com ações e resultados para o bem e preservação do nosso planeta, tomando para si, a tarefa de cumprir os objetivos de desenvolvimento sustentável, estabelecidos pela ONU, bem como atender às necessidades nacionais de conhecimento sobre mudanças climáticas, paralelamente aos objetivos da sub-rede "Zonas Costeiras", da Rede Brasileira de Pesquisas sobre Mudanças Climáticas Globais(Rede Clima).',
-                btn: 'Mais sobre o projeto'
+                text: 'The main goal of this project is to conduct a climate risk analysis (environmental and economic) and to determine possible adaptation measures, based on the future projection of environmental threats (e.g. storm waves), to increase the resilience of the port sector and adjacent areas in the Babitonga Bay, in an interdisciplinary and multi-institutional network context.',
+                btn: 'Know more about the project'
             },
             members: {
                 title: 'Team',
@@ -62,6 +64,28 @@ const en = {
                     faq: 'FAQ',
                     code: 'Source Code'
                 }
+            }
+        },
+        faq: {
+            '0': {
+                title: 'How does CASSIE works?',
+                text: 'CASSIE uses Google Earth Engine (GEE), a platform of parallel processing in geospatial data cloud (<a href="https://www.sciencedirect.com/science/article/pii/S0034425717302900" target="_blank">Gorelick et al., 2017</a>). CASSIE communicates with the GEE through an API (Application Programming Interface), which allows it to use the datasets and processing potential of the GEE.'
+            },
+            '1': {
+                title: 'What satellite image datasets are available at CASSIE?',
+                text: 'Currently, CASSIE enables analysis with data from <a href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2" target="_blank">Sentinel 2 (MSI, TOA) Level-1C</a> and the Landsat collections (<a href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LT05_C01_T1_SR" target="_blank">Landsat 5 TM SR Tier 1</a>, <a href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T1_SR" target="_blank">Landsat 7 ETM+ SR Tier 1</a>, <a href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T1_SR" target="_blank">Landsat 8 OLI SR Tier 1</a>). When Tier 1 images (higher quality) aren\'t available for Landsat 7 and 8, CASSIE uses images from the <a href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LE07_C01_T2_TOA" target="_blank">Landsat 7 TOA Tier 2</a> and <a href="https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T2_TOA" target="_blank">Landsat 8 TOA Tier 2</a>.'
+            },
+            '2': {
+                title: 'How do I access CASSIE?',
+                text: 'CASSIE is available as an open source tool, available at <a href="http://cassie-stable.herokuapp.com/">this link</a>. The user needs a <a href="https://myaccount.google.com">Google account</a> registered (and approved) on <a href="https://signup.earthengine.google.com">Google Earth Engine plataform</a>. CASSIE\'s code is available at <a href="https://github.com/lia-univali/cassie">LIA\'s Github - Univali.'
+            },
+            '3': {
+                title: 'When I sign in with my Google Account, the page loads up indefinitely',
+                text: 'To access and use CASSIE, the user account must be registered on the Google Earth Engine (GEE) platform. The registration can be done through this <a href="https://earthengine.google.com/signup/" target="_blank">link</a>. Once the registration is confirmed, the user can access and sign in to CASSIE with your Google account.'
+            },
+            '4': {
+                title: 'My account is registered in Google Earth Engine, but I still can\'t access the tool',
+                text: 'Registration on the Google Earth Engine platform is terminated with a confirmation received via email. In some cases, the confirmation email is received instantly after the registration is made. However, confirmation is not always instantaneous and can take time that the CASSIE team has no control over. If the user has made the registration and has not yet received the confirmation email, and considers that the waiting time is too long, the user should contact the <a href="https://developers.google.com/earth-engine/help">Google Earth Engine team</a>. If the user cannot enter even after confirmation, it is recommended to <a href="https://support.google.com/accounts/answer/32050?co=GENIE.Platform%3DDesktop&hl=en" target="_blank">clear the browser cookies.'
             }
         },
         general: {

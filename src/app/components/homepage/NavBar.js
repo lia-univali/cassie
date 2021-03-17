@@ -1,9 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-
+import {AppBar, Link, Toolbar, Typography} from '@material-ui/core';
+import { useTranslation } from 'react-i18next'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -19,14 +17,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar(props) {
   const classes = useStyles();
-
+  const [t] = useTranslation();
   return (
     <div className={classes.root}>
       <AppBar position="fixed" color="default">
         <Toolbar>
-          <Typography variant="h6" className={classes.title} color="default">
-            CASSIE
-          </Typography>
+          <Link color="inherit" href="/" className={classes.title}>
+            <Typography variant="h6" color="default">
+              {t('self.title')}
+            </Typography>
+          </Link>
+          
           {props.children}
         </Toolbar>
       </AppBar>

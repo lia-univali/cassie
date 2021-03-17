@@ -157,8 +157,6 @@ const SmallAvatar = withStyles((theme) => ({
   },
 }))(Avatar);
 
-
-
 const HomePage = () => {
   const busy = useSelector(state => state.auth.authenticating)
 
@@ -171,7 +169,7 @@ const HomePage = () => {
     loc: {
       name: 'LOC UFSC',
       img: 'loc.png',
-      link: 'https://ufsc.br/'
+      link: 'https://loc.ufsc.br/'
     },
     lia: {
       name: 'LIA Univali',
@@ -235,7 +233,7 @@ const HomePage = () => {
       img: "fernando.jfif",
       group: groupsData.lia,
       role: t('home.members.roles.fumdes'),
-      link: 'https://github.com/vinigmartins'
+      link: 'https://github.com/concatto'
     }
   }
   const authors = [
@@ -276,6 +274,7 @@ const HomePage = () => {
       link: 'http://lapeco2019.blogspot.com/p/blog-page_30.html'
     },
   ]
+
   useEffect(() => {
     dispatch(AuthActions.loadClientAuth())
   }, [])
@@ -301,7 +300,7 @@ const HomePage = () => {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <WhiteTextTypography className={classes.title} variant='h2'>
-                Coastal Analyst System from Space Imagery Engine
+                {t('self.fullTitle')}
               </WhiteTextTypography>
             </Grid>
             <Grid item xs={12} md={8}>
@@ -368,7 +367,6 @@ const HomePage = () => {
           </Box>
         </Container>
       </Box>
-
       <Box className={classes.bay}>
         <Container maxWidth="md" display='flex' flexDirection='column'>
           <Grid container  spacing={3} justify="center" alignItems="center">
@@ -382,7 +380,7 @@ const HomePage = () => {
                   {t('home.baysqueeze.text')}
                 </WhiteTextTypography>
                 <Box display='flex' flexDirection='row' justifyContent="flex-end">
-                  <Button variant='contained' color="secondary" href="https://earthengine.google.com/signup/">
+                  <Button variant='contained' color="secondary" href="https://baysqueeze.paginas.ufsc.br">
                     {t('home.baysqueeze.btn')}
                   </Button>
                 </Box>
@@ -391,8 +389,6 @@ const HomePage = () => {
           </Grid>
         </Container>
       </Box>
-
-
       <Box className={classes.risc}>
         <Container maxWidth="md" display='flex' flexDirection='column'>
           <Grid container  spacing={3} justify="center" alignItems="center">
@@ -405,7 +401,7 @@ const HomePage = () => {
                   {t('home.riscport.text')}
                 </WhiteTextTypography>
                 <Box display='flex' flexDirection='row' justifyContent="flex-start">
-                  <Button variant='contained' color="secondary" href="https://earthengine.google.com/signup/">
+                  <Button variant='contained' color="secondary" href="https://baysqueeze.paginas.ufsc.br">
                     {t('home.riscport.btn')}
                   </Button>
                 </Box>
@@ -415,8 +411,6 @@ const HomePage = () => {
           </Grid>
         </Container>
       </Box>
-
-
       <Box className={classes.content}>
         <Container maxWidth="md" display='flex' flexDirection='column'>
           <Typography className={classes.title} variant='h3'>
@@ -459,7 +453,6 @@ const HomePage = () => {
           </Grid>
         </Container>
       </Box>
-
       <Box className={classes.content} bgcolor='white'>
         <Container maxWidth="md" display='flex' flexDirection='column'>
           <Typography className={classes.title} variant='h3'>
@@ -494,7 +487,6 @@ const HomePage = () => {
           </Grid>
         </Container>
       </Box>
-
       <Box className={classes.content}>
         <Container maxWidth="md" display='flex' flexDirection='column'>
           <Grid container  spacing={3} justify="center">
@@ -557,6 +549,7 @@ const HomePage = () => {
       </Box>
 
       <Footer/>
+      
     </Box>
   )
 }
