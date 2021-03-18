@@ -23,12 +23,16 @@ const NewLayerDialog = ({ open, close, publish }) => {
   const [expression, setExpression] = useState('')
 
   const handleCreate = (e) => {
+    /* Issue #48 */
     e.preventDefault()
+
+    /* Check if able to publish */
     if (name && expression) {
       publish({ expression, name })
     }
   }
 
+  /* PR #50 */
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
