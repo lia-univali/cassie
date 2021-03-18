@@ -24,7 +24,16 @@ const NewLayerDialog = ({ open, close, publish }) => {
 
   const handleCreate = (e) => {
     e.preventDefault()
-    publish({ expression, name })
+    if (name && expression) {
+      publish({ expression, name })
+    }
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleCreate(e)
+    }
   }
 
   const variables = [
@@ -54,6 +63,7 @@ const NewLayerDialog = ({ open, close, publish }) => {
             label={t('forms.imageryOverlay.add.expression')}
             value={expression}
             onChange={e => setExpression(e.target.value)}
+            onKeyPress={e => handleKeyPress(e)}
           />
           <FormHelperText>{t('forms.imageryOverlay.add.bands.title')}:</FormHelperText>
           {
