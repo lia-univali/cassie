@@ -54,6 +54,13 @@ const en = {
                 partners: 'Project Partners',
             },
             footer: {
+                social: 'Social',
+                copyright: 'All rights reserved. System by',
+                help: {
+                    title: 'Help & Support',
+                    faq: 'FAQ',
+                    problems: 'Known Issues'
+                },
                 contact:{
                     title: 'Contact',
                     manage: 'Project Management',
@@ -61,9 +68,9 @@ const en = {
                 },
                 resources: {
                     title: 'Resources',
-                    faq: 'FAQ',
+                    
                     code: 'Source Code',
-                    problems: 'Known Issues'
+                    
                 }
             },
             warning: {

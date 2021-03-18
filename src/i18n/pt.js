@@ -54,6 +54,13 @@ const pt = {
                 partners: 'Parceiros'
             },
             footer: {
+                social: 'Social',
+                copyright: 'Todos os direitos reservados. Desenvolvido por',
+                help: {
+                    title: 'Ajuda e Suporte',
+                    faq: 'Perguntas Frequentes',
+                    problems: 'Problemas Conhecidos'
+                },
                 contact:{
                     title: 'Contato',
                     manage: 'Coordenação do projeto',
@@ -61,9 +68,7 @@ const pt = {
                 },
                 resources: {
                     title: 'Recursos',
-                    faq: 'Perguntas Frequentes',
                     code: 'Código Fonte',
-                    problems: 'Problemas Conhecidos'
                 }
             },
             warning: {
