@@ -30,9 +30,9 @@ const NavigationBar = () => {
   }
   return (
     <AppBar position='static' >
-      <Toolbar>
+      <Toolbar variant="dense">
         <Typography className={classes.title} variant='h6' color='inherit'>
-        {t('self.code')} <small>{t('self.name')}</small>
+        {t('self.code')}
         </Typography>
         <User {...user}>
           

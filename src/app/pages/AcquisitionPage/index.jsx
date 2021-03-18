@@ -66,7 +66,8 @@ const useStyles = makeStyles(theme => ({
     flexFlow: 'column'
   },
   content: {
-    width: 1000,
+    width: '80vw',
+    maxWidth: '1000px',
     marginTop: theme.spacing(-9),
   },
   instructions: {
@@ -74,6 +75,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(4),
   }
 }))
+
+
 
 const AcquisitionPage = (props) => {
   const acquisitionData = useSelector(getAcquisitionParameters, shallowEqual)
@@ -93,6 +96,7 @@ const AcquisitionPage = (props) => {
     const stepData = STEPS[step]
     return (!('requires' in stepData) || stepData.requires in acquisitionData)
   }
+
 
   useEffect(() => {
     dispatch(Auth.begin())
@@ -145,6 +149,7 @@ const AcquisitionPage = (props) => {
   const hasStep = match.params.step !== undefined
   const step = hasStep ? match.params.step - 1 : 0
 
+  
   return (
     <div className={classes.wrapper}>
       <Grid container spacing={0} justify='center'>
@@ -157,7 +162,7 @@ const AcquisitionPage = (props) => {
         </Grid>
         <Grid item className={classes.container}>
           <Paper className={classes.content} elevation={1}>
-            <Stepper activeStep={step}>
+            <Stepper alternativeLabel  activeStep={step} >
               {
                 STEPS.map((el, i) => (
                   <Step key={i}>
