@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 
 import { CssBaseline } from '@material-ui/core'
 
-import { HomePage, MainPage } from './app/pages'
+import { HomePage, MainPage, FaqPage, ProblemsPage } from './app/pages'
 import { Notifier, Scroller } from './app/components'
 import { history } from './store'
 
@@ -17,6 +17,8 @@ const App = () => (
       <Notifier />
       <Switch>
         <Route path='/main' component={MainPage} />
+        <Route path='/faq' component={FaqPage} />
+        <Route path='/problems' component={ProblemsPage} />
         <Route path='/' component={HomePage} />
       </Switch>
     </Scroller>
