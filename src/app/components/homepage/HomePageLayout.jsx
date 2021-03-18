@@ -41,8 +41,10 @@ const useStyles = makeStyles(theme => ({
     height: '25px',
     width: '25px'
   },
-  maincontent:{
-    minHeight: '60vh'
+  site: {
+    minHeight: '100vh',
+    display: 'grid',
+    gridTemplateRows: '1fr auto',
   }
 }))
 
@@ -71,10 +73,13 @@ const HomePageTemplate = (props) => {
             en-US
             </Button>
         </NavBar>
-        <Box className={classes.maincontent}>
-            {props.children}
+        <Box className={classes.site}>
+          <Box className={classes.maincontent}>
+              {props.children}
+          </Box>
+          <Footer/>
         </Box>
-        <Footer/>
+        
     </Box>
   )
 }

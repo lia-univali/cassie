@@ -38,7 +38,11 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     padding: theme.spacing(1)
   },
-
+  brand:{
+    '&:hover':{
+      textDecoration: 'none'
+    }
+  }
 }));
 
 const WhiteTextTypography = withStyles({
@@ -77,7 +81,7 @@ export default function Footer(managers, techs) {
             <Grid container spacing={1} justify="center">
               <Grid item xs={12}>
                 <Link color="inherit" href="/" >
-                  <WhiteTextTypography variant="h6">
+                  <WhiteTextTypography variant="h6" className={classes.brand}>
                     {t('self.title')}
                   </WhiteTextTypography>
                 </Link>

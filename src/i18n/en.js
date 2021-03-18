@@ -105,8 +105,8 @@ const en = {
             title: "Known Issues",
             text: 'CASSIE is still under development, some processes may fail. These are some known issues.',
             '0': {
-                title: 'Analise de muitos dados',
-                text: 'O CASSIE por vezes não é capaz de realizar grandes análises, com região muito grande ou com muitas imagens.'
+                title: 'BigData Analysis ',
+                text: 'Sometimes CASSIE Can\'t perform large analyses, with large region or with many images.'
             },
         },
         general: {

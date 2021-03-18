@@ -103,7 +103,7 @@ const pt = {
             title: "Problemas Conhecidos",
             text: 'O CASSIE ainda está em desenvolvimento, alguns processos podem falhar. Esses são alguns problemas conhecidos.',
             '0': {
-                title: 'Analise de muitos dados',
+                title: 'Análise de muitos dados',
                 text: 'O CASSIE por vezes não é capaz de realizar grandes análises, com região muito grande ou com muitas imagens.'
             },
         },       

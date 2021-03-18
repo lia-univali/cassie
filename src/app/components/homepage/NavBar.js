@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {AppBar, Link, Toolbar, Typography} from '@material-ui/core';
+import {AppBar,Box, Link, Toolbar, Typography} from '@material-ui/core';
 import { useTranslation } from 'react-i18next'
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,6 +13,12 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     fontWeight: 700
   },
+  brand: {
+    display: 'inline-block',
+    '&:hover':{
+      textDecoration: 'none'
+    }
+  }
 }));
 
 export default function NavBar(props) {
@@ -22,11 +28,14 @@ export default function NavBar(props) {
     <div className={classes.root}>
       <AppBar position="fixed" color="default">
         <Toolbar>
-          <Link color="inherit" href="/" className={classes.title}>
-            <Typography variant="h6" color="default">
-              {t('self.title')}
-            </Typography>
-          </Link>
+          <Box className={classes.title}>
+            <Link color="inherit" href="/" className={classes.brand}>
+              <Typography variant="h6" color="default">
+                {t('self.title')}
+              </Typography>
+            </Link>
+          </Box>
+          
           
           {props.children}
         </Toolbar>
