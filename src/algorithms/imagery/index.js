@@ -91,7 +91,7 @@ export const cumulativeWindow = (fullHistogram, percentile) => {
       const min = ee.Algorithms.If(sum.gt(cumulativeCut), ctx.getNumber('min'), buckets.getNumber(idx))
       
       return ee.Dictionary({ min, sum })
-    }, { min: 0, sum: 0 })
+    }, { min: buckets.getNumber(0), sum: 0 })
     
     return ee.Dictionary(cumulativeMin).getNumber('min')
   }
