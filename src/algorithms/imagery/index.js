@@ -61,3 +61,44 @@ export const createThumbnail = (image, geometry, params, callback) => {
 
   return image.getThumbURL(generationParams, callback);
 }
+
+/**
+ * Calculates the cumulative window of the *fullHistogram*
+ * by removing up to *percentile* pixels in each side of
+ * the histogram's buckets.
+ * @param {ee.Dictionary} fullHistogram 
+ * @param {Number|ee.Number} percentile 
+ * @returns {ee.List} the cumulative window bounds (min/max)
+ */
+export const cumulativeWindow = (fullHistogram, percentile) => {
+  /* Cast to dictionary and retrieve histogram and buckets */
+  const cast = ee.Dictionary(fullHistogram)
+  const histogram = ee.List(cast.get('histogram'))
+  const buckets = ee.List(cast.get('bucketMeans'))
+  
+  const pixelCount = ee.Number(histogram.reduce(ee.Reducer.sum()))
+  const cumulativeCut = pixelCount.multiply(percentile)
+  
+  /*
+   * lowerBound returns the min level where cumulative sum
+   * would have exceeded the percentile threshold
+  */
+  const lowerBound = (histogram, buckets) => {
+    const cumulativeMin = ee.List.sequence(0, buckets.size().subtract(1)).iterate((idx, acc) => {
+      const ctx = ee.Dictionary(acc)
+      
+      const sum = ctx.getNumber('sum').add(histogram.getNumber(idx))
+      const min = ee.Algorithms.If(sum.gt(cumulativeCut), ctx.getNumber('min'), buckets.getNumber(idx))
+      
+      return ee.Dictionary({ min, sum })
+    }, { min: buckets.getNumber(0), sum: 0 })
+    
+    return ee.Dictionary(cumulativeMin).getNumber('min')
+  }
+  
+  /* Calculate the bound of each side */
+  const lower = lowerBound(histogram, buckets)
+  const upper = lowerBound(histogram.reverse(), buckets.reverse())
+  
+  return ee.List([lower, upper])
+}
