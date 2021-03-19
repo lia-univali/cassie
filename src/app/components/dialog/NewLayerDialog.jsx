@@ -22,8 +22,22 @@ const NewLayerDialog = ({ open, close, publish }) => {
   const [name, setName] = useState('')
   const [expression, setExpression] = useState('')
 
-  const handleCreate = () => {
-    publish({ expression, name })
+  const handleCreate = (e) => {
+    /* Issue #48 */
+    e.preventDefault()
+
+    /* Check if able to publish */
+    if (name && expression) {
+      publish({ expression, name })
+    }
+  }
+
+  /* PR #50 */
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleCreate(e)
+    }
   }
 
   const variables = [
@@ -42,7 +56,7 @@ const NewLayerDialog = ({ open, close, publish }) => {
     <Dialog open={open} maxWidth='md' onClose={() => close()}>
       <DialogTitle>{t('forms.imageryOverlay.add.title')}</DialogTitle>
       <DialogContent>
-        <form>
+        <form onSubmit={handleCreate}>
           <TextField className={classes.input} id='name' fullWidth
             label={t('forms.imageryOverlay.add.name')}
             value={name}
@@ -53,6 +67,7 @@ const NewLayerDialog = ({ open, close, publish }) => {
             label={t('forms.imageryOverlay.add.expression')}
             value={expression}
             onChange={e => setExpression(e.target.value)}
+            onKeyPress={e => handleKeyPress(e)}
           />
           <FormHelperText>{t('forms.imageryOverlay.add.bands.title')}:</FormHelperText>
           {
