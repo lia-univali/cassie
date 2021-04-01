@@ -43,6 +43,7 @@ const en = {
             papers: {
                 title: 'Publications',
                 resumo_text: 'Abstract in Proceedings',
+                paper_text: 'Paper in Journal',
                 curso_text: 'Workshop',
                 more: 'Learn More'
             },

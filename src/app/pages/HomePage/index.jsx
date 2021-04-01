@@ -51,7 +51,12 @@ const useStyles = makeStyles(theme => ({
   content: {
     padding: '60px 0px',
   },
-  
+  fullW:{
+    with: '100%'
+  },
+  flex:{
+    display: 'flex'
+  },
   logo: {
     fontSize: 120,
     color: 'white',
@@ -244,8 +249,16 @@ const HomePage = () => {
 
   const papers  = [
     {
+      kind: t('home.papers.paper_text'),
+      title: "Coastal Analyst System from Space Imagery Engine (CASSIE): Shoreline management module",
+      event: "Environmental Modelling & Software 2021",
+      authors: [
+        authorsData.pedro, authorsData.israel, authorsData.lyra, authorsData.rudimar, authorsData.vinicius, authorsData.klein
+      ],
+      link: 'https://www.sciencedirect.com/science/article/abs/pii/S1364815221000761'
+    },{
       kind: t('home.papers.resumo_text'),
-      title: "e-C.A.S.S.I.E.: Uma Ferramenta para Análise e Mapeamento de Regiões Costeiras Utilizando a Plataforma Google Earth Engine.",
+      title: "e-C.A.S.S.I.E.: Uma Ferramenta para Análise e Mapeamento de Regiões Costeiras Utilizando a Plataforma Google Earth Engine",
       event: "II SBPA & XI ENCOGERCO 2018",
       authors: [
         authorsData.fernando, authorsData.pedro, authorsData.lyra, authorsData.rudimar, authorsData.klein
@@ -254,7 +267,7 @@ const HomePage = () => {
     },
     {
       kind: t('home.papers.resumo_text'),
-      title: "Desenvolvimento de uma Ferramenta Integrada ao Google Earth Engine para a Análise de Ambientes Costeiros.",
+      title: "Desenvolvimento de uma Ferramenta Integrada ao Google Earth Engine para a Análise de Ambientes Costeiros",
       event: "Computer on the Beach 2018",
       authors: [
         authorsData.fernando, authorsData.pedro, authorsData.lyra, authorsData.rudimar, authorsData.klein
@@ -263,7 +276,7 @@ const HomePage = () => {
     },
     {
       kind: t('home.papers.curso_text'),
-      title: "Determinação e análise da evolução da linha de costa com ferramenta do Google Earth Engine (e-CASSIE).",
+      title: "Determinação e análise da evolução da linha de costa com ferramenta do Google Earth Engine (e-CASSIE)",
       event: "LAPECO 2019",
       authors: [
         authorsData.pedro, authorsData.lyra, authorsData.israel
@@ -415,23 +428,23 @@ const HomePage = () => {
           <Typography className={classes.title} variant='h3'>
             {t('home.papers.title')}
           </Typography>
-          <Grid container spacing={3} >
+          <Grid container spacing={3} alignContent="stretch">
           {papers.map(paper => (
-              <Grid item xs={12} md={6} lg={4}>
-                <Card >
+              <Grid container item xs={12} md={6} lg={4} className={classes.flex}>
+                <Card className={classes.fullW}>
                   <CardContent>
                     <Typography color="textSecondary" gutterBottom>
                       {paper.kind}
                     </Typography>
                     
-                    <Typography color="primary">
+                    <Typography variant="body2" color="primary">
                       {paper.event}
                     </Typography>
                     <Typography variant="body1" component="p">
                       {paper.title}
                     </Typography>
                     <Box marginTop='10px'>
-                      <AvatarGroup>
+                      <AvatarGroup max={10}>
                         {paper.authors.map(author =>(
                           <Link href={author.link} className={classes.avatar_link} target="_blank" rel="noopener">
                             <Tooltip title={author.name}>

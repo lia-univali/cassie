@@ -45,6 +45,7 @@ const pt = {
             papers: {
                 title: 'Produção científica',
                 resumo_text: 'Resumo em Evento',
+                paper_text: 'Artigo em Revista',
                 curso_text: 'Curso',
                 more: 'Saiba Mais'
             },
