@@ -5,9 +5,9 @@ We love your input! :heart:
 We want to make contributing to this project as easy and transparent as possible, whether it's:
 
 * [Reporting a bug](https://github.com/lia-univali/cassie/issues/new?template=bug_report.md)
-* Discussing the current state of the code
+* [Discussing the current state of the code](https://github.com/lia-univali/cassie/discussions)
 * Submitting a fix
-* [Proposing new features](https://github.com/lia-univali/cassie/issues/new?template=feature_request.md)
+* [Proposing new features](https://github.com/lia-univali/cassie/issues/new?template=feature_request.md); or
 * Becoming a maintainer
 
 ## We Develop with Github
