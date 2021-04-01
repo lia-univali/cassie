@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 
 import { makeStyles } from '@material-ui/core/styles'
-import { Button, CircularProgress, Fade, Paper, Typography } from '@material-ui/core'
+import { Button, Box, CircularProgress, Fade, Paper, Typography } from '@material-ui/core'
 
 const useTextualStyles = makeStyles(theme => ({
   text: {
@@ -35,6 +35,8 @@ const useStyles = makeStyles(theme => ({
   },
   abort: {
     marginTop: theme.spacing(2)
+  },loading: {
+    marginLeft: theme.spacing(3)
   }
 }))
 
@@ -47,17 +49,22 @@ const ActivityIndicator = ({ onAbort, textual }) => {
 
   return textual ? <Textual /> : (
     <Fade in={shown} timeout={1000} unmountOnExit>
-      <div className={classes.wrapper}>
-        <Paper className={classes.content}>
-          <CircularProgress thickness={5} size={100} color='secondary' />
-          {
-            onAbort &&
-            <Button className={classes.abort} color='error' onClick={onAbort} dense>
-              {t('general.cancel')}
-            </Button>
-          }
+      <Box className={classes.wrapper}>
+        <Paper className={classes.content} >
+          <Box display='flex' alignItems='center' flexDirection='row'>
+            <CircularProgress thickness={5} size={30} color='secondary' />
+            {
+              onAbort &&
+              <Button className={classes.abort} color='error' onClick={onAbort} dense>
+                {t('general.cancel')}
+              </Button>
+            }
+            <Typography className={classes.loading} variant='h5'>
+              {t('general.loading')}
+            </Typography>
+          </Box>
         </Paper>
-      </div>
+      </Box>
     </Fade>
   )
 }

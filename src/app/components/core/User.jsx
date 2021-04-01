@@ -32,10 +32,11 @@ const User = ({ name, imageUrl, children }) => {
   return !name ? null : (
     <Box>
       <Box display='flex' alignItems='center'>
-        <Avatar className={classes.contextItem} alt={name} src={imageUrl} />
         <Typography className={classes.contextItem} variant='body1' color='inherit'>
           {name}
         </Typography>
+        <Avatar className={classes.contextItem} alt={name} src={imageUrl} />
+        
         <IconButton color='inherit' onClick={e => setAnchor(e.currentTarget)} disableRipple>
           <MoreVert />
         </IconButton>

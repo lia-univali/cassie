@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { Grid, List, ListItem, ListItemText, Paper } from '@material-ui/core'
+import { Grid, List, ListItem, Chip, ListItemText, Paper } from '@material-ui/core'
 
 import TransectShapeList from './TransectShapeList'
 
@@ -14,6 +14,13 @@ const useStyles = makeStyles(theme => ({
   wrapper: {
     marginBottom: 0,
     marginLeft: 12,
+  },
+  item: {
+    margin: 0,
+    padding: 0,
+  },
+  chip:{
+    marginLeft: theme.spacing(1)
   }
 }))
 
@@ -30,16 +37,15 @@ const ShapeList = () => {
         {
           shapes.map((item, i) => (
             <ListItem key={i}
+              
               onMouseOver={() => dispatch(Map.highlight(i))}
               onMouseOut={() => dispatch(Map.clearHighlight())}
             >
-              <Grid container direction='column'>
-                <ListItemText
-                  primary={t(item.name)}
-                  secondary={item.overlays.length === 1 ?
-                    `1 ${t('forms.map.item.s')}`
-                    : `${item.overlays.length} ${t('forms.map.item.p')}`}
-                />
+              <Grid container direction='column' className={classes.item}>
+                <Grid container direction='row' className={classes.item}>
+                  {t(item.name)}
+                  <Chip className={classes.chip} size="small" label={item.overlays.length === 1 ? `1 ${t('forms.map.item.s')}`: `${item.overlays.length} ${t('forms.map.item.p')}` } />
+                </Grid>
                 {item.name === 'forms.map.transects.title' && <TransectShapeList />}
               </Grid>
             </ListItem>
