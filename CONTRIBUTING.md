@@ -1,27 +1,39 @@
-## Layer
+# Contributing to CASSIE
 
-Tipo abstrato de dados que representa uma imagem exibida no mapa. Contém os seguintes valores:
+We love your input! :heart:
 
-**image**: um objeto do tipo [ee.Image](https://developers.google.com/earth-engine/api_docs#eeimage).
+We want to make contributing to this project as easy and transparent as possible, whether it's:
 
-**title**: o nome da camada, a ser exibido no painel.
+* [Reporting a bug](https://github.com/lia-univali/cassie/issues/new?template=bug_report.md)
+* Discussing the current state of the code
+* Submitting a fix
+* [Proposing new features](https://github.com/lia-univali/cassie/issues/new?template=feature_request.md)
+* Becoming a maintainer
 
-**params**: parâmetros de visualização de imagem ([info](https://developers.google.com/earth-engine/api_docs#eedatagetmapid)]. Padrão: {}
+## We Develop with Github
+We use github to host code, to track issues and feature requests, as well as accept pull requests.
 
-**overlay**: [ee.OverlayMapType](https://github.com/google/earthengine-api/tree/master/demos/map-layer) associado com *image*, o qual pode ser inserido em *Map*.
+## We Use [Github Flow](https://guides.github.com/introduction/flow/index.html), So All Code Changes Happen Through Pull Requests
+Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
 
-**histogram**: histograma da imagem obtido através [deste algoritmo](https://developers.google.com/earth-engine/api_docs#eereducerhistogram).
+1. Fork the repo and create your branch from `master`.
+2. If you've added code that should be tested, add tests.
+3. If you've changed APIs, update the documentation.
+4. Ensure the test suite passes.
+5. Make sure your code lints.
+6. Issue that pull request!
 
-**opacity**: opacidade ∈ \[0, 1\] da imagem no mapa.
+## Any contributions you make will be under the GNU General Public License
+In short, when you submit code changes, your submissions are understood to be under the same [GPLv3 License](https://choosealicense.com/licenses/gpl-3.0/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
-**visible**: boolean que define se a imagem é visível ou não.
+## Report bugs using Github's [issues](https://github.com/lia-univali/cassie/issues/new?template=bug_report.md)
+We use GitHub issues to track public bugs. Report a bug by [opening a new issue](); it's that easy!
 
-**parentIndex**: índice da *Image* a qual esta camada pertence.
+## Write bug reports with detail, background, and sample code
+We provide you with some basic quenstions that can help us better understanding the problem you have. Please follow the Issue template.
 
-**role**: papel que a camada desempenha em relação à Image. Valores possíveis: "base", "ndwi", "ndvi", "other" (constants.js).
+## Use a Consistent Coding Style
+We borrow those rules from [Facebook's Guidelines](https://github.com/facebook/draft-js/blob/a9316a723f9e918afde44dea68b5f9f39b7d9b00/CONTRIBUTING.md), but follow the linter and he will lead you to a great Pull Request.
 
-\[**threshold**\]: ponto de limiarização. Abaixo este nível, a imagem será preta; acima, será branca.
-
-\[**thresholdedImage**\]: *image* após o processo de limiariazação com o ponto definido.
-
-\[**thresholdedOverlay**\]: [ee.OverlayMapType](https://github.com/google/earthengine-api/tree/master/demos/map-layer) associado com *thresholdedImage*.
+## License
+By contributing, you agree that your contributions will be licensed under its [License](https://github.com/lia-univali/cassie/blob/master/LICENSE).
