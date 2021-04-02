@@ -1,21 +1,13 @@
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
   Container,
-  Avatar,
   Box,
-  Button,
   Grid,
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Typography,
-  Link,
-  Badge,
-  Card,
-  CardContent,
-  CardActions,
 } from "@material-ui/core";
-import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import HomePageLayout from "../../components/homepage/HomePageLayout";
@@ -83,7 +75,6 @@ const WhiteTextTypography = withStyles({
 })(Typography);
 
 const ProblemsPage = () => {
-  const dispatch = useDispatch();
   const [t] = useTranslation();
   const classes = useStyles();
   const problems = [

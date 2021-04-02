@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Actions as AuthActions } from "../../../store/ducks/auth";
-import { Actions as LangActions } from "../../../store/ducks/i18n";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
   Container,
@@ -71,9 +70,6 @@ const HomePage = () => {
     dispatch(AuthActions.loadClientAuth());
   }, []);
 
-  const handleLanguageChange = (local) => {
-    dispatch(LangActions.setLang(local));
-  };
   const faq = [
     {
       title: t("faq.0.title"),

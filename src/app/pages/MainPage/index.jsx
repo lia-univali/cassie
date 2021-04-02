@@ -11,9 +11,13 @@ import ProcessingPage from "../ProcessingPage";
 import ActivityIndicator from "../../components/core/ActivityIndicator";
 
 // Register Dialogs
+// eslint-disable-next-line no-unused-vars
 import CoastlineEvolutionDialog from "../../components/dialog/CoastlineEvolutionDialog";
+// eslint-disable-next-line no-unused-vars
 import CoastlineConfigDialog from "../../components/dialog/CoastlineConfigDialog";
+// eslint-disable-next-line no-unused-vars
 import NewLayerDialog from "../../components/dialog/NewLayerDialog";
+// eslint-disable-next-line no-unused-vars
 import ImageSelectionDialog from "../../components/dialog/ImageSelectionDialog";
 
 const NotFound = (props) => (

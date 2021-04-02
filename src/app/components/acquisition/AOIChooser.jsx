@@ -2,21 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import ee from "../../../services/earth-engine";
-
-import { makeStyles } from "@material-ui/core/styles";
 import { Box, Button, FormControlLabel, Switch } from "@material-ui/core";
-
 import GoogleMap, { DEFAULT_ZOOM } from "../map/GoogleMap";
 import StepperButtons from "./StepperButtons";
 import * as Map from "../../../common/map";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
 
-const useStyles = makeStyles((theme) => ({
-  map: {
-    width: 1000,
-    height: 500,
-  },
-}));
 
 const isAboveThreshold = (zoom) => {
   return zoom > 4;
@@ -25,13 +16,13 @@ const isAboveThreshold = (zoom) => {
 const AOIChooser = ({ navigate }) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
-  const classes = useStyles();
 
   const [visible, setVisible] = useState(isAboveThreshold(DEFAULT_ZOOM));
   const [zoomLevel, setZoomLevel] = useState(DEFAULT_ZOOM);
   const [switchDisabled, setSwitchDisabled] = useState(false);
   const [overlay, setOverlay] = useState(null);
   const [coordinates, setCoordinates] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [wrs, setWrs] = useState(null); // @TODO enable this
 
   const changeDelimiterVisibility = (visible) => {

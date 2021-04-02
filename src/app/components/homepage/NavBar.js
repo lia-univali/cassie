@@ -30,7 +30,7 @@ export default function NavBar(props) {
         <Toolbar>
           <Box className={classes.title}>
             <Link color="inherit" href="/" className={classes.brand}>
-              <Typography variant="h6" color="default">
+              <Typography variant="h6" color="initial">
                 {t("self.title")}
               </Typography>
             </Link>

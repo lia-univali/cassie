@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useTranslation } from "react-i18next";
 import { Actions as AuthActions } from "../../../store/ducks/auth";
-import { Actions as LangActions } from "../../../store/ducks/i18n";
-
 import {
   Container,
   Avatar,
@@ -20,7 +18,6 @@ import {
   CardContent,
   CardActions,
 } from "@material-ui/core";
-
 import Alert from "@material-ui/lab/Alert";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -28,6 +25,7 @@ import googleLogo from "../../../resources/googleLogo.svg";
 import googleLogoDisabled from "../../../resources/googleLogoDisabled.svg";
 import Slide from "@material-ui/core/Slide";
 import HomePageLayout from "../../components/homepage/HomePageLayout";
+
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     height: "100vh",
@@ -319,14 +317,7 @@ const HomePage = () => {
     dispatch(AuthActions.loadClientAuth());
   }, []);
 
-  const handleLanguageChange = (local) => {
-    dispatch(LangActions.setLang(local));
-  };
   const [open, setOpen] = React.useState(true);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -531,10 +522,11 @@ const HomePage = () => {
             {t("home.papers.title")}
           </Typography>
           <Grid container spacing={3} alignContent="stretch">
-            {papers.map((paper) => (
+            {papers.map((paper, k) => (
               <Grid
                 container
                 item
+                key={k}
                 xs={12}
                 md={6}
                 lg={4}
@@ -554,8 +546,9 @@ const HomePage = () => {
                     </Typography>
                     <Box marginTop="10px">
                       <AvatarGroup max={10}>
-                        {paper.authors.map((author) => (
+                        {paper.authors.map((author, k) => (
                           <Link
+                            key={k}
                             href={author.link}
                             className={classes.avatar_link}
                             target="_blank"
@@ -600,8 +593,8 @@ const HomePage = () => {
                       horizontal: "right",
                     }}
                     badgeContent={
-                      <Link
-                        href={pesq.group.link}
+                      <Box
+                        // href={pesq.group.link}
                         className={classes.avatar_link}
                         target="_blank"
                         rel="noopener"
@@ -612,7 +605,7 @@ const HomePage = () => {
                             src={"/grupos/" + pesq.group.img}
                           />
                         </Tooltip>
-                      </Link>
+                      </Box>
                     }
                   >
                     <Avatar

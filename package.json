@@ -97,7 +97,9 @@
   },
   "eslintConfig": {
     "extends": "react-app",
+    "plugins": ["react-hooks"],
     "rules": {
+      "react-hooks/exhaustive-deps": "off",
       "import/no-anonymous-default-export": ["error", {
         "allowObject": true
       }]
