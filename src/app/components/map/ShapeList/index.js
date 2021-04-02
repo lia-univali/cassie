@@ -1,1 +1,1 @@
-export { default as ShapeList } from './ShapeList'
+export { default as ShapeList } from "./ShapeList";

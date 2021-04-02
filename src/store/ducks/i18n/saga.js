@@ -1,5 +1,5 @@
-import { Types, Actions } from './header'
+import { Types, Actions } from "./header";
 
-const root = function* () { }
+const root = function* () {};
 
-export default root
+export default root;

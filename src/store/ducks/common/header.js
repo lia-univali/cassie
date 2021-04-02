@@ -1,18 +1,17 @@
-import duckify from '../../tools/duckify'
+import duckify from "../../tools/duckify";
 
-export const namespace = 'cassie'
-export const store = 'common'
+export const namespace = "cassie";
+export const store = "common";
 
-export const Types =
-  duckify(namespace, store, ['EVALUATE', 'DONE'])
+export const Types = duckify(namespace, store, ["EVALUATE", "DONE"]);
 
 export const Actions = {
   evaluate: () => ({
-    type: Types.EVALUATE
+    type: Types.EVALUATE,
   }),
   done: () => ({
-    type: Types.DONE
-  })
-}
+    type: Types.DONE,
+  }),
+};
 
-export default Actions
+export default Actions;

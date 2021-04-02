@@ -1,22 +1,22 @@
-import React from 'react'
+import React from "react";
 
-import { Box, CircularProgress } from '@material-ui/core'
+import { Box, CircularProgress } from "@material-ui/core";
 
 const SatelliteThumbnail = ({ url, height }) => {
   return (
-    <Box display='flex' alignItems='center' height={height} >
-      {
-        url &&
+    <Box display="flex" alignItems="center" height={height}>
+      {url && (
         <a href={url}>
-          <img src={url} alt='Satellite Thumbnail' style={{ maxHeight: height }} />
+          <img
+            src={url}
+            alt="Satellite Thumbnail"
+            style={{ maxHeight: height }}
+          />
         </a>
-      }
-      {
-        !url &&
-        <CircularProgress />
-      }
+      )}
+      {!url && <CircularProgress />}
     </Box>
-  )
-}
+  );
+};
 
-export default SatelliteThumbnail
+export default SatelliteThumbnail;

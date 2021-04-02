@@ -11,8 +11,6 @@
  * @property {Object} params the visualization parameters for the index.
  */
 
-
-
 /**
  * An abstract layer, containing enough information to be passed into Earth
  * Engine's API and transformed into a concrete layer.
@@ -26,7 +24,13 @@ export class Layer {
    * @param {String} [expression=undefined] the expression that optionally transforms the image
    * @param {Boolean} [removable=true] whether or not the layer can be removed
    */
-  constructor(image, title, params = {}, expression = undefined, removable = true) {
+  constructor(
+    image,
+    title,
+    params = {},
+    expression = undefined,
+    removable = true
+  ) {
     this.image = image;
     this.title = title;
     this.params = params;
@@ -49,7 +53,14 @@ export class ConcreteLayer extends Layer {
    * @param {Number} [opacity=1] the opacity of the layer, from 0 (transparent) to 1 (opaque)
    * @param {Boolean} [visible=true] whether or not this layer is visible
    */
-  constructor(base, overlay, histogram, parentIndex, opacity = 1, visible = true) {
+  constructor(
+    base,
+    overlay,
+    histogram,
+    parentIndex,
+    opacity = 1,
+    visible = true
+  ) {
     super(base.image, base.title, base.params, base.expression);
 
     this.overlay = overlay;

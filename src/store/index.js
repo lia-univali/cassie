@@ -1,28 +1,30 @@
-import { createStore, applyMiddleware } from 'redux'
-import { createLogger } from 'redux-logger'
-import { composeWithDevTools } from 'redux-devtools-extension'
-import { routerMiddleware } from 'connected-react-router'
-import { createBrowserHistory } from 'history'
-import createSagaMiddleware from 'redux-saga'
-import { createRootReducer, saga } from './ducks'
+import { createStore, applyMiddleware } from "redux";
+import { createLogger } from "redux-logger";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { routerMiddleware } from "connected-react-router";
+import { createBrowserHistory } from "history";
+import createSagaMiddleware from "redux-saga";
+import { createRootReducer, saga } from "./ducks";
 
-export const history = createBrowserHistory()
+export const history = createBrowserHistory();
 
 export const configureStore = () => {
-  const sagaMiddleware = createSagaMiddleware()
-  
+  const sagaMiddleware = createSagaMiddleware();
+
   const middleware = applyMiddleware(
-                      routerMiddleware(history),
-                      sagaMiddleware,
-                      createLogger({ collapsed: true }))
+    routerMiddleware(history),
+    sagaMiddleware,
+    createLogger({ collapsed: true })
+  );
 
   const store = createStore(
-                  createRootReducer(history),
-                  composeWithDevTools(middleware))
+    createRootReducer(history),
+    composeWithDevTools(middleware)
+  );
 
-  sagaMiddleware.run(saga)
+  sagaMiddleware.run(saga);
 
-  return store
-}
+  return store;
+};
 
-export default configureStore
+export default configureStore;
