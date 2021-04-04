@@ -2,9 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, ListItemText } from "@material-ui/core";
-
 import { Remove as RemoveIcon } from "@material-ui/icons";
-import StopIcon from "@material-ui/icons/Stop";
 
 const labels = [
   { class: "forms.map.transects.stable", color: "#43a047" },

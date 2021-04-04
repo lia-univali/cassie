@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Footer = ({}) => {
+const Footer = () => {
   const [t] = useTranslation();
   const classes = useStyles();
 

@@ -8,7 +8,6 @@ import {
   List,
   ListItem,
   Chip,
-  ListItemText,
   Paper,
 } from "@material-ui/core";
 

@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
   Container,
-  Modal,
   Tooltip,
   Box,
   Grid,
@@ -71,7 +70,6 @@ export default function Footer(managers, techs) {
   const classes = useStyles();
   const [t] = useTranslation();
 
-  const body = <div className={classes.paper}></div>;
   return (
     <Box className={classes.footer}>
       <Container
@@ -173,8 +171,8 @@ export default function Footer(managers, techs) {
         <Grid item xs={12} md={12} align="center">
           <WhiteTextTypography variant="body2">
             {t("home.footer.copyright")}
-            <a href="https://github.com/lia-univali" target="_blank">
-              <img src={"/grupos/lia_smw.png"} className={classes.lia_footer} />
+            <a href="https://github.com/lia-univali" target="_blank" rel="noreferrer">
+              <img src={"/grupos/lia_smw.png"} className={classes.lia_footer} alt="Logo LIA" />
             </a>
           </WhiteTextTypography>
         </Grid>

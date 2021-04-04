@@ -1,23 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  Box,
-  Collapse,
   Chip,
   Divider,
-  IconButton,
-  Typography,
 } from "@material-ui/core";
-import { Card, CardHeader, CardContent, CardActions } from "@material-ui/core";
-import {
-  ExpandMore as MoreIcon,
-  ExpandLess as LessIcon,
-} from "@material-ui/icons";
-
+import { Card, CardHeader, CardContent } from "@material-ui/core";
 import ImageChooserForm from "./ImageChooserForm";
-import ActionList from "./ActionList";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,8 +35,6 @@ const ImageChooserCard = ({ className }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [t] = useTranslation();
-
-  const [expanded, setExpanded] = useState(true);
 
   return availableDates === undefined ? null : (
     <Card className={className} style={{ margin: 12 }}>

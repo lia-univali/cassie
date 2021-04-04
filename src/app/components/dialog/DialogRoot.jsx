@@ -35,7 +35,8 @@ export const registerDialog = (
   };
 };
 
-const DialogRoot = ({}) => {
+const DialogRoot = () => {
+  // eslint-disable-next-line no-unused-vars
   const dialogs = useSelector((state) => state.dialog.dialogs, shallowEqual);
 
   return (

@@ -106,6 +106,7 @@ export const getSatelliteCollection = (satellite) => {
   const { collectionSet } = satellite;
 
   if (Array.isArray(collectionSet)) {
+    // eslint-disable-next-line no-unused-vars
     const [head, ...tail] = collectionSet;
 
     return ee.ImageCollection(head);

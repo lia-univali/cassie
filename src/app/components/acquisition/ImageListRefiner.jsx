@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import update from "immutability-helper";
 import { useTranslation } from "react-i18next";
-
 import ImageTable from "../visualization/ImageTable";
 import StepperButtons from "./StepperButtons";
-
 import { FINALIZE } from "../../pages/AcquisitionPage";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
 

@@ -1,5 +1,3 @@
-import { Types } from "./header";
-
 const INITIAL_STATE = {
   working: false,
   jobs: 0,

@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useTranslation } from "react-i18next";
 import { Actions as AuthActions } from "../../../store/ducks/auth";
 import { Actions as LangActions } from "../../../store/ducks/i18n";
 import { Avatar, Box, Button } from "@material-ui/core";
 
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import pt from "../../../resources/i18n/pt.svg";
 import en from "../../../resources/i18n/en.svg";
@@ -49,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePageTemplate = (props) => {
   const dispatch = useDispatch();
-  const [t] = useTranslation();
   const classes = useStyles();
 
   useEffect(() => {
