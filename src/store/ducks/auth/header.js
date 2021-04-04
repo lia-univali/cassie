@@ -1,23 +1,31 @@
-import duckify from '../../tools/duckify'
+import duckify from "../../tools/duckify";
 
-export const namespace = 'cassie'
-export const store = 'auth'
+export const namespace = "cassie";
+export const store = "auth";
 
-export const Types =
-  duckify(namespace, store, ['LOAD_CLIENT_AUTH', 'LOAD_CLIENT_AUTH_SUCCESS', 'LOAD_CLIENT_AUTH_FAILURE',
-    'BEGIN', 'AUTHORIZE', 'AUTHORIZE_FAILURE', 'REVOKE'])
+export const Types = duckify(namespace, store, [
+  "LOAD_CLIENT_AUTH",
+  "LOAD_CLIENT_AUTH_SUCCESS",
+  "LOAD_CLIENT_AUTH_FAILURE",
+  "BEGIN",
+  "AUTHORIZE",
+  "AUTHORIZE_FAILURE",
+  "REVOKE",
+]);
 
 export const Actions = {
-  loadClientAuth: (onSuccess = () => { }) => ({
-      type: Types.LOAD_CLIENT_AUTH, payload: { onSuccess }
+  loadClientAuth: (onSuccess = () => {}) => ({
+    type: Types.LOAD_CLIENT_AUTH,
+    payload: { onSuccess },
   }),
 
   loadClientAuthSuccess: () => ({
-      type: Types.LOAD_CLIENT_AUTH_SUCCESS
+    type: Types.LOAD_CLIENT_AUTH_SUCCESS,
   }),
 
   loadClientAuthFailure: (error) => ({
-      type: Types.LOAD_CLIENT_AUTH_FAILURE, payload: { error }
+    type: Types.LOAD_CLIENT_AUTH_FAILURE,
+    payload: { error },
   }),
 
   /**
@@ -26,8 +34,9 @@ export const Actions = {
    * auth process succeeds. The callback is useful to redirect the page.
    * @param {Function} [callback = () => {}]
    */
-  begin: (callback = () => { }) => ({
-      type: Types.BEGIN, payload: { callback }
+  begin: (callback = () => {}) => ({
+    type: Types.BEGIN,
+    payload: { callback },
   }),
 
   /**
@@ -36,11 +45,13 @@ export const Actions = {
    * @param {String} imageUrl
    */
   authorize: (name, imageUrl) => ({
-      type: Types.AUTHORIZE, payload: { name, imageUrl }
+    type: Types.AUTHORIZE,
+    payload: { name, imageUrl },
   }),
 
   authorizeFailure: (error) => ({
-      type: Types.AUTHORIZE_FAILURE, payload: { error }
+    type: Types.AUTHORIZE_FAILURE,
+    payload: { error },
   }),
 
   /**
@@ -48,9 +59,10 @@ export const Actions = {
    * to the system. Runs callback after completition
    * @param {Function} [callback = () => {}]
    */
-  revoke: (callback = () => { }) => ({
-      type: Types.REVOKE, payload: { callback }
-  })
-}
+  revoke: (callback = () => {}) => ({
+    type: Types.REVOKE,
+    payload: { callback },
+  }),
+};
 
-export default Actions
+export default Actions;

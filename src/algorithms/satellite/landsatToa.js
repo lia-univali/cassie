@@ -1,15 +1,18 @@
-import { ee } from '../../services/earth-engine'
-import { mergeProperties, retrieveExtremes, getDate } from '../utils'
-import { scoreCloudRatio } from '../imagery'
-import * as Metadata from '../../common/metadata'
+import { ee } from "../../services/earth-engine";
+import { mergeProperties, retrieveExtremes, getDate } from "../utils";
+import { scoreCloudRatio } from "../imagery";
+import * as Metadata from "../../common/metadata";
 
-const addGridPosition = element => {
+const addGridPosition = (element) => {
   const image = ee.Image(element);
   const rawPosition = {
     path: image.get("WRS_PATH"),
-    row: image.get("WRS_ROW")
+    row: image.get("WRS_ROW"),
   };
-  const position = ee.Number(rawPosition.path).multiply(100).add(ee.Number(rawPosition.row))
+  const position = ee
+    .Number(rawPosition.path)
+    .multiply(100)
+    .add(ee.Number(rawPosition.row));
 
   return image.set({ [Metadata.GRID_POSITION]: position });
 };
@@ -22,19 +25,23 @@ const sliceByRevisit = (collection, startingDate, days) => {
 };
 
 export const maskTOAClouds = (image, bandName) => {
-  const band = image.select(bandName)
+  const band = image.select(bandName);
 
   const cloudMask = 1 << 4,
     cloudConf = 3 << 5,
     shadowConf = 3 << 7,
     cirrusConf = 3 << 11;
 
-  return band.bitwiseAnd(cloudMask)
-    .and(band.bitwiseAnd(cloudConf).gt(1)
-      .or(band.bitwiseAnd(shadowConf).gt(1))
-      .or(band.bitwiseAnd(cirrusConf).gt(1))
-    )
-}
+  return band
+    .bitwiseAnd(cloudMask)
+    .and(
+      band
+        .bitwiseAnd(cloudConf)
+        .gt(1)
+        .or(band.bitwiseAnd(shadowConf).gt(1))
+        .or(band.bitwiseAnd(cirrusConf).gt(1))
+    );
+};
 
 export const acquireFromDate = (date, mission, geometry) => {
   const slice = sliceByRevisit(
@@ -45,9 +52,13 @@ export const acquireFromDate = (date, mission, geometry) => {
   const mosaicked = slice.mosaic().clip(geometry);
 
   const image = mosaicked.set(mergeProperties(slice));
-  const ratio = scoreCloudRatio(maskTOAClouds(image, mission.bands.qa), mission.bands.qa, geometry);
+  const ratio = scoreCloudRatio(
+    maskTOAClouds(image, mission.bands.qa),
+    mission.bands.qa,
+    geometry
+  );
 
-  return image.set('CLOUDS', ratio)
+  return image.set("CLOUDS", ratio);
 };
 
 // Computes a list of valid dates in the region to be retrieved with acquireFromDate.
@@ -58,9 +69,7 @@ export const processCollection = (mission, geometry) => {
   const global = retrieveExtremes(query);
 
   // Compute the grid position of each image and sort in ascending order
-  const enhanced = query
-    .map(addGridPosition)
-    .sort(Metadata.GRID_POSITION);
+  const enhanced = query.map(addGridPosition).sort(Metadata.GRID_POSITION);
 
   // Retrieve the northeasternmost grid position within the specified bounds
   const northeasternPosition = ee
@@ -104,7 +113,7 @@ export const processCollection = (mission, geometry) => {
   // Transform each slice into an empty image. If the slice contains at least
   // one image, we add metadata related to the correspondent orbital cycle,
   // to allow for filtering later
-  const carriers = additions.map(increment => {
+  const carriers = additions.map((increment) => {
     const startingDate = earliestDate.advance(increment, "day");
     const collection = sliceByRevisit(query, startingDate, mission.cycle);
 
@@ -124,7 +133,7 @@ export const processCollection = (mission, geometry) => {
 };
 
 export const generateCloudMap = (dates, mission, geometry) => {
-  const cloudList = ee.List(dates).map(date => {
+  const cloudList = ee.List(dates).map((date) => {
     const image = ee.Image(acquireFromDate(date, mission, geometry));
     return image.get("CLOUDS");
   });
@@ -132,31 +141,27 @@ export const generateCloudMap = (dates, mission, geometry) => {
   return cloudList;
 };
 
-const queryAvailable = mission => geometry => {
+const queryAvailable = (mission) => (geometry) => {
   const query = processCollection(mission, geometry);
-  const datesQuery = query.map(date => ee.Date(date).format("YYYY-MM-dd"));
+  const datesQuery = query.map((date) => ee.Date(date).format("YYYY-MM-dd"));
   const cloudQuery = generateCloudMap(datesQuery, mission, geometry);
 
-  return ee.Dictionary.fromLists(datesQuery, cloudQuery)
+  return ee.Dictionary.fromLists(datesQuery, cloudQuery);
 };
 
-const getAvailable = mission => geometry => { };
+const getAvailable = (mission) => (geometry) => {};
 
-const acquire = mission => (date, geometry) => {
+const acquire = (mission) => (date, geometry) => {
   return acquireFromDate(date, mission, geometry);
-}
+};
 
-const format = properties => {
-  return (
-    properties["system:time_start"] +
-    " -- " +
-    properties["cloud"]
-  );
-}
+const format = (properties) => {
+  return properties["system:time_start"] + " -- " + properties["cloud"];
+};
 
 export default {
   queryAvailable,
   getAvailable,
   acquire,
-  format
+  format,
 };

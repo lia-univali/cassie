@@ -1,15 +1,15 @@
-import { Types } from './header'
+import { Types } from "./header";
 
-const INITIAL_STATE = {}
+const INITIAL_STATE = {};
 
 export const reducer = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
     case Types.PUSH:
-      return { ...state, [payload.identifier]: payload.data }
+      return { ...state, [payload.identifier]: payload.data };
 
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default reducer
+export default reducer;

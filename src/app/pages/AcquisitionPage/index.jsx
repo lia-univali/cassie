@@ -1,56 +1,64 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector, shallowEqual } from 'react-redux'
-import { push } from 'connected-react-router'
-import { Redirect, Switch, Route } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { push } from "connected-react-router";
+import { Redirect, Switch, Route } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-import { makeStyles } from '@material-ui/core/styles'
-import { Divider, Grid, Paper, Step, StepLabel, Stepper, Typography } from '@material-ui/core'
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Divider,
+  Grid,
+  Paper,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@material-ui/core";
 
-import SatelliteChooser from '../../components/acquisition/SatelliteChooser'
-import AOIChooser from '../../components/acquisition/AOIChooser'
-import PeriodChooser from '../../components/acquisition/PeriodChooser'
-import ImageListRefiner from '../../components/acquisition/ImageListRefiner'
-import Footer from '../../components/core/Footer'
+import SatelliteChooser from "../../components/acquisition/SatelliteChooser";
+import AOIChooser from "../../components/acquisition/AOIChooser";
+import PeriodChooser from "../../components/acquisition/PeriodChooser";
+import ImageListRefiner from "../../components/acquisition/ImageListRefiner";
+import Footer from "../../components/core/Footer";
 
-import { getAcquisitionParameters } from '../../../selectors'
-import { Actions as Auth } from '../../../store/ducks/auth'
+import { getAcquisitionParameters } from "../../../selectors";
+import { Actions as Auth } from "../../../store/ducks/auth";
 
-export const PREVIOUS = -1
-export const FIRST = 0
-export const NEXT = 1
-export const FINALIZE = 2
+export const PREVIOUS = -1;
+export const FIRST = 0;
+export const NEXT = 1;
+export const FINALIZE = 2;
 
 const STEPS = [
   {
-    label: 'forms.acquisition.1.title',
-    content: 'forms.acquisition.1.description',
+    label: "forms.acquisition.1.title",
+    content: "forms.acquisition.1.description",
     component: SatelliteChooser,
   },
   {
-    label: 'forms.acquisition.2.title',
-    content: 'forms.acquisition.2.description',
-    requires: 'satellite',
+    label: "forms.acquisition.2.title",
+    content: "forms.acquisition.2.description",
+    requires: "satellite",
     component: AOIChooser,
   },
   {
-    label: 'forms.acquisition.3.title',
-    content: 'forms.acquisition.3.description',
-    requires: 'geometry',
+    label: "forms.acquisition.3.title",
+    content: "forms.acquisition.3.description",
+    requires: "geometry",
     component: PeriodChooser,
   },
   {
-    label: 'forms.acquisition.4.title',
-    content: 'forms.acquisition.4.description',
-    requires: 'availableDates',
+    label: "forms.acquisition.4.title",
+    content: "forms.acquisition.4.description",
+    requires: "availableDates",
     component: ImageListRefiner,
-  }
-]
+  },
+];
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   wrapper: {
-    display: 'flex',
-    flexFlow: 'column',
+    display: "flex",
+    flexFlow: "column",
     flexGrow: 1,
   },
   header: {
@@ -58,132 +66,136 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(6, 0, 16),
   },
   title: {
-    color: 'white',
+    color: "white",
   },
   container: {
-    display: 'flex',
-    alignItems: 'center',
-    flexFlow: 'column'
+    display: "flex",
+    alignItems: "center",
+    flexFlow: "column",
   },
   content: {
-    width: '80vw',
-    maxWidth: '1000px',
+    width: "80vw",
+    maxWidth: "1000px",
     marginTop: theme.spacing(-9),
   },
   instructions: {
     paddingTop: theme.spacing(2),
     marginBottom: theme.spacing(4),
-  }
-}))
-
-
+  },
+}));
 
 const AcquisitionPage = (props) => {
-  const acquisitionData = useSelector(getAcquisitionParameters, shallowEqual)
+  const acquisitionData = useSelector(getAcquisitionParameters, shallowEqual);
 
-  const dispatch = useDispatch()
-  const [t] = useTranslation()
-  const classes = useStyles()
+  const dispatch = useDispatch();
+  const [t] = useTranslation();
+  const classes = useStyles();
 
-  const { match } = props
+  const { match } = props;
 
   const stepAttendsRequirements = () => {
-    const { params } = match
+    const { params } = match;
 
-    const hasStep = params.step !== undefined
-    const step = hasStep ? params.step - 1 : 0
+    const hasStep = params.step !== undefined;
+    const step = hasStep ? params.step - 1 : 0;
 
-    const stepData = STEPS[step]
-    return (!('requires' in stepData) || stepData.requires in acquisitionData)
-  }
-
+    const stepData = STEPS[step];
+    return !("requires" in stepData) || stepData.requires in acquisitionData;
+  };
 
   useEffect(() => {
-    dispatch(Auth.begin())
+    dispatch(Auth.begin());
 
     if (!stepAttendsRequirements()) {
-      navigate(FIRST)
+      navigate(FIRST);
     }
-  }, [dispatch])
+  }, [dispatch]);
 
   const extractPath = (hasStep) => {
-    return hasStep ? match.url.substring(0, match.url.lastIndexOf('/')) : match.url
-  }
+    return hasStep
+      ? match.url.substring(0, match.url.lastIndexOf("/"))
+      : match.url;
+  };
 
   const navigate = (direction) => {
-    const path = extractPath(true)
-    const { step } = match.params
+    const path = extractPath(true);
+    const { step } = match.params;
 
     if (direction === NEXT || direction === PREVIOUS) {
-      dispatch(push(`${path}/${parseInt(step, 10) + direction}`))
+      dispatch(push(`${path}/${parseInt(step, 10) + direction}`));
     } else if (direction === FIRST) {
-      dispatch(push(`${path}/1`))
+      dispatch(push(`${path}/1`));
     } else if (direction === FINALIZE) {
-      dispatch(push('/main/processing'))
+      dispatch(push("/main/processing"));
     }
-  }
+  };
 
   const renderStep = (props, Component) => {
     if (stepAttendsRequirements()) {
-      return <Component {...props} navigate={direction => navigate(direction)} />
+      return (
+        <Component {...props} navigate={(direction) => navigate(direction)} />
+      );
     }
 
-    return null
-  }
+    return null;
+  };
 
   const makeRoutes = (hasStep) => {
-    const path = extractPath(hasStep)
+    const path = extractPath(hasStep);
 
     return STEPS.map((el, i) => {
-      const id = i + 1
-      const Component = el.component
+      const id = i + 1;
+      const Component = el.component;
 
       return (
-        <Route key={id} path={`${path}/${id}`} render={props => renderStep({ ...props, ...acquisitionData }, Component)} />
-      )
-    }).concat(
-      <Redirect key={0} from={path} to={path + '/1'} />
-    )
-  }
+        <Route
+          key={id}
+          path={`${path}/${id}`}
+          render={(props) =>
+            renderStep({ ...props, ...acquisitionData }, Component)
+          }
+        />
+      );
+    }).concat(<Redirect key={0} from={path} to={path + "/1"} />);
+  };
 
-  const hasStep = match.params.step !== undefined
-  const step = hasStep ? match.params.step - 1 : 0
+  const hasStep = match.params.step !== undefined;
+  const step = hasStep ? match.params.step - 1 : 0;
 
-  
   return (
     <div className={classes.wrapper}>
-      <Grid container spacing={0} justify='center'>
+      <Grid container spacing={0} justify="center">
         <Grid item xs={12} className={classes.header}>
           <div>
-            <Typography className={classes.title} variant='h4' align='center'>
-              {t('forms.acquisition.title')}
+            <Typography className={classes.title} variant="h4" align="center">
+              {t("forms.acquisition.title")}
             </Typography>
           </div>
         </Grid>
         <Grid item className={classes.container}>
           <Paper className={classes.content} elevation={1}>
-            <Stepper alternativeLabel  activeStep={step} >
-              {
-                STEPS.map((el, i) => (
-                  <Step key={i}>
-                    <StepLabel>{t(el.label)}</StepLabel>
-                  </Step>
-                ))
-              }
+            <Stepper alternativeLabel activeStep={step}>
+              {STEPS.map((el, i) => (
+                <Step key={i}>
+                  <StepLabel>{t(el.label)}</StepLabel>
+                </Step>
+              ))}
             </Stepper>
-            <Typography className={classes.instructions} variant='subtitle1' align='center'>
+            <Typography
+              className={classes.instructions}
+              variant="subtitle1"
+              align="center"
+            >
               {t(STEPS[step].content)}
             </Typography>
             <Divider />
-            <Switch>
-              {makeRoutes(hasStep)}
-            </Switch>
+            <Switch>{makeRoutes(hasStep)}</Switch>
           </Paper>
         </Grid>
       </Grid>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default AcquisitionPage
+export default AcquisitionPage;

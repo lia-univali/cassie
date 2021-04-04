@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector, shallowEqual } from 'react-redux'
-import { useTranslation } from 'react-i18next'
-import { makeStyles } from '@material-ui/core/styles'
-import { Box, Collapse, Chip, Divider, IconButton, Typography } from '@material-ui/core'
-import { Card, CardHeader, CardContent, CardActions} from '@material-ui/core'
-import { ExpandMore as MoreIcon, ExpandLess as LessIcon } from '@material-ui/icons'
+import React from "react";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Chip,
+  Divider,
+} from "@material-ui/core";
+import { Card, CardHeader, CardContent } from "@material-ui/core";
+import ImageChooserForm from "./ImageChooserForm";
+import { Actions as Acquisition } from "../../../store/ducks/acquisition";
 
-import ImageChooserForm from './ImageChooserForm'
-import ActionList from './ActionList'
-import { Actions as Acquisition } from '../../../store/ducks/acquisition'
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   wrapper: {
     marginBottom: 0,
     marginLeft: 12,
@@ -19,27 +19,35 @@ const useStyles = makeStyles(theme => ({
     margin: 0,
     padding: 0,
   },
-  chip:{
-    marginLeft: theme.spacing(1)
-  }
-}))
+  chip: {
+    marginLeft: theme.spacing(1),
+  },
+}));
 
 const ImageChooserCard = ({ className }) => {
-  const availableDates = useSelector(state => state.acquisition.availableDates)
-  const satellite = useSelector(state => state.acquisition.satellite, shallowEqual)
-  const classes = useStyles()
-  const dispatch = useDispatch()
-  const [t] = useTranslation()
-
-  const [expanded, setExpanded] = useState(true)
+  const availableDates = useSelector(
+    (state) => state.acquisition.availableDates
+  );
+  const satellite = useSelector(
+    (state) => state.acquisition.satellite,
+    shallowEqual
+  );
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const [t] = useTranslation();
 
   return availableDates === undefined ? null : (
     <Card className={className} style={{ margin: 12 }}>
       <CardHeader
-        title= {
+        title={
           <div>
-            {t('forms.imageChooser.title')}
-            <Chip className={classes.chip} label={`${availableDates.length} ${t('forms.imageChooser.resultQuantity')}`} />
+            {t("forms.imageChooser.title")}
+            <Chip
+              className={classes.chip}
+              label={`${availableDates.length} ${t(
+                "forms.imageChooser.resultQuantity"
+              )}`}
+            />
           </div>
         }
       />
@@ -49,9 +57,16 @@ const ImageChooserCard = ({ className }) => {
       <CardContent>
         <ImageChooserForm
           images={availableDates}
-          disabledPredicate={i => false}
-          onLoadRequested={i => dispatch(Acquisition.acquireImage(availableDates[i].name, availableDates[i].date))}
-          formatter={i => satellite.get(availableDates[i].name).format}
+          disabledPredicate={(i) => false}
+          onLoadRequested={(i) =>
+            dispatch(
+              Acquisition.acquireImage(
+                availableDates[i].name,
+                availableDates[i].date
+              )
+            )
+          }
+          formatter={(i) => satellite.get(availableDates[i].name).format}
         />
       </CardContent>
 
@@ -68,7 +83,7 @@ const ImageChooserCard = ({ className }) => {
         <ActionList name='actions' />
       </Collapse> */}
     </Card>
-  )
-}
+  );
+};
 
-export default ImageChooserCard
+export default ImageChooserCard;

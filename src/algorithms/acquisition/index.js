@@ -1,10 +1,15 @@
-import { ee } from '../../services/earth-engine'
-import { mergeProperties, addGridPosition, retrieveExtremes, getDate } from '../utils'
-import { getSatelliteCollection } from '../utils'
-import { scoreClouds } from '../imagery'
-import * as Metadata from '../../common/metadata'
+import { ee } from "../../services/earth-engine";
+import {
+  mergeProperties,
+  addGridPosition,
+  retrieveExtremes,
+  getDate,
+} from "../utils";
+import { getSatelliteCollection } from "../utils";
+import { scoreClouds } from "../imagery";
+import * as Metadata from "../../common/metadata";
 
-const REVISIT_DAYS = 16
+const REVISIT_DAYS = 16;
 
 const sliceByRevisit = (collection, startingDate, days) => {
   const start = ee.Date(startingDate).update(null, null, null, 0, 0, 0);
@@ -22,7 +27,7 @@ export const acquireFromDate = (date, collection, geometry) => {
   const mosaicked = slice.mosaic().clip(geometry);
 
   const image = mosaicked.set(mergeProperties(slice));
-  return scoreClouds(image, geometry, 'pixel_qa');
+  return scoreClouds(image, geometry, "pixel_qa");
 };
 
 // Computes a list of valid dates in the region to be retrieved with acquireFromDate.
@@ -79,7 +84,7 @@ export const processCollection = (satellite, geometry) => {
   // Transform each slice into an empty image. If the slice contains at least
   // one image, we add metadata related to the correspondent orbital cycle,
   // to allow for filtering later
-  const carriers = additions.map(increment => {
+  const carriers = additions.map((increment) => {
     const startingDate = earliestDate.advance(increment, "day");
     const collection = sliceByRevisit(query, startingDate, REVISIT_DAYS);
 
@@ -99,7 +104,7 @@ export const processCollection = (satellite, geometry) => {
 };
 
 export const generateCloudMap = (dates, collection, geometry) => {
-  const cloudList = ee.List(dates).map(date => {
+  const cloudList = ee.List(dates).map((date) => {
     const image = ee.Image(acquireFromDate(date, collection, geometry));
     return image.get("CLOUDS");
   });
