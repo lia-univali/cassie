@@ -53,6 +53,7 @@ export const requestAndWait = function* (drawingType, message, name, group) {
   return {};
 };
 
+// eslint-disable-next-line require-yield
 const handleAddEELayer = function* ({ payload: { overlay, position } }) {
   Map.addLayer(overlay, position);
 };
@@ -87,11 +88,13 @@ const handleChangeOpacity = function* ({ payload: { identifier, opacity } }) {
   Map.setOpacity(index, opacity);
 };
 
+// eslint-disable-next-line require-yield
 const handleRequestDrawing = function* ({ payload: { drawingType } }) {
   Map.setDrawingControlsVisible(false);
   Map.setDrawingMode(drawingType);
 };
 
+// eslint-disable-next-line require-yield
 const handleDrawingTermination = function* () {
   Map.setDrawingMode(null);
 };
@@ -132,6 +135,7 @@ const handleRemoveShapeGroup = function* ({ payload: { group } }) {
   }
 };
 
+// eslint-disable-next-line require-yield
 const handleCentralizeMap = function* ({ payload: { coordinates } }) {
   const bounds = new window.google.maps.LatLngBounds();
   coordinates.forEach(([lng, lat]) => bounds.extend({ lat, lng }));

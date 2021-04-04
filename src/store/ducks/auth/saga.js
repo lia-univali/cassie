@@ -44,6 +44,7 @@ const loadClientAuthSuccess = function* () {
   // Load success
 };
 
+// eslint-disable-next-line require-yield
 const loadClientAuthFailure = function* () {
   // Display notification
   console.error("[ducks/auth] LOAD ERROR: Not able to load client:auth2");
@@ -98,6 +99,7 @@ const authorizeFailure = function* ({
   yield put(Snack.dismiss("signin-task"));
 };
 
+// eslint-disable-next-line require-yield
 const revoke = function* ({ payload: { callback } }) {
   if (window.gapi && window.gapi.auth2) {
     window.gapi.auth2.getAuthInstance().disconnect();
