@@ -12,6 +12,7 @@ import {
 import { useTranslation } from "react-i18next";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import GitHubIcon from "@material-ui/icons/GitHub";
+import Logo from "../Logo";
 const useStyles = makeStyles((theme) => ({
   copy: {
     backgroundColor: "#000",
@@ -84,6 +85,7 @@ export default function Footer(managers, techs) {
               <Grid item xs={12}>
                 <Link color="inherit" href="/">
                   <WhiteTextTypography variant="h6" className={classes.brand}>
+                    <Logo variant="big"/>
                     {t("self.title")}
                   </WhiteTextTypography>
                 </Link>

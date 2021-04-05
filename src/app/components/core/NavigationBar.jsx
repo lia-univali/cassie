@@ -14,16 +14,26 @@ import { Avatar, MenuItem } from "@material-ui/core";
 import User from "./User";
 import pt from "../../../resources/i18n/pt.svg";
 import en from "../../../resources/i18n/en.svg";
+import Logo from "../Logo";
 
 const useStyles = makeStyles((theme) => ({
-  title: {
+  left: {
     flex: 1,
+  },
+  title: {
+    flex: 'auto',
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'center'
   },
   flag: {
     width: "20px",
     height: "20px",
     marginLeft: "10px",
   },
+  logo: {
+    marginTop: theme.spacing(1)
+  }
 }));
 
 const NavigationBar = () => {
@@ -37,9 +47,15 @@ const NavigationBar = () => {
   return (
     <AppBar position="static">
       <Toolbar variant="dense">
-        <Typography className={classes.title} variant="h6" color="inherit">
-          {t("self.code")}
-        </Typography>
+        <div className={classes.left}>
+          <Typography className={classes.title} variant="h6" color="inherit">
+            <div className={classes.logo}>
+              <Logo/>
+            </div>
+            {t("self.code")}
+          </Typography>
+        </div>
+        
         <User {...user}>
           <MenuItem onClick={() => handleLanguageChange("pt-BR")}>
             <ListItemText primary="pt-BR" />

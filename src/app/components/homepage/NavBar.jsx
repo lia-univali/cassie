@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Box, Link, Toolbar, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
+import Logo from "../Logo";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -19,6 +20,11 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "none",
     },
   },
+  real_brand: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center'
+  }
 }));
 
 export default function NavBar(props) {
@@ -30,8 +36,9 @@ export default function NavBar(props) {
         <Toolbar>
           <Box className={classes.title}>
             <Link color="inherit" href="/" className={classes.brand}>
-              <Typography variant="h6" color="initial">
-                {t("self.title")}
+              
+              <Typography variant="h6" color="initial" className={classes.real_brand}>
+                <Logo /> {t("self.title")}
               </Typography>
             </Link>
           </Box>
