@@ -65,6 +65,7 @@ const en = {
         help: {
           title: "Help & Support",
           faq: "FAQ",
+          discussion: "Discussions",
           problems: "Known Issues",
         },
         contact: {

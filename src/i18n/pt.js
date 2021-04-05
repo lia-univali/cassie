@@ -68,6 +68,7 @@ const pt = {
         help: {
           title: "Ajuda e Suporte",
           faq: "Perguntas Frequentes",
+          discussion: "Fórum de Discussões",
           problems: "Problemas Conhecidos",
         },
         contact: {

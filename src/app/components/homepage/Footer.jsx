@@ -121,6 +121,11 @@ export default function Footer(managers, techs) {
                   {t("home.footer.help.title")}
                 </Typography>
                 <WhiteTextTypography variant="overline">
+                  <Link color="inherit"  href="https://github.com/lia-univali/cassie/discussions" target="_blank">
+                    {t("home.footer.help.discussion")}
+                  </Link>
+                </WhiteTextTypography>
+                <WhiteTextTypography variant="overline">
                   <Link color="inherit" href="/faq">
                     {t("home.footer.help.faq")}
                   </Link>
