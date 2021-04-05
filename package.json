@@ -97,12 +97,17 @@
   },
   "eslintConfig": {
     "extends": "react-app",
-    "plugins": ["react-hooks"],
+    "plugins": [
+      "react-hooks"
+    ],
     "rules": {
       "react-hooks/exhaustive-deps": "off",
-      "import/no-anonymous-default-export": ["error", {
-        "allowObject": true
-      }]
+      "import/no-anonymous-default-export": [
+        "error",
+        {
+          "allowObject": true
+        }
+      ]
     }
   },
   "browserslist": {
@@ -116,5 +121,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "serve": "^11.3.2"
   }
 }
