@@ -188,17 +188,13 @@ export const formatDateDiff = (dateA, dateB) => {
 
   if (years === 0) {
     const months = dateDiff(dateA, dateB, "months");
-
     if (months === 0) {
       const days = dateDiff(dateA, dateB, "days");
-
-      return `${days} ${i18n.t("forms.acquisition.3.durationDays")}`;
+      return `${days} ${days === 1 ? i18n.t("forms.acquisition.3.durationDays.singular") : i18n.t("forms.acquisition.3.durationDays.plural")}`;
     }
-
-    return `${months} ${i18n.t("forms.acquisition.3.durationMonths")}`;
+    return `${months} ${months === 1 ? i18n.t("forms.acquisition.3.durationMonths.singular") : i18n.t("forms.acquisition.3.durationMonths.plural")}`;
   }
-
-  return `${years} ${i18n.t("forms.acquisition.3.durationYears")}`;
+  return `${years} ${years === 1 ? i18n.t("forms.acquisition.3.durationYears.singular") : i18n.t("forms.acquisition.3.durationYears.plural")}`;
 };
 
 export const firstValue = (object) => {

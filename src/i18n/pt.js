@@ -167,10 +167,22 @@ const pt = {
           loading: "Carregando...",
           period: "Período",
           to: "a",
-          durationDays: "dias",
-          durationMonths: "meses",
-          durationYears: "anos",
-          imageQuantity: "imagens",
+          durationDays: {
+            singular: "dia",
+            plural: "dias",
+          },
+          durationMonths: {
+            singular: "mês",
+            plural: "meses",
+          },
+          durationYears: {
+            singular: "ano",
+            plural: "anos",
+          },
+          imageQuantity: {
+            singular: "imagem",
+            plural: "imagens",
+          },
           cloudPercentage: "Nível de nuvens",
         },
         4: {

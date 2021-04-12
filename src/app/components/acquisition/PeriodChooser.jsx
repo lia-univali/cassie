@@ -98,7 +98,11 @@ const PeriodChooser = ({ navigate }) => {
         </Typography>
         <Typography variant="subtitle1" align="center">
           {formatDateDiff(start, end)}, {length}{" "}
-          {t("forms.acquisition.3.imageQuantity")}
+          {t(
+            `forms.acquisition.3.imageQuantity.${
+              length === 1 ? "singular" : "plural"
+            }`
+          )}
         </Typography>
       </Box>
       <CloudSelector

@@ -164,10 +164,22 @@ const en = {
           loading: "Loading...",
           period: "Period",
           to: "to",
-          durationDays: "days",
-          durationMonths: "months",
-          durationYears: "years",
-          imageQuantity: "images",
+          durationDays: {
+            singular: "day",
+            plural: "days",
+          },
+          durationMonths: {
+            singular: "month",
+            plural: "months",
+          },
+          durationYears: {
+            singular: "year",
+            plural: "years",
+          },
+          imageQuantity: {
+            singular: "image",
+            plural: "images",
+          },
           cloudPercentage: "Cloud percentage",
         },
         4: {
