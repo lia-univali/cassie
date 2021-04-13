@@ -175,7 +175,7 @@ export const datesBetween = (dates, start, end) => {
 };
 
 export const formatDate = (date, withTime = false) => {
-  const pattern = withTime ? "DD/MM/YYYY HH:mm:ss" : "DD/MM/YYYY";
+  const pattern = withTime ? "DD/MM/YYYY HH:mm" : "DD/MM/YYYY";
   return moment(date).format(pattern);
 };
 

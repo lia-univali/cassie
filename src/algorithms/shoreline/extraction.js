@@ -338,7 +338,8 @@ export const deriveShoreline = (
   const smoothen = linearGaussianFilter(enhanced.coordinates());
 
   return ee.Feature(ee.Geometry.LineString(smoothen), {
-    [Metadata.TIME_START]: ee.Date(getDate(image)).format("YYYY-MM-dd"),
+    // Format Data as ISO standart formating and and UTC
+    [Metadata.TIME_START]: ee.Date(getDate(image)).format(null, 'UTC'),
   });
 };
 

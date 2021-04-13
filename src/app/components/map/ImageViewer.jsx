@@ -22,6 +22,7 @@ import {
 
 import LayerViewer from "./LayerViewer";
 import { Actions as Imagery } from "../../../store/ducks/imagery";
+import { formatDate } from "../../../common/utils";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -41,7 +42,10 @@ const ImageViewer = ({ image, index }) => {
     <Accordion defaultExpanded style={{ margin: "1px 1px" }}>
       <AccordionSummary expandIcon={<ExpandIcon />}>
         <Typography className={classes.title} variant="body1">
-          {image.name}
+          {
+            // Get mission short name by splitting its name
+            image.name.split('/')[0]+' - '+formatDate(image.date, true)
+          }
         </Typography>
       </AccordionSummary>
       <Divider />

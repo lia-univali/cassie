@@ -133,7 +133,8 @@ const queryAvailable = (mission) => (geometry) => {
 
   const process = (available) => {
     const datesQuery = available.map((date) =>
-      ee.Date(date).format("YYYY-MM-dd")
+      // Format Data as ISO standart formating and and UTC
+      ee.Date(date).format(null, 'UTC')
     );
     const cloudQuery = generateCloudMap(datesQuery, mission, geometry);
 

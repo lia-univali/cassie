@@ -11,6 +11,7 @@ import {
   MenuItem,
   Select,
 } from "@material-ui/core";
+import { formatDate } from "../../../common/utils";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -46,7 +47,7 @@ const ImageChooserForm = ({
           >
             {images.map((image, i) => (
               <MenuItem key={i} disabled={isDisabled(i)} value={i}>
-                {`${image.shortname}/${image.date}`}
+                {`${image.shortname} - ${formatDate(image.date, true)}`}
               </MenuItem>
             ))}
           </Select>

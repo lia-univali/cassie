@@ -12,7 +12,7 @@ import { sequence, formatDate } from "../../../common/utils";
 const TooltipRange = createRangeWithTooltip();
 
 const toTimestamp = (date) => parseInt(moment(date).format("x"), 10);
-const fromTimestamp = (timestamp) => moment(timestamp).format("YYYY-MM-DD");
+const fromTimestamp = (timestamp) => moment(timestamp).toISOString();
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {

@@ -213,8 +213,9 @@ export const calculateStatistics = (measurement) => {
   const label = estevesLabelling(lrr);
 
   // Dates
-  const firstDate = ee.Date(earliest.get("date")).format("YYYY-MM-dd");
-  const lastDate = ee.Date(latest.get("date")).format("YYYY-MM-dd");
+  // Format Data as ISO standart formating and and UTC
+  const firstDate = ee.Date(earliest.get("date")).format(null, 'UTC');
+  const lastDate = ee.Date(latest.get("date")).format(null, 'UTC');
 
   return ee.Dictionary({
     sce,
@@ -256,7 +257,8 @@ export const complementaryProperties = (transect, measurement, keepProps) => {
 
   const dates = serializeList(
     distanceInfo.map((item) =>
-      ee.Date(ee.Dictionary(item).get("date")).format("YYYY-MM-dd")
+      // Format Data as ISO standart formating and and UTC
+      ee.Date(ee.Dictionary(item).get("date")).format(null, 'UTC')
     )
   );
   const distances = serializeList(

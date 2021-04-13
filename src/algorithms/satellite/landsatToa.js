@@ -143,7 +143,7 @@ export const generateCloudMap = (dates, mission, geometry) => {
 
 const queryAvailable = (mission) => (geometry) => {
   const query = processCollection(mission, geometry);
-  const datesQuery = query.map((date) => ee.Date(date).format("YYYY-MM-dd"));
+  const datesQuery = query.map((date) => ee.Date(date).format(null, 'UTC')); // Format Data as ISO standart formating and and UTC
   const cloudQuery = generateCloudMap(datesQuery, mission, geometry);
 
   return ee.Dictionary.fromLists(datesQuery, cloudQuery);

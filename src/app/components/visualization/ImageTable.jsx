@@ -13,7 +13,7 @@ import {
   TablePagination,
 } from "@material-ui/core";
 
-import { sequence } from "../../../common/utils";
+import { formatDate, sequence } from "../../../common/utils";
 import SatelliteImageThumbnail from "./SatelliteImageThumbnail";
 
 const ImageTable = ({
@@ -40,7 +40,7 @@ const ImageTable = ({
   const COLUMNS = [
     {
       label: t("forms.acquisition.4.table.id"),
-      selector: (index) => `${images[index].shortname}/${images[index].date}`,
+      selector: (index) => `${images[index].shortname} - ${formatDate(images[index].date, true)}`,
     },
     {
       label: t("forms.acquisition.4.table.cloud"),

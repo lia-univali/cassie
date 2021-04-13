@@ -45,7 +45,7 @@ export const mergeProperties = (collection) => {
   // const sensor = ee.Image(first).get(sensorKey)
 
   return {
-    [Metadata.NAME]: date.format("'IMG_'YYYY-MM-dd"),
+    [Metadata.NAME]: 'IMG_'+date.format(null,'UTC'),
     [Metadata.FOOTPRINT]: mergeFootprints(collection),
     [Metadata.TIME_START]: date,
     [sensorKey]: "TM",

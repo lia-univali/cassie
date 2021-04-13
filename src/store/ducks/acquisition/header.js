@@ -61,7 +61,7 @@ export const Actions = {
 
   /**
    * Sets the list of available dates for the current satellite.
-   * @param {String[]} dates the list of dates, formatted as YYYY-MM-dd
+   * @param {String[]} dates the list of dates, formatted as YYYY-mm-dd HH:mm:ss
    */
   setAvailableDates: (dates, missions) => ({
     type: Types.SET_AVAILABLE_DATES,
