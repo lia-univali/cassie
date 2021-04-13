@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { first, last } from "lodash";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography } from "@material-ui/core";
-
 import TimePeriodSelector from "./TimePeriodSelector";
 import StepperButtons from "./StepperButtons";
 import CloudSelector from "./CloudSelector";
 import ActivityIndicator from "../core/ActivityIndicator.jsx";
-
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
 import {
   formatDate,
@@ -18,6 +15,7 @@ import {
   datesBetween,
 } from "../../../common/utils";
 import { uniteMissionsDates } from "../../../common/algorithms";
+import ReactGA from "react-ga";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -64,6 +62,16 @@ const PeriodChooser = ({ navigate }) => {
   };
 
   const handleNext = () => {
+    ReactGA.event({
+      category: 'Acquisition',
+      action: 'SetCloudLevel',
+      value: cloudLevel
+    });
+    ReactGA.event({
+      category: 'Acquisition',
+      action: 'SetPeriod',
+      value: (start+"-"+end)
+    });
     const dates = selectDates().filter(
       (entry) => entry.date >= start && entry.date <= end
     );

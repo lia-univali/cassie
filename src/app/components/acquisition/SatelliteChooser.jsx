@@ -1,14 +1,12 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
-
 import SatelliteCard from "./SatelliteCard";
 import { NEXT } from "../../pages/AcquisitionPage";
-
 import { standard } from "../../../common/satellites";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
+import ReactGA from "react-ga";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -26,6 +24,11 @@ const SatelliteChooser = ({ navigate }) => {
   const classes = useStyles();
 
   const handleChoice = (index) => {
+    ReactGA.event({
+      category: 'Acquisition',
+      action: 'ChooseSatellite',
+      value: index
+    });
     dispatch(Acquisition.setSatellite(index));
     navigate(NEXT);
   };

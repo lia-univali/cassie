@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-
 import { Waves, Assignment } from "@material-ui/icons";
 import {
   Avatar,
@@ -12,9 +11,9 @@ import {
   ListItemSecondaryAction,
   ListItemText,
 } from "@material-ui/core";
-
 import { Actions as Imagery } from "../../../store/ducks/imagery";
 import { Actions as Dialog } from "../../../store/ducks/dialog";
+import ReactGA from "react-ga";
 
 const ActionList = ({ name }) => {
   const hasShorelineData = useSelector((state) =>
@@ -26,7 +25,13 @@ const ActionList = ({ name }) => {
 
   return (
     <List>
-      <ListItem button onClick={() => dispatch(Imagery.analyzeCoastline())}>
+      <ListItem button onClick={() => {
+        ReactGA.event({
+          category: 'Actions',
+          action: 'analyzeCoastline'
+        });
+        dispatch(Imagery.analyzeCoastline())
+      }}>
         <ListItemAvatar>
           <Avatar>
             <Waves />

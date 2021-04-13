@@ -16,8 +16,7 @@ import {
   Badge,
   Card,
   CardContent,
-  CardActions,
-  IconButton,
+  CardActions
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
@@ -169,10 +168,6 @@ const SmallAvatar = withStyles((theme) => ({
     borderRadius: ".75rem",
   },
 }))(Avatar);
-
-function TransitionUp(props) {
-  return <Slide {...props} direction="up" />;
-}
 
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
