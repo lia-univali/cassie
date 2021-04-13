@@ -17,6 +17,7 @@ import {
   Card,
   CardContent,
   CardActions,
+  IconButton,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
@@ -169,6 +170,14 @@ const SmallAvatar = withStyles((theme) => ({
   },
 }))(Avatar);
 
+function TransitionUp(props) {
+  return <Slide {...props} direction="up" />;
+}
+
+function TransitionLeft(props) {
+  return <Slide {...props} direction="left" />;
+}
+
 const HomePage = () => {
   const busy = useSelector((state) => state.auth.authenticating);
 
@@ -317,13 +326,21 @@ const HomePage = () => {
     dispatch(AuthActions.loadClientAuth());
   }, []);
 
-  const [open, setOpen] = React.useState(true);
+  const [devAdvOpen, setDevAdvOpen] = React.useState(true);
+  const [cookiesAdvOpen, setCookiesAdvOpen] = React.useState(true);
 
-  const handleClose = (event, reason) => {
+  const handleDevAdvClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false);
+    setDevAdvOpen(false);
+  };
+
+  const handleCookiesAccept = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setCookiesAdvOpen(false);
   };
 
   return (
@@ -745,35 +762,49 @@ const HomePage = () => {
         </Container>
       </Box>
 
-      <Slide
-        direction="left"
-        in={true}
-        timeout={800}
-        mountOnEnter
-        unmountOnExit
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        open={devAdvOpen}
+        autoHideDuration={20000}
+        onClose={handleDevAdvClose}
+        TransitionComponent={TransitionLeft}
       >
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          open={open}
-          autoHideDuration={20000}
-          onClose={handleClose}
+        <Alert
+          elevation={6}
+          variant="filled"
+          onClose={handleDevAdvClose}
+          severity="warning"
         >
-          <Alert
-            elevation={6}
-            variant="filled"
-            onClose={handleClose}
-            severity="warning"
-          >
-            {t("home.warning.text")}{" "}
-            <Link color="textPrimary" href="/problems">
-              {t("home.warning.link")}
-            </Link>
-          </Alert>
-        </Snackbar>
-      </Slide>
+          {t("home.warning.text")}{" "}
+          <Link color="textPrimary" href="/problems">
+            {t("home.warning.link")}
+          </Link>
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        open={cookiesAdvOpen}
+        onClose={handleCookiesAccept}
+        message={t("home.cookies.text")}
+        action={
+          <React.Fragment>
+            <Button
+              color="secondary"
+              size="small"
+              onClick={handleCookiesAccept}
+            >
+              {t("home.cookies.link")}
+            </Button>
+          </React.Fragment>
+        }
+      ></Snackbar>
     </HomePageLayout>
   );
 };

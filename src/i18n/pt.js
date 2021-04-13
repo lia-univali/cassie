@@ -85,6 +85,10 @@ const pt = {
         text: "O CASSIE ainda está em desenvolvimento.",
         link: "Saiba mais",
       },
+      cookies:{
+        text: "Nosso site usa cookies para melhorar a navegação.",
+        link: "Aceitar",
+      }
     },
     faq: {
       title: "Perguntas Frequentes",

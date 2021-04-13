@@ -83,6 +83,10 @@ const en = {
         text: "CASSIE is still under development.",
         link: "See more",
       },
+      cookies:{
+        text: "Our website uses cookies to improve navigation.",
+        link: "Ok",
+      }
     },
     faq: {
       title: "Frequently Asked Questions",
