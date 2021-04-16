@@ -151,6 +151,9 @@ const useStyles = makeStyles((theme) => ({
   avatar_link: {
     border: "none",
   },
+  snack: {
+    maxWidth: '75%',
+  }
 }));
 
 const WhiteTextTypography = withStyles({
@@ -175,7 +178,6 @@ function TransitionLeft(props) {
 
 const HomePage = () => {
   const busy = useSelector((state) => state.auth.authenticating);
-
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const classes = useStyles();
@@ -762,6 +764,7 @@ const HomePage = () => {
           vertical: "bottom",
           horizontal: "right",
         }}
+        className={classes.snack}
         open={devAdvOpen}
         autoHideDuration={20000}
         onClose={handleDevAdvClose}
@@ -782,9 +785,10 @@ const HomePage = () => {
 
       <Snackbar
         anchorOrigin={{
-          vertical: "bottom",
+          vertical: "top",
           horizontal: "center",
         }}
+        className={classes.snack}
         open={cookiesAdvOpen}
         onClose={handleCookiesAccept}
         message={t("home.cookies.text")}

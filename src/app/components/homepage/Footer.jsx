@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   content: {
-    padding: "60px 0px",
+    padding: "60px 10px",
   },
   ul: {
     color: theme.palette.background.paper,

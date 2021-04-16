@@ -2,7 +2,13 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Actions as AuthActions } from "../../../store/ducks/auth";
 import { Actions as LangActions } from "../../../store/ducks/i18n";
-import { Avatar, Box, Button } from "@material-ui/core";
+import {
+  Avatar,
+  Box,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+} from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -44,6 +50,8 @@ const useStyles = makeStyles((theme) => ({
     display: "grid",
     gridTemplateRows: "1fr auto",
   },
+  main: {
+  }
 }));
 
 const HomePageTemplate = (props) => {
@@ -57,24 +65,24 @@ const HomePageTemplate = (props) => {
   const handleLanguageChange = (local) => {
     dispatch(LangActions.setLang(local));
   };
+
   return (
-    <Box>
+    <Box className={classes.main}>
       <NavBar>
-        <Button
-          className={classes.i18nSwitch}
-          onClick={() => handleLanguageChange("pt-BR")}
-        >
-          <Avatar alt="" src={pt} className={classes.flag} />
-          pt-BR
-        </Button>
-        <Button
-          className={classes.i18nSwitch}
-          onClick={() => handleLanguageChange("en-US")}
-        >
-          <Avatar className={classes.flag} alt="" src={en} />
-          en-US
-        </Button>
+        <MenuItem onClick={() => handleLanguageChange("pt-BR")}>
+          <ListItemIcon>
+            <Avatar alt="" src={pt} className={classes.flag} />
+          </ListItemIcon>
+          <ListItemText primary="pt-BR" />
+        </MenuItem>
+        <MenuItem onClick={() => handleLanguageChange("en-US")}>
+          <ListItemIcon>
+            <Avatar className={classes.flag} alt="" src={en} />
+          </ListItemIcon>
+          <ListItemText primary="en-US" />
+        </MenuItem>
       </NavBar>
+
       <Box className={classes.site}>
         <Box className={classes.maincontent}>{props.children}</Box>
         <Footer />
