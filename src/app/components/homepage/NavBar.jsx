@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
+    alignItems: "center"
   },
   right_menu: {
     marginRight: theme.spacing(0)

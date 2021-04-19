@@ -418,7 +418,6 @@ const HomePage = () => {
           </Grid>
           <Box
             display="flex"
-            flexDirection="row"
             alignItems="center"
             justifyContent="center"
           >
@@ -474,7 +473,6 @@ const HomePage = () => {
                 </WhiteTextTypography>
                 <Box
                   display="flex"
-                  flexDirection="row"
                   justifyContent="flex-end"
                 >
                   <Button
@@ -511,7 +509,6 @@ const HomePage = () => {
                 </WhiteTextTypography>
                 <Box
                   display="flex"
-                  flexDirection="row"
                   justifyContent="flex-start"
                 >
                   <Button

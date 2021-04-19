@@ -13,12 +13,16 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(8),
     display: "inline-block",
   },
+  wrap: {
+    display: "flex",
+    alignItems: "center",
+  },
 }));
 
 export default function Logo(props) {
   const classes = useStyles();
   return (
-    <div>
+    <div className={classes.wrap}>
       {props.kind === "filled" ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
