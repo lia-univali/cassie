@@ -3,12 +3,13 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { first, last } from "lodash";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Button, Typography } from "@material-ui/core";
 import TimePeriodSelector from "./TimePeriodSelector";
 import StepperButtons from "./StepperButtons";
 import CloudSelector from "./CloudSelector";
 import ActivityIndicator from "../core/ActivityIndicator.jsx";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
+import Tour from "reactour";
 import {
   formatDate,
   formatDateDiff,
@@ -44,6 +45,18 @@ const PeriodChooser = ({ navigate }) => {
   const [cloudLevel, setCloudLevel] = useState(1);
   const [period, setPeriod] = useState([]);
   const [start, end] = period;
+
+  const steps = [
+    {
+      selector: "#timeselector",
+      content: t("forms.acquisition.3.tour.period"),
+    },
+    {
+      selector: "#cloudselector",
+      content: t("forms.acquisition.3.tour.cloud"),
+    },
+  ];
+  const [isTourOpen, setIsTourOpen] = useState(true);
 
   useEffect(() => {
     dispatch(Acquisition.loadAvailableImages());
@@ -118,6 +131,20 @@ const PeriodChooser = ({ navigate }) => {
         onChange={(cloudLevel) => setCloudLevel(cloudLevel)}
       />
       <StepperButtons navigate={navigate} onNext={handleNext} />
+      <Tour
+        steps={steps}
+        isOpen={isTourOpen}
+        onRequestClose={() => setIsTourOpen(false)}
+        lastStepNextButton={
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setIsTourOpen(false)}
+          >
+            Done!
+          </Button>
+        }
+      />
     </Box>
   );
 };

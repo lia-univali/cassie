@@ -6,6 +6,8 @@ import ImageTable from "../visualization/ImageTable";
 import StepperButtons from "./StepperButtons";
 import { FINALIZE } from "../../pages/AcquisitionPage";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
+import { Button } from "@material-ui/core";
+import Tour from "reactour";
 
 const ImageListRefiner = ({ navigate }) => {
   const metadata = useSelector((state) => state.acquisition.metadata);
@@ -13,6 +15,26 @@ const ImageListRefiner = ({ navigate }) => {
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
+
+  const steps = [
+    {
+      selector: "#column0",
+      content: t("forms.acquisition.4.tour.id"),
+    },
+    {
+      selector: "#column1",
+      content: t("forms.acquisition.4.tour.clouds"),
+    },
+    {
+      selector: "#column2",
+      content: t("forms.acquisition.4.tour.image"),
+    },
+    {
+      selector: "#columnaction",
+      content: t("forms.acquisition.4.tour.action"),
+    },
+  ];
+  const [isTourOpen, setIsTourOpen] = useState(true);
 
   const [selected, setSelected] = useState(dates.map(() => true));
 
@@ -48,6 +70,20 @@ const ImageListRefiner = ({ navigate }) => {
         nextText={t("forms.acquisition.4.next")}
         onNext={handleFinish}
         nextTarget={FINALIZE}
+      />
+      <Tour
+        steps={steps}
+        isOpen={isTourOpen}
+        onRequestClose={() => setIsTourOpen(false)}
+        lastStepNextButton={
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setIsTourOpen(false)}
+          >
+            Done!
+          </Button>
+        }
       />
     </div>
   );

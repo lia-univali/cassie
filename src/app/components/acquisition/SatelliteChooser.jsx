@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import SatelliteCard from "./SatelliteCard";
 import { NEXT } from "../../pages/AcquisitionPage";
 import { standard } from "../../../common/satellites";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
 import ReactGA from "react-ga";
+import Tour from "reactour";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -22,12 +24,28 @@ const useStyles = makeStyles((theme) => ({
 const SatelliteChooser = ({ navigate }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const [t] = useTranslation();
+  const steps = [
+    {
+      selector: "#satellitechooser",
+      content: t("forms.acquisition.1.tour.info"),
+    },
+    {
+      selector: "#Landsat_props",
+      content: t("forms.acquisition.1.tour.Landsat.info"),
+    },
+    {
+      selector: "#Sentinel-2_props",
+      content: t("forms.acquisition.1.tour.Sentinel-2.info"),
+    },
+  ];
+  const [isTourOpen, setIsTourOpen] = useState(true);
 
   const handleChoice = (index) => {
     ReactGA.event({
-      category: 'Acquisition',
-      action: 'ChooseSatellite',
-      value: index
+      category: "Acquisition",
+      action: "ChooseSatellite",
+      value: index,
     });
     dispatch(Acquisition.setSatellite(index));
     navigate(NEXT);
@@ -36,9 +54,15 @@ const SatelliteChooser = ({ navigate }) => {
   const spacecrafts = standard;
 
   return (
-    <Grid container spacing={3} justify="center" className={classes.grid}>
+    <Grid
+      container
+      spacing={3}
+      justify="center"
+      id="satellitechooser"
+      className={classes.grid}
+    >
       {spacecrafts.map((satellite, i) => (
-        <Grid item key={i} xs={4}>
+        <Grid item key={i} xs={4} id={satellite.name}>
           <SatelliteCard
             name={satellite.name}
             provider={satellite.provider}
@@ -52,6 +76,20 @@ const SatelliteChooser = ({ navigate }) => {
           />
         </Grid>
       ))}
+      <Tour
+        steps={steps}
+        isOpen={isTourOpen}
+        onRequestClose={() => setIsTourOpen(false)}
+        lastStepNextButton={
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setIsTourOpen(false)}
+          >
+            Done!
+          </Button>
+        }
+      />
     </Grid>
   );
 };

@@ -55,7 +55,7 @@ const SatelliteCard = ({
         <Typography gutterBottom variant="h5" component="h2">
           {name}
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant="body2" color="textSecondary" component="p" id={name+"_props"}>
           <SummaryDataField
             title={t("forms.acquisition.1.card.opticalResolution")}
             value={resolution}
