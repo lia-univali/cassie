@@ -28,15 +28,15 @@ const SatelliteChooser = ({ navigate }) => {
   const steps = [
     {
       selector: "#satellitechooser",
-      content: t("forms.acquisition.1.tour.info"),
+      content: t("tour.acquisition.1.info"),
     },
     {
       selector: "#Landsat_props",
-      content: t("forms.acquisition.1.tour.Landsat.info"),
+      content: t("tour.acquisition.1.Landsat.info"),
     },
     {
       selector: "#Sentinel-2_props",
-      content: t("forms.acquisition.1.tour.Sentinel-2.info"),
+      content: t("tour.acquisition.1.Sentinel-2.info"),
     },
   ];
   const [isTourOpen, setIsTourOpen] = useState(true);

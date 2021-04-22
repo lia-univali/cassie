@@ -141,7 +141,36 @@ const pt = {
     },
     tour: {
       done: "Concluido",
-      of: "de"
+      of: "de",
+      acquisition: {
+        1: {
+          info: "Nesta Etapa você deve escolher o Satélite",
+          'Sentinel-2': {
+            info: "O Sentinel possiu maior resolução espacial e menor resolução temporal"
+          },
+          Landsat: {
+            info: "O Landsat possui maior resolução temporal e menor resolução espacial"
+          }
+        },
+        3:{
+          period: "Selecione um intervalo de datas para serem analizadas",
+          cloud: "Selecione um percentual aceitável de núvens na imagem"
+        },
+        4: {
+          id: "O ID contém informações importantes como a data e hora em que a imagem foi capturada",
+          clouds: "Nesta coluna temos percentual calculado de Nuvens na imagem",
+          image: "Nesta coluna é apresentada a imagem em questão",
+          action: "Nesta última coluna, você pode escolher se deseja ou não incluir esta imagem na análise"
+        }
+      },
+      map: {
+        start: "Esta é a tela de processamento",
+        imageChooser: {
+          info: "Neste Campo você pode carreagar no mapa uma das imagens selecionadas",
+          select: "Por padrão, a imagem selecionada é a mais recente, mas você pode escolher outra clicando aqui",
+          click: "Após selecionada a Imagem, você pode carregá-la na tela apertando neste botão"
+        }
+      }
     },
     forms: {
       acquisition: {
@@ -161,15 +190,6 @@ const pt = {
             revisitTimeUnit: "dias",
             choose: "Escolher",
           },
-          tour: {
-            info: "Nesta Etapa você deve escolher o Satélite",
-            'Sentinel-2': {
-              info: "O Sentinel possiu maior resolução espacial e menor resolução temporal"
-            },
-            Landsat: {
-              info: "O Landsat possui maior resolução temporal e menor resolução espacial"
-            }
-          }
         },
         2: {
           title: "Defina a área de interesse",
@@ -201,10 +221,6 @@ const pt = {
             plural: "imagens",
           },
           cloudPercentage: "Nível de nuvens",
-          tour:{
-            period: "Selecione um intervalo de datas para serem analizadas",
-            cloud: "Selecione um percentual aceitável de núvens na imagem"
-          }
         },
         4: {
           title: "Filtre as imagens",
@@ -220,12 +236,6 @@ const pt = {
           to: "a",
           of: "de",
           next: "Concluir",
-          tour:{
-            id: "O ID contém informações importantes como a data e hora em que a imagem foi capturada",
-            clouds: "Nesta coluna temos percentual calculado de Nuvens na imagem",
-            image: "Nesta coluna é apresentada a imagem em questão",
-            action: "Nesta última coluna, você pode escolher se deseja ou não incluir esta imagem na análise"
-          }
         },
       },
       map: {

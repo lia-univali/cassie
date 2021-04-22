@@ -62,20 +62,20 @@ const ProcessingPage = () => {
   const [t] = useTranslation();
   const steps = [
     {
-      selector: "#imageChooserForm",
-      content: t("forms.acquisition.4.tour.id"),
+      selector: "#mapScreen",
+      content: t("tour.map.start"),
     },
     {
       selector: "#imageChooserForm",
-      content: t("forms.acquisition.4.tour.id"),
+      content: t("tour.map.imageChooser.info"),
     },
     {
       selector: "#imageChooserSelect",
-      content: "Selecione uma imagem"
+      content: t("tour.map.imageChooser.select"),
     },
     {
       selector: "#imageChooserLoadButton",
-      content: "E carregue"
+      content: t("tour.map.imageChooser.click"),
     }
   ];
   const [isTourOpen, setIsTourOpen] = useState(true);
@@ -87,6 +87,7 @@ const ProcessingPage = () => {
           container
           justify="center"
           spacing={0}
+          id="mapScreen"
           className={classes.mapOverlay}
         >
           <Grid item xs={9} className={classes.mapContainer}>

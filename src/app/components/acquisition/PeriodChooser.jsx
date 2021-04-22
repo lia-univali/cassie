@@ -49,11 +49,11 @@ const PeriodChooser = ({ navigate }) => {
   const steps = [
     {
       selector: "#timeselector",
-      content: t("forms.acquisition.3.tour.period"),
+      content: t("tour.acquisition.3.period"),
     },
     {
       selector: "#cloudselector",
-      content: t("forms.acquisition.3.tour.cloud"),
+      content: t("tour.acquisition.3.cloud"),
     },
   ];
   const [isTourOpen, setIsTourOpen] = useState(true);

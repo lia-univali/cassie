@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme) => ({
   tour: {
     backgroundColor: theme.palette.background.paper,
     borderRadius: theme.spacing(2)
+  },
+  mask: {
+    borderRadius: theme.spacing(2)
   }
 }));
 
@@ -22,6 +25,7 @@ export default function TourGuider({steps, isOpen, setIsTourOpen}) {
         onRequestClose={() => setIsTourOpen(false)}
         accentColor='teal'
         className={classes.tour}
+        rounded={10}
         badgeContent={(curr, tot) => `${curr} ${t("tour.of")} ${tot}`}
         lastStepNextButton={
           <Button

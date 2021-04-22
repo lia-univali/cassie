@@ -18,19 +18,19 @@ const ImageListRefiner = ({ navigate }) => {
   const steps = [
     {
       selector: "#column0",
-      content: t("forms.acquisition.4.tour.id"),
+      content: t("tour.acquisition.4.id"),
     },
     {
       selector: "#column1",
-      content: t("forms.acquisition.4.tour.clouds"),
+      content: t("tour.acquisition.4.clouds"),
     },
     {
       selector: "#column2",
-      content: t("forms.acquisition.4.tour.image"),
+      content: t("tour.acquisition.4.image"),
     },
     {
       selector: "#columnaction",
-      content: t("forms.acquisition.4.tour.action"),
+      content: t("tour.acquisition.4.action"),
     },
   ];
   const [isTourOpen, setIsTourOpen] = useState(true);
