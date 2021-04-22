@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import SatelliteCard from "./SatelliteCard";
 import { NEXT } from "../../pages/AcquisitionPage";
 import { standard } from "../../../common/satellites";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
 import ReactGA from "react-ga";
-import Tour from "reactour";
 import { useTranslation } from "react-i18next";
+import TourGuider from "../tour/TourGuider";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -76,19 +76,10 @@ const SatelliteChooser = ({ navigate }) => {
           />
         </Grid>
       ))}
-      <Tour
+      <TourGuider
         steps={steps}
         isOpen={isTourOpen}
-        onRequestClose={() => setIsTourOpen(false)}
-        lastStepNextButton={
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setIsTourOpen(false)}
-          >
-            Done!
-          </Button>
-        }
+        setIsTourOpen={setIsTourOpen}
       />
     </Grid>
   );

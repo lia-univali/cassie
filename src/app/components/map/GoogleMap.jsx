@@ -1,10 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grow, Paper, Typography } from "@material-ui/core";
-
 import * as Map from "../../../common/map";
 import { Actions as MapActions } from "../../../store/ducks/map";
 

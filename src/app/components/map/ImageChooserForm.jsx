@@ -44,8 +44,9 @@ const ImageChooserForm = ({
             input={<Input name="image" id="image-select" />}
             onChange={(e) => setIndex(e.target.value)}
             value={index}
+            id="imageChooserSelect"
           >
-            {images.map((image, i) => (
+            {images.slice(0).reverse().map((image, i) => (
               <MenuItem key={i} disabled={isDisabled(i)} value={i}>
                 {`${image.shortname} - ${formatDate(image.date, true)}`}
               </MenuItem>
@@ -54,6 +55,7 @@ const ImageChooserForm = ({
         </FormControl>
         <Button
           color="primary"
+          id="imageChooserLoadButton"
           disabled={isDisabled(index)}
           onClick={() => onLoadRequested(index)}
         >

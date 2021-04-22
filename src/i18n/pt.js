@@ -139,6 +139,10 @@ const pt = {
       signout: "Sair",
       loading: "Autenticando...",
     },
+    tour: {
+      done: "Concluido",
+      of: "de"
+    },
     forms: {
       acquisition: {
         title: "Aquisição de Imagens",
@@ -198,7 +202,7 @@ const pt = {
           },
           cloudPercentage: "Nível de nuvens",
           tour:{
-            period: "Selecione um intervalo de dados para serem analizadas",
+            period: "Selecione um intervalo de datas para serem analizadas",
             cloud: "Selecione um percentual aceitável de núvens na imagem"
           }
         },

@@ -6,8 +6,7 @@ import ImageTable from "../visualization/ImageTable";
 import StepperButtons from "./StepperButtons";
 import { FINALIZE } from "../../pages/AcquisitionPage";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
-import { Button } from "@material-ui/core";
-import Tour from "reactour";
+import TourGuider from "../tour/TourGuider";
 
 const ImageListRefiner = ({ navigate }) => {
   const metadata = useSelector((state) => state.acquisition.metadata);
@@ -71,19 +70,10 @@ const ImageListRefiner = ({ navigate }) => {
         onNext={handleFinish}
         nextTarget={FINALIZE}
       />
-      <Tour
+      <TourGuider
         steps={steps}
         isOpen={isTourOpen}
-        onRequestClose={() => setIsTourOpen(false)}
-        lastStepNextButton={
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setIsTourOpen(false)}
-          >
-            Done!
-          </Button>
-        }
+        setIsTourOpen={setIsTourOpen}
       />
     </div>
   );

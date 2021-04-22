@@ -2,10 +2,7 @@ import React from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Chip,
-  Divider,
-} from "@material-ui/core";
+import { Chip, Divider } from "@material-ui/core";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import ImageChooserForm from "./ImageChooserForm";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
@@ -55,19 +52,21 @@ const ImageChooserCard = ({ className }) => {
       <Divider />
 
       <CardContent>
-        <ImageChooserForm
-          images={availableDates}
-          disabledPredicate={(i) => false}
-          onLoadRequested={(i) =>
-            dispatch(
-              Acquisition.acquireImage(
-                availableDates[i].name,
-                availableDates[i].date
+        <div id="imageChooserForm">
+          <ImageChooserForm
+            images={availableDates}
+            disabledPredicate={(i) => false}
+            onLoadRequested={(i) =>
+              dispatch(
+                Acquisition.acquireImage(
+                  availableDates[i].name,
+                  availableDates[i].date
+                )
               )
-            )
-          }
-          formatter={(i) => satellite.get(availableDates[i].name).format}
-        />
+            }
+            formatter={(i) => satellite.get(availableDates[i].name).format}
+          />
+        </div>
       </CardContent>
 
       {/* <CardActions>

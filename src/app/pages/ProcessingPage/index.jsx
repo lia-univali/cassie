@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import ee from "../../../services/earth-engine"; // @TODO remove this!
@@ -12,6 +12,8 @@ import { ShapeList } from "../../components";
 import LoadedImagesAccordion from "../../components/map/LoadedImagesAccordion";
 
 import { Actions as Map } from "../../../store/ducks/map";
+import { useTranslation } from "react-i18next";
+import TourGuider from "../../components/tour/TourGuider";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -57,6 +59,27 @@ const ProcessingPage = () => {
     }
   };
 
+  const [t] = useTranslation();
+  const steps = [
+    {
+      selector: "#imageChooserForm",
+      content: t("forms.acquisition.4.tour.id"),
+    },
+    {
+      selector: "#imageChooserForm",
+      content: t("forms.acquisition.4.tour.id"),
+    },
+    {
+      selector: "#imageChooserSelect",
+      content: "Selecione uma imagem"
+    },
+    {
+      selector: "#imageChooserLoadButton",
+      content: "E carregue"
+    }
+  ];
+  const [isTourOpen, setIsTourOpen] = useState(true);
+
   return (
     <Box className={classes.wrapper}>
       <Grow in={!isDrawing} unmountOnExit>
@@ -78,6 +101,11 @@ const ProcessingPage = () => {
       </Grow>
 
       <GoogleMap onLoad={displayROI} style={{ position: "absolute" }} />
+      <TourGuider
+        steps={steps}
+        isOpen={isTourOpen}
+        setIsTourOpen={setIsTourOpen}
+      />
     </Box>
   );
 };

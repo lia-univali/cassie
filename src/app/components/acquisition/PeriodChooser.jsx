@@ -3,13 +3,12 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { first, last } from "lodash";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Button, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import TimePeriodSelector from "./TimePeriodSelector";
 import StepperButtons from "./StepperButtons";
 import CloudSelector from "./CloudSelector";
 import ActivityIndicator from "../core/ActivityIndicator.jsx";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
-import Tour from "reactour";
 import {
   formatDate,
   formatDateDiff,
@@ -17,6 +16,7 @@ import {
 } from "../../../common/utils";
 import { uniteMissionsDates } from "../../../common/algorithms";
 import ReactGA from "react-ga";
+import TourGuider from "../tour/TourGuider";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -131,19 +131,10 @@ const PeriodChooser = ({ navigate }) => {
         onChange={(cloudLevel) => setCloudLevel(cloudLevel)}
       />
       <StepperButtons navigate={navigate} onNext={handleNext} />
-      <Tour
+      <TourGuider
         steps={steps}
         isOpen={isTourOpen}
-        onRequestClose={() => setIsTourOpen(false)}
-        lastStepNextButton={
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setIsTourOpen(false)}
-          >
-            Done!
-          </Button>
-        }
+        setIsTourOpen={setIsTourOpen}
       />
     </Box>
   );
