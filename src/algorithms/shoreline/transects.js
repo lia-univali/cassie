@@ -1,9 +1,9 @@
-import { ee } from '../../services/earth-engine'
-import { computeBearing, computeDisplacement } from '../geodesy'
-import { INTERNALS } from '../../common/metadata'
+import { ee } from "../../services/earth-engine";
+import { computeBearing, computeDisplacement } from "../geodesy";
+import { INTERNALS } from "../../common/metadata";
 
 const offsetMapper = (extent, origin, theta) => {
-  return offset => {
+  return (offset) => {
     const centre = computeDisplacement(
       origin.get(0),
       origin.get(1),
@@ -33,14 +33,14 @@ const offsetMapper = (extent, origin, theta) => {
       betaLng,
       betaLat,
       alphaLng,
-      alphaLat
+      alphaLat,
     ]);
 
     return ee.Feature(geometry, {
-      [INTERNALS]: { endpoints: geometry.coordinates() }
+      [INTERNALS]: { endpoints: geometry.coordinates() },
     });
   };
-}
+};
 
 const transectAccumulator = (step, extent) => {
   step = ee.Number(step);
@@ -82,48 +82,48 @@ const transectAccumulator = (step, extent) => {
         transects,
         theta,
         hypot,
-        offsets
+        offsets,
       })
     );
   };
-}
+};
 
 /**
  * Generates transects orthogonal to the specified polygon.
  * @param {ee.Feature} polygon a Feature describing the area to be covered
  */
- export const generateOrthogonalTransects = (coordinates, step, extent) => {
-  coordinates = ee.List(coordinates)
+export const generateOrthogonalTransects = (coordinates, step, extent) => {
+  coordinates = ee.List(coordinates);
 
   const first = ee.Dictionary({
     a: ee.List(coordinates.get(0)),
     remainder: 0,
-    transects: []
-  })
+    transects: [],
+  });
 
   const result = coordinates
     .slice(1)
-    .iterate(transectAccumulator(step, extent), [first])
+    .iterate(transectAccumulator(step, extent), [first]);
 
   let transects = ee
     .List(result)
-    .map(dict => ee.Feature(ee.Dictionary(dict).get("transects")))
-    .flatten()
+    .map((dict) => ee.Feature(ee.Dictionary(dict).get("transects")))
+    .flatten();
 
-  transects = ee.FeatureCollection(transects)
+  transects = ee.FeatureCollection(transects);
   transects = ee.Algorithms.If(
     ee.Algorithms.IsEqual(transects.size(), 0),
     ee.List([]),
     transects.toList(transects.size())
-  )
+  );
 
-  return ee.List(transects)
-}
+  return ee.List(transects);
+};
 
 export const expandHorizontally = (transects, amount) => {
   amount = ee.Number(amount).divide(2);
 
-  const mapper = transect => {
+  const mapper = (transect) => {
     transect = ee.Feature(transect);
 
     const coords = transect.geometry().coordinates();
@@ -144,7 +144,7 @@ export const expandHorizontally = (transects, amount) => {
 
     const rectangle = ee.Feature(ee.Geometry.Polygon([[a1, a2, b2, b1]]));
     return rectangle.copyProperties(transect);
-  }
+  };
 
-  return transects.map(mapper)
-}
+  return transects.map(mapper);
+};

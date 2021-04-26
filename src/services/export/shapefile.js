@@ -1,4 +1,4 @@
-import ShpWrite from 'shp-write'
+import ShpWrite from "shp-write";
 
 /*
   All hereby code was taken and adapted from shp-write lib
@@ -14,52 +14,52 @@ const filterType = (type, esriType) => {
         esriType === "POLYGON"
           ? [oftype.map(fetchCoordinates)]
           : esriType === "POLYLINE"
-          ? oftype.map(f => [
-              fetchCoordinates(f)
+          ? oftype.map((f) => [
+              fetchCoordinates(f),
             ]) /* shp-write doesn't handle linestring properly */
           : oftype.map(fetchCoordinates),
       properties: oftype.map(fetchProperties),
-      type: esriType
-    }
-  }
-}
+      type: esriType,
+    };
+  };
+};
 
 /* Take coordinates from feature */
-const fetchCoordinates = t => {
+const fetchCoordinates = (t) => {
   if (
     t.geometry.coordinates[0] !== undefined &&
     t.geometry.coordinates[0][0] !== undefined &&
     t.geometry.coordinates[0][0][0] !== undefined
   ) {
-    return t.geometry.coordinates[0]
+    return t.geometry.coordinates[0];
   } else {
-    return t.geometry.coordinates
+    return t.geometry.coordinates;
   }
-}
+};
 
 /* Take properties from feature */
-const fetchProperties = t => {
-  return t.properties
-}
+const fetchProperties = (t) => {
+  return t.properties;
+};
 
-const isType = t =>  f => {
-  return f.geometry.type === t
-}
+const isType = (t) => (f) => {
+  return f.geometry.type === t;
+};
 
 const take = {
   Points: filterType("Point", "POINT"),
   Lines: filterType("LineString", "POLYLINE"),
-  Polygons: filterType("Polygon", "POLYGON")
-}
+  Polygons: filterType("Polygon", "POLYGON"),
+};
 
-const segregate = gj => {
-  const segregated = [take.Points(gj), take.Lines(gj), take.Polygons(gj)]
-  
+const segregate = (gj) => {
+  const segregated = [take.Points(gj), take.Lines(gj), take.Polygons(gj)];
+
   const filtered = segregated.filter(
-    feature => feature.geometries.length && feature.geometries[0].length
-  )
+    (feature) => feature.geometries.length && feature.geometries[0].length
+  );
 
-  return filtered
-}
+  return filtered;
+};
 
-export default { ...ShpWrite, segregate }
+export default { ...ShpWrite, segregate };

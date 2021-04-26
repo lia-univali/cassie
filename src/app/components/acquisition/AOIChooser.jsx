@@ -1,38 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useTranslation } from 'react-i18next'
-import ee from '../../../services/earth-engine'
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+import ee from "../../../services/earth-engine";
+import { Box, Button, FormControlLabel, Switch } from "@material-ui/core";
+import GoogleMap, { DEFAULT_ZOOM } from "../map/GoogleMap";
+import StepperButtons from "./StepperButtons";
+import * as Map from "../../../common/map";
+import { Actions as Acquisition } from "../../../store/ducks/acquisition";
 
-import { makeStyles } from '@material-ui/core/styles'
-import { Box, Button, FormControlLabel, Switch } from '@material-ui/core'
-
-import GoogleMap, { DEFAULT_ZOOM } from '../map/GoogleMap'
-import StepperButtons from './StepperButtons'
-import * as Map from '../../../common/map'
-import { setAOI } from '../../../store/ducks/acquisition'
-
-const useStyles = makeStyles(theme => ({
-  map: {
-    width: 1000,
-    height: 500,
-  }
-}))
 
 const isAboveThreshold = (zoom) => {
-  return zoom > 4
-}
+  return zoom > 4;
+};
 
 const AOIChooser = ({ navigate }) => {
-  const dispatch = useDispatch()
-  const [t] = useTranslation()
-  const classes = useStyles()
+  const dispatch = useDispatch();
+  const [t] = useTranslation();
 
-  const [visible, setVisible] = useState(isAboveThreshold(DEFAULT_ZOOM))
-  const [zoomLevel, setZoomLevel] = useState(DEFAULT_ZOOM)
-  const [switchDisabled, setSwitchDisabled] = useState(false)
-  const [overlay, setOverlay] = useState(null)
-  const [coordinates, setCoordinates] = useState(null)
-  const [wrs, setWrs] = useState(null) // @TODO enable this
+  const [visible, setVisible] = useState(isAboveThreshold(DEFAULT_ZOOM));
+  const [zoomLevel, setZoomLevel] = useState(DEFAULT_ZOOM);
+  const [switchDisabled, setSwitchDisabled] = useState(false);
+  const [overlay, setOverlay] = useState(null);
+  const [coordinates, setCoordinates] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [wrs, setWrs] = useState(null); // @TODO enable this
 
   const changeDelimiterVisibility = (visible) => {
     /*
@@ -42,77 +33,94 @@ const AOIChooser = ({ navigate }) => {
       Map.hideElement(wrs)
     }
     */
-    setVisible(visible)
-  }
+    setVisible(visible);
+  };
 
   const handleZoomChange = (updatedLevel) => {
-    const prevVisible = isAboveThreshold(zoomLevel)
-    const visible = isAboveThreshold(updatedLevel)
+    const prevVisible = isAboveThreshold(zoomLevel);
+    const visible = isAboveThreshold(updatedLevel);
 
     if (visible !== prevVisible) {
-      changeDelimiterVisibility(visible)
+      changeDelimiterVisibility(visible);
     }
 
-    setZoomLevel(updatedLevel)
-    setSwitchDisabled(!visible)
-  }
+    setZoomLevel(updatedLevel);
+    setSwitchDisabled(!visible);
+  };
 
   useEffect(() => {
-    Map.onZoomChange(zoomLevel => handleZoomChange(zoomLevel))
-    Map.setDrawingControlsVisible(true)
+    Map.onZoomChange((zoomLevel) => handleZoomChange(zoomLevel));
+    Map.setDrawingControlsVisible(true);
 
     return () => {
-      Map.onZoomChange(() => { })
-    }
-  }, [])
+      Map.onZoomChange(() => {});
+    };
+  }, []);
 
   const handleDrawing = (overlay, coordinates) => {
-    setOverlay(overlay)
-    setCoordinates(coordinates)
+    setOverlay(overlay);
+    setCoordinates(coordinates);
 
-    Map.setDrawingControlsVisible(false)
-  }
+    Map.setDrawingControlsVisible(false);
+  };
 
   const handleUndo = () => {
-    overlay.setMap(null)
+    overlay.setMap(null);
 
-    setOverlay(null)
-    setCoordinates(null)
+    setOverlay(null);
+    setCoordinates(null);
 
-    Map.setDrawingControlsVisible(true)
-  }
+    Map.setDrawingControlsVisible(true);
+  };
 
   const handleSwitchChange = (event) => {
-    changeDelimiterVisibility(event.target.checked)
-  }
+    changeDelimiterVisibility(event.target.checked);
+  };
 
   const handleChoose = () => {
-    dispatch(setAOI(overlay, coordinates, ee.Geometry.Polygon([coordinates])))
-  }
+    dispatch(
+      Acquisition.setAOI(
+        overlay,
+        coordinates,
+        ee.Geometry.Polygon([coordinates])
+      )
+    );
+  };
 
-  const drawn = Boolean(coordinates)
+  const drawn = Boolean(coordinates);
 
   return (
-    <Box display='flex' alignItems='center' flexDirection='column'>
-      <FormControlLabel label={t('forms.acquisition.2.showDelimiters')}
+    <Box display="flex" alignItems="center" flexDirection="column">
+      <FormControlLabel
+        label={t("forms.acquisition.2.showDelimiters")}
         control={
           <Switch
             checked={visible}
             disabled={switchDisabled}
-            onChange={handleSwitchChange} />
+            onChange={handleSwitchChange}
+          />
         }
       />
       <GoogleMap
         style={{ width: 1000, height: 500 } /* @TODO pass as props */}
         onRegionDrawn={handleDrawing}
       />
-      <StepperButtons navigate={navigate} nextDisabled={drawn === false} onNext={handleChoose}>
-        <Button onClick={handleUndo} disabled={drawn === false} color='secondary' variant='outlined'>
-          {t('forms.acquisition.2.undo')}
+      <StepperButtons
+        navigate={navigate}
+        nextDisabled={drawn === false}
+        onNext={handleChoose}
+      >
+        <Button
+          onClick={handleUndo}
+          disabled={drawn === false}
+          color="secondary"
+          variant="outlined"
+        >
+          {t("forms.acquisition.2.undo")}
         </Button>
       </StepperButtons>
     </Box>
-  )
-}
+  );
+};
 
-export default AOIChooser
+export default AOIChooser;

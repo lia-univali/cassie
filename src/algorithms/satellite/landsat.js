@@ -1,15 +1,18 @@
-import { ee } from '../../services/earth-engine'
-import { mergeProperties, retrieveExtremes, getDate } from '../utils'
-import { scoreClouds } from '../imagery'
-import * as Metadata from '../../common/metadata'
+import { ee } from "../../services/earth-engine";
+import { mergeProperties, retrieveExtremes, getDate } from "../utils";
+import { scoreClouds } from "../imagery";
+import * as Metadata from "../../common/metadata";
 
-const addGridPosition = element => {
+const addGridPosition = (element) => {
   const image = ee.Image(element);
   const rawPosition = {
     path: image.get("WRS_PATH"),
-    row: image.get("WRS_ROW")
+    row: image.get("WRS_ROW"),
   };
-  const position = ee.Number(rawPosition.path).multiply(100).add(ee.Number(rawPosition.row))
+  const position = ee
+    .Number(rawPosition.path)
+    .multiply(100)
+    .add(ee.Number(rawPosition.row));
 
   return image.set({ [Metadata.GRID_POSITION]: position });
 };
@@ -88,12 +91,16 @@ export const processCollection = (mission, geometry) => {
     // Transform each slice into an empty image. If the slice contains at least
     // one image, we add metadata related to the correspondent orbital cycle,
     // to allow for filtering later
-    const carriers = additions.map(increment => {
+    const carriers = additions.map((increment) => {
       const startingDate = earliestDate.advance(increment, "day");
       const collection = sliceByRevisit(available, startingDate, mission.cycle);
 
       const empty = ee.Algorithms.IsEqual(collection.size(), 0);
-      const properties = ee.Algorithms.If(empty, {}, mergeProperties(collection));
+      const properties = ee.Algorithms.If(
+        empty,
+        {},
+        mergeProperties(collection)
+      );
 
       return ee.Image(0).set(properties);
     });
@@ -105,13 +112,15 @@ export const processCollection = (mission, geometry) => {
 
     // For now only the date of the slice is important.
     return ee.List(valid.toList(valid.size()).map(getDate));
-  }
+  };
 
-  return ee.List(ee.Algorithms.If(query.size().gt(0), process(query), ee.List([])))
+  return ee.List(
+    ee.Algorithms.If(query.size().gt(0), process(query), ee.List([]))
+  );
 };
 
 export const generateCloudMap = (dates, mission, geometry) => {
-  const cloudList = ee.List(dates).map(date => {
+  const cloudList = ee.List(dates).map((date) => {
     const image = ee.Image(acquireFromDate(date, mission, geometry));
     return image.get("CLOUDS");
   });
@@ -119,36 +128,37 @@ export const generateCloudMap = (dates, mission, geometry) => {
   return cloudList;
 };
 
-const queryAvailable = mission => geometry => {
+const queryAvailable = (mission) => (geometry) => {
   const query = processCollection(mission, geometry);
 
   const process = (available) => {
-    const datesQuery = available.map(date => ee.Date(date).format("YYYY-MM-dd"));
+    const datesQuery = available.map((date) =>
+      // Format Data as ISO standart formating and and UTC
+      ee.Date(date).format(null, 'UTC')
+    );
     const cloudQuery = generateCloudMap(datesQuery, mission, geometry);
 
-    return ee.Dictionary.fromLists(datesQuery, cloudQuery)
-  }
+    return ee.Dictionary.fromLists(datesQuery, cloudQuery);
+  };
 
-  return ee.Dictionary(ee.Algorithms.If(query.size().gt(0), process(query), ee.Dictionary({})))
+  return ee.Dictionary(
+    ee.Algorithms.If(query.size().gt(0), process(query), ee.Dictionary({}))
+  );
 };
 
-const getAvailable = mission => geometry => { };
+const getAvailable = (mission) => (geometry) => {};
 
-const acquire = mission => (date, geometry) => {
+const acquire = (mission) => (date, geometry) => {
   return acquireFromDate(date, mission, geometry);
-}
+};
 
-const format = properties => {
-  return (
-    properties["system:time_start"] +
-    " -- " +
-    properties["cloud"]
-  );
-}
+const format = (properties) => {
+  return properties["system:time_start"] + " -- " + properties["cloud"];
+};
 
 export default {
   queryAvailable,
   getAvailable,
   acquire,
-  format
+  format,
 };
