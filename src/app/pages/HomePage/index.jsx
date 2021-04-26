@@ -223,6 +223,13 @@ const HomePage = () => {
       role: t("home.members.roles.coord"),
       link: "http://lattes.cnpq.br/0117343254850007",
     },
+    sofia: {
+      name: "Sofia Aguiar",
+      img: "sofia.png",
+      group: groupsData.atlantic,
+      role: t("home.members.roles.researcher"),
+      link: "https://www.behance.net/sofiaaguia8215",
+    },
     pedro: {
       name: "Luis Pedro Almeida",
       img: "pedro.png",
@@ -237,6 +244,14 @@ const HomePage = () => {
       mail: "israel.oliveira@edu.univali.br",
       role: t("home.members.roles.atp"),
       link: "https://github.com/IsraelEfraim",
+    },
+    alisson: {
+      name: "Alisson Steffens",
+      img: "alisson.jpeg",
+      group: groupsData.lia,
+      mail: "ali.steffens@gmail.com",
+      role: t("home.members.roles.capes"),
+      link: "https://alissonsteffens.com",
     },
     vinicius: {
       name: "Vinícius Gabriel Martins",
@@ -258,8 +273,10 @@ const HomePage = () => {
     authorsData.rudimar,
     authorsData.lyra,
     authorsData.pedro,
+    authorsData.alisson,
     authorsData.israel,
     authorsData.vinicius,
+    authorsData.sofia
   ];
 
   const papers = [

@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "10px",
   },
   logo: {
-    marginTop: theme.spacing(1)
   }
 }));
 
@@ -45,12 +44,12 @@ const NavigationBar = () => {
     dispatch(LangActions.setLang(local));
   };
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="default">
       <Toolbar variant="dense">
         <div className={classes.left}>
           <Typography className={classes.title} variant="h6" color="inherit">
             <div className={classes.logo}>
-              <Logo/>
+              <Logo kind="filled"/>
             </div>
             {t("self.code")}
           </Typography>

@@ -43,6 +43,7 @@ const en = {
           coord: "Coordinator",
           atp: "Grant holder ATP-B",
           fumdes: "Grant holder FUMDES",
+          capes: "CAPES DTI-B Fellow"
         },
       },
       papers: {

@@ -56,7 +56,7 @@ export default function NavBar(props) {
                 color="initial"
                 className={classes.real_brand}
               >
-                <Logo /> {t("self.title")}
+                <Logo kind="filled"/> {t("self.title")}
               </Typography>
             </Link>
           </Box>
