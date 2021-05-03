@@ -1,5 +1,6 @@
 # CASSIE – Coastal Analysis via Satellite Imagery Engine
 
+use it at http://cassiengine.com/
 >Cassie is an open source web tool that performs analysis and mapping of coastal regions, focusing on the variation of the coastline. To perform these procedures cassie uses the tools and images provided by the Google Earth Engine platform.
 
 ![](public/usage_cassie.gif)

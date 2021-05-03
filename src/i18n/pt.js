@@ -46,6 +46,7 @@ const pt = {
           coord: "Coordenador",
           atp: "Bolsista ATP-B",
           fumdes: "Bolsista FUMDES",
+          capes: "Bolsista CAPES DTI-B"
         },
       },
       papers: {
