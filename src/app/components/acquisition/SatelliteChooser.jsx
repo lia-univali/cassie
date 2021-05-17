@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Box, Grid, IconButton } from "@material-ui/core";
 import SatelliteCard from "./SatelliteCard";
 import { NEXT } from "../../pages/AcquisitionPage";
 import { standard } from "../../../common/satellites";
@@ -9,6 +9,9 @@ import { Actions as Acquisition } from "../../../store/ducks/acquisition";
 import ReactGA from "react-ga";
 import { useTranslation } from "react-i18next";
 import TourGuider from "../tour/TourGuider";
+import { useLocalStorage } from "../../../common/utils";
+import { HelpOutlineOutlined } from "@material-ui/icons";
+import { Tooltip } from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -18,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
   grid: {
     margin: theme.spacing(2),
+  },
+  margin: {
+    margin: "5px",
+  },
+  right: {
+    textAlign: "right",
   },
 }));
 
@@ -39,7 +48,11 @@ const SatelliteChooser = ({ navigate }) => {
       content: t("tour.acquisition.1.Sentinel-2.info"),
     },
   ];
-  const [isTourOpen, setIsTourOpen] = useState(true);
+
+  const [isTourOpen, setIsTourOpen] = useLocalStorage(
+    "showSatelliteTour",
+    true
+  );
 
   const handleChoice = (index) => {
     ReactGA.event({
@@ -54,34 +67,51 @@ const SatelliteChooser = ({ navigate }) => {
   const spacecrafts = standard;
 
   return (
-    <Grid
-      container
-      spacing={3}
-      justify="center"
-      id="satellitechooser"
-      className={classes.grid}
-    >
-      {spacecrafts.map((satellite, i) => (
-        <Grid item key={i} xs={4} id={satellite.name}>
-          <SatelliteCard
-            name={satellite.name}
-            provider={satellite.provider}
-            image={satellite.image}
-            cycle={satellite.summary.cycle}
-            startYear={satellite.summary.startYear}
-            endYear={satellite.summary.endYear}
-            resolution={satellite.summary.opticalResolution}
-            onChoose={() => handleChoice(i)}
-            enabled={satellite.enabled}
-          />
-        </Grid>
-      ))}
-      <TourGuider
-        steps={steps}
-        isOpen={isTourOpen}
-        setIsTourOpen={setIsTourOpen}
-      />
-    </Grid>
+    <Box>
+      <div className={classes.right}>
+        <Tooltip title={t("tour.help")} aria-label="help" id='help'>
+          <IconButton
+            aria-label="help"
+            className={classes.margin}
+            size="medium"
+            onClick={() => {
+              setIsTourOpen(true);
+            }}
+          >
+            <HelpOutlineOutlined color="primary" fontSize="inherit" />
+          </IconButton>
+        </Tooltip>
+      </div>
+
+      <Grid
+        container
+        spacing={3}
+        justify="center"
+        id="satellitechooser"
+        className={classes.grid}
+      >
+        {spacecrafts.map((satellite, i) => (
+          <Grid item key={i} xs={4} id={satellite.name}>
+            <SatelliteCard
+              name={satellite.name}
+              provider={satellite.provider}
+              image={satellite.image}
+              cycle={satellite.summary.cycle}
+              startYear={satellite.summary.startYear}
+              endYear={satellite.summary.endYear}
+              resolution={satellite.summary.opticalResolution}
+              onChoose={() => handleChoice(i)}
+              enabled={satellite.enabled}
+            />
+          </Grid>
+        ))}
+        <TourGuider
+          steps={steps}
+          isOpen={isTourOpen}
+          setIsTourOpen={setIsTourOpen}
+        />
+      </Grid>
+    </Box>
   );
 };
 

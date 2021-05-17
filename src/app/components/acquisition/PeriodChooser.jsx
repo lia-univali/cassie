@@ -3,7 +3,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { first, last } from "lodash";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Typography } from "@material-ui/core";
+import { Box, IconButton, Typography } from "@material-ui/core";
 import TimePeriodSelector from "./TimePeriodSelector";
 import StepperButtons from "./StepperButtons";
 import CloudSelector from "./CloudSelector";
@@ -13,10 +13,13 @@ import {
   formatDate,
   formatDateDiff,
   datesBetween,
+  useLocalStorage,
 } from "../../../common/utils";
 import { uniteMissionsDates } from "../../../common/algorithms";
 import ReactGA from "react-ga";
 import TourGuider from "../tour/TourGuider";
+import { Tooltip } from "react-bootstrap";
+import { HelpOutlineOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -24,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
   },
   description: {
     margin: theme.spacing(7, 0, 3),
+  },
+  margin: {
+    margin: "5px",
+  },
+  right: {
+    textAlign: "right",
   },
 }));
 
@@ -52,11 +61,19 @@ const PeriodChooser = ({ navigate }) => {
       content: t("tour.acquisition.3.period"),
     },
     {
+      selector: "#timeselector",
+      content: t("tour.acquisition.3.point"),
+    },
+    {
       selector: "#cloudselector",
       content: t("tour.acquisition.3.cloud"),
     },
   ];
-  const [isTourOpen, setIsTourOpen] = useState(true);
+
+  const [isTourOpen, setIsTourOpen] = useLocalStorage(
+    "showPeriodTour",
+    true
+  );
 
   useEffect(() => {
     dispatch(Acquisition.loadAvailableImages());
@@ -76,14 +93,14 @@ const PeriodChooser = ({ navigate }) => {
 
   const handleNext = () => {
     ReactGA.event({
-      category: 'Acquisition',
-      action: 'SetCloudLevel',
-      value: cloudLevel
+      category: "Acquisition",
+      action: "SetCloudLevel",
+      value: cloudLevel,
     });
     ReactGA.event({
-      category: 'Acquisition',
-      action: 'SetPeriod',
-      value: (start+"-"+end)
+      category: "Acquisition",
+      action: "SetPeriod",
+      value: start + "-" + end,
     });
     const dates = selectDates().filter(
       (entry) => entry.date >= start && entry.date <= end
@@ -100,42 +117,58 @@ const PeriodChooser = ({ navigate }) => {
   const length = datesBetween(flatten, start, end).length;
 
   return (
-    <Box
-      className={classes.wrapper}
-      display="flex"
-      alignItems="center"
-      flexDirection="column"
-    >
-      <TimePeriodSelector
-        dates={flatten}
-        start={start}
-        end={end}
-        onChange={(start, end) => setPeriod([start, end])}
-      />
-      <Box className={classes.description}>
-        <Typography variant="subtitle1" align="center">
-          {t("forms.acquisition.3.period")}: {formatDate(start)}{" "}
-          {t("forms.acquisition.3.to")} {formatDate(end)}
-        </Typography>
-        <Typography variant="subtitle1" align="center">
-          {formatDateDiff(start, end)}, {length}{" "}
-          {t(
-            `forms.acquisition.3.imageQuantity.${
-              length === 1 ? "singular" : "plural"
-            }`
-          )}
-        </Typography>
+    <Box>
+      <div className={classes.right}>
+        <Tooltip title={t("tour.help")} aria-label="help" id="help">
+          <IconButton
+            aria-label="help"
+            className={classes.margin}
+            size="medium"
+            onClick={() => {
+              setIsTourOpen(true);
+            }}
+          >
+            <HelpOutlineOutlined color="primary" fontSize="inherit" />
+          </IconButton>
+        </Tooltip>
+      </div>
+      <Box
+        className={classes.wrapper}
+        display="flex"
+        alignItems="center"
+        flexDirection="column"
+      >
+        <TimePeriodSelector
+          dates={flatten}
+          start={start}
+          end={end}
+          onChange={(start, end) => setPeriod([start, end])}
+        />
+        <Box className={classes.description}>
+          <Typography variant="subtitle1" align="center">
+            {t("forms.acquisition.3.period")}: {formatDate(start)}{" "}
+            {t("forms.acquisition.3.to")} {formatDate(end)}
+          </Typography>
+          <Typography variant="subtitle1" align="center">
+            {formatDateDiff(start, end)}, {length}{" "}
+            {t(
+              `forms.acquisition.3.imageQuantity.${
+                length === 1 ? "singular" : "plural"
+              }`
+            )}
+          </Typography>
+        </Box>
+        <CloudSelector
+          level={cloudLevel}
+          onChange={(cloudLevel) => setCloudLevel(cloudLevel)}
+        />
+        <StepperButtons navigate={navigate} onNext={handleNext} />
+        <TourGuider
+          steps={steps}
+          isOpen={isTourOpen}
+          setIsTourOpen={setIsTourOpen}
+        />
       </Box>
-      <CloudSelector
-        level={cloudLevel}
-        onChange={(cloudLevel) => setCloudLevel(cloudLevel)}
-      />
-      <StepperButtons navigate={navigate} onNext={handleNext} />
-      <TourGuider
-        steps={steps}
-        isOpen={isTourOpen}
-        setIsTourOpen={setIsTourOpen}
-      />
     </Box>
   );
 };

@@ -14,10 +14,11 @@ import LoadedImagesAccordion from "../../components/map/LoadedImagesAccordion";
 import { Actions as Map } from "../../../store/ducks/map";
 import { useTranslation } from "react-i18next";
 import TourGuider from "../../components/tour/TourGuider";
+import { useLocalStorage } from "../../../common/utils";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
-    maxHeight: "calc(100vh - 64px)",
+    maxHeight: "100vh",
     flexGrow: 1,
     position: "relative",
   },
@@ -39,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
         pointerEvents: "auto",
       },
     },
+  },
+  margin: {
+    margin: "5px",
+  },
+  right: {
+    textAlign: "right",
   },
 }));
 
@@ -78,7 +85,10 @@ const ProcessingPage = () => {
       content: t("tour.map.imageChooser.click"),
     }
   ];
-  const [isTourOpen, setIsTourOpen] = useState(true);
+  const [isTourOpen, setIsTourOpen] = useLocalStorage(
+    "showMapTour",
+    true
+  );
 
   return (
     <Box className={classes.wrapper}>

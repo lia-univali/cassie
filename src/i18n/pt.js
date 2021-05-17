@@ -143,11 +143,12 @@ const pt = {
     tour: {
       done: "Concluido",
       of: "de",
+      help: "Ajuda",
       acquisition: {
         1: {
           info: "Nesta Etapa você deve escolher o Satélite",
           'Sentinel-2': {
-            info: "O Sentinel possiu maior resolução espacial e menor resolução temporal"
+            info: "O Sentinel possui maior resolução espacial e menor resolução temporal"
           },
           Landsat: {
             info: "O Landsat possui maior resolução temporal e menor resolução espacial"
@@ -155,6 +156,7 @@ const pt = {
         },
         3:{
           period: "Selecione um intervalo de datas para serem analizadas",
+          point: "Cada Ponto rosa é uma imagem",
           cloud: "Selecione um percentual aceitável de núvens na imagem"
         },
         4: {
@@ -167,9 +169,9 @@ const pt = {
       map: {
         start: "Esta é a tela de processamento",
         imageChooser: {
-          info: "Neste Campo você pode carreagar no mapa uma das imagens selecionadas",
+          info: "Neste Campo você pode carregar no mapa uma das imagens selecionadas",
           select: "Por padrão, a imagem selecionada é a mais recente, mas você pode escolher outra clicando aqui",
-          click: "Após selecionada a Imagem, você pode carregá-la na tela apertando neste botão"
+          click: "Após selecionar a Imagem, você pode carregá-la na tela apertando neste botão"
         }
       }
     },
