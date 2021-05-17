@@ -25,6 +25,7 @@ import googleLogo from "../../../resources/googleLogo.svg";
 import googleLogoDisabled from "../../../resources/googleLogoDisabled.svg";
 import Slide from "@material-ui/core/Slide";
 import HomePageLayout from "../../components/homepage/HomePageLayout";
+import { useLocalStorage } from "../../../common/utils";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -175,6 +176,7 @@ const SmallAvatar = withStyles((theme) => ({
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
+
 
 const HomePage = () => {
   const busy = useSelector((state) => state.auth.authenticating);
@@ -341,7 +343,7 @@ const HomePage = () => {
   }, []);
 
   const [devAdvOpen, setDevAdvOpen] = React.useState(true);
-  const [cookiesAdvOpen, setCookiesAdvOpen] = React.useState(true);
+  const [cookiesAdvOpen, setCookiesAdvOpen] =  useLocalStorage("showCookiesADV", true);
 
   const handleDevAdvClose = (event, reason) => {
     if (reason === "clickaway") {

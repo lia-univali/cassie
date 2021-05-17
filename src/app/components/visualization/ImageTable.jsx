@@ -40,7 +40,8 @@ const ImageTable = ({
   const COLUMNS = [
     {
       label: t("forms.acquisition.4.table.id"),
-      selector: (index) => `${images[index].shortname} - ${formatDate(images[index].date, true)}`,
+      selector: (index) =>
+        `${images[index].shortname} - ${formatDate(images[index].date, true)}`,
     },
     {
       label: t("forms.acquisition.4.table.cloud"),
@@ -62,7 +63,11 @@ const ImageTable = ({
     return (
       <TableRow>
         {COLUMNS.map((col, i) => (
-          <TableCell key={i} sortDirection={orderIndex === i ? order : false}>
+          <TableCell
+            key={i}
+            id={"column" + i}
+            sortDirection={orderIndex === i ? order : false}
+          >
             <TableSortLabel
               active={orderIndex === i}
               direction={order}
@@ -72,7 +77,7 @@ const ImageTable = ({
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell>{t("forms.acquisition.4.table.selected")}</TableCell>
+        <TableCell id={"columnaction"}>{t("forms.acquisition.4.table.selected")}</TableCell>
       </TableRow>
     );
   };

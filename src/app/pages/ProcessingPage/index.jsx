@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import ee from "../../../services/earth-engine"; // @TODO remove this!
@@ -12,10 +12,13 @@ import { ShapeList } from "../../components";
 import LoadedImagesAccordion from "../../components/map/LoadedImagesAccordion";
 
 import { Actions as Map } from "../../../store/ducks/map";
+import { useTranslation } from "react-i18next";
+import TourGuider from "../../components/tour/TourGuider";
+import { useLocalStorage } from "../../../common/utils";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
-    maxHeight: "calc(100vh - 64px)",
+    maxHeight: "100vh",
     flexGrow: 1,
     position: "relative",
   },
@@ -38,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  margin: {
+    margin: "5px",
+  },
+  right: {
+    textAlign: "right",
+  },
 }));
 
 const ProcessingPage = () => {
@@ -57,6 +66,30 @@ const ProcessingPage = () => {
     }
   };
 
+  const [t] = useTranslation();
+  const steps = [
+    {
+      selector: "#mapScreen",
+      content: t("tour.map.start"),
+    },
+    {
+      selector: "#imageChooserForm",
+      content: t("tour.map.imageChooser.info"),
+    },
+    {
+      selector: "#imageChooserSelect",
+      content: t("tour.map.imageChooser.select"),
+    },
+    {
+      selector: "#imageChooserLoadButton",
+      content: t("tour.map.imageChooser.click"),
+    }
+  ];
+  const [isTourOpen, setIsTourOpen] = useLocalStorage(
+    "showMapTour",
+    true
+  );
+
   return (
     <Box className={classes.wrapper}>
       <Grow in={!isDrawing} unmountOnExit>
@@ -64,6 +97,7 @@ const ProcessingPage = () => {
           container
           justify="center"
           spacing={0}
+          id="mapScreen"
           className={classes.mapOverlay}
         >
           <Grid item xs={9} className={classes.mapContainer}>
@@ -78,6 +112,11 @@ const ProcessingPage = () => {
       </Grow>
 
       <GoogleMap onLoad={displayROI} style={{ position: "absolute" }} />
+      <TourGuider
+        steps={steps}
+        isOpen={isTourOpen}
+        setIsTourOpen={setIsTourOpen}
+      />
     </Box>
   );
 };

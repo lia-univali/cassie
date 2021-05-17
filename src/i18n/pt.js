@@ -140,6 +140,41 @@ const pt = {
       signout: "Sair",
       loading: "Autenticando...",
     },
+    tour: {
+      done: "Concluido",
+      of: "de",
+      help: "Ajuda",
+      acquisition: {
+        1: {
+          info: "Nesta Etapa você deve escolher o Satélite",
+          'Sentinel-2': {
+            info: "O Sentinel possui maior resolução espacial e menor resolução temporal"
+          },
+          Landsat: {
+            info: "O Landsat possui maior resolução temporal e menor resolução espacial"
+          }
+        },
+        3:{
+          period: "Selecione um intervalo de datas para serem analizadas",
+          point: "Cada Ponto rosa é uma imagem",
+          cloud: "Selecione um percentual aceitável de núvens na imagem"
+        },
+        4: {
+          id: "O ID contém informações importantes como a data e hora em que a imagem foi capturada",
+          clouds: "Nesta coluna temos percentual calculado de Nuvens na imagem",
+          image: "Nesta coluna é apresentada a imagem em questão",
+          action: "Nesta última coluna, você pode escolher se deseja ou não incluir esta imagem na análise"
+        }
+      },
+      map: {
+        start: "Esta é a tela de processamento",
+        imageChooser: {
+          info: "Neste Campo você pode carregar no mapa uma das imagens selecionadas",
+          select: "Por padrão, a imagem selecionada é a mais recente, mas você pode escolher outra clicando aqui",
+          click: "Após selecionar a Imagem, você pode carregá-la na tela apertando neste botão"
+        }
+      }
+    },
     forms: {
       acquisition: {
         title: "Aquisição de Imagens",
