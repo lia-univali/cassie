@@ -177,7 +177,6 @@ function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
 
-
 const HomePage = () => {
   const busy = useSelector((state) => state.auth.authenticating);
   const dispatch = useDispatch();
