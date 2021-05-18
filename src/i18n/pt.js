@@ -13,6 +13,11 @@ const pt = {
       code: "CASSIE",
       name: "Coastal Analyst System from Space Imagery Engine",
     },
+    menus: {
+      drawer: {
+        language: 'Idioma',
+      }
+    },
     home: {
       about: {
         title: "Conheça o CASSIE",

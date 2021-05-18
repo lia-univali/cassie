@@ -18,9 +18,8 @@ import { useLocalStorage } from "../../../common/utils";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
-    maxHeight: "100vh",
+    display: "flex",
     flexGrow: 1,
-    position: "relative",
   },
   mapContainer: {
     display: "flex",
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   mapOverlay: {
     position: "absolute",
-    top: 0,
+    top: theme.spacing(7),
     bottom: 0,
     zIndex: 10,
     pointerEvents: "none",
