@@ -76,7 +76,7 @@ const en = {
         },
         resources: {
           title: "Resources",
-
+          license: "License",
           code: "Source Code",
         },
       },

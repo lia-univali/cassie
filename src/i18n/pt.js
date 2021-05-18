@@ -80,6 +80,7 @@ const pt = {
         resources: {
           title: "Recursos",
           code: "Código Fonte",
+          license: "Licença",
         },
       },
       warning: {
