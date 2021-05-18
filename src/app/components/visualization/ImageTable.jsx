@@ -25,6 +25,7 @@ const ImageTable = ({
   const [t] = useTranslation();
 
   const [page, setPage] = useState(0);
+  const [allChecked, setAllChecked] = useState(1);
   const [rows, setRows] = useState(10);
   const [sorted, setSorted] = useState(sequence(images.length, 0));
   const [orderIndex, setOrderIndex] = useState(null);
@@ -77,7 +78,14 @@ const ImageTable = ({
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell id={"columnaction"}>{t("forms.acquisition.4.table.selected")}</TableCell>
+        <TableCell id={"columnaction"}>
+          {t("forms.acquisition.4.table.selected")}
+          <Checkbox
+              checked={(allChecked === 1)}
+              indeterminate = {(allChecked === -1)}
+              onChange={(e) => handleCheckAll(e.target.checked)}
+            />
+        </TableCell>
       </TableRow>
     );
   };
@@ -94,7 +102,10 @@ const ImageTable = ({
           <TableCell>
             <Checkbox
               checked={selected[v]}
-              onChange={(e) => onCheckboxChange(v, e.target.checked)}
+              onChange={(e) => {
+                setAllChecked(-1)
+                onCheckboxChange(v, e.target.checked)
+              }}
             />
           </TableCell>
         </TableRow>
@@ -102,6 +113,14 @@ const ImageTable = ({
     });
   };
 
+  const handleCheckAll = (evt) => {
+    setAllChecked(evt? 1:0)
+    sorted.forEach((v)=>{
+      selected[v] = evt
+      onCheckboxChange(v, evt)
+    })
+
+  }
   const handleSort = (index) => {
     const col = COLUMNS[index];
     const dates = images;
