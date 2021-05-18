@@ -58,7 +58,7 @@ const LayerActions = ({ layer, index, parent }) => {
 
         {removable && (
           <Tooltip title="Remover" placement="top">
-            <IconButton onClick={() => {} /* @TODO Fix layer removal */}>
+            <IconButton onClick={() => dispatch(imagery.removeLayer(index))}>
               <Delete />
             </IconButton>
           </Tooltip>

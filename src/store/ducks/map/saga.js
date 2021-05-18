@@ -88,6 +88,14 @@ const handleChangeOpacity = function* ({ payload: { identifier, opacity } }) {
   Map.setOpacity(index, opacity);
 };
 
+const handleRemoveLayer = function* ({ payload: { identifier } }) {
+  console.log('map saga handle remove identifier')
+  console.log(identifier)
+  const index = yield select(findLayerIndex(identifier));
+  Map.removeLayer(index)
+};
+
+
 // eslint-disable-next-line require-yield
 const handleRequestDrawing = function* ({ payload: { drawingType } }) {
   Map.setDrawingControlsVisible(false);
@@ -158,6 +166,7 @@ const root = function* () {
     bufferedHandler(Types.CLEAR_HIGHLIGHT, handleClearHighlight),
     concurrentHandler(Types.REMOVE_SHAPE_GROUP, handleRemoveShapeGroup),
     bufferedHandler(Types.REMOVE_SHAPE, handleRemoveShape),
+    bufferedHandler(Types.REMOVE_LAYER, handleRemoveLayer),
     bufferedHandler(Types.CENTRALIZE_MAP, handleCentralizeMap),
   ]);
 };
