@@ -22,11 +22,9 @@ const alterLayer = (state, parent, layer, data) => {
 
 // return { ...state, layers: state.images[parent].layers.filter(lay => lay !== layer ) }
 const removeLayer = (state, parent, layer) => {
-  const images = update(state.images, {
-    [parent]: {
-      layers: {
-        $unset: [layer]
-      }
+  const images = update(state.images[parent], {
+    layers: {
+      $unset: [layer]
     }
   })
   return { ...state, images }
