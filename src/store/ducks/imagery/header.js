@@ -15,6 +15,7 @@ export const Types = duckify(namespace, store, [
   "COMMIT_CHANGE",
   "ANALYZE_COASTLINE",
   "REQUEST_EXPRESSION",
+  "REMOVE_ELEMENT"
 ]);
 
 export const Actions = {
@@ -72,6 +73,11 @@ export const Actions = {
   commitChange: (layer, data) => ({
     type: Types.COMMIT_CHANGE,
     payload: { layer, data },
+  }),
+
+  removeElement: (layer) => ({
+    type: Types.REMOVE_ELEMENT,
+    payload: { layer },
   }),
 };
 

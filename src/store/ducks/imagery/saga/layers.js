@@ -59,6 +59,7 @@ export const handleRemoveLayer = function* ({
   payload: { identifier },
 }) {
   yield put(Map.removeLayer(identifier));
+  yield put(Imagery.Actions.removeElement(identifier));
 };
 
 export const handleRequestExpression = function* ({ payload: { parent } }) {

@@ -42,6 +42,7 @@ const ImageViewer = ({ image, index }) => {
     <Accordion defaultExpanded style={{ margin: "1px 1px" }}>
       <AccordionSummary expandIcon={<ExpandIcon />}>
         <Typography className={classes.title} variant="body1">
+          {console.log('img', image)}
           {
             // Get mission short name by splitting its name
             image.name.split('/')[0]+' - '+formatDate(image.date, true)
