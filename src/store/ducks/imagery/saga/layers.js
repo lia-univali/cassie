@@ -56,7 +56,7 @@ export const handleUpdateOpacity = function* ({
 };
 
 export const handleRemoveLayer = function* ({
-  payload: { identifier},
+  payload: { identifier },
 }) {
   yield put(Map.removeLayer(identifier));
 };

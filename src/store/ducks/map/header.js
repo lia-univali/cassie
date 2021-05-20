@@ -64,9 +64,9 @@ export const Actions = {
     type: Types.COMMIT_SHAPE_REMOVAL,
     payload: { index },
   }),
-  removeLayer: (index) => ({
+  removeLayer: (identifier) => ({
     type: Types.REMOVE_LAYER,
-    payload: { index },
+    payload: { identifier },
   }),
   removeShape: (index) => ({
     type: Types.REMOVE_SHAPE,
