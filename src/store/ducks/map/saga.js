@@ -89,8 +89,6 @@ const handleChangeOpacity = function* ({ payload: { identifier, opacity } }) {
 };
 
 const handleRemoveLayer = function* ({ payload: { identifier } }) {
-  console.log('map saga handle remove identifier')
-  console.log(identifier)
   const index = yield select(findLayerIndex(identifier));
   Map.removeLayer(index)
 };

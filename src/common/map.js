@@ -98,9 +98,6 @@ export const addLayer = (overlay, index) => {
 };
 
 export const removeLayer = (index) => {
-  console.log("layers")
-  console.log(Map.customLayers)
-  console.log("tentando remover camada em " + index)
   Map.customLayers.splice(index, 1);
   Map.overlayMapTypes.removeAt(index);
 };
