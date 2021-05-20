@@ -10,6 +10,11 @@ const en = {
       poweredBy: "Powered by: Google Earth Engine",
       imageryProvider: "Imagery Providers: NASA (Landsat) and ESA (Sentinel)",
     },
+    menus: {
+      drawer: {
+        language: 'Language',
+      }
+    },
     home: {
       about: {
         title: "About",
