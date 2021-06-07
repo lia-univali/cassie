@@ -20,6 +20,7 @@ import ReactGA from "react-ga";
 import TourGuider from "../tour/TourGuider";
 import { Tooltip } from "react-bootstrap";
 import { HelpOutlineOutlined } from "@material-ui/icons";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -35,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "right",
   },
 }));
+
+const toTimestamp = (date) => parseInt(moment(date).format("x"), 10);
+const fromTimestamp = (timestamp) => moment(timestamp).toISOString();
 
 const PeriodChooser = ({ navigate }) => {
   const dates = useSelector(
@@ -102,8 +106,11 @@ const PeriodChooser = ({ navigate }) => {
       action: "SetPeriod",
       value: start + "-" + end,
     });
+    let begin = new Date(start)
+    begin.setDate(begin.getDate()-1);
+    begin = fromTimestamp(toTimestamp(begin))
     const dates = selectDates().filter(
-      (entry) => entry.date >= start && entry.date <= end
+      (entry) => entry.date >= begin && entry.date <= end
     );
 
     dispatch(Acquisition.setAvailableDates(dates.reverse()));
