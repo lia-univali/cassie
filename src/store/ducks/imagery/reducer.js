@@ -22,13 +22,21 @@ const alterLayer = (state, parent, layer, data) => {
 
 // return { ...state, layers: state.images[parent].layers.filter(lay => lay !== layer ) }
 const removeLayer = (state, parent, layer) => {
-  return update(state.images, {
-    [parent]: {
-      layers: {
-        $unset: [layer]
+  console.log('parent ', parent)
+  if (Object.keys(state.images[parent].layers).length <= 1) {
+    return update(state.images, {
+      $unset: [parent]
+    })
+  }else{
+    return update(state.images, {
+      [parent]: {
+        layers: {
+          $unset: [layer]
+        }
       }
-    }
-  })
+    })
+  }
+  
   // let layers = state.images[parent].layers;
   // return update(state.images[parent], Object.keys(layers).filter(lay => lay !== layer).reduce((acc, cur) => ({ ...acc, [cur]: layers[cur] }), {}));
 };
