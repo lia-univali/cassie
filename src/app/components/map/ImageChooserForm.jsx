@@ -46,7 +46,7 @@ const ImageChooserForm = ({
             value={index}
             id="imageChooserSelect"
           >
-            {images.slice(0).reverse().map((image, i) => (
+            {images.map((image, i) => (
               <MenuItem key={i} disabled={isDisabled(i)} value={i}>
                 {`${image.shortname} - ${formatDate(image.date, true)}`}
               </MenuItem>

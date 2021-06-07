@@ -106,7 +106,7 @@ const PeriodChooser = ({ navigate }) => {
       (entry) => entry.date >= start && entry.date <= end
     );
 
-    dispatch(Acquisition.setAvailableDates(dates));
+    dispatch(Acquisition.setAvailableDates(dates.reverse()));
   };
 
   if (working === true || !dates) {
