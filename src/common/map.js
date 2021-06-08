@@ -98,6 +98,7 @@ export const addLayer = (overlay, index) => {
 };
 
 export const removeLayer = (index) => {
+  console.log(` removendo later ${index} do mapa`)
   Map.customLayers.splice(index, 1);
   Map.overlayMapTypes.removeAt(index);
 };
@@ -170,7 +171,12 @@ export const clearOutline = () => {
 };
 
 export const setOpacity = (layer, value) => {
-  Map.customLayers[layer].setOpacity(value);
+  if (Map.customLayers[layer] !== undefined) {
+    Map.customLayers[layer].setOpacity(value);
+  } else {
+    console.warn(`Layer ${layer} is not defined`)
+  }
+
 };
 
 export const toLatLng = (coordinates) => {

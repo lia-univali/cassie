@@ -22,7 +22,6 @@ const alterLayer = (state, parent, layer, data) => {
 
 // return { ...state, layers: state.images[parent].layers.filter(lay => lay !== layer ) }
 const removeLayer = (state, parent, layer) => {
-  console.log('parent ', parent)
   if (Object.keys(state.images[parent].layers).length <= 1) {
     return update(state.images, {
       $unset: [parent]

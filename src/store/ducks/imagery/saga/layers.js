@@ -55,6 +55,7 @@ export const handleUpdateOpacity = function* ({
   yield put(Imagery.Actions.commitChange(identifier, { opacity }));
 };
 
+
 export const handleRemoveLayer = function* ({
   payload: { identifier },
 }) {

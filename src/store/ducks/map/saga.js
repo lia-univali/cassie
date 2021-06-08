@@ -84,7 +84,6 @@ const handleAddEEFeature = function* ({
 
 const handleChangeOpacity = function* ({ payload: { identifier, opacity } }) {
   const index = yield select(findLayerIndex(identifier));
-
   Map.setOpacity(index, opacity);
 };
 
