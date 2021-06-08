@@ -23,7 +23,7 @@ const CloudSelector = ({ level, onChange = () => {} }) => {
   };
 
   return (
-    <div>
+    <div id="cloudselector">
       <FormControl style={{ minWidth: 140, marginBottom: 16 }}>
         <InputLabel htmlFor="cloud-select">
           {t("forms.acquisition.3.cloudPercentage")}

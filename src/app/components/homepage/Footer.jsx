@@ -169,6 +169,16 @@ export default function Footer(managers, techs) {
                     {t("home.footer.resources.code")}
                   </Link>
                 </WhiteTextTypography>
+                <WhiteTextTypography variant="overline">
+                  <Link
+                    target="_blank"
+                    rel="noopener"
+                    color="inherit"
+                    href="https://github.com/lia-univali/cassie/blob/master/LICENSE"
+                  >
+                    {t("home.footer.resources.license")}
+                  </Link>
+                </WhiteTextTypography>
               </Grid>
             </Grid>
           </Grid>

@@ -76,7 +76,7 @@ const en = {
         },
         resources: {
           title: "Resources",
-
+          license: "License",
           code: "Source Code",
         },
       },
@@ -137,6 +137,41 @@ const en = {
       signin: "Sign in with Google",
       signout: "Sign out",
       loading: "Authenticating...",
+    },
+    tour: {
+      done: "Done",
+      of: "of",
+      help: "Help",
+      acquisition: {
+        1: {
+          info: "In this Step you must choose the Satellite",
+          'Sentinel-2': {
+            info: "Sentinel has higher spatial resolution and lower temporal resolution"
+          },
+          Landsat: {
+            info: "Landsat has higher temporal resolution and lower spatial resolution"
+          }
+        },
+        3:{
+          period: "Select a date range to review",
+          point: "Cada Ponto rosa é uma imagem",
+          cloud: "Select an acceptable percentage of clouds in the image"
+        },
+        4: {
+          id: "The ID contains important information such as the date and time the image was captured",
+          clouds: "In this column we have calculated percentage of Clouds in the image",
+          image: "This column shows the image in question",
+          action: "In this last column, you can choose whether or not to include this image in the analysis"
+        }
+      },
+      map: {
+        start: "This is the processing screen",
+        imageChooser: {
+          info: "In this field you can load on the map one of the selected images",
+          select: "By default, the selected image is the most recent, but you can choose another one by clicking here",
+          click: "After selecting the Image, you can load it on the screen by pressing this button"
+        }
+      }
     },
     forms: {
       acquisition: {

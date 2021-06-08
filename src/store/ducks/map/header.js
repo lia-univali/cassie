@@ -16,7 +16,7 @@ export const Types = duckify(namespace, store, [
   "ADD_SHAPES",
   "HIGHLIGHT",
   "CLEAR_HIGHLIGHT",
-  "COMMIT_HIGHTLIGHT",
+  "COMMIT_HIGHLIGHT",
   "COMMIT_SHAPE_REMOVAL",
 ]);
 

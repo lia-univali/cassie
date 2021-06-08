@@ -51,7 +51,7 @@ const TimePeriodSelector = ({
   end = !end ? lastItem(timestamps) : toTimestamp(end);
 
   return (
-    <Box className={classes.wrapper}>
+    <Box className={classes.wrapper} id="timeselector">
       <TooltipRange
         min={timestamps[0]}
         max={lastItem(timestamps)}
