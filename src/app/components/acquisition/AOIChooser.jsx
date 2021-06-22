@@ -2,16 +2,46 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import ee from "../../../services/earth-engine";
-import { Box, Button, FormControlLabel, Switch } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  Switch,
+  IconButton,
+  Tooltip,
+} from "@material-ui/core";
 import GoogleMap, { DEFAULT_ZOOM } from "../map/GoogleMap";
 import StepperButtons from "./StepperButtons";
 import * as Map from "../../../common/map";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
-
+import TourGuider from "../tour/TourGuider";
+import { useLocalStorage } from "../../../common/utils";
+import { makeStyles } from "@material-ui/core/styles";
+import { HelpOutlineOutlined } from "@material-ui/icons";
 
 const isAboveThreshold = (zoom) => {
   return zoom > 4;
 };
+
+const useStyles = makeStyles((theme) => ({
+  content: {
+    "&:not(:first-child)": {
+      borderLeft: `1px solid ${theme.palette.divider}`,
+    },
+  },
+  grid: {
+    margin: theme.spacing(2),
+  },
+  margin: {
+    margin: "5px",
+  },
+  right: {
+    textAlign: "right",
+  },
+  center: {
+    textAlign: "center",
+  },
+}));
 
 const AOIChooser = ({ navigate }) => {
   const dispatch = useDispatch();
@@ -89,22 +119,52 @@ const AOIChooser = ({ navigate }) => {
 
   const drawn = Boolean(coordinates);
 
+  const steps = [
+    {
+      selector: "#areachooser",
+      content: t("tour.acquisition.2.info"),
+    },
+  ];
+
+  const [isTourOpen, setIsTourOpen] = useLocalStorage("showROITour", true);
+
+  const classes = useStyles();
+
   return (
-    <Box display="flex" alignItems="center" flexDirection="column">
-      <FormControlLabel
-        label={t("forms.acquisition.2.showDelimiters")}
-        control={
-          <Switch
-            checked={visible}
-            disabled={switchDisabled}
-            onChange={handleSwitchChange}
-          />
-        }
-      />
-      <GoogleMap
-        style={{ width: 1000, height: 500 } /* @TODO pass as props */}
-        onRegionDrawn={handleDrawing}
-      />
+    <Box>
+      <div className={classes.right}>
+        <Tooltip title={t("tour.help")} aria-label="help" id="help">
+          <IconButton
+            aria-label="help"
+            className={classes.margin}
+            size="medium"
+            onClick={() => {
+              setIsTourOpen(true);
+            }}
+          >
+            <HelpOutlineOutlined color="primary" fontSize="inherit" />
+          </IconButton>
+        </Tooltip>
+      </div>
+      <div className={classes.center}>
+        <FormControlLabel
+          label={t("forms.acquisition.2.showDelimiters")}
+          control={
+            <Switch
+              checked={visible}
+              disabled={switchDisabled}
+              onChange={handleSwitchChange}
+            />
+          }
+        />
+      </div>
+      <div id={"areachooser"}>
+        <GoogleMap
+          style={{ width: 1000, height: 500 } /* @TODO pass as props */}
+          onRegionDrawn={handleDrawing}
+        />
+      </div>
+
       <StepperButtons
         navigate={navigate}
         nextDisabled={drawn === false}
@@ -119,6 +179,11 @@ const AOIChooser = ({ navigate }) => {
           {t("forms.acquisition.2.undo")}
         </Button>
       </StepperButtons>
+      <TourGuider
+        steps={steps}
+        isOpen={isTourOpen}
+        setIsTourOpen={setIsTourOpen}
+      />
     </Box>
   );
 };

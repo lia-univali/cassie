@@ -152,6 +152,9 @@ const en = {
             info: "Landsat has lower spatial resolution and longer data acquisition time (from 1984 to 2021)"
           }
         },
+        2:{
+          info: "Select the interest area for analysis"
+        },
         3:{
           period: "Select a date range to review",
           point: "Cada Ponto rosa é uma imagem",

@@ -155,6 +155,9 @@ const pt = {
             info: "O Landsat possui menor resolução espacial e mais tempo de aquisição de dados(de 1984 a 2021)"
           }
         },
+        2:{
+          info: "Selecione a área de interesse para a analise"
+        },
         3:{
           period: "Selecione um intervalo de datas para serem analizadas",
           point: "Cada Ponto rosa é uma imagem",

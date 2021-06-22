@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Grid, IconButton } from "@material-ui/core";
+import { Box, Grid, IconButton, Tooltip } from "@material-ui/core";
 import SatelliteCard from "./SatelliteCard";
 import { NEXT } from "../../pages/AcquisitionPage";
 import { standard } from "../../../common/satellites";
@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import TourGuider from "../tour/TourGuider";
 import { useLocalStorage } from "../../../common/utils";
 import { HelpOutlineOutlined } from "@material-ui/icons";
-import { Tooltip } from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
   content: {
