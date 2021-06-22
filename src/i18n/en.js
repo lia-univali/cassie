@@ -146,10 +146,10 @@ const en = {
         1: {
           info: "In this Step you must choose the Satellite",
           'Sentinel-2': {
-            info: "Sentinel has higher spatial resolution and lower temporal resolution"
+            info: "Sentinel has higher spatial resolution and less data acquisition time (from 2013-2021)"
           },
           Landsat: {
-            info: "Landsat has higher temporal resolution and lower spatial resolution"
+            info: "Landsat has lower spatial resolution and longer data acquisition time (from 1984 to 2021)"
           }
         },
         3:{

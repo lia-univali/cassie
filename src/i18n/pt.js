@@ -149,10 +149,10 @@ const pt = {
         1: {
           info: "Nesta Etapa você deve escolher o Satélite",
           'Sentinel-2': {
-            info: "O Sentinel possui maior resolução espacial e menor resolução temporal"
+            info: "O Sentinel possui maior resolução espacial e menos tempo de aquisição de dados (de 2013-2021)"
           },
           Landsat: {
-            info: "O Landsat possui maior resolução temporal e menor resolução espacial"
+            info: "O Landsat possui menor resolução espacial e mais tempo de aquisição de dados(de 1984 a 2021)"
           }
         },
         3:{
