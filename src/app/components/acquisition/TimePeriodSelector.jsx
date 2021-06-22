@@ -1,10 +1,8 @@
 import React from "react";
 import moment from "moment";
 import lastItem from "lodash/last";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography } from "@material-ui/core";
-
 import Tick from "./Tick";
 import { createRangeWithTooltip } from "./Slider";
 import { sequence, formatDate } from "../../../common/utils";
