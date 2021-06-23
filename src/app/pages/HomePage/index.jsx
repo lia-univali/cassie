@@ -497,6 +497,7 @@ const HomePage = () => {
                     variant="contained"
                     color="secondary"
                     href="https://baysqueeze.paginas.ufsc.br"
+                    target="_blank"
                   >
                     {t("home.baysqueeze.btn")}
                   </Button>
@@ -532,7 +533,8 @@ const HomePage = () => {
                   <Button
                     variant="contained"
                     color="secondary"
-                    href="https://baysqueeze.paginas.ufsc.br"
+                    href="https://riskports.paginas.ufsc.br"
+                    target="_blank"
                   >
                     {t("home.riscport.btn")}
                   </Button>
