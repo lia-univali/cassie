@@ -47,8 +47,8 @@ export default function Logo(props) {
             transform="translate(-49.887 5.391)"
             fill="#02c39a"
             stroke="#293241"
-            stroke-miterlimit="10"
-            stroke-width="2"
+            strokeMiterlimit="10"
+            strokeWidth="2"
           />
           <path
             id="globe"
@@ -57,8 +57,8 @@ export default function Logo(props) {
             transform="translate(-49.887 5.391)"
             fill="none"
             stroke="#293241"
-            stroke-miterlimit="10"
-            stroke-width="2"
+            strokeMiterlimit="10"
+            strokeWidth="2"
           />
           <path
             id="sat-body"
@@ -67,8 +67,8 @@ export default function Logo(props) {
             transform="translate(-49.887 5.391)"
             fill="none"
             stroke="#293241"
-            stroke-miterlimit="10"
-            stroke-width="2"
+            strokeMiterlimit="10"
+            strokeWidth="2"
           />
           <line
             id="sat"
@@ -78,8 +78,8 @@ export default function Logo(props) {
             transform="translate(1.793 6.181)"
             fill="none"
             stroke="#293241"
-            stroke-miterlimit="10"
-            stroke-width="2"
+            strokeMiterlimit="10"
+            strokeWidth="2"
           />
         </svg>
       ) : (
@@ -106,8 +106,8 @@ export default function Logo(props) {
             transform="translate(-49.887 5.391)"
             fill="#02c39a"
             stroke="#fff"
-            stroke-miterlimit="10"
-            stroke-width="2"
+            strokeMiterlimit="10"
+            strokeWidth="2"
           />
           <path
             id="globe"
@@ -116,8 +116,8 @@ export default function Logo(props) {
             transform="translate(-49.887 5.391)"
             fill="none"
             stroke="#fff"
-            stroke-miterlimit="10"
-            stroke-width="2"
+            strokeMiterlimit="10"
+            strokeWidth="2"
           />
           <path
             id="sat-body"
@@ -126,8 +126,8 @@ export default function Logo(props) {
             transform="translate(-49.887 5.391)"
             fill="none"
             stroke="#fff"
-            stroke-miterlimit="10"
-            stroke-width="2"
+            strokeMiterlimit="10"
+            strokeWidth="2"
           />
           <line
             id="sat"
@@ -137,8 +137,8 @@ export default function Logo(props) {
             transform="translate(1.793 6.181)"
             fill="none"
             stroke="#fff"
-            stroke-miterlimit="10"
-            stroke-width="2"
+            strokeMiterlimit="10"
+            strokeWidth="2"
           />
         </svg>
       )}

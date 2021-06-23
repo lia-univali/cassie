@@ -28,13 +28,13 @@ const pt = {
         linkVideo: "https://www.youtube.com/watch?v=7q-3xNVq0tY&",
       },
       baysqueeze: {
-        title: "BAYSQUEEZE",
+        title: "BaySqueeze",
         text:
           'O projeto procura contribuir com ações e resultados para o bem e preservação do nosso planeta, tomando para si, a tarefa de cumprir os objetivos de desenvolvimento sustentável, estabelecidos pela ONU, bem como atender às necessidades nacionais de conhecimento sobre mudanças climáticas, paralelamente aos objetivos da sub-rede "Zonas Costeiras", da Rede Brasileira de Pesquisas sobre Mudanças Climáticas Globais(Rede Clima).',
         btn: "Mais sobre o projeto",
       },
       riscport: {
-        title: "RISCPORT",
+        title: "RiskPorts",
         text:
           "Este projeto tem como objetivo principal realizar uma análise dos riscos climáticos (ambientais e econômicos) e determinar as possíveis medidas de adaptação, como base na projeção futura das ameaças ambientais (ex: ondas de tempestades), para incrementar a resiliência do setor portuário e áreas adjacentes na Baía da Babitonga, em um contexto de uma rede interdisciplinar e multi-institucional.",
         btn: "Mais sobre o projeto",
@@ -149,11 +149,14 @@ const pt = {
         1: {
           info: "Nesta Etapa você deve escolher o Satélite",
           'Sentinel-2': {
-            info: "O Sentinel possui maior resolução espacial e menor resolução temporal"
+            info: "O Sentinel possui maior resolução espacial e menos tempo de aquisição de dados (de 2013-2021)"
           },
           Landsat: {
-            info: "O Landsat possui maior resolução temporal e menor resolução espacial"
+            info: "O Landsat possui menor resolução espacial e mais tempo de aquisição de dados(de 1984 a 2021)"
           }
+        },
+        2:{
+          info: "Selecione a área de interesse para a analise"
         },
         3:{
           period: "Selecione um intervalo de datas para serem analizadas",

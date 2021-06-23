@@ -3,7 +3,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { first, last } from "lodash";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, IconButton, Typography } from "@material-ui/core";
+import { Box, IconButton, Tooltip, Typography } from "@material-ui/core";
 import TimePeriodSelector from "./TimePeriodSelector";
 import StepperButtons from "./StepperButtons";
 import CloudSelector from "./CloudSelector";
@@ -18,7 +18,6 @@ import {
 import { uniteMissionsDates } from "../../../common/algorithms";
 import ReactGA from "react-ga";
 import TourGuider from "../tour/TourGuider";
-import { Tooltip } from "react-bootstrap";
 import { HelpOutlineOutlined } from "@material-ui/icons";
 import moment from "moment";
 

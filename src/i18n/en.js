@@ -25,13 +25,13 @@ const en = {
         linkVideo: "https://www.youtube.com/watch?v=7q-3xNVq0tY&",
       },
       baysqueeze: {
-        title: "BAYSQUEEZE",
+        title: "BaySqueeze",
         text:
           'The project seeks to contribute with actions and results for the preservation of our planet, by assuming the task of fulfilling the United Nations Sustainable Development Goals, as well as attending the national needs of knowledge about climate change, in parallel with the goals of the sub-network "Coastal Zones", of the Brazilian Research Network on Global Climate Change (Rede Clima). ',
         btn: "Know more about the project",
       },
       riscport: {
-        title: "RISCPORT",
+        title: "RiskPorts",
         text:
           "The main goal of this project is to conduct a climate risk analysis (environmental and economic) and to determine possible adaptation measures, based on the future projection of environmental threats (e.g. storm waves), to increase the resilience of the port sector and adjacent areas in the Babitonga Bay, in an interdisciplinary and multi-institutional network context.",
         btn: "Know more about the project",
@@ -146,11 +146,14 @@ const en = {
         1: {
           info: "In this Step you must choose the Satellite",
           'Sentinel-2': {
-            info: "Sentinel has higher spatial resolution and lower temporal resolution"
+            info: "Sentinel has higher spatial resolution and less data acquisition time (from 2013-2021)"
           },
           Landsat: {
-            info: "Landsat has higher temporal resolution and lower spatial resolution"
+            info: "Landsat has lower spatial resolution and longer data acquisition time (from 1984 to 2021)"
           }
+        },
+        2:{
+          info: "Select the interest area for analysis"
         },
         3:{
           period: "Select a date range to review",

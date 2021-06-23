@@ -100,7 +100,7 @@ const HomePage = () => {
           className={classes.headingContainer}
           maxWidth="md"
           display="flex"
-          flexDirection="column"
+          flexdirection="column"
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>
