@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SummaryDataField = ({ title, value, unit }) => {
   return (
-    <Typography variant="body1">
+    <Typography variant="body1" color="textSecondary" component="p">
       <b>{title}: </b>
       {value} {unit}
     </Typography>
@@ -55,7 +55,7 @@ const SatelliteCard = ({
         <Typography gutterBottom variant="h5" component="h2">
           {name}
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="p" id={name+"_props"}>
+        <div id={name+"_props"}>
           <SummaryDataField
             title={t("forms.acquisition.1.card.opticalResolution")}
             value={resolution}
@@ -74,7 +74,7 @@ const SatelliteCard = ({
             value={cycle}
             unit={t("forms.acquisition.1.card.revisitTimeUnit")}
           />
-        </Typography>
+        </div>
       </CardContent>
       <CardActions>
         <Button color="primary" onClick={onChoose} disabled={!enabled}>

@@ -91,7 +91,7 @@ const ProblemsPage = () => {
           className={classes.headingContainer}
           maxWidth="md"
           display="flex"
-          flexDirection="column"
+          flexdirection="column"
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -104,7 +104,7 @@ const ProblemsPage = () => {
       </Box>
 
       <Box className={classes.content}>
-        <Container maxWidth="md" display="flex" flexDirection="column">
+        <Container maxWidth="md" display="flex" flexdirection="column">
           <Typography className={classes.desc} variant="body1">
             {t("problems.text")}
           </Typography>

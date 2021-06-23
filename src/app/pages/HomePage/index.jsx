@@ -365,7 +365,7 @@ const HomePage = () => {
           className={classes.headingContainer}
           maxWidth="md"
           display="flex"
-          flexDirection="column"
+          flexdirection="column"
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -404,7 +404,7 @@ const HomePage = () => {
         </Container>
       </Box>
       <Box className={classes.content}>
-        <Container maxWidth="md" display="flex" flexDirection="column">
+        <Container maxWidth="md" display="flex" flexdirection="column">
           <Typography className={classes.title} variant="h3" align="center">
             {t("home.about.title")}
           </Typography>
@@ -423,7 +423,7 @@ const HomePage = () => {
         </Container>
       </Box>
       <Box className={classes.content} bgcolor="white">
-        <Container maxWidth="md" display="flex" flexDirection="column">
+        <Container maxWidth="md" display="flex" flexdirection="column">
           <Typography className={classes.title} variant="h3">
             {t("home.instructions.title")}
           </Typography>
@@ -468,7 +468,7 @@ const HomePage = () => {
         </Container>
       </Box>
       <Box className={classes.bay}>
-        <Container maxWidth="md" display="flex" flexDirection="column">
+        <Container maxWidth="md" display="flex" flexdirection="column">
           <Grid container spacing={3} justify="center" alignItems="center">
             <Grid item xs={12} md={6}>
               {" "}
@@ -508,7 +508,7 @@ const HomePage = () => {
         </Container>
       </Box>
       <Box className={classes.risc}>
-        <Container maxWidth="md" display="flex" flexDirection="column">
+        <Container maxWidth="md" display="flex" flexdirection="column">
           <Grid container spacing={3} justify="center" alignItems="center">
             <Grid item xs={12} md={6}>
               <Box className={classes.bay_text}>
@@ -548,7 +548,7 @@ const HomePage = () => {
         </Container>
       </Box>
       <Box className={classes.content}>
-        <Container maxWidth="md" display="flex" flexDirection="column">
+        <Container maxWidth="md" display="flex" flexdirection="column">
           <Typography className={classes.title} variant="h3">
             {t("home.papers.title")}
           </Typography>
@@ -609,7 +609,7 @@ const HomePage = () => {
         </Container>
       </Box>
       <Box className={classes.content} bgcolor="white">
-        <Container maxWidth="md" display="flex" flexDirection="column">
+        <Container maxWidth="md" display="flex" flexdirection="column">
           <Typography className={classes.title} variant="h3">
             {t("home.members.title")}
           </Typography>
@@ -655,7 +655,7 @@ const HomePage = () => {
         </Container>
       </Box>
       <Box className={classes.content}>
-        <Container maxWidth="md" display="flex" flexDirection="column">
+        <Container maxWidth="md" display="flex" flexdirection="column">
           <Grid container spacing={3} justify="center">
             <Grid item xs={12} md={6} align="center">
               <Typography className={classes.title} variant="h4">
