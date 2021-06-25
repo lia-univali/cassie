@@ -16,7 +16,7 @@ import {
   Badge,
   Card,
   CardContent,
-  CardActions
+  CardActions,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
@@ -153,8 +153,8 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
   },
   snack: {
-    maxWidth: '75%',
-  }
+    maxWidth: "75%",
+  },
 }));
 
 const WhiteTextTypography = withStyles({
@@ -277,7 +277,7 @@ const HomePage = () => {
     authorsData.alisson,
     authorsData.israel,
     authorsData.vinicius,
-    authorsData.sofia
+    authorsData.sofia,
   ];
 
   const papers = [
@@ -294,8 +294,7 @@ const HomePage = () => {
         authorsData.vinicius,
         authorsData.klein,
       ],
-      link:
-        "https://www.sciencedirect.com/science/article/abs/pii/S1364815221000761",
+      link: "https://www.sciencedirect.com/science/article/abs/pii/S1364815221000761",
     },
     {
       kind: t("home.papers.resumo_text"),
@@ -309,8 +308,7 @@ const HomePage = () => {
         authorsData.rudimar,
         authorsData.klein,
       ],
-      link:
-        "http://www.praiaegestao.com.br/theme/images/ANAISSBPAEENCOGERCO_2018.pdf#page=252",
+      link: "http://www.praiaegestao.com.br/theme/images/ANAISSBPAEENCOGERCO_2018.pdf#page=252",
     },
     {
       kind: t("home.papers.resumo_text"),
@@ -324,8 +322,7 @@ const HomePage = () => {
         authorsData.rudimar,
         authorsData.klein,
       ],
-      link:
-        "https://siaiap32.univali.br/seer/index.php/acotb/article/view/12871",
+      link: "https://siaiap32.univali.br/seer/index.php/acotb/article/view/12871",
     },
     {
       kind: t("home.papers.curso_text"),
@@ -342,7 +339,10 @@ const HomePage = () => {
   }, []);
 
   const [devAdvOpen, setDevAdvOpen] = React.useState(true);
-  const [cookiesAdvOpen, setCookiesAdvOpen] =  useLocalStorage("showCookiesADV", true);
+  const [cookiesAdvOpen, setCookiesAdvOpen] = useLocalStorage(
+    "showNewCookiesADV",
+    true
+  );
 
   const handleDevAdvClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -355,7 +355,17 @@ const HomePage = () => {
     if (reason === "clickaway") {
       return;
     }
+    postAcceptingToAPI();
     setCookiesAdvOpen(false);
+  };
+
+  const postAcceptingToAPI = () => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ read: true }),
+    };
+    fetch("https://cassie-api.vercel.app/api/cookies", requestOptions);
   };
 
   return (
@@ -434,11 +444,7 @@ const HomePage = () => {
               </Typography>
             </Grid>
           </Grid>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
+          <Box display="flex" alignItems="center" justifyContent="center">
             <Button
               variant="outlined"
               className={classes.spaced_btn}
@@ -489,10 +495,7 @@ const HomePage = () => {
                 >
                   {t("home.baysqueeze.text")}
                 </WhiteTextTypography>
-                <Box
-                  display="flex"
-                  justifyContent="flex-end"
-                >
+                <Box display="flex" justifyContent="flex-end">
                   <Button
                     variant="contained"
                     color="secondary"
@@ -526,10 +529,7 @@ const HomePage = () => {
                 >
                   {t("home.riscport.text")}
                 </WhiteTextTypography>
-                <Box
-                  display="flex"
-                  justifyContent="flex-start"
-                >
+                <Box display="flex" justifyContent="flex-start">
                   <Button
                     variant="contained"
                     color="secondary"
