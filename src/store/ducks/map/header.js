@@ -6,6 +6,7 @@ export const store = "map";
 export const Types = duckify(namespace, store, [
   "ADD_EE_LAYER",
   "ADD_EE_FEATURE",
+  "REMOVE_LAYER",
   "REMOVE_SHAPE",
   "REMOVE_SHAPE_GROUP",
   "CHANGE_OPACITY",
@@ -62,6 +63,10 @@ export const Actions = {
   commitShapeRemoval: (index) => ({
     type: Types.COMMIT_SHAPE_REMOVAL,
     payload: { index },
+  }),
+  removeLayer: (identifier) => ({
+    type: Types.REMOVE_LAYER,
+    payload: { identifier },
   }),
   removeShape: (index) => ({
     type: Types.REMOVE_SHAPE,

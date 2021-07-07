@@ -55,6 +55,14 @@ export const handleUpdateOpacity = function* ({
   yield put(Imagery.Actions.commitChange(identifier, { opacity }));
 };
 
+
+export const handleRemoveLayer = function* ({
+  payload: { identifier },
+}) {
+  yield put(Map.removeLayer(identifier));
+  yield put(Imagery.Actions.removeElement(identifier));
+};
+
 export const handleRequestExpression = function* ({ payload: { parent } }) {
   const { name, expression } = yield call(openAndWait, "newLayer");
 

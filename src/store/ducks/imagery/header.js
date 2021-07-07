@@ -10,10 +10,12 @@ export const Types = duckify(namespace, store, [
   "SET_BASELINE",
   "TOGGLE_VISIBILITY",
   "UPDATE_OPACITY",
+  "REMOVE_LAYER",
   "GENERATE_TRANSECTS",
   "COMMIT_CHANGE",
   "ANALYZE_COASTLINE",
   "REQUEST_EXPRESSION",
+  "REMOVE_ELEMENT"
 ]);
 
 export const Actions = {
@@ -49,6 +51,11 @@ export const Actions = {
     payload: { identifier, opacity },
   }),
 
+  removeLayer: (identifier) => ({
+    type: Types.REMOVE_LAYER,
+    payload: { identifier },
+  }),
+
   generateTransects: (identifier) => ({
     type: Types.GENERATE_TRANSECTS,
     payload: { identifier },
@@ -66,6 +73,11 @@ export const Actions = {
   commitChange: (layer, data) => ({
     type: Types.COMMIT_CHANGE,
     payload: { layer, data },
+  }),
+
+  removeElement: (layer) => ({
+    type: Types.REMOVE_ELEMENT,
+    payload: { layer },
   }),
 };
 
