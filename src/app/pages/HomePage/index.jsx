@@ -116,8 +116,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
   },
   bay_text: {
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(5),
+    borderRadius: theme.spacing(1),
   },
   spaced_btn: {
     marginRight: "16px",
@@ -154,6 +155,9 @@ const useStyles = makeStyles((theme) => ({
   },
   snack: {
     maxWidth: "75%",
+  },
+  cpnq_logo: {
+    maxWidth: "150px",
   },
 }));
 
@@ -275,8 +279,6 @@ const HomePage = () => {
     authorsData.lyra,
     authorsData.pedro,
     authorsData.alisson,
-    authorsData.israel,
-    authorsData.vinicius,
     authorsData.sofia,
   ];
 
@@ -481,24 +483,21 @@ const HomePage = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <Box className={classes.bay_text}>
-                <WhiteTextTypography
-                  className={classes.title}
-                  variant="h3"
-                  align="right"
-                >
+                <img
+                  src="/squeeze.png"
+                  alt={t("home.baysqueeze.title")}
+                  className={classes.cpnq_logo}
+                />
+                <Typography className={classes.title} variant="h3">
                   {t("home.baysqueeze.title")}
-                </WhiteTextTypography>
-                <WhiteTextTypography
-                  variant="body1"
-                  className={classes.spaced_text}
-                  align="right"
-                >
+                </Typography>
+                <Typography variant="body1" className={classes.spaced_text}>
                   {t("home.baysqueeze.text")}
-                </WhiteTextTypography>
+                </Typography>
                 <Box display="flex" justifyContent="flex-end">
                   <Button
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                     href="https://baysqueeze.paginas.ufsc.br"
                     target="_blank"
                   >
@@ -515,25 +514,26 @@ const HomePage = () => {
           <Grid container spacing={3} justify="center" alignItems="center">
             <Grid item xs={12} md={6}>
               <Box className={classes.bay_text}>
-                <WhiteTextTypography
-                  className={classes.title}
-                  variant="h3"
-                  align="left"
-                >
+                <img
+                  src="/risk.png"
+                  alt={t("home.riscport.title")}
+                  className={classes.cpnq_logo}
+                />
+                <Typography className={classes.title} variant="h3" align="left">
                   {t("home.riscport.title")}
-                </WhiteTextTypography>
-                <WhiteTextTypography
+                </Typography>
+                <Typography
                   variant="body1"
                   className={classes.spaced_text}
                   align="left"
                 >
                   {t("home.riscport.text")}
-                </WhiteTextTypography>
-                <Box display="flex" justifyContent="flex-start">
+                </Typography>
+                <Box display="flex" justifyContent="flex-end">
                   <Button
                     variant="contained"
                     color="secondary"
-                    href="https://riskports.paginas.ufsc.br"
+                    href="https://riskports.ufsc.br/"
                     target="_blank"
                   >
                     {t("home.riscport.btn")}
