@@ -97,9 +97,17 @@ export const addLayer = (overlay, index) => {
   return index;
 };
 
+/** 
+ * Because of how customLayers works, each time one layer is deleted, 
+ * the others change the index and the reference ends up being lost.
+ * 
+ * So I ended up choosing to just remove the references to this layer in the interface 
+ * and make it transparent.
+**/
 export const removeLayer = (index) => {
-  Map.customLayers.splice(index, 1);
-  Map.overlayMapTypes.removeAt(index);
+  Map.customLayers[index].setOpacity(0);
+  // Map.customLayers.splice(index, 1);
+  // Map.overlayMapTypes.removeAt(index);
 };
 
 export const replaceLayer = (index, overlay) => {
@@ -170,7 +178,12 @@ export const clearOutline = () => {
 };
 
 export const setOpacity = (layer, value) => {
-  Map.customLayers[layer].setOpacity(value);
+  if (Map.customLayers[layer] !== undefined) {
+    Map.customLayers[layer].setOpacity(value);
+  } else {
+    console.warn(`Layer ${layer} is not defined`)
+  }
+
 };
 
 export const toLatLng = (coordinates) => {

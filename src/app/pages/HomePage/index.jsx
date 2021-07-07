@@ -16,7 +16,7 @@ import {
   Badge,
   Card,
   CardContent,
-  CardActions
+  CardActions,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
@@ -116,8 +116,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
   },
   bay_text: {
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(5),
+    borderRadius: theme.spacing(1),
   },
   spaced_btn: {
     marginRight: "16px",
@@ -153,8 +154,11 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
   },
   snack: {
-    maxWidth: '75%',
-  }
+    maxWidth: "75%",
+  },
+  cpnq_logo: {
+    maxWidth: "150px",
+  },
 }));
 
 const WhiteTextTypography = withStyles({
@@ -275,9 +279,7 @@ const HomePage = () => {
     authorsData.lyra,
     authorsData.pedro,
     authorsData.alisson,
-    authorsData.israel,
-    authorsData.vinicius,
-    authorsData.sofia
+    authorsData.sofia,
   ];
 
   const papers = [
@@ -294,8 +296,7 @@ const HomePage = () => {
         authorsData.vinicius,
         authorsData.klein,
       ],
-      link:
-        "https://www.sciencedirect.com/science/article/abs/pii/S1364815221000761",
+      link: "https://www.sciencedirect.com/science/article/abs/pii/S1364815221000761",
     },
     {
       kind: t("home.papers.resumo_text"),
@@ -309,8 +310,7 @@ const HomePage = () => {
         authorsData.rudimar,
         authorsData.klein,
       ],
-      link:
-        "http://www.praiaegestao.com.br/theme/images/ANAISSBPAEENCOGERCO_2018.pdf#page=252",
+      link: "http://www.praiaegestao.com.br/theme/images/ANAISSBPAEENCOGERCO_2018.pdf#page=252",
     },
     {
       kind: t("home.papers.resumo_text"),
@@ -324,8 +324,7 @@ const HomePage = () => {
         authorsData.rudimar,
         authorsData.klein,
       ],
-      link:
-        "https://siaiap32.univali.br/seer/index.php/acotb/article/view/12871",
+      link: "https://siaiap32.univali.br/seer/index.php/acotb/article/view/12871",
     },
     {
       kind: t("home.papers.curso_text"),
@@ -342,7 +341,10 @@ const HomePage = () => {
   }, []);
 
   const [devAdvOpen, setDevAdvOpen] = React.useState(true);
-  const [cookiesAdvOpen, setCookiesAdvOpen] =  useLocalStorage("showCookiesADV", true);
+  const [cookiesAdvOpen, setCookiesAdvOpen] = useLocalStorage(
+    "showNewCookiesADV",
+    true
+  );
 
   const handleDevAdvClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -355,7 +357,17 @@ const HomePage = () => {
     if (reason === "clickaway") {
       return;
     }
+    postAcceptingToAPI();
     setCookiesAdvOpen(false);
+  };
+
+  const postAcceptingToAPI = () => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ read: true }),
+    };
+    fetch("https://cassie-api.vercel.app/api/cookies", requestOptions);
   };
 
   return (
@@ -434,11 +446,7 @@ const HomePage = () => {
               </Typography>
             </Grid>
           </Grid>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
+          <Box display="flex" alignItems="center" justifyContent="center">
             <Button
               variant="outlined"
               className={classes.spaced_btn}
@@ -475,27 +483,21 @@ const HomePage = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <Box className={classes.bay_text}>
-                <WhiteTextTypography
-                  className={classes.title}
-                  variant="h3"
-                  align="right"
-                >
+                <img
+                  src="/squeeze.png"
+                  alt={t("home.baysqueeze.title")}
+                  className={classes.cpnq_logo}
+                />
+                <Typography className={classes.title} variant="h3">
                   {t("home.baysqueeze.title")}
-                </WhiteTextTypography>
-                <WhiteTextTypography
-                  variant="body1"
-                  className={classes.spaced_text}
-                  align="right"
-                >
+                </Typography>
+                <Typography variant="body1" className={classes.spaced_text}>
                   {t("home.baysqueeze.text")}
-                </WhiteTextTypography>
-                <Box
-                  display="flex"
-                  justifyContent="flex-end"
-                >
+                </Typography>
+                <Box display="flex" justifyContent="flex-end">
                   <Button
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                     href="https://baysqueeze.paginas.ufsc.br"
                     target="_blank"
                   >
@@ -512,28 +514,26 @@ const HomePage = () => {
           <Grid container spacing={3} justify="center" alignItems="center">
             <Grid item xs={12} md={6}>
               <Box className={classes.bay_text}>
-                <WhiteTextTypography
-                  className={classes.title}
-                  variant="h3"
-                  align="left"
-                >
+                <img
+                  src="/risk.png"
+                  alt={t("home.riscport.title")}
+                  className={classes.cpnq_logo}
+                />
+                <Typography className={classes.title} variant="h3" align="left">
                   {t("home.riscport.title")}
-                </WhiteTextTypography>
-                <WhiteTextTypography
+                </Typography>
+                <Typography
                   variant="body1"
                   className={classes.spaced_text}
                   align="left"
                 >
                   {t("home.riscport.text")}
-                </WhiteTextTypography>
-                <Box
-                  display="flex"
-                  justifyContent="flex-start"
-                >
+                </Typography>
+                <Box display="flex" justifyContent="flex-end">
                   <Button
                     variant="contained"
                     color="secondary"
-                    href="https://riskports.paginas.ufsc.br"
+                    href="https://riskports.ufsc.br/"
                     target="_blank"
                   >
                     {t("home.riscport.btn")}

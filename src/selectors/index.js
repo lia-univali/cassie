@@ -77,8 +77,10 @@ export function computeInsertionIndex(parent) {
 export function findLayerIndex(identifier) {
   return createPipe("map", (state) => {
     for (let i = 0; i < state.layers.length; i++) {
-      if (parseInt(identifier, 10) === state.layers[i]) {
-        return i;
+      if (state.layers[i] !== undefined) {
+        if (parseInt(identifier, 10) === state.layers[i]) {
+          return i;
+        }
       }
     }
 
@@ -88,10 +90,12 @@ export function findLayerIndex(identifier) {
 
 export function findLayerParent(identifier) {
   return createPipe("imagery", (state) => {
-    for (let i = 0; i < Object.keys(state.images).length; i++) {
-      for (const j of Object.keys(state.images[i].layers)) {
-        if (parseInt(identifier, 10) === parseInt(j, 10)) {
-          return i;
+    for (let i = 0; i < state.imageId; i++) {
+      if (state.images[i] !== undefined) {
+        for (const j of Object.keys(state.images[i].layers)) {
+          if (parseInt(identifier, 10) === parseInt(j, 10)) {
+            return i;
+          }
         }
       }
     }

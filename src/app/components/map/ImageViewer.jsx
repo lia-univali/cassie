@@ -44,7 +44,8 @@ const ImageViewer = ({ image, index }) => {
         <Typography className={classes.title} variant="body1">
           {
             // Get mission short name by splitting its name
-            image.name.split('/')[0]+' - '+formatDate(image.date, true)
+            typeof(image) == 'object' ?
+            image.name.split('/')[0]+' - '+formatDate(image.date, true) : ''
           }
         </Typography>
       </AccordionSummary>

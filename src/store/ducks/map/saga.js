@@ -84,9 +84,14 @@ const handleAddEEFeature = function* ({
 
 const handleChangeOpacity = function* ({ payload: { identifier, opacity } }) {
   const index = yield select(findLayerIndex(identifier));
-
   Map.setOpacity(index, opacity);
 };
+
+const handleRemoveLayer = function* ({ payload: { identifier } }) {
+  const index = yield select(findLayerIndex(identifier));
+  Map.removeLayer(index)
+};
+
 
 // eslint-disable-next-line require-yield
 const handleRequestDrawing = function* ({ payload: { drawingType } }) {
@@ -158,6 +163,7 @@ const root = function* () {
     bufferedHandler(Types.CLEAR_HIGHLIGHT, handleClearHighlight),
     concurrentHandler(Types.REMOVE_SHAPE_GROUP, handleRemoveShapeGroup),
     bufferedHandler(Types.REMOVE_SHAPE, handleRemoveShape),
+    bufferedHandler(Types.REMOVE_LAYER, handleRemoveLayer),
     bufferedHandler(Types.CENTRALIZE_MAP, handleCentralizeMap),
   ]);
 };
