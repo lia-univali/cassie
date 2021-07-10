@@ -3,7 +3,6 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { push } from "connected-react-router";
 import { Redirect, Switch, Route } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Divider,
@@ -14,21 +13,21 @@ import {
   Stepper,
   Typography,
 } from "@material-ui/core";
-
 import SatelliteChooser from "../../components/acquisition/SatelliteChooser";
 import AOIChooser from "../../components/acquisition/AOIChooser";
 import PeriodChooser from "../../components/acquisition/PeriodChooser";
 import ImageListRefiner from "../../components/acquisition/ImageListRefiner";
 import Footer from "../../components/core/Footer";
-
 import { getAcquisitionParameters } from "../../../selectors";
 import { Actions as Auth } from "../../../store/ducks/auth";
 
+// set constants to previous, next, first and final steps
 export const PREVIOUS = -1;
 export const FIRST = 0;
 export const NEXT = 1;
 export const FINALIZE = 2;
 
+// set the data for the steps
 const STEPS = [
   {
     label: "forms.acquisition.1.title",
@@ -55,6 +54,7 @@ const STEPS = [
   },
 ];
 
+// useStyles is a hook into material-ui's useStyles method
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: "flex",
@@ -84,39 +84,51 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// AcquisitionPage is the main page of the acquisition process
 const AcquisitionPage = (props) => {
+
   const acquisitionData = useSelector(getAcquisitionParameters, shallowEqual);
 
   const dispatch = useDispatch();
+  // useTranslate is a hook into react-i18next's useTranslate method
   const [t] = useTranslation();
+  // use custom styles
   const classes = useStyles();
 
   const { match } = props;
 
+  // check if the step is valid and attends requirements
   const stepAttendsRequirements = () => {
     const { params } = match;
-
+    // check if the step is valid
     const hasStep = params.step !== undefined;
+    // if it is, check the last step, it it is not, set it to the first step
     const step = hasStep ? params.step - 1 : 0;
-
+    // load step data
     const stepData = STEPS[step];
+    // check if the step has requirements
     return !("requires" in stepData) || stepData.requires in acquisitionData;
   };
 
+  
   useEffect(() => {
+    // check if the user is authenticated
     dispatch(Auth.begin());
-
+    // check if the step is valid and check the requirements
     if (!stepAttendsRequirements()) {
+      // if it is not, redirect to the first step
       navigate(FIRST);
     }
   }, [dispatch]);
 
+  // get the current step by the url
   const extractPath = (hasStep) => {
     return hasStep
       ? match.url.substring(0, match.url.lastIndexOf("/"))
       : match.url;
   };
 
+  // navigate to other step
   const navigate = (direction) => {
     const path = extractPath(true);
     const { step } = match.params;
@@ -126,27 +138,27 @@ const AcquisitionPage = (props) => {
     } else if (direction === FIRST) {
       dispatch(push(`${path}/1`));
     } else if (direction === FINALIZE) {
+      // if it is the final step, redirect to the processing page
       dispatch(push("/main/processing"));
     }
   };
 
+  // render the page according to the step
   const renderStep = (props, Component) => {
     if (stepAttendsRequirements()) {
       return (
         <Component {...props} navigate={(direction) => navigate(direction)} />
       );
     }
-
     return null;
   };
 
+  // automatize the routes generation based on the steps
   const makeRoutes = (hasStep) => {
     const path = extractPath(hasStep);
-
     return STEPS.map((el, i) => {
       const id = i + 1;
       const Component = el.component;
-
       return (
         <Route
           key={id}

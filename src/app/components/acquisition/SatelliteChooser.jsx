@@ -12,6 +12,7 @@ import TourGuider from "../tour/TourGuider";
 import { useLocalStorage } from "../../../common/utils";
 import { HelpOutlineOutlined } from "@material-ui/icons";
 
+// useStyles is a hook for the styles module
 const useStyles = makeStyles((theme) => ({
   content: {
     "&:not(:first-child)": {
@@ -29,10 +30,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// this is the page of the first step of the acquisition wizard
+// is is supposed to get the satellite name and the provider
+// and save it on the storage
+// then the user can go to the next step
 const SatelliteChooser = ({ navigate }) => {
   const dispatch = useDispatch();
+  // custom styles
   const classes = useStyles();
+  // get the language
   const [t] = useTranslation();
+
+  // defines the steps for the tour
   const steps = [
     {
       selector: "#satellitechooser",
@@ -48,11 +57,13 @@ const SatelliteChooser = ({ navigate }) => {
     },
   ];
 
+  // create a localStorage object to check if the user has already seen the tour
   const [isTourOpen, setIsTourOpen] = useLocalStorage(
     "showSatelliteTour",
     true
   );
 
+  // handle the sattelite chooser and also send an event to Google Analytics
   const handleChoice = (index) => {
     ReactGA.event({
       category: "Acquisition",
@@ -60,15 +71,17 @@ const SatelliteChooser = ({ navigate }) => {
       value: index,
     });
     dispatch(Acquisition.setSatellite(index));
+    // go to the next step
     navigate(NEXT);
   };
 
-  const spacecrafts = standard;
+  // the satellites from common/satellites.js
+  const satellites = standard;
 
   return (
     <Box>
       <div className={classes.right}>
-        <Tooltip title={t("tour.help")} aria-label="help" id='help'>
+        <Tooltip title={t("tour.help")} aria-label="help" id="help">
           <IconButton
             aria-label="help"
             className={classes.margin}
@@ -89,21 +102,28 @@ const SatelliteChooser = ({ navigate }) => {
         id="satellitechooser"
         className={classes.grid}
       >
-        {spacecrafts.map((satellite, i) => (
-          <Grid item key={i} xs={4} id={satellite.name}>
-            <SatelliteCard
-              name={satellite.name}
-              provider={satellite.provider}
-              image={satellite.image}
-              cycle={satellite.summary.cycle}
-              startYear={satellite.summary.startYear}
-              endYear={satellite.summary.endYear}
-              resolution={satellite.summary.opticalResolution}
-              onChoose={() => handleChoice(i)}
-              enabled={satellite.enabled}
-            />
-          </Grid>
-        ))}
+        {
+          // map the satellites to satellite cards
+          satellites.map((satellite, i) => (
+            <Grid item key={i} xs={4} id={satellite.name}>
+              <SatelliteCard
+                name={satellite.name}
+                provider={satellite.provider}
+                image={satellite.image}
+                cycle={satellite.summary.cycle}
+                startYear={satellite.summary.startYear}
+                endYear={satellite.summary.endYear}
+                resolution={satellite.summary.opticalResolution}
+                onChoose={() => handleChoice(i)}
+                enabled={satellite.enabled}
+              />
+            </Grid>
+          ))
+        }
+        {
+          // the tour
+          // if the user has already seen the tour, then the tour is not shown
+        }
         <TourGuider
           steps={steps}
           isOpen={isTourOpen}

@@ -19,10 +19,12 @@ import { useLocalStorage } from "../../../common/utils";
 import { makeStyles } from "@material-ui/core/styles";
 import { HelpOutlineOutlined } from "@material-ui/icons";
 
+
 const isAboveThreshold = (zoom) => {
   return zoom > 4;
 };
 
+// useStyles is a hook for styling this component with Material UI's styling solution
 const useStyles = makeStyles((theme) => ({
   content: {
     "&:not(:first-child)": {
@@ -43,8 +45,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// This is the page of the second step of the aquisition wizard
+// it is supposed to get the Area of Interest (AOI) from the map
+// and to save it in the storage.
+// It also shows a button to start the third step.
 const AOIChooser = ({ navigate }) => {
   const dispatch = useDispatch();
+  // get the current language
   const [t] = useTranslation();
 
   const [visible, setVisible] = useState(isAboveThreshold(DEFAULT_ZOOM));
