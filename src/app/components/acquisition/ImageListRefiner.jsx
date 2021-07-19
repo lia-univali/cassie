@@ -12,6 +12,7 @@ import { Box, IconButton, makeStyles } from "@material-ui/core";
 import { Tooltip } from "react-bootstrap";
 import { HelpOutlineOutlined } from "@material-ui/icons";
 
+// useStyles is a hook for styling this component with Material UI's styling solution
 const useStyles = makeStyles((theme) => ({
   margin: {
     margin: "5px",
@@ -20,13 +21,21 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "right",
   },
 }));
+
+// This is the page of the fourth step of the aquisition wizard
+// it is supposed to display all the images at range, and let the user
+// choose which images to acquire.
 const ImageListRefiner = ({ navigate }) => {
+  
   const metadata = useSelector((state) => state.acquisition.metadata);
   const dates = useSelector((state) => state.acquisition.availableDates);
 
   const dispatch = useDispatch();
+  // get the current language from the store
   const [t] = useTranslation();
+  // custom styles
   const classes = useStyles();
+  // defines the steps for the tour
   const steps = [
     {
       selector: "#column0",
@@ -45,24 +54,28 @@ const ImageListRefiner = ({ navigate }) => {
       content: t("tour.acquisition.4.action"),
     },
   ];
+  // the initial state of the tour
   const [isTourOpen, setIsTourOpen] = useLocalStorage(
     "showImageListChooserTour",
     true
   );
-
+  
+  // the initial state of the of each image of the table
   const [selected, setSelected] = useState(dates.map(() => true));
-
+  
+  // the action to perform when the user clicks in one checkbox
   const handleChange = (index, checked) => {
+    // set the state of the checkbox for the index
     const updated = update(selected, {
       [index]: { $set: checked },
     });
-
+    // dispatch the action to update the state of the application
     setSelected(updated);
   };
 
+  // the action to perform when the user clicks in the finalize button
   const handleFinish = () => {
     const filtered = dates.filter((image, i) => selected[i] === true);
-
     dispatch(Acquisition.setAvailableDates(filtered));
   };
 

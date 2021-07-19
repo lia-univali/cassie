@@ -5,108 +5,55 @@ import ee from "../../../services/earth-engine";
 import {
   Box,
   Button,
-  FormControlLabel,
-  Switch,
   IconButton,
   Tooltip,
 } from "@material-ui/core";
-import GoogleMap, { DEFAULT_ZOOM } from "../map/GoogleMap";
+import GoogleMap from "../map/GoogleMap";
 import StepperButtons from "./StepperButtons";
 import * as Map from "../../../common/map";
 import { Actions as Acquisition } from "../../../store/ducks/acquisition";
 import TourGuider from "../tour/TourGuider";
 import { useLocalStorage } from "../../../common/utils";
-import { makeStyles } from "@material-ui/core/styles";
-import { HelpOutlineOutlined } from "@material-ui/icons";
+import HelpButton from "../core/HelpButton";
 
-const isAboveThreshold = (zoom) => {
-  return zoom > 4;
-};
+// useStyles is a hook for styling this component with Material UI's styling solution
 
-const useStyles = makeStyles((theme) => ({
-  content: {
-    "&:not(:first-child)": {
-      borderLeft: `1px solid ${theme.palette.divider}`,
-    },
-  },
-  grid: {
-    margin: theme.spacing(2),
-  },
-  margin: {
-    margin: "5px",
-  },
-  right: {
-    textAlign: "right",
-  },
-  center: {
-    textAlign: "center",
-  },
-}));
-
+// This is the page of the second step of the aquisition wizard
+// it is supposed to get the Area of Interest (AOI) from the map
+// and to save it in the storage.
+// It also shows a button to start the third step.
 const AOIChooser = ({ navigate }) => {
   const dispatch = useDispatch();
+  // get the current language
   const [t] = useTranslation();
-
-  const [visible, setVisible] = useState(isAboveThreshold(DEFAULT_ZOOM));
-  const [zoomLevel, setZoomLevel] = useState(DEFAULT_ZOOM);
-  const [switchDisabled, setSwitchDisabled] = useState(false);
   const [overlay, setOverlay] = useState(null);
   const [coordinates, setCoordinates] = useState(null);
-  // eslint-disable-next-line no-unused-vars
-  const [wrs, setWrs] = useState(null); // @TODO enable this
-
-  const changeDelimiterVisibility = (visible) => {
-    /*
-    if (visible) {
-      Map.displayElement(wrs)
-    } else {
-      Map.hideElement(wrs)
-    }
-    */
-    setVisible(visible);
-  };
-
-  const handleZoomChange = (updatedLevel) => {
-    const prevVisible = isAboveThreshold(zoomLevel);
-    const visible = isAboveThreshold(updatedLevel);
-
-    if (visible !== prevVisible) {
-      changeDelimiterVisibility(visible);
-    }
-
-    setZoomLevel(updatedLevel);
-    setSwitchDisabled(!visible);
-  };
 
   useEffect(() => {
-    Map.onZoomChange((zoomLevel) => handleZoomChange(zoomLevel));
     Map.setDrawingControlsVisible(true);
-
     return () => {
       Map.onZoomChange(() => {});
     };
   }, []);
 
+  // handle drawing the AOI on the map
   const handleDrawing = (overlay, coordinates) => {
     setOverlay(overlay);
     setCoordinates(coordinates);
-
+    // disable the drawing controls, when the AOI is drawn
     Map.setDrawingControlsVisible(false);
   };
 
+  // handle the undoing of the AOI
   const handleUndo = () => {
     overlay.setMap(null);
-
     setOverlay(null);
     setCoordinates(null);
-
+    // enable the drawing controls
     Map.setDrawingControlsVisible(true);
   };
 
-  const handleSwitchChange = (event) => {
-    changeDelimiterVisibility(event.target.checked);
-  };
-
+  // handle the saving of the AOI
   const handleChoose = () => {
     dispatch(
       Acquisition.setAOI(
@@ -117,8 +64,10 @@ const AOIChooser = ({ navigate }) => {
     );
   };
 
+  // check if the AOI is already saved
   const drawn = Boolean(coordinates);
 
+  // defines the steps for the tour
   const steps = [
     {
       selector: "#areachooser",
@@ -126,45 +75,23 @@ const AOIChooser = ({ navigate }) => {
     },
   ];
 
+  // create a localStorage object to check if the user has already seen the tour
   const [isTourOpen, setIsTourOpen] = useLocalStorage("showROITour", true);
-
-  const classes = useStyles();
+  
 
   return (
     <Box>
-      <div className={classes.right}>
-        <Tooltip title={t("tour.help")} aria-label="help" id="help">
-          <IconButton
-            aria-label="help"
-            className={classes.margin}
-            size="medium"
-            onClick={() => {
-              setIsTourOpen(true);
-            }}
-          >
-            <HelpOutlineOutlined color="primary" fontSize="inherit" />
-          </IconButton>
-        </Tooltip>
-      </div>
-      <div className={classes.center}>
-        <FormControlLabel
-          label={t("forms.acquisition.2.showDelimiters")}
-          control={
-            <Switch
-              checked={visible}
-              disabled={switchDisabled}
-              onChange={handleSwitchChange}
-            />
-          }
-        />
-      </div>
+      <HelpButton
+        onClickFunction={() => {
+          setIsTourOpen(true);
+        }}
+      />
       <div id={"areachooser"}>
         <GoogleMap
           style={{ width: 1000, height: 500 } /* @TODO pass as props */}
           onRegionDrawn={handleDrawing}
         />
       </div>
-
       <StepperButtons
         navigate={navigate}
         nextDisabled={drawn === false}
@@ -179,6 +106,9 @@ const AOIChooser = ({ navigate }) => {
           {t("forms.acquisition.2.undo")}
         </Button>
       </StepperButtons>
+      {
+        // if the user hasn't seen the tour, show it
+      }
       <TourGuider
         steps={steps}
         isOpen={isTourOpen}

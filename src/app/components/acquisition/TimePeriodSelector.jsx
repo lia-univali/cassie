@@ -6,13 +6,12 @@ import { Box, Typography } from "@material-ui/core";
 import Tick from "./Tick";
 import { createRangeWithTooltip } from "./Slider";
 import { sequence, formatDate } from "../../../common/utils";
-
 const TooltipRange = createRangeWithTooltip();
-
 const toTimestamp = (date) => parseInt(moment(date).format("x"), 10);
 const fromTimestamp = (timestamp) => moment(timestamp).toISOString();
 
-const useStyles = makeStyles((theme) => ({
+// useStyles is a hook for styling this component with Material UI's styling solution
+const useStyles = makeStyles(() => ({
   wrapper: {
     width: "80%",
   },
@@ -29,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// main export
 const TimePeriodSelector = ({
   start,
   end,
@@ -36,8 +36,9 @@ const TimePeriodSelector = ({
   labels = 4,
   onChange = () => {},
 }) => {
+  // custom style
   const classes = useStyles();
-
+  
   const timestamps = dates.map(toTimestamp);
   const interval = (lastItem(timestamps) - timestamps[0]) / (labels - 1);
   const marks = timestamps.reduce(

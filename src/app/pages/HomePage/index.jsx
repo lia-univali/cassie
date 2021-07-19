@@ -27,6 +27,7 @@ import Slide from "@material-ui/core/Slide";
 import HomePageLayout from "../../components/homepage/HomePageLayout";
 import { useLocalStorage } from "../../../common/utils";
 
+// useStyles is a hook for Material-UI's styling.
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     height: "100vh",
@@ -161,12 +162,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Create a custom Typography component.
 const WhiteTextTypography = withStyles({
   root: {
     color: "#FFFFFF",
   },
 })(Typography);
 
+// Create a custom Avatar component.
 const SmallAvatar = withStyles((theme) => ({
   root: {
     width: theme.spacing(5),
@@ -177,16 +180,22 @@ const SmallAvatar = withStyles((theme) => ({
   },
 }))(Avatar);
 
+// Create a transition component.
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
 
-const HomePage = () => {
+// main function
+function HomePage() {
+  // check if the authentication is busy
   const busy = useSelector((state) => state.auth.authenticating);
   const dispatch = useDispatch();
+  // use i18n
   const [t] = useTranslation();
+  // use custom styles
   const classes = useStyles();
 
+  // create an array for the different groups
   const groupsData = {
     loc: {
       name: "LOC UFSC",
@@ -204,6 +213,8 @@ const HomePage = () => {
       link: "https://colabatlantic.com/",
     },
   };
+
+  // create an array for the different authors
   const authorsData = {
     klein: {
       name: "Antonio H.F. Klein",
@@ -273,6 +284,8 @@ const HomePage = () => {
       link: "https://github.com/concatto",
     },
   };
+
+  // create an array with active members
   const authors = [
     authorsData.klein,
     authorsData.rudimar,
@@ -282,6 +295,7 @@ const HomePage = () => {
     authorsData.sofia,
   ];
 
+  // create an array with published papers
   const papers = [
     {
       kind: t("home.papers.paper_text"),
@@ -336,38 +350,55 @@ const HomePage = () => {
     },
   ];
 
+  // dispatch Authentication action with useEffect
   useEffect(() => {
     dispatch(AuthActions.loadClientAuth());
   }, []);
 
+  // create devAdvOpen state
   const [devAdvOpen, setDevAdvOpen] = React.useState(true);
+
+  // create cookiesAdvOpen state
   const [cookiesAdvOpen, setCookiesAdvOpen] = useLocalStorage(
     "showNewCookiesADV",
     true
   );
 
-  const handleDevAdvClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
+  // function to handle devAdvClose event (from devAdvOpen) deppendin on the reason
+  const handleDevAdvClose = (reason) => {
+    // if the reason isn't "clickaway" we close the devAdv
+    if (reason !== "clickaway") {
+      setDevAdvOpen(false);
     }
-    setDevAdvOpen(false);
   };
 
-  const handleCookiesAccept = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
+  // function to handle cookiesAccept event (from cookiesAdvOpen) deppendin on the reason
+  const handleCookiesAccept = (reason) => {
+    // if the reason isn't "clickaway" we close the cookiesAdv and post the cookiesAccept event to the API
+    if (reason !== "clickaway") {
+      setCookiesAdvOpen(false);
+      postAcceptingToAPI();
     }
-    postAcceptingToAPI();
-    setCookiesAdvOpen(false);
   };
 
+  // function that send a POST request to the API to accept cookies
   const postAcceptingToAPI = () => {
-    const requestOptions = {
+    fetch("https://cassie-api.vercel.app/api/cookies", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ read: true }),
-    };
-    fetch("https://cassie-api.vercel.app/api/cookies", requestOptions);
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        read: true,
+      }),
+    })
+      .then((response) => {
+        // if we get a bad response we show the error
+        if (response.status >= 400) {
+          throw new Error("Bad response from server");
+        }
+      })
+      .catch((error) => console.error("Error: ", error));
   };
 
   return (
@@ -397,6 +428,7 @@ const HomePage = () => {
                 size="large"
                 color="primary"
                 className={classes.spaced_btn}
+                // start Authentication proccess when the button is clicked
                 onClick={() =>
                   dispatch(
                     AuthActions.begin(() => dispatch(push("/main/acquisition")))
@@ -407,6 +439,8 @@ const HomePage = () => {
                   className={classes.google}
                   variant="square"
                   alt="Google Logo"
+                  // we use the Google logo as the avatar
+                  // the avatar is disabled when the Auth process is in progress
                   src={busy ? googleLogoDisabled : googleLogo}
                 />
                 {t("auth.signin")}
@@ -577,23 +611,26 @@ const HomePage = () => {
                     </Typography>
                     <Box marginTop="10px">
                       <AvatarGroup max={10}>
-                        {paper.authors.map((author, k) => (
-                          <Link
-                            key={k}
-                            href={author.link}
-                            className={classes.avatar_link}
-                            target="_blank"
-                            rel="noopener"
-                          >
-                            <Tooltip title={author.name}>
-                              <Avatar
-                                className={classes.small}
-                                alt={author.name}
-                                src={"/equipe/" + author.img}
-                              />
-                            </Tooltip>
-                          </Link>
-                        ))}
+                        {
+                          // map authors to avatars
+                          paper.authors.map((author, k) => (
+                            <Link
+                              key={k}
+                              href={author.link}
+                              className={classes.avatar_link}
+                              target="_blank"
+                              rel="noopener"
+                            >
+                              <Tooltip title={author.name}>
+                                <Avatar
+                                  className={classes.small}
+                                  alt={author.name}
+                                  src={"/equipe/" + author.img}
+                                />
+                              </Tooltip>
+                            </Link>
+                          ))
+                        }
                       </AvatarGroup>
                     </Box>
                   </CardContent>
@@ -823,6 +860,6 @@ const HomePage = () => {
       ></Snackbar>
     </HomePageLayout>
   );
-};
+}
 
 export default HomePage;
