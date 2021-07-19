@@ -5,8 +5,6 @@ import ee from "../../../services/earth-engine";
 import {
   Box,
   Button,
-  IconButton,
-  Tooltip,
 } from "@material-ui/core";
 import GoogleMap from "../map/GoogleMap";
 import StepperButtons from "./StepperButtons";
