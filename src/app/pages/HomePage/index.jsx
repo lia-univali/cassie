@@ -533,7 +533,7 @@ const HomePage = () => {
                   <Button
                     variant="contained"
                     color="secondary"
-                    href="https://riskports.paginas.ufsc.br"
+                    href="https://riskports.ufsc.br/"
                     target="_blank"
                   >
                     {t("home.riscport.btn")}
