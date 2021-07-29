@@ -241,7 +241,7 @@ function HomePage() {
     },
     sofia: {
       name: "Sofia Aguiar",
-      img: "sofia.png",
+      img: "sofia.jpg",
       group: groupsData.atlantic,
       role: t("home.members.roles.researcher"),
       link: "https://www.behance.net/sofiaaguia8215",
@@ -252,6 +252,13 @@ function HomePage() {
       group: groupsData.atlantic,
       role: t("home.members.roles.researcher"),
       link: "http://lattes.cnpq.br/4892957787322492",
+    },
+    unas: {
+      name: "Pedro Unas",
+      img: "unas.jpg",
+      group: groupsData.atlantic,
+      role: t("home.members.roles.researcher"),
+      link: "https://pedrounas.co/",
     },
     israel: {
       name: "Israel Efraim de Oliveira",
@@ -293,6 +300,7 @@ function HomePage() {
     authorsData.pedro,
     authorsData.alisson,
     authorsData.sofia,
+    authorsData.unas
   ];
 
   // create an array with published papers
