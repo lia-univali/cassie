@@ -20,12 +20,14 @@ import NewLayerDialog from "../../components/dialog/NewLayerDialog";
 // eslint-disable-next-line no-unused-vars
 import ImageSelectionDialog from "../../components/dialog/ImageSelectionDialog";
 
+// custom Typography component for showing error message
 const NotFound = (props) => (
   <Typography variant="h2" align="center">
     Página não encontrada.
   </Typography>
 );
 
+// useSyles hook to inject custom styles
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     minHeight: "100vh",
@@ -34,7 +36,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// main function
 const MainPage = ({ match }) => {
+  // useStyles hook to inject custom styles
   const classes = useStyles();
 
   return (
@@ -47,15 +51,18 @@ const MainPage = ({ match }) => {
         <Route
           exact
           strict
+          // send the user to the AcquisitionPage (step) if the url is acquisition
           path={`${match.url}/acquisition/:step?`}
           component={AcquisitionPage}
         />
         <Route
           exact
           strict
+          // send the user to the Processing step if the url is processing
           path={`${match.url}/processing`}
           component={ProcessingPage}
         />
+        {/* route for else */}
         <Route path={match.url} component={NotFound} />
       </Switch>
 

@@ -16,7 +16,7 @@ import {
   Badge,
   Card,
   CardContent,
-  CardActions
+  CardActions,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
@@ -27,6 +27,7 @@ import Slide from "@material-ui/core/Slide";
 import HomePageLayout from "../../components/homepage/HomePageLayout";
 import { useLocalStorage } from "../../../common/utils";
 
+// useStyles is a hook for Material-UI's styling.
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     height: "100vh",
@@ -116,8 +117,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(4),
   },
   bay_text: {
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(5),
+    borderRadius: theme.spacing(1),
   },
   spaced_btn: {
     marginRight: "16px",
@@ -153,16 +155,21 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
   },
   snack: {
-    maxWidth: '75%',
-  }
+    maxWidth: "75%",
+  },
+  cpnq_logo: {
+    maxWidth: "150px",
+  },
 }));
 
+// Create a custom Typography component.
 const WhiteTextTypography = withStyles({
   root: {
     color: "#FFFFFF",
   },
 })(Typography);
 
+// Create a custom Avatar component.
 const SmallAvatar = withStyles((theme) => ({
   root: {
     width: theme.spacing(5),
@@ -173,16 +180,22 @@ const SmallAvatar = withStyles((theme) => ({
   },
 }))(Avatar);
 
+// Create a transition component.
 function TransitionLeft(props) {
   return <Slide {...props} direction="left" />;
 }
 
-const HomePage = () => {
+// main function
+function HomePage() {
+  // check if the authentication is busy
   const busy = useSelector((state) => state.auth.authenticating);
   const dispatch = useDispatch();
+  // use i18n
   const [t] = useTranslation();
+  // use custom styles
   const classes = useStyles();
 
+  // create an array for the different groups
   const groupsData = {
     loc: {
       name: "LOC UFSC",
@@ -200,6 +213,8 @@ const HomePage = () => {
       link: "https://colabatlantic.com/",
     },
   };
+
+  // create an array for the different authors
   const authorsData = {
     klein: {
       name: "Antonio H.F. Klein",
@@ -226,7 +241,7 @@ const HomePage = () => {
     },
     sofia: {
       name: "Sofia Aguiar",
-      img: "sofia.png",
+      img: "sofia.jpg",
       group: groupsData.atlantic,
       role: t("home.members.roles.researcher"),
       link: "https://www.behance.net/sofiaaguia8215",
@@ -237,6 +252,13 @@ const HomePage = () => {
       group: groupsData.atlantic,
       role: t("home.members.roles.researcher"),
       link: "http://lattes.cnpq.br/4892957787322492",
+    },
+    unas: {
+      name: "Pedro Unas",
+      img: "unas.jpg",
+      group: groupsData.atlantic,
+      role: t("home.members.roles.researcher"),
+      link: "https://pedrounas.co/",
     },
     israel: {
       name: "Israel Efraim de Oliveira",
@@ -269,17 +291,19 @@ const HomePage = () => {
       link: "https://github.com/concatto",
     },
   };
+
+  // create an array with active members
   const authors = [
     authorsData.klein,
     authorsData.rudimar,
     authorsData.lyra,
     authorsData.pedro,
     authorsData.alisson,
-    authorsData.israel,
-    authorsData.vinicius,
-    authorsData.sofia
+    authorsData.sofia,
+    authorsData.unas
   ];
 
+  // create an array with published papers
   const papers = [
     {
       kind: t("home.papers.paper_text"),
@@ -294,8 +318,7 @@ const HomePage = () => {
         authorsData.vinicius,
         authorsData.klein,
       ],
-      link:
-        "https://www.sciencedirect.com/science/article/abs/pii/S1364815221000761",
+      link: "https://www.sciencedirect.com/science/article/abs/pii/S1364815221000761",
     },
     {
       kind: t("home.papers.resumo_text"),
@@ -309,8 +332,7 @@ const HomePage = () => {
         authorsData.rudimar,
         authorsData.klein,
       ],
-      link:
-        "http://www.praiaegestao.com.br/theme/images/ANAISSBPAEENCOGERCO_2018.pdf#page=252",
+      link: "http://www.praiaegestao.com.br/theme/images/ANAISSBPAEENCOGERCO_2018.pdf#page=252",
     },
     {
       kind: t("home.papers.resumo_text"),
@@ -324,8 +346,7 @@ const HomePage = () => {
         authorsData.rudimar,
         authorsData.klein,
       ],
-      link:
-        "https://siaiap32.univali.br/seer/index.php/acotb/article/view/12871",
+      link: "https://siaiap32.univali.br/seer/index.php/acotb/article/view/12871",
     },
     {
       kind: t("home.papers.curso_text"),
@@ -337,25 +358,55 @@ const HomePage = () => {
     },
   ];
 
+  // dispatch Authentication action with useEffect
   useEffect(() => {
     dispatch(AuthActions.loadClientAuth());
   }, []);
 
+  // create devAdvOpen state
   const [devAdvOpen, setDevAdvOpen] = React.useState(true);
-  const [cookiesAdvOpen, setCookiesAdvOpen] =  useLocalStorage("showCookiesADV", true);
 
-  const handleDevAdvClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
+  // create cookiesAdvOpen state
+  const [cookiesAdvOpen, setCookiesAdvOpen] = useLocalStorage(
+    "showNewCookiesADV",
+    true
+  );
+
+  // function to handle devAdvClose event (from devAdvOpen) deppendin on the reason
+  const handleDevAdvClose = (reason) => {
+    // if the reason isn't "clickaway" we close the devAdv
+    if (reason !== "clickaway") {
+      setDevAdvOpen(false);
     }
-    setDevAdvOpen(false);
   };
 
-  const handleCookiesAccept = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
+  // function to handle cookiesAccept event (from cookiesAdvOpen) deppendin on the reason
+  const handleCookiesAccept = (reason) => {
+    // if the reason isn't "clickaway" we close the cookiesAdv and post the cookiesAccept event to the API
+    if (reason !== "clickaway") {
+      setCookiesAdvOpen(false);
+      postAcceptingToAPI();
     }
-    setCookiesAdvOpen(false);
+  };
+
+  // function that send a POST request to the API to accept cookies
+  const postAcceptingToAPI = () => {
+    fetch("https://cassie-api.vercel.app/api/cookies", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        read: true,
+      }),
+    })
+      .then((response) => {
+        // if we get a bad response we show the error
+        if (response.status >= 400) {
+          throw new Error("Bad response from server");
+        }
+      })
+      .catch((error) => console.error("Error: ", error));
   };
 
   return (
@@ -385,6 +436,7 @@ const HomePage = () => {
                 size="large"
                 color="primary"
                 className={classes.spaced_btn}
+                // start Authentication proccess when the button is clicked
                 onClick={() =>
                   dispatch(
                     AuthActions.begin(() => dispatch(push("/main/acquisition")))
@@ -395,6 +447,8 @@ const HomePage = () => {
                   className={classes.google}
                   variant="square"
                   alt="Google Logo"
+                  // we use the Google logo as the avatar
+                  // the avatar is disabled when the Auth process is in progress
                   src={busy ? googleLogoDisabled : googleLogo}
                 />
                 {t("auth.signin")}
@@ -434,11 +488,7 @@ const HomePage = () => {
               </Typography>
             </Grid>
           </Grid>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
+          <Box display="flex" alignItems="center" justifyContent="center">
             <Button
               variant="outlined"
               className={classes.spaced_btn}
@@ -475,27 +525,21 @@ const HomePage = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <Box className={classes.bay_text}>
-                <WhiteTextTypography
-                  className={classes.title}
-                  variant="h3"
-                  align="right"
-                >
+                <img
+                  src="/squeeze.png"
+                  alt={t("home.baysqueeze.title")}
+                  className={classes.cpnq_logo}
+                />
+                <Typography className={classes.title} variant="h3">
                   {t("home.baysqueeze.title")}
-                </WhiteTextTypography>
-                <WhiteTextTypography
-                  variant="body1"
-                  className={classes.spaced_text}
-                  align="right"
-                >
+                </Typography>
+                <Typography variant="body1" className={classes.spaced_text}>
                   {t("home.baysqueeze.text")}
-                </WhiteTextTypography>
-                <Box
-                  display="flex"
-                  justifyContent="flex-end"
-                >
+                </Typography>
+                <Box display="flex" justifyContent="flex-end">
                   <Button
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                     href="https://baysqueeze.paginas.ufsc.br"
                     target="_blank"
                   >
@@ -512,24 +556,22 @@ const HomePage = () => {
           <Grid container spacing={3} justify="center" alignItems="center">
             <Grid item xs={12} md={6}>
               <Box className={classes.bay_text}>
-                <WhiteTextTypography
-                  className={classes.title}
-                  variant="h3"
-                  align="left"
-                >
+                <img
+                  src="/risk.png"
+                  alt={t("home.riscport.title")}
+                  className={classes.cpnq_logo}
+                />
+                <Typography className={classes.title} variant="h3" align="left">
                   {t("home.riscport.title")}
-                </WhiteTextTypography>
-                <WhiteTextTypography
+                </Typography>
+                <Typography
                   variant="body1"
                   className={classes.spaced_text}
                   align="left"
                 >
                   {t("home.riscport.text")}
-                </WhiteTextTypography>
-                <Box
-                  display="flex"
-                  justifyContent="flex-start"
-                >
+                </Typography>
+                <Box display="flex" justifyContent="flex-end">
                   <Button
                     variant="contained"
                     color="secondary"
@@ -577,23 +619,26 @@ const HomePage = () => {
                     </Typography>
                     <Box marginTop="10px">
                       <AvatarGroup max={10}>
-                        {paper.authors.map((author, k) => (
-                          <Link
-                            key={k}
-                            href={author.link}
-                            className={classes.avatar_link}
-                            target="_blank"
-                            rel="noopener"
-                          >
-                            <Tooltip title={author.name}>
-                              <Avatar
-                                className={classes.small}
-                                alt={author.name}
-                                src={"/equipe/" + author.img}
-                              />
-                            </Tooltip>
-                          </Link>
-                        ))}
+                        {
+                          // map authors to avatars
+                          paper.authors.map((author, k) => (
+                            <Link
+                              key={k}
+                              href={author.link}
+                              className={classes.avatar_link}
+                              target="_blank"
+                              rel="noopener"
+                            >
+                              <Tooltip title={author.name}>
+                                <Avatar
+                                  className={classes.small}
+                                  alt={author.name}
+                                  src={"/equipe/" + author.img}
+                                />
+                              </Tooltip>
+                            </Link>
+                          ))
+                        }
                       </AvatarGroup>
                     </Box>
                   </CardContent>
@@ -823,6 +868,6 @@ const HomePage = () => {
       ></Snackbar>
     </HomePageLayout>
   );
-};
+}
 
 export default HomePage;

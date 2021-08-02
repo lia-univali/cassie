@@ -8,6 +8,7 @@ const root = function* () {
     takeLeading(Types.LOAD_LAYER, Layers.handleLoadLayer),
     takeEvery(Types.TOGGLE_VISIBILITY, Layers.handleToggleVisibility),
     takeEvery(Types.UPDATE_OPACITY, Layers.handleUpdateOpacity),
+    takeEvery(Types.REMOVE_LAYER, Layers.handleRemoveLayer),
     takeLeading(Types.REQUEST_EXPRESSION, Layers.handleRequestExpression),
     takeLeading(Types.ANALYZE_COASTLINE, Shoreline.handleAnalyzeCoastline),
   ]);

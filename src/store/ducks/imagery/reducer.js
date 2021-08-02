@@ -20,6 +20,26 @@ const alterLayer = (state, parent, layer, data) => {
   });
 };
 
+// return { ...state, layers: state.images[parent].layers.filter(lay => lay !== layer ) }
+const removeLayer = (state, parent, layer) => {
+  if (Object.keys(state.images[parent].layers).length <= 1) {
+    return update(state.images, {
+      $unset: [parent]
+    })
+  }else{
+    return update(state.images, {
+      [parent]: {
+        layers: {
+          $unset: [layer]
+        }
+      }
+    })
+  }
+  
+  // let layers = state.images[parent].layers;
+  // return update(state.images[parent], Object.keys(layers).filter(lay => lay !== layer).reduce((acc, cur) => ({ ...acc, [cur]: layers[cur] }), {}));
+};
+
 export const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case Types.PUSH_IMAGE: {
@@ -45,6 +65,18 @@ export const reducer = (state = INITIAL_STATE, action) => {
       });
 
       return { ...state, images, layerId: state.layerId + 1 };
+    }
+    case Types.REMOVE_ELEMENT: {
+      const parent = Selectors.findLayerParent(action.payload.layer)(
+        state,
+        true
+      );
+      const images = removeLayer(
+        state,
+        parent,
+        action.payload.layer
+      );
+      return { ...state, images };
     }
 
     case Types.COMMIT_CHANGE: {

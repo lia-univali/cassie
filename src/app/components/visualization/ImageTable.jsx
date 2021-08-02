@@ -16,21 +16,25 @@ import {
 import { formatDate, sequence } from "../../../common/utils";
 import SatelliteImageThumbnail from "./SatelliteImageThumbnail";
 
+// component to display a table of satellite images
 const ImageTable = ({
   images,
   metadata,
   selected = [],
   onCheckboxChange = () => {},
 }) => {
+  // get the current language
   const [t] = useTranslation();
-
   const [page, setPage] = useState(0);
+  // this state enable select or unselect all checkboxes
   const [allChecked, setAllChecked] = useState(1);
+  // number of images per page
   const [rows, setRows] = useState(10);
   const [sorted, setSorted] = useState(sequence(images.length, 0));
   const [orderIndex, setOrderIndex] = useState(null);
   const [order, setOrder] = useState("asc");
 
+  // a function that gets the metadata for a given image
   const getMetadata = (image, key) => {
     const m = metadata.find(
       (value) => value.date === image.date && value.missionName === image.name

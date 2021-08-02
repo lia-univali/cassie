@@ -1,15 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Typography } from "@material-ui/core";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-} from "@material-ui/core";
+import { Card, CardActions, CardContent, CardMedia } from "@material-ui/core";
 
+// useStyles is the hook to Material-UI's style.
 const useStyles = makeStyles((theme) => ({
   image: {
     height: 200,
@@ -23,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// custom Typography component
 const SummaryDataField = ({ title, value, unit }) => {
   return (
     <Typography variant="body1" color="textSecondary" component="p">
@@ -32,6 +28,8 @@ const SummaryDataField = ({ title, value, unit }) => {
   );
 };
 
+// this is a custom component for the acquisition form
+// it is a card with the satellite data and a button to choose the satellite
 const SatelliteCard = ({
   name,
   image,
@@ -43,9 +41,11 @@ const SatelliteCard = ({
   onChoose,
   enabled,
 }) => {
+  // use the translation function from react-i18next
   const [t] = useTranslation();
+  // use the styles from the useStyles hook
   const classes = useStyles();
-
+  // the date the satellite stopped working or today
   const endYearOrNow = endYear || new Date().getFullYear();
 
   return (
@@ -55,7 +55,7 @@ const SatelliteCard = ({
         <Typography gutterBottom variant="h5" component="h2">
           {name}
         </Typography>
-        <div id={name+"_props"}>
+        <div id={name + "_props"}>
           <SummaryDataField
             title={t("forms.acquisition.1.card.opticalResolution")}
             value={resolution}
