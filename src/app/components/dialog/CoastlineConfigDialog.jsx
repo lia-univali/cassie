@@ -11,8 +11,6 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 
-import { registerDialog } from "./DialogRoot";
-
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: "flex",
@@ -89,4 +87,4 @@ const CoastlineConfigDialog = ({ open, close, publish }) => {
   );
 };
 
-export default registerDialog("coastlineConfig")(CoastlineConfigDialog);
+export default CoastlineConfigDialog;

@@ -20,8 +20,6 @@ import {
 } from "@material-ui/core";
 
 import TransectDataTable from "../visualization/TransectDataTable";
-import { registerDialog } from "./DialogRoot";
-
 import Export from "../../../services/export";
 import { exportCSV, exportJSON } from "../../../common/utils";
 import { INTERNALS } from "../../../common/metadata";
@@ -148,4 +146,4 @@ const CoastlineEvolutionDialog = ({ open, close }) => {
   );
 };
 
-export default registerDialog("coastlineEvolution")(CoastlineEvolutionDialog);
+export default CoastlineEvolutionDialog;

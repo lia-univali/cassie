@@ -10,8 +10,6 @@ import {
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
-
-import { registerDialog } from "./DialogRoot";
 import * as Indices from "../../../common/indices";
 
 const useStyles = makeStyles((theme) => ({
@@ -105,4 +103,4 @@ const NewLayerDialog = ({ open, close, publish }) => {
   );
 };
 
-export default registerDialog("newLayer")(NewLayerDialog);
+export default NewLayerDialog;
