@@ -138,7 +138,7 @@ export const linearGaussianFilter = (
   coordinates,
   samples = 3,
   mean = 0,
-  sd = 0.75
+  sd = 1
 ) => {
   const coordinateList = ee.List(coordinates);
 
