@@ -16,6 +16,7 @@ import pt from "../../../resources/i18n/pt.svg";
 import en from "../../../resources/i18n/en.svg";
 import NavBar from "../../components/homepage/NavBar";
 import Footer from "../../components/homepage/Footer";
+import { useLocalStorage } from "../../../common/utils";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 const HomePageTemplate = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const [, setLanguage] = useLocalStorage('selectedLanguage', 'pt-BR');
 
   useEffect(() => {
     dispatch(AuthActions.loadClientAuth());
@@ -64,6 +66,7 @@ const HomePageTemplate = (props) => {
 
   const handleLanguageChange = (local) => {
     dispatch(LangActions.setLang(local));
+    setLanguage(local);
   };
 
   return (

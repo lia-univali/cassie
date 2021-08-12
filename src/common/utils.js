@@ -40,6 +40,10 @@ export const useLocalStorage = (key, initialValue) => {
   return [storedValue, setValue];
 }
 
+export const getLocalValue = (key, defaultValue) => {
+  return JSON.parse(localStorage.getItem(key)) ? JSON.parse(localStorage.getItem(key)) : defaultValue;
+}
+
 export const fromEpoch = (value, units) => {
   return moment.utc(EPOCH).add(value, units);
 };
