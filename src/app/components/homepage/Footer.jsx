@@ -142,14 +142,9 @@ export default function Footer(managers, techs) {
                   {t("home.footer.contact.title")}
                 </Typography>
                 <WhiteTextTypography variant="overline">
-                  <Link color="inherit" href={"mailto:rudimar@univali.br"}>
-                    {t("home.footer.contact.manage")}
-                  </Link>
-                </WhiteTextTypography>
-                <WhiteTextTypography variant="overline">
                   <Link
                     color="inherit"
-                    href={"mailto:israel.oliveira@edu.univali.br"}
+                    href={"mailto:ali.steffens@gmail.com"}
                   >
                     {t("home.footer.contact.techquest")}
                   </Link>
