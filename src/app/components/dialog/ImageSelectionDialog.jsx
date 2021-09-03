@@ -11,7 +11,6 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 
-import { registerDialog } from "./DialogRoot";
 import ImageTable from "../visualization/ImageTable";
 
 const ImageSelectionDialog = ({ open, close, publish }) => {
@@ -79,4 +78,4 @@ const ImageSelectionDialog = ({ open, close, publish }) => {
   );
 };
 
-export default registerDialog("imageSelection")(ImageSelectionDialog);
+export default ImageSelectionDialog;

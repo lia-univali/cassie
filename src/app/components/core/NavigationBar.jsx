@@ -15,6 +15,7 @@ import User from "./User";
 import pt from "../../../resources/i18n/pt.svg";
 import en from "../../../resources/i18n/en.svg";
 import Logo from "../Logo";
+import { useLocalStorage } from "../../../common/utils";
 
 const useStyles = makeStyles((theme) => ({
   left: {
@@ -37,11 +38,13 @@ const useStyles = makeStyles((theme) => ({
 
 const NavigationBar = () => {
   const user = useSelector((state) => state.auth.user, shallowEqual);
+  const [, setLanguage] = useLocalStorage('selectedLanguage', 'pt-BR');
   const [t] = useTranslation();
   const classes = useStyles();
   const dispatch = useDispatch();
   const handleLanguageChange = (local) => {
     dispatch(LangActions.setLang(local));
+    setLanguage(local);
   };
   return (
     <AppBar position="static" color="default">

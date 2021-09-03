@@ -5,21 +5,23 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 
 import NavigationBar from "../../components/core/NavigationBar";
-import DialogRoot from "../../components/dialog/DialogRoot";
+import DialogRoot, { registerDialog } from "../../components/dialog/DialogRoot";
 import AcquisitionPage from "../AcquisitionPage";
 import ProcessingPage from "../ProcessingPage";
 import ActivityIndicator from "../../components/core/ActivityIndicator";
 
-// Register Dialogs
-// eslint-disable-next-line no-unused-vars
+// Dialogs
 import CoastlineEvolutionDialog from "../../components/dialog/CoastlineEvolutionDialog";
-// eslint-disable-next-line no-unused-vars
 import CoastlineConfigDialog from "../../components/dialog/CoastlineConfigDialog";
-// eslint-disable-next-line no-unused-vars
 import NewLayerDialog from "../../components/dialog/NewLayerDialog";
-// eslint-disable-next-line no-unused-vars
 import ImageSelectionDialog from "../../components/dialog/ImageSelectionDialog";
 
+const registerDialogs = () => {
+  registerDialog("coastlineConfig")(CoastlineConfigDialog);
+  registerDialog("coastlineEvolution")(CoastlineEvolutionDialog);
+  registerDialog("newLayer")(NewLayerDialog);
+  registerDialog("imageSelection")(ImageSelectionDialog);
+}
 // custom Typography component for showing error message
 const NotFound = (props) => (
   <Typography variant="h2" align="center">
@@ -38,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
 
 // main function
 const MainPage = ({ match }) => {
+  // Register the dialogs when the component is mounted
+  registerDialogs();
+
   // useStyles hook to inject custom styles
   const classes = useStyles();
 
