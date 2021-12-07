@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grow, Paper, Typography } from "@material-ui/core";
 import * as Map from "../../../common/map";
 import { Actions as MapActions } from "../../../store/ducks/map";
-
+import { DrawerHelper } from "../../../store/ducks/map/header";
 export const DEFAULT_ZOOM = 9;
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +57,7 @@ const GoogleMap = ({ style, onRegionDrawn = () => {}, onLoad = () => {} }) => {
 
     Map.onRegionDrawn((overlay, coordinates) => {
       onRegionDrawn(overlay, coordinates);
+      DrawerHelper.lastGenaratedOverlay=overlay;
       dispatch(MapActions.completeDrawing(overlay, coordinates));
     });
 

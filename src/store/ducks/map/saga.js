@@ -6,7 +6,7 @@ import {
   bufferedHandler,
   evaluate,
 } from "../../tools/effects";
-import { Types, Actions } from "./header";
+import { Types, Actions, DrawerHelper } from "./header";
 import * as Map from "../../../common/map";
 
 import {
@@ -48,6 +48,11 @@ export const requestAndWait = function* (drawingType, message, name, group) {
     overlay.setMap(null);
 
     return completion.payload;
+  }else{
+    if(DrawerHelper.lastGenaratedOverlay!=null){
+      DrawerHelper.lastGenaratedOverlay.setMap(null); 
+     }
+ 
   }
 
   return {};
