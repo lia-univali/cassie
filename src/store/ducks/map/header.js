@@ -3,6 +3,10 @@ import duckify from "../../tools/duckify";
 export const namespace = "cassie";
 export const store = "map";
 
+export class DrawerHelper{
+  static lastGenaratedOverlay = null;
+}
+
 export const Types = duckify(namespace, store, [
   "ADD_EE_LAYER",
   "ADD_EE_FEATURE",
