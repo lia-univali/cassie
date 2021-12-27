@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 const GoogleMap = ({ style, onRegionDrawn = () => {}, onLoad = () => {} }) => {
   const currentlyDrawing = useSelector((state) => state.map.currentlyDrawing);
   const drawingMessage = useSelector((state) => state.map.drawingMessage);
-
+ 
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const classes = useStyles();
