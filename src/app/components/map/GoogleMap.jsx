@@ -46,14 +46,14 @@ const GoogleMap = ({ style, onRegionDrawn = () => {}, onLoad = () => {} }) => {
   const mapRef = useRef();
   const componentRef = useRef();
  
-  let zoomLevel = window.sessionStorage.getItem("zoom_level");
-  zoomLevel = zoomLevel != "undefined" && typeof(zoomLevel) != "undefined" && !isNaN(parseInt(zoomLevel))? parseInt(zoomLevel) : DEFAULT_ZOOM;
+  let zoomLevel = window.sessionStorage.getItem("zoom_level"); 
+  zoomLevel = zoomLevel != "undefined" && typeof(zoomLevel) != "undefined" && !isNaN(parseInt(zoomLevel))? parseInt(zoomLevel) : DEFAULT_ZOOM; 
   
  
   useEffect(() => {
     mapRef.current = new window.google.maps.Map(componentRef.current, {
       center: { lat: -26.285757, lng: -48.73506 },
-      zoom: zoomLevel,
+      zoom: zoomLevel, 
       scaleControl: true,
     });
 

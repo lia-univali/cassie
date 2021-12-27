@@ -28,21 +28,21 @@ const AOIChooser = ({ navigate }) => {
   const [coordinates, setCoordinates] = useState(null);
   
 
-  let saveZoomChange = function(){
-    let zoom = Map.getZoomLevel();
-    if( typeof(zoom) != "undefined" && zoom != "undefined" ){
-      window.sessionStorage.setItem( "zoom_level", zoom );
-    } 
-  } 
-  setInterval( saveZoomChange, 5000 );
+  let saveZoomChange = function(){ 
+    let zoom = Map.getZoomLevel(); 
+    if( typeof(zoom) != "undefined" && zoom != "undefined" ){ 
+      window.sessionStorage.setItem( "zoom_level", zoom ); 
+    }
+  }
+  setInterval( saveZoomChange, 5000 ); 
 
 
   useEffect(() => {
     Map.setDrawingControlsVisible(true);
     return () => {
-      Map.onZoomChange(() => {
-         saveZoomChange();
-      });
+      Map.onZoomChange(() => { 
+         saveZoomChange(); 
+      }); 
     };
   }, []);
 
