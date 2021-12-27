@@ -276,6 +276,14 @@ function HomePage() {
       role: t("home.members.roles.capes"),
       link: "https://alissonsteffens.com",
     },
+    rafaelqg: {
+      name: "Rafael Q. Gonçalves",
+      img: "rafael_goncalves_profile.png",
+      group: groupsData.lia,
+      mail: "rafaelqg@univali.br",
+      role: t("home.members.roles.capes"),
+      link: " http://lattes.cnpq.br/2128958035598438",
+    },
     vinicius: {
       name: "Vinícius Gabriel Martins",
       img: "vinicius.png",
@@ -298,7 +306,7 @@ function HomePage() {
     authorsData.rudimar,
     authorsData.lyra,
     authorsData.pedro,
-    authorsData.alisson,
+    authorsData.rafaelqg,
     authorsData.sofia,
     authorsData.unas
   ];
