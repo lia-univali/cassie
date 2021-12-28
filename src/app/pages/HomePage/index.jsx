@@ -277,7 +277,7 @@ function HomePage() {
       link: "https://alissonsteffens.com",
     },
     rafaelqg: {
-      name: "Rafael Queiroz Gonçalves",
+      name: "Rafael Q. Gonçalves",
       img: "rafael_goncalves_profile.png",
       group: groupsData.lia,
       mail: "rafaelqg@univali.br",
