@@ -30,7 +30,7 @@ const AOIChooser = ({ navigate }) => {
 
   let saveZoomChange = function(){ 
     let zoom = Map.getZoomLevel(); 
-    if( typeof(zoom) != "undefined" && zoom != "undefined" ){ 
+    if( typeof(zoom) !== "undefined" && zoom !== "undefined" ){ 
       window.sessionStorage.setItem( "zoom_level", zoom ); 
     }
   }

@@ -47,7 +47,7 @@ const GoogleMap = ({ style, onRegionDrawn = () => {}, onLoad = () => {} }) => {
   const componentRef = useRef();
  
   let zoomLevel = window.sessionStorage.getItem("zoom_level"); 
-  zoomLevel = zoomLevel != "undefined" && typeof(zoomLevel) != "undefined" && !isNaN(parseInt(zoomLevel))? parseInt(zoomLevel) : DEFAULT_ZOOM; 
+  zoomLevel = zoomLevel !== "undefined" && typeof(zoomLevel) !== "undefined" && !isNaN(parseInt(zoomLevel))? parseInt(zoomLevel) : DEFAULT_ZOOM; 
   
  
   useEffect(() => {
