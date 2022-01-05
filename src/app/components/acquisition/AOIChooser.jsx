@@ -34,6 +34,7 @@ const AOIChooser = ({ navigate }) => {
       window.sessionStorage.setItem( "zoom_level", zoom ); 
     }
   }
+  window.sessionStorage.removeItem("zoom_level");//clear previous saved zoom (aquisition -first use case)
   setInterval( saveZoomChange, 5000 ); 
 
 
