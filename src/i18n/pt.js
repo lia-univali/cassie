@@ -203,6 +203,9 @@ const pt = {
           description: "Delimite a área de interesse utilizando o mapa abaixo.",
           showDelimiters: "Mostrar delimitadores",
           undo: "Desfazer",
+          processFile: "Processar arquivo",
+          importLegend: "Importe a área de interesse por meio de um arquivo KML:",
+          importTitle: "Importar KML",
         },
         3: {
           title: "Defina o período",

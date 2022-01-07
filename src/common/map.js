@@ -169,6 +169,7 @@ export const drawOutline = (coordinates) => {
   });
 
   Map.imageOutline.setMap(Map);
+  return Map.imageOutline;
 };
 
 export const clearOutline = () => {

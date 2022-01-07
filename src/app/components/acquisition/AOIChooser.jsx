@@ -89,9 +89,65 @@ const AOIChooser = ({ navigate }) => {
   // create a localStorage object to check if the user has already seen the tour
   const [isTourOpen, setIsTourOpen] = useLocalStorage("showROITour", true);
   
+  const readFileData = function () {
+    let fileField=document.getElementById("file_import_kml");
+    if(fileField.files.length==0){
+      window.alert("Please select a file first.");
+      return false;
+    }
+    const file = fileField.files[0];
+    const reader = new FileReader();
+    reader.addEventListener("load", function () {
+        console.log("File data:", reader.result);
+        const fileContent=reader.result;
+        const kmlTokenBegin="<MultiGeometry><Polygon><outerBoundaryIs><LinearRing><coordinates>";
+        const kmlTokenEnd="</coordinates></LinearRing></outerBoundaryIs></Polygon></MultiGeometry>";
+        let isKml=fileContent.indexOf(kmlTokenBegin)!=-1;
+        if (isKml){
+          let coordinatesString=fileContent.split(kmlTokenBegin)[1].split(kmlTokenEnd)[0];
+          let coordinatesArrayStrings=coordinatesString.split(" ");
+          let coordinatesArray=[];
+          coordinatesArrayStrings.forEach(el=>{
+            let coordinatesValues=el.split(",");
+            coordinatesValues=coordinatesValues.map(el=>parseFloat(el));
+            coordinatesArray.push(coordinatesValues);
+          });
+          console.log("coordinatesValues", coordinatesArray);
+          //select area
+          if(coordinatesArray.length>0){
+            let overlayFixed=Map.drawOutline(coordinatesArray);
+            setOverlay(overlayFixed);
+            setCoordinates( coordinatesArray );
+            Map.centralize( coordinatesArray[0][1], coordinatesArray[0][0] );
+            Map.setDrawingControlsVisible(false);
+            window.alert("KML file processed.");
+          }else{
+            window.alert("No valid coordinates were found in the KML file.");
+          }
+        }else{
+            window.alert("It was not possible to interpret the selected file.");
+        }            
+    }, false);
+     if (file) {
+        reader.readAsText(file);
+    }
+  }   
+  
+  const handleDisplayImportKML= function (){
+    let comp = document.getElementById("import_kml_component");
+    comp.style.display= comp.style.display==="none"?"block":"none";
+  }
 
   return (
     <Box>
+      <a onClick={handleDisplayImportKML} style={{cursor:"pointer", color:"#26a69a"}}>{t("forms.acquisition.2.importTitle")}</a>
+      <fieldset style={{borderColor:"#BBB"}} style={{display:"none"}} id="import_kml_component">
+        <legend> {t("forms.acquisition.2.importLegend")}</legend>
+          <input id="file_import_kml" accept=".kml" type="file" />
+          <button onClick={readFileData} style={{marginLeft:25}}>
+           {t("forms.acquisition.2.processFile")}
+          </button>
+        </fieldset>
       <HelpButton
         onClickFunction={() => {
           setIsTourOpen(true);

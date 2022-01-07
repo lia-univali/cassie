@@ -200,6 +200,9 @@ const en = {
           description: "Draw the region of interest using the map below.",
           showDelimiters: "Show delimiters",
           undo: "Undo",
+          processFile: "Process file",
+          importLegend: "Import the area of interest from a KML file:",
+          importTitle: "KML import",
         },
         3: {
           title: "Set period",
