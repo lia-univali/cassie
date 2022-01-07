@@ -91,7 +91,7 @@ const AOIChooser = ({ navigate }) => {
   
   const readFileData = function () {
     let fileField=document.getElementById("file_import_kml");
-    if(fileField.files.length===0){
+    if(fileField.files.length === 0){
       window.alert("Please select a file first.");
       return false;
     }
@@ -102,7 +102,7 @@ const AOIChooser = ({ navigate }) => {
         const fileContent=reader.result;
         const kmlTokenBegin="<MultiGeometry><Polygon><outerBoundaryIs><LinearRing><coordinates>";
         const kmlTokenEnd="</coordinates></LinearRing></outerBoundaryIs></Polygon></MultiGeometry>";
-        let isKml=fileContent.indexOf(kmlTokenBegin)!==-1;
+        let isKml=fileContent.indexOf(kmlTokenBegin) !== -1;
         if (isKml){
           let coordinatesString=fileContent.split(kmlTokenBegin)[1].split(kmlTokenEnd)[0];
           let coordinatesArrayStrings=coordinatesString.split(" ");
