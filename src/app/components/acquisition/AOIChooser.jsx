@@ -113,17 +113,21 @@ const AOIChooser = ({ navigate }) => {
         reader.addEventListener("load", function () {
             console.log("File data:", reader.result);
             const fileContent=reader.result;
-            const kmlTokenBegin="<MultiGeometry><Polygon><outerBoundaryIs><LinearRing><coordinates>";
-            const kmlTokenEnd="</coordinates></LinearRing></outerBoundaryIs></Polygon></MultiGeometry>";
+            const kmlTokenBegin="<coordinates>";
+            const kmlTokenEnd="</coordinates>";
             let isKml=fileContent.indexOf(kmlTokenBegin)!==-1;
             if (isKml){
               let coordinatesString=fileContent.split(kmlTokenBegin)[1].split(kmlTokenEnd)[0];
-              let coordinatesArrayStrings=coordinatesString.split(" ");
+              let coordinatesArrayStrings=coordinatesString.split(" ").map(el=>el.trim());
               let coordinatesArray=[];
               coordinatesArrayStrings.forEach(el=>{
-                let coordinatesValues=el.split(",");
-                coordinatesValues=coordinatesValues.map(el=>parseFloat(el));
-                coordinatesArray.push(coordinatesValues);
+                if(el.trim() !== "" ){
+                  let coordinatesValues=el.split(",");
+                  coordinatesValues=coordinatesValues.map(el=>parseFloat(el));
+                  if(!isNaN(coordinatesValues[0])){
+                    coordinatesArray.push([coordinatesValues[0],coordinatesValues[1]]);
+                  }
+                }
               });
               console.log("coordinatesValues", coordinatesArray);
               //select area
