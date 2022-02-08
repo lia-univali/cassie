@@ -29,8 +29,12 @@ export const identifyWaterFeature = (
     .Image(image)
     .normalizedDifference([bands.green, bands.nir])
     .rename(internalBandName);
-
-  const threshold = thresholdFn(ndwi, internalBandName, geometry, scale);
+    let threshold = ee.Number(0.01); 
+    try{
+      threshold = thresholdFn(ndwi, internalBandName, geometry, scale);
+    }catch(e){
+      console.warn(e,threshold);
+    }
 
   /**
    * Partitions image and reduces to a single vector
@@ -207,6 +211,10 @@ export const linearGaussianFilter = (
  */
 export const thresholdingAlgorithm = (histogram, count) => {
   const counts = ee.Array(ee.Dictionary(histogram).get("histogram"));
+  let eeHistogramInfo = eeHistogram.getInfo();
+  if(typeof(eeHistogramInfo.bucketMeans) === "undefined"){
+    throw "Error calculating thresholdingAlgorithm"
+  };
   const means = ee.Array(ee.Dictionary(histogram).get("bucketMeans"));
 
   const size = means.length().get([0]);
