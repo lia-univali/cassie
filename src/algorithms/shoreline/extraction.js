@@ -30,10 +30,10 @@ export const identifyWaterFeature = (
     .normalizedDifference([bands.green, bands.nir])
     .rename(internalBandName);
     let threshold = ee.Number(0.01); 
-    try{
-      threshold = thresholdFn(ndwi, internalBandName, geometry, scale);
+    try{ 
+      threshold = thresholdFn(ndwi, internalBandName, geometry, scale); 
     }catch(e){
-      console.warn(e,threshold);
+      console.warn(e,threshold); 
     }
 
   /**
