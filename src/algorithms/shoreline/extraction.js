@@ -213,7 +213,7 @@ export const thresholdingAlgorithm = (histogram, count) => {
   const counts = ee.Array(ee.Dictionary(histogram).get("histogram"));
   let eeHistogramInfo = eeHistogram.getInfo();
   if(typeof(eeHistogramInfo.bucketMeans) === "undefined"){
-    throw "Error calculating thresholdingAlgorithm"
+    throw "Error calculating thresholdingAlgorithm";
   };
   const means = ee.Array(ee.Dictionary(histogram).get("bucketMeans"));
 
