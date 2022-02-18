@@ -48,7 +48,7 @@ const ImageSelectionDialog = ({ open, close, publish }) => {
       setDates(availableDates);
     }
   }, [availableDates]);
-
+  window.sessionStorage.removeItem("coordinatesArray");//reset KML import cache
   return (
     <Dialog open={open} maxWidth="md" onClose={() => close()}>
       <DialogTitle>

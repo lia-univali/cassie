@@ -68,6 +68,56 @@ const GoogleMap = ({ style, onRegionDrawn = () => {}, onLoad = () => {} }) => {
     onLoad(mapRef.current);
   }, []);
 
+  const showFilePanel = function (){
+    let div = document.getElementById("file_kml");
+    div.style.display = div.style.display === "none" ? "block" : "none";
+  }
+  const readFileData = function () {
+    let fileField=document.getElementById("file_import_kml");
+    if(fileField.files.length===0){
+      window.alert("Please select a file first.");
+      return false;
+    }
+    const file = fileField.files[0];
+    const reader = new FileReader();
+    reader.addEventListener("load", function () {
+        //console.log("File data:", reader.result);
+        const fileContent=reader.result;
+        const kmlTokenBegin="<coordinates>";
+        const kmlTokenEnd="</coordinates>";
+        let isKml=fileContent.indexOf(kmlTokenBegin)!==-1;
+        if (isKml){
+          let coordinatesString=fileContent.split(kmlTokenBegin)[1].split(kmlTokenEnd)[0];
+          let coordinatesArrayStrings=coordinatesString.split(" ").map(el=>el.trim());
+          let coordinatesArray=[];
+          coordinatesArrayStrings.forEach(el=>{
+            if(el.trim() !== "" ){
+              let coordinatesValues=el.split(",");
+              coordinatesValues=coordinatesValues.map(el=>parseFloat(el));
+              if(!isNaN(coordinatesValues[0])){
+                coordinatesArray.push([coordinatesValues[0],coordinatesValues[1]]);
+              }
+            }
+          });
+          //console.log("coordinatesValues", coordinatesArray);
+          //select area
+          if(coordinatesArray.length>0){
+            let overlay = Map.drawOutline(coordinatesArray);
+            window.sessionStorage.setItem("coordinatesArray",coordinatesArray);
+            Map.centralize( coordinatesArray[0][1], coordinatesArray[0][0] );
+            showFilePanel();// hide panel for next time open collapsed
+            dispatch(MapActions.completeDrawing(overlay, coordinatesArray));
+          }else{
+            window.alert("No valid coordinates were found in the KML file.");
+          }
+        }else{
+            window.alert("It was not possible to interpret the selected file.");
+        }            
+    }, false);
+     if (file) {
+        reader.readAsText(file);
+    }
+  }
   return (
     <div className={classes.wrapper} style={{ ...style }}>
       <Grow in={currentlyDrawing === true}>
@@ -83,6 +133,20 @@ const GoogleMap = ({ style, onRegionDrawn = () => {}, onLoad = () => {} }) => {
             >
               {t("forms.map.cancel")}
             </Button>
+            &nbsp;
+            <Button
+              color="primary"
+              variant="contained"
+              onClick = {showFilePanel}
+            >
+              Import KML
+            </Button>
+            <div style={{display:"none"}} id="file_kml"> 
+              <fieldset style={{borderColor:"#BBB"}} id="import_kml_component">
+                <legend>Arquivo KML</legend>
+                  <input id="file_import_kml" accept=".kml" type="file" onChange={readFileData} />
+                </fieldset>
+            </div>
           </Paper>
         </div>
       </Grow>

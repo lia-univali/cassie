@@ -160,10 +160,7 @@ const AOIChooser = ({ navigate }) => {
       <Button onClick={handleDisplayImportKML} style={{cursor:"pointer", color:"#26a69a"}}>{t("forms.acquisition.2.importTitle")}</Button>
       <fieldset style={{borderColor:"#BBB", display:"none"}} id="import_kml_component">
         <legend> {t("forms.acquisition.2.importLegend")}</legend>
-          <input id="file_import_kml" accept=".kml" type="file" />
-          <button onClick={readFileData} style={{marginLeft:25}}>
-           {t("forms.acquisition.2.processFile")}
-          </button>
+          <input id="file_import_kml" accept=".kml" type="file" onChange={readFileData}  />
         </fieldset>
       <HelpButton
         onClickFunction={() => {
